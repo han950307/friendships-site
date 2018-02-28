@@ -1,7 +1,4 @@
-<?php
-	require_once("header.php");
-?>
-		<!-- Main -->
+<!-- Main -->
 			<section id="main" class="wrapper style1">
 				<header class="major">
 					<h2>No Sidebar</h2>
@@ -39,7 +36,3 @@
 					</div>
 				</div>
 			</section>
-
-<?php
-	require_once("footer.php");
-?>
