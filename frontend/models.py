@@ -49,7 +49,7 @@ class Images(models.Model):
         on_delete=models.CASCADE,
     )
     order_id = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        Order,
         on_delete=models.CASCADE,
     )
     image = models.ImageField()
