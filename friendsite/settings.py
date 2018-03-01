@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["0.0.0.0", "52.14.138.237"]
 # Application definition
 
 INSTALLED_APPS = [
-    'frontend.apps.FrontendConfig'
+    'frontend.apps.FrontendConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
