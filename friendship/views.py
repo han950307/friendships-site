@@ -5,6 +5,7 @@ from django.conf import settings
 
 # Create your views here.
 def index(request):
-    user_list = settings.AUTH_USER_MODEL.objects.all().select_related()
+    user_list = settings.AUTH_USER_MODEL.objects.all()
+    print(user_list)
     output = ', '.join([q.email for q in user_list])
     return HttpResponse(output)
