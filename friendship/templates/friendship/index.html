@@ -1,7 +1,7 @@
 {% if user_list %}
     <ul>
     {% for u in user_list %}
-        <li><a href="{{ u.user.id }}/">{{ u.user.email }}</a></li>
+        <li><a href="{% url 'details' u.id %}">{{ u.user.id }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
