@@ -34,11 +34,13 @@ class Order(models.Model):
     status = models.IntegerField()
     sender_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="sender_id"
+        related_name="sender_id",
+        on_delete=models.CASCADE,
     )
     receiver_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="receiver_id"
+        related_name="receiver_id",
+        on_delete=models.CASCADE,
     )
 
 
