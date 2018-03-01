@@ -32,13 +32,13 @@ class Order(models.Model):
     # When it was delivered
     date_completed = models.DateTimeField(null=True)
     status = models.IntegerField()
-    sender_id = models.ManyToManyField(
+    sender_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        related_name="sender_id"
     )
-    receiver_id = models.ManyToManyField(
+    receiver_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        related_name="receiver_id"
     )
 
 
