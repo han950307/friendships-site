@@ -8,7 +8,7 @@ from .models import UserInfo
 # Create your views here.
 def index(request):
     user_list = UserInfo.objects.all()
-    template = loader.get_template('index.html')
+    template = loader.get_template('friendship/index.html')
     context = {
         'user_list': user_list,
     }
