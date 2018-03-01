@@ -1,0 +1,13 @@
+<h1>Registration</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'friendship:register_process' %}" method="post">
+{% csrf_token %}
+<input type="text" name="first_name" id="form_first_name"><label for="form_first_name">first_name</label>
+<input type="text" name="last_name" id="form_last_name"><label for="form_last_name">last_name</label>
+<input type="email" name="email" id="form_email"><label for="form_email">email</label>
+<input type="password" name="password" id="form_password"><label for="form_password">password</label>
+<input type="text" name="address" id="form_address"><label for="form_address">address</label>
+<input type="tel" name="phone" id="form_phone"><label for="form_phone">phone</label>
+<input type="submit" value="Register" />
+</form>

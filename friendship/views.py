@@ -15,3 +15,6 @@ def index(request):
 def details(request, user_id):
     user = get_object_or_404(UserInfo, pk=user_id)
     return render(request, 'friendship/details.html', {'user_info': user})
+
+def register(request):
+    
