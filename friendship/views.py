@@ -8,5 +8,5 @@ from .models import UserInfo
 def index(request):
     print(settings.AUTH_USER_MODEL)
     user_list = UserInfo.objects.all().select_related()
-    output = ', '.join([q.email for q in user_list])
+    output = ', '.join([q.user.email for q in user_list])
     return HttpResponse(output)
