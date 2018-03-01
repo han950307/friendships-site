@@ -17,4 +17,7 @@ def details(request, user_id):
     return render(request, 'friendship/details.html', {'user_info': user})
 
 def register(request):
-    
+    return render(request, 'friendship/register.html', {})
+
+def register_process(request):
+    email = request.POST['email']
