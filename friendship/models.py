@@ -44,7 +44,7 @@ class Order(models.Model):
     )
 
 
-class Images(models.Model):
+class Image(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
