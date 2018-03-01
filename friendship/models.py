@@ -32,12 +32,12 @@ class Order(models.Model):
     # When it was delivered
     date_completed = models.DateTimeField(null=True)
     status = models.IntegerField()
-    sender_id = models.ForeignKey(
+    sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="sender_id",
         on_delete=models.CASCADE,
     )
-    receiver_id = models.ForeignKey(
+    receiver = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="receiver_id",
         on_delete=models.CASCADE,
@@ -46,11 +46,11 @@ class Order(models.Model):
 
 class Image(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    order_id = models.ForeignKey(
+    order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
     )
