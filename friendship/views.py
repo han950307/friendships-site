@@ -21,3 +21,4 @@ def register(request):
 
 def register_process(request):
     email = request.POST['email']
+    print(email)
