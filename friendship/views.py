@@ -26,7 +26,7 @@ class IndexView(generic.ListView):
 
 
 def details(request, id):
-    return render(request, 'friendship/details.html', {'userinfo': get_object_or_404(User, pk=id)})
+    return render(request, 'friendship/details.html', {'userinfo': get_object_or_404(UserInfo, pk=id)})
 
 
 def register(request):
