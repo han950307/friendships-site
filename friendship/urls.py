@@ -18,8 +18,8 @@ from . import views
 
 app_name = 'friendship'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('<int:user_id>/', views.details, name='details'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('<int:pk>/', views.DetailView.as_view(), name='details'),
     path('register/', views.register, name='register'),
     path('register_process/', views.register_process, name='register_process'),
 ]
