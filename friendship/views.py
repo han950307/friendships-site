@@ -20,9 +20,13 @@ class IndexView(generic.ListView):
         return UserInfo.objects.all()
 
 
-class DetailsView(generic.DetailView):
-    model = UserInfo
-    template_name = 'friendship/details.html'
+# class DetailsView(generic.DetailView):
+#     model = UserInfo
+#     template_name = 'friendship/details.html'
+
+
+def details(request, id):
+    return render(request, 'friendship/details.html', {'userinfo': UserInfo.objects.get(pk=id)})
 
 
 def register(request):
