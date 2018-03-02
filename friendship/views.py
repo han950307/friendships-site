@@ -26,8 +26,8 @@ def register(request):
 
 def register_process(request):
     try:
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
+        firstname = request.POST['first_name']
+        lastname = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
         address = request.POST['address']
