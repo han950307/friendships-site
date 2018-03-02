@@ -20,7 +20,7 @@ class IndexView(generic.ListView):
         return UserInfo.objects.all()
 
 
-class DetailsView(generic.DetailView):
+class DetaisView(generic.DetailView):
     model = UserInfo
     template_name = 'friendship/details.html'
 
