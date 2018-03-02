@@ -9,7 +9,8 @@ class UserInfo(models.Model):
     """
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        primary_key=True,
     )
     shipping_address = models.CharField(max_length=500)
     phone = models.CharField(max_length=25)

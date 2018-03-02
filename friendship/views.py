@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.conf import settings
 from .models import UserInfo
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 # Create your views here.
@@ -12,13 +14,44 @@ def index(request):
     user_list = UserInfo.objects.all()
     return render(request, 'friendship/index.html', {'user_list': user_list})
 
+
 def details(request, user_id):
     user = get_object_or_404(UserInfo, pk=user_id)
     return render(request, 'friendship/details.html', {'user_info': user})
 
+
 def register(request):
     return render(request, 'friendship/register.html', {})
 
+
 def register_process(request):
-    email = request.POST['email']
-    print(email)
+    try:
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        password = request.POST['password']
+        address = request.POST['address']
+        phone = request.POST['phone']
+    except KeyError:
+        return render(request, 'friendship/register', {
+                'error_message': "You didn't fill out something."
+        })
+    else:
+        user = User.objects.create(
+            password=password,
+            is_superuser=False,
+            first_name=firstname,
+            last_name=lastname,
+            email=email,
+            is_staff=False,
+            is_active=False,
+        )
+        user_id = user.id
+        UserInfo.objects.create(
+            shipping_address=address,
+            phone=phone,
+            is_receiver=True,
+            is_sender=False,
+            user_id=user_id
+        )
+        return HttpResponseRedirect(reverse('friendship:index'))
