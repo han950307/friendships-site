@@ -22,7 +22,6 @@ class IndexView(generic.ListView):
 
 class DetailsView(generic.DetailView):
     model = UserInfo
-    context_object_name = 'user_info'
     template_name = 'friendship/details.html'
 
 
