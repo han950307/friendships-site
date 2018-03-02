@@ -39,7 +39,7 @@ class ItemDetailView(generic.DetailView):
     pass
 
 
-class SenderDashboard(generic.listView):
+class SenderDashboard(generic.ListView):
     """
     Should show a list of accepted items, its progress
     Also items that they can accept.
@@ -47,7 +47,7 @@ class SenderDashboard(generic.listView):
     pass
 
 
-class ReceiverDashboard(generic.listView):
+class ReceiverDashboard(generic.ListView):
     """
     Should show a list of requested items and summary and a history of items.
     """
