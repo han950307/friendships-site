@@ -2,22 +2,27 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.conf import settings
-from .models import UserInfo
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.views import generic
+
+from .models import UserInfo
 
 
 # Create your views here.
-def index(request):
-    user_list = UserInfo.objects.all()
-    return render(request, 'friendship/index.html', {'user_list': user_list})
+class IndexView(generic.ListView):
+    template_name = 'friendship/index.html'
+    context_object_name = 'user_list'
+
+    def get_queryset(self):
+        return UserInfo.objects.all()
 
 
-def details(request, user_id):
-    user = get_object_or_404(UserInfo, pk=user_id)
-    return render(request, 'friendship/details.html', {'user_info': user})
+class DetailView(generic.DetailView):
+    model = UserInfo
+    template_name = 'friendship/details.html'
 
 
 def register(request):
