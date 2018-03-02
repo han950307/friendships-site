@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.views import generic
 
-from .models import UserInfo
+from .models import UserInfo, Order, Image
 
 
 # Create your views here.
@@ -20,17 +20,62 @@ class IndexView(generic.ListView):
         return UserInfo.objects.all()
 
 
+class OrderDetailView(generic.DetailView):
+    """
+    Should show details of the order with items and stuff.
+    """
+    model = Order
+
+
 # class DetailsView(generic.DetailView):
 #     model = UserInfo
 #     template_name = 'friendship/details.html'
 
 
-def details(request, id):
-    return render(request, 'friendship/details.html', {'userinfo': get_object_or_404(UserInfo, pk=id)})
+class ItemDetailView(generic.DetailView):
+    """
+    Should show details of the item itself.
+    """
+    pass
+
+
+class SenderDashboard(generic.listView):
+    """
+    Should show a list of accepted items, its progress
+    Also items that they can accept.
+    """
+    pass
+
+
+class ReceiverDashboard(generic.listView):
+    """
+    Should show a list of requested items and summary and a history of items.
+    """
+    template_name = 'friendship/sender'
+    context_object_name = 'order_list'
+
+    def get_queryset(self):
+        # TODO implement filter
+        return Order.objects.filter();
+
+
+def request_item(request):
+    """
+    Form
+    """
+    return render(request, 'friendship/request_item', {})
+
+
+def request_item_process(request):
+    """
+    processing inputs.
+    """
+    # render view for returning to dashboard or requesting another item
+    pass
 
 
 def register(request):
-    return render(request, 'friendship/register.html', {})
+    return render(request, 'friendship/register', {})
 
 
 def register_process(request):
