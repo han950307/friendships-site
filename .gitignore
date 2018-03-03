@@ -2,4 +2,4 @@
 vendor/*
 */migrations/*
 */__pycache__/**
-.pyc
+*.pyc
