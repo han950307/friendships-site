@@ -1,13 +1,111 @@
-<h1>Registration</h1>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% extends "friendship/base.html" %}
+{% load static %}
 
-<form action="{% url 'friendship:register_process' %}" method="post">
-{% csrf_token %}
-<input type="text" name="first_name" id="form_first_name"><label for="form_first_name">first_name</label>
-<input type="text" name="last_name" id="form_last_name"><label for="form_last_name">last_name</label>
-<input type="email" name="email" id="form_email"><label for="form_email">email</label>
-<input type="password" name="password" id="form_password"><label for="form_password">password</label>
-<input type="text" name="address" id="form_address"><label for="form_address">address</label>
-<input type="tel" name="phone" id="form_phone"><label for="form_phone">phone</label>
-<input type="submit" value="Register" />
-</form>
+{% block banner %}
+	<!-- Hero -->
+	<div class="ui-hero hero-sm bg-dark-gray hero-svg-layer-4">
+		<div class="container">
+			<h1 class="heading">
+				Register
+			</h1>
+			<p class="paragraph">
+				It's easy as one two three.
+			</p>
+		</div><!-- .container -->
+	</div><!-- .hero -->
+{% endblock banner %}
+
+{% block content %}
+	<!--  Section -->
+	<div class="section contact-section">
+		<div class="container">
+			
+			<h1>Registration</h1>
+			{% if error_message %}
+				<p><strong>{{ error_message }}</strong></p>
+			{% endif %}
+
+			<form action="{% url 'friendship:register_process' %}" method="post" id="contact-form">
+				{% csrf_token %}
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6">
+							<input type="email" name="email" class="input form-control" id="form_email">
+							<label for="form_email">Email</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="password" name="password" class="input form-control" id="form_password">
+							<label for="form_password">Password</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6">
+							<input type="text" name="first_name" class="input form-control" id="form_first_name">
+							<label for="form_first_name">First Name</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" name="last_name" class="input form-control" id="form_last_name">
+							<label for="form_last_name">Last Name</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6">
+							<input type="text" name="address" class="input form-control" id="form_address">
+							<label for="form_address">Shipping Address</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="tel" name="phone" class="input form-control" id="form_phone">
+							<label for="form_phone">Phone</label>
+						</div>
+					</div>
+				</div>
+				<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Register" />
+			</form>
+		</div><!-- .container -->
+	</div><!-- .section -->
+
+	<!-- Google Maps  !!
+	1. Add your latitude to the data-lat attribute here
+	2. Add your longitude to the data-long attribute here
+	3. Add your API Key to the GoogleMaps include script at the bottom of this Page
+	-->
+	<div id="gmap" class="ui-map" data-lat="-26.182559" data-lng="28.061691" data-marker="assets/img/map/map_marker.png"
+	     data-style="style-1" data-zoom="13"></div>
+
+	<!-- Call To Action Section -->
+	<div class="section ui-gradient-blue ui-action-section z-index-3">
+		<div class="container">
+			<div class="row">
+				<!-- Text Column -->
+				<div class="col-lg-6 col-md-7 text-block" data-vertical_center="true">
+					<!-- Section Heading -->
+					<div class="section-heading">
+						<h2 class="heading">
+							Available on iOS and Android
+						</h2>
+						<p class="paragraph">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+							ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+						</p>
+						<div class="actions">
+							<a class="btn ui-gradient-green btn-app-store btn-download shadow-lg"><span>Available on the</span>
+								<span>App Store</span></a>
+							<a class="btn ui-gradient-blue btn-google-play btn-download shadow-lg"><span>Available on </span>
+								<span>Google Play</span></a>
+						</div>
+					</div><!-- .section-heading -->
+				</div>
+				<!-- Image Column -->
+				<div class="col-lg-6 col-md-5 img-block animate" data-show="fade-in-left">
+					<img src="assets/img/mockups/applify-mockup-2-lg.png" alt="Applify - App Landing HTML Template"
+					     data-uhd class="responsive-on-sm" data-max_width="547"/>
+				</div>
+			</div><!-- .row -->
+		</div><!-- .container -->
+	</div><!-- .section -->
+
+{%endblock content %}

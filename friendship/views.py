@@ -63,7 +63,7 @@ def request_item(request):
     """
     Form
     """
-    return render(request, 'friendship/request_item', {})
+    return render(request, 'friendship/request_item.html', {})
 
 
 def request_item_process(request):
@@ -75,7 +75,7 @@ def request_item_process(request):
 
 
 def register(request):
-    return render(request, 'friendship/register', {})
+    return render(request, 'friendship/register.html', {})
 
 
 def register_process(request):
@@ -87,8 +87,8 @@ def register_process(request):
         address = request.POST['address']
         phone = request.POST['phone']
     except KeyError:
-        return render(request, 'friendship/register', {
-                'error_message': "You didn't fill out something."
+        return render(request, 'friendship/register.html', {
+            'error_message': "You didn't fill out something."
         })
     else:
         user = User.objects.create(
@@ -108,4 +108,4 @@ def register_process(request):
             is_sender=False,
             user_id=user_id
         )
-        return HttpResponseRedirect(reverse('friendship:index'))
+        return HttpResponseRedirect(reverse('friendship/index.html'))
