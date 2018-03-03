@@ -10,6 +10,7 @@ from django.views import generic
 
 from .models import UserInfo, Order, Image
 
+import re
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -97,6 +98,7 @@ def register_process(request):
             first_name=firstname,
             last_name=lastname,
             email=email,
+            username=email,
             is_staff=False,
             is_active=False,
         )
@@ -108,4 +110,4 @@ def register_process(request):
             is_sender=False,
             user_id=user_id
         )
-        return HttpResponseRedirect(reverse('friendship/index.html'))
+        return HttpResponseRedirect(reverse('friendship:index'))
