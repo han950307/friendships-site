@@ -24,15 +24,7 @@ import re
 
 # Create your views here.
 def index(request):
-    print(request.session.__dict__)
-    try:
-        id = request.session['user_id']
-        print(request.session['user_id'])
-    except KeyError:
-        id = None
-        print('session id not found')
-        pass
-    return render(request, 'friendship/index.html', {'id': id})
+    return render(request, 'friendship/index.html')
 
 
 class OrderDetailView(generic.DetailView):
@@ -150,13 +142,12 @@ def login_process(request):
         })
     else:
         user = authenticate(request, username=username, password=password)
-        id = user.id
-        print(username)
-        print(password)
 
         if user is not None:
             login(request, user)
-            return render(request, 'friendship/index.html', {'id': id})
+            print(request.session.__dict__)
+            request.session['logged_on'] = True
+            return HttpResponseRedirect(reverse('friendship:index'))
         else:
             return render(request, 'friendship/login.html', {
                 'error_message': "Did not find a match."

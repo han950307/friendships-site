@@ -42,7 +42,7 @@
 	2. Add your longitude to the data-long attribute here
 	3. Add your API Key to the GoogleMaps include script at the bottom of this Page
 	-->
-	<div id="gmap" class="ui-map" data-lat="-26.182559" data-lng="28.061691" data-marker="assets/img/map/map_marker.png"
+	<div id="gmap" class="ui-map" data-lat="-26.182559" data-lng="28.061691" data-marker="{% static 'friendship/img/map/map_marker.png' %}"
 	     data-style="style-1" data-zoom="13"></div>
 
 	<!-- Call To Action Section -->
@@ -70,7 +70,7 @@
 				</div>
 				<!-- Image Column -->
 				<div class="col-lg-6 col-md-5 img-block animate" data-show="fade-in-left">
-					<img src="assets/img/mockups/applify-mockup-2-lg.png" alt="Applify - App Landing HTML Template"
+					<img src="{% static 'friendship/img/mockups/applify-mockup-2-lg.png' %}" alt="Applify - App Landing HTML Template"
 					     data-uhd class="responsive-on-sm" data-max_width="547"/>
 				</div>
 			</div><!-- .row -->
