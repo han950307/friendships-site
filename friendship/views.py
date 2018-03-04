@@ -103,7 +103,7 @@ def register_process(request):
         phone = request.POST['phone']
     except KeyError:
         return render(request, 'friendship/register.html', {
-            'error_message': "You didn't fill out something."
+            error(request, 'You didn\'t fill out something.')
         })
     else:
         user = User.objects.create_user(
@@ -140,7 +140,7 @@ def login_process(request):
         password = request.POST['password']
     except KeyError:
         return render(request, 'friendship/login.html', {
-            'error_message': "You didn't fill out something."
+            error(request, 'You didn\'t fill out something')
         })
     else:
         user = authenticate(request, username=username, password=password)
@@ -152,7 +152,7 @@ def login_process(request):
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
             return render(request, 'friendship/login.html', {
-                'error_message': "Did not find a match."
+                error(request, 'Did not find a match.')
             })
 
 
