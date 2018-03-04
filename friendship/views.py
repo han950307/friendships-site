@@ -10,9 +10,11 @@ from django.http import (
     HttpResponse,
     HttpResponseRedirect
 )
+from django.contrib.messages import error
 from django.shortcuts import (
     get_object_or_404,
-    render
+    render,
+    redirect,
 )
 from django.template import loader
 from django.urls import reverse
@@ -23,8 +25,8 @@ from .models import UserInfo, Order, Image
 import re
 
 # Create your views here.
-def index(request):
-    return render(request, 'friendship/index.html')
+def index(request, **kwargs):
+    return render(request, 'friendship/index.html', **kwargs)
 
 
 class OrderDetailView(generic.DetailView):
@@ -156,4 +158,5 @@ def login_process(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('friendship:login'))
+    error(request, 'Successfully Logged out.')
+    return redirect('friendship:login')
