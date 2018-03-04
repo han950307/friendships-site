@@ -1,5 +1,6 @@
 .sqlite3
 vendor/*
 */migrations/*
+!*/migrations/__init__.py
 */__pycache__/*
 *.pyc

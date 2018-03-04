@@ -56,8 +56,13 @@
 		</div><!--.ui-navigation -->
 
 		<!-- Navbar Button -->
-		<a href="https://themeforest.net/item/applify-app-landing-page-html/20000720"
-		   class="btn btn-sm ui-gradient-peach pull-right">Get Started</a>
+		{% if id %}
+			<a href="{% url 'friendship:logout' %}"
+			   class="btn btn-sm ui-gradient-peach pull-right">Logout</a>
+		{% else %}
+			<a href="{% url 'friendship:login' %}"
+			   class="btn btn-sm ui-gradient-peach pull-right">Login</a>
+		{% endif %}   
 
 		<!-- Navbar Toggle -->
 		<a href="#" class="ui-mobile-nav-toggle pull-right"></a>

@@ -20,8 +20,12 @@ from . import views
 
 app_name = 'friendship'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
+    path('', views.index, name='index'),
+    # path('', views.IndexView.as_view(), name='index'),
     # path('<int:id>/', views.details, name='details'),
     path('register/', views.register, name='register'),
     path('register_process/', views.register_process, name='register_process'),
+    path('login/', views.login_view, name='login'),
+    path('login_process/', views.login_process, name='login_process'),
+    path('logout/', views.logout_view, name='logout')
 ]
