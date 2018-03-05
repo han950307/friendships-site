@@ -1,13 +1,49 @@
-<h1>Registration</h1>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% extends "friendship/base_forms.html" %}
+{% load static %}
 
-<form action="{% url 'friendship:register_process' %}" method="post">
-{% csrf_token %}
-<input type="text" name="first_name" id="form_first_name"><label for="form_first_name">first_name</label>
-<input type="text" name="last_name" id="form_last_name"><label for="form_last_name">last_name</label>
-<input type="email" name="email" id="form_email"><label for="form_email">email</label>
-<input type="password" name="password" id="form_password"><label for="form_password">password</label>
-<input type="text" name="address" id="form_address"><label for="form_address">address</label>
-<input type="tel" name="phone" id="form_phone"><label for="form_phone">phone</label>
-<input type="submit" value="Register" />
-</form>
+{% block title %} Registration {% endblock title %}
+{% block title_desc %} It's easy as ship {% endblock title_desc %}
+
+{% block form %}
+	<form action="{% url 'friendship:register_process' %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="form_email">Email</label>
+					<input type="email" name="email" class="input form-control" id="form_email">
+				</div>
+				<div class="col-sm-6">
+					<label for="form_password">Password</label>
+					<input type="password" name="password" class="input form-control" id="form_password">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="form_first_name">First Name</label>
+					<input type="text" name="first_name" class="input form-control" id="form_first_name">
+				</div>
+				<div class="col-sm-6">
+					<label for="form_last_name">Last Name</label>
+					<input type="text" name="last_name" class="input form-control" id="form_last_name">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="form_address">Shipping Address</label>
+					<input type="text" name="address" class="input form-control" id="form_address">
+				</div>
+				<div class="col-sm-6">
+					<label for="form_phone">Phone</label>
+					<input type="tel" name="phone" class="input form-control" id="form_phone">
+				</div>
+			</div>
+		</div>
+		<br />
+		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Register" />
+	</form>
+{% endblock form %}

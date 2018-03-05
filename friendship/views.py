@@ -1,23 +1,32 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
 from django.conf import settings
-from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout,
+)
 from django.contrib.auth.models import User
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseRedirect
+)
+from django.contrib.messages import error
+from django.shortcuts import (
+    get_object_or_404,
+    render,
+    redirect,
+)
+from django.template import loader
 from django.urls import reverse
 from django.views import generic
 
 from .models import UserInfo, Order, Image
 
+import re
 
 # Create your views here.
-class IndexView(generic.ListView):
-    template_name = 'friendship/index.html'
-    context_object_name = 'user_list'
-
-    def get_queryset(self):
-        return UserInfo.objects.all()
+def index(request, **kwargs):
+    return render(request, 'friendship/index.html', **kwargs)
 
 
 class OrderDetailView(generic.DetailView):
@@ -59,14 +68,18 @@ class ReceiverDashboard(generic.ListView):
         return Order.objects.filter();
 
 
-def request_item(request):
+def place_order_view(request):
     """
     Form
     """
-    return render(request, 'friendship/request_item', {})
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        return render(request, 'friendship/place_order.html', {})
 
 
-def request_item_process(request):
+def place_order_process(request):
     """
     processing inputs.
     """
@@ -75,10 +88,16 @@ def request_item_process(request):
 
 
 def register(request):
-    return render(request, 'friendship/register', {})
+    """
+    Load the registration page
+    """
+    return render(request, 'friendship/register.html', {})
 
 
 def register_process(request):
+    """
+    Process registration and put user data into the database.
+    """
     try:
         firstname = request.POST['first_name']
         lastname = request.POST['last_name']
@@ -87,25 +106,61 @@ def register_process(request):
         address = request.POST['address']
         phone = request.POST['phone']
     except KeyError:
-        return render(request, 'friendship/register', {
-                'error_message': "You didn't fill out something."
+        return render(request, 'friendship/register.html', {
+            error(request, 'You didn\'t fill out something.')
         })
     else:
-        user = User.objects.create(
-            password=password,
-            is_superuser=False,
-            first_name=firstname,
-            last_name=lastname,
-            email=email,
-            is_staff=False,
-            is_active=False,
+        user = User.objects.create_user(
+            re.sub(r"@|\.", r"", email),
+            email,
+            password
         )
+        user.first_name = firstname
+        user.last_name = lastname
+        user.email = email
+        user.is_superuser = False
+        user.is_staff = False
+        user.is_active = True
+        user.save()
+
         user_id = user.id
-        UserInfo.objects.create(
+        user_info = UserInfo.objects.create(
             shipping_address=address,
             phone=phone,
             is_receiver=True,
-            is_sender=False,
+            is_shipper=False,
             user_id=user_id
         )
-        return HttpResponseRedirect(reverse('friendship:index'))
+        return HttpResponseRedirect(reverse('friendship:login'))
+
+
+def login_view(request):
+    return render(request, 'friendship/login.html', {})
+
+
+def login_process(request):
+    try:
+        username = re.sub(r"@|\.", r"", request.POST['email'])
+        password = request.POST['password']
+    except KeyError:
+        return render(request, 'friendship/login.html', {
+            error(request, 'You didn\'t fill out something')
+        })
+    else:
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            print(request.session.__dict__)
+            request.session['logged_on'] = True
+            return HttpResponseRedirect(reverse('friendship:index'))
+        else:
+            return render(request, 'friendship/login.html', {
+                error(request, 'Did not find a match.')
+            })
+
+
+def logout_view(request):
+    logout(request)
+    error(request, 'Successfully Logged out.')
+    return redirect('friendship:login')
