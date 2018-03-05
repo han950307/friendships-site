@@ -1,0 +1,9 @@
+{% if user_list %}
+    <ul>
+    {% for u in user_list %}
+        <li><a href="{% url 'friendship:details' u.user.id %}">{{ u.user.id }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No users exist.</p>
+{% endif %}

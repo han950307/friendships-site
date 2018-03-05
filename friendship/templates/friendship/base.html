@@ -1,0 +1,223 @@
+<!doctype html>
+{% load static %}
+<html lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Applify - App Landing Page</title>
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
+</head>
+<body class="ui-transparent-nav" data-fade_in="on-load">
+<!-- Navbar Fixed + Default -->
+<nav class="navbar navbar-fixed-top transparent navbar-dark bg-dark-gray">
+	<div class="container">
+
+		<!-- Navbar Logo -->
+		<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="Applify - App Landing HTML Template">
+			<!-- Default Logo -->
+			<img class="logo-default" src="{% static 'friendship/img/logo/friendship.png' %}"
+			     alt="Applify - App Landing HTML Template" data-uhd>
+			<!-- Transparent Logo -->
+			<img class="logo-transparent" src="{% static 'friendship/img/logo/friendship.png' %}"
+			     alt="Applify - App Landing HTML Template" data-uhd>
+		</a><!-- .navbar-brand -->
+
+		<!-- Navbar Navigation -->
+		<div class="ui-navigation navbar-center">
+			<ul class="nav navbar-nav">
+				<!-- Nav Item -->
+				<li>
+					<a href="#" data-scrollto="features">Features</a>
+				</li>
+				<!-- Nav Item -->
+				<li>
+					<a href="#" data-scrollto="how-it-works">How It Works</a>
+				</li>
+				<!-- Nav Item -->
+				<li>
+					<a href="#" data-scrollto="integrate">Integrate</a>
+				</li>
+				<!-- Nav Item -->
+				<li>
+					<a href="#" data-scrollto="pricing">Pricing</a>
+				</li>
+				<!-- Nav Item -->
+				<li>
+					<a href="page-api-docs.html">API Docs</a>
+				</li>
+				<!-- Nav Item -->
+				<li class="active">
+					<a href="page-contact.html">Contact</a>
+				</li>
+			</ul><!--.navbar-nav -->
+		</div><!--.ui-navigation -->
+
+		<!-- Navbar Button -->
+		{% if request.user.is_authenticated %}
+			<a href="{% url 'friendship:logout' %}"
+			   class="btn btn-sm ui-gradient-peach pull-right">Logout</a>
+		{% else %}
+			<a href="{% url 'friendship:login' %}"
+			   class="btn btn-sm ui-gradient-peach pull-right">Login</a>
+		{% endif %}   
+
+		<!-- Navbar Toggle -->
+		<a href="#" class="ui-mobile-nav-toggle pull-right"></a>
+
+	</div><!-- .container -->
+</nav> <!-- nav -->
+
+{% block banner %}
+{% endblock banner %}
+
+<!-- Main Wrapper -->
+<div class="main" role="main">
+	{% block content %}
+	{% endblock content %}
+	<!-- Footer -->
+	<footer class="ui-footer bg-gray">
+		<div class="container pt-6 pb-6">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 footer-about footer-col center-on-sm">
+					<img src="{% static 'friendship/img/logo/applify-logo-white.png' %}" data-uhd
+					     alt="Applif - App Landing HTML Template"/>
+					<p class="mt-1">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+						labore et dolore magna aliqua. Donec elementum ligula eu sapien consequat eleifend.
+					</p>
+				</div>
+				<div class="col-md-2 col-6 footer-col">
+					<h6 class="heading footer-heading">Quick Nav</h6>
+					<ul class="footer-nav">
+						<li>
+							<a href="demo-mobile-app-1.html">Mobile App 1</a>
+						</li>
+						<li>
+							<a href="demo-mobile-app-2.html">Mobile App 2</a>
+						</li>
+						<li>
+							<a href="demo-saas.html">Mobile Saas</a>
+						</li>
+						<li>
+							<a href="demo-web-app.html">Web App</a>
+						</li>
+						<li>
+							<a href="index.html#demos">More Demos</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-2 col-6 footer-col">
+					<h6 class="heading footer-heading">Other Pages</h6>
+					<ul class="footer-nav">
+						<li>
+							<a href="page-api-docs.html">API Docs</a>
+						</li>
+						<li>
+							<a href="page-pricing.html">Pricing Page</a>
+						</li>
+						<li>
+							<a href="page-contact.html">Contact page</a>
+						</li>
+						<li>
+							<a href="page-blog-grid.html">Blog Grid</a>
+						</li>
+						<li>
+							<a href="page-coming-soon.html">Comig Soon</a>
+						</li>
+						<li>
+							<a href="page-404.html">404 Error</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-4 col-sm-6 footer-col center-on-sm">
+					<h6 class="heading footer-heading">Newsletter</h6>
+					<!-- Form -->
+					<form autocomplete="on" id="sign-up-form" name="sign-up-form">
+						<div class="form-group">
+							<div class="input-group">
+								<!-- Email Input -->
+								<input autocomplete="email" class="input form-control" data-validation="required"
+								       data-validation-error-msg="Please enter your email" name="email"
+								       placeholder="Email">
+								<div class="input-group-append">
+									<!-- Submit Button -->
+									<button class="btn ui-gradient-peach">Subscribe <span class="fa fa-send"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div>
+						<a class="btn ui-gradient-blue btn-circle shadow-md">
+							<span class="fa fa-facebook"></span>
+						</a>
+						<a class="btn ui-gradient-peach btn-circle shadow-md">
+							<span class="fa fa-instagram"></span>
+						</a>
+						<a class="btn ui-gradient-green btn-circle shadow-md">
+							<span class="fa fa-twitter"></span>
+						</a>
+						<a class="btn ui-gradient-purple btn-circle shadow-md">
+							<span class="fa fa-pinterest"></span>
+						</a>
+					</div>
+				</div>
+			</div><!-- .row -->
+		</div><!-- .container -->
+
+		<!-- Footer Copyright -->
+		<div class="footer-copyright bg-dark-gray">
+			<div class="container">
+				<div class="row">
+					<!-- Copyright -->
+					<div class="col-sm-6 center-on-sm">
+						<p>
+							&copy; 2017 <a href="http://codeytech.com" target="_blank" title="Codeytech">Codeytech</a>
+						</p>
+					</div>
+					<!-- Social Icons -->
+					<div class="col-sm-6 text-right">
+						<ul class="footer-nav">
+							<li>
+								<a href="#">
+									Privacy Policy
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									Terms &amp; Conditions
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									FAQ
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div><!-- .container -->
+		</div><!-- .footer-copyright -->
+
+	</footer><!-- .ui-footer -->
+
+</div><!-- .main -->
+
+<!-- Scripts -->
+<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>
+<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
+<!--
+# Google Maps
+# Add Your Google Maps API Key Below !!
+-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5B2iXEELo6aIReGYLJdVKBlzHnrM0YLU' %}"></script>
+<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>
+<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
+<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
+<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
+</body>
+</html>
