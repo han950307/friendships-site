@@ -1,0 +1,34 @@
+{% extends "friendship/base_forms.html" %}
+{% load static %}
+
+
+{% block title %} Place Order {% endblock title %}
+{% block title_desc %} It's easy as ship {% endblock title_desc %}
+
+{% block form %}
+	<form action="{% url 'friendship:place_order_process' %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="url">URL</label>
+					<input type="url" name="url" class="input form-control" id="form_url">
+				</div>
+				<div class="col-sm-6">
+					<label for="type">Type</label>
+					<input type="url" name="type" class="input form-control" id="form_type">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="desc">Description</label>
+					<input type="text" name="desc" class="input form-control" id="form_desc" placeholder="I.e., shoe-size and color, etc">
+				</div>
+			</div>
+		</div>
+		<br />
+		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Requiest Order" />
+	</form>
+{% endblock form %}

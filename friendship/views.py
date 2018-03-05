@@ -68,14 +68,18 @@ class ReceiverDashboard(generic.ListView):
         return Order.objects.filter();
 
 
-def request_item(request):
+def place_order_view(request):
     """
     Form
     """
-    return render(request, 'friendship/request_item.html', {})
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        return render(request, 'friendship/place_order.html', {})
 
 
-def request_item_process(request):
+def place_order_process(request):
     """
     processing inputs.
     """

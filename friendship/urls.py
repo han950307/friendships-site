@@ -27,5 +27,7 @@ urlpatterns = [
     path('register_process/', views.register_process, name='register_process'),
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
-    path('logout/', views.logout_view, name='logout')
+    path('logout/', views.logout_view, name='logout'),
+    path('place_order/', views.place_order_view, name='place_order'),
+    path('place_order_process/', views.place_order_process, name='place_order_process'),
 ]
