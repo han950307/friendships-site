@@ -84,7 +84,26 @@ def place_order_process(request):
     processing inputs.
     """
     # render view for returning to dashboard or requesting another item
-    pass
+    try:
+        url = request.POST['url']
+        merchandise_type = request.POST['merchandise_type']
+        if (merchandise_type == "shoes"):
+            thetype = 1
+        else:
+            thetype = 0
+        desc = request.POST['desc']
+    except KeyError:
+        error(request, 'You didn\'t fill out something.')
+        return render(request, 'friendship/place_order.html', {})
+    else:
+        order = Order.objects.create(
+            url=url,
+            merchandise_type=thetype,
+            status=0,
+            description=desc,
+            receiver=request.user
+        )
+        return render(request, 'friendship/place_order_landing.html', {})
 
 
 def register(request):
@@ -106,9 +125,8 @@ def register_process(request):
         address = request.POST['address']
         phone = request.POST['phone']
     except KeyError:
-        return render(request, 'friendship/register.html', {
-            error(request, 'You didn\'t fill out something.')
-        })
+        error(request, 'Did not find a match.')
+        return render(request, 'friendship/register.html', {})
     else:
         user = User.objects.create_user(
             re.sub(r"@|\.", r"", email),
@@ -155,8 +173,8 @@ def login_process(request):
             request.session['logged_on'] = True
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
+            error(request, 'Did not find a match.')
             return render(request, 'friendship/login.html', {
-                error(request, 'Did not find a match.')
             })
 
 

@@ -30,10 +30,12 @@ class Order(models.Model):
     # When it was delivered
     date_completed = models.DateTimeField(null=True)
     status = models.IntegerField()
+    description = models.TextField()
     shipper = models.ForeignKey(
         User,
         related_name="shipper",
         on_delete=models.CASCADE,
+        null=True
     )
     receiver = models.ForeignKey(
         User,
