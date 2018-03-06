@@ -1,0 +1,10 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+
+{% block title %} Success! {% endblock title %}
+
+{% block main_content %}
+<p> Your order have been placed! </p>
+<a href="{% url 'friendship:place_order' %}"><button class="btn ui-gradient-blue">Click here to place another order</button></a>
+{% endblock main_content %}
