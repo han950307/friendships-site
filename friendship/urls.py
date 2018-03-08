@@ -28,6 +28,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),
-    path('place_order/', views.place_order_view, name='place_order'),
+    path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
     path('place_order_process/', views.place_order_process, name='place_order_process'),
+    path('order_details/<int:pk>', views.order_details, name='order_details'),
+    path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
+    path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
+    path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
 ]

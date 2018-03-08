@@ -20,8 +20,9 @@ from django.template import loader
 from django.urls import reverse
 from django.views import generic
 
-from .models import UserInfo, Order, Image
+from .models import UserInfo, Order, Image, Bid
 
+import datetime
 import re
 
 # Create your views here.
@@ -55,20 +56,20 @@ class SenderDashboard(generic.ListView):
     """
     pass
 
+def order_details(request, pk):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        order = Order.objects.get(pk=pk)
+        receiver_info = UserInfo.objects.get(pk=order.receiver.id)
+        return render(request, 'friendship/order_details.html', {
+            'order': order,
+            'receiver_info': receiver_info
+        })
 
-class ReceiverDashboard(generic.ListView):
-    """
-    Should show a list of requested items and summary and a history of items.
-    """
-    template_name = 'friendship/sender'
-    context_object_name = 'order_list'
 
-    def get_queryset(self):
-        # TODO implement filter
-        return Order.objects.filter();
-
-
-def place_order_view(request):
+def receiver_landing_view(request):
     """
     Form
     """
@@ -76,7 +77,7 @@ def place_order_view(request):
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     else:
-        return render(request, 'friendship/place_order.html', {})
+        return render(request, 'friendship/receiver_landing.html', {})
 
 
 def place_order_process(request):
@@ -84,26 +85,34 @@ def place_order_process(request):
     processing inputs.
     """
     # render view for returning to dashboard or requesting another item
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        return render(request, 'friendship/receiver_landing.html', {})
     try:
         url = request.POST['url']
         merchandise_type = request.POST['merchandise_type']
+        quantity = int(request.POST['quantity'])
         if (merchandise_type == "shoes"):
             thetype = 1
         else:
             thetype = 0
         desc = request.POST['desc']
-    except KeyError:
-        error(request, 'You didn\'t fill out something.')
+    except (KeyError, ValueError):
+        error(request, 'You didn\'t fill out something or you' + \
+            ' didn\'t enter a value for quantity.')
         return render(request, 'friendship/place_order.html', {})
     else:
         order = Order.objects.create(
             url=url,
             merchandise_type=thetype,
             status=0,
+            quantity=quantity,
             description=desc,
-            receiver=request.user
+            receiver=request.user,
         )
-        return render(request, 'friendship/place_order_landing.html', {})
+        return render(request, 'friendship/place_order_landing.html', {'order': order})
 
 
 def register(request):
@@ -146,8 +155,8 @@ def register_process(request):
             shipping_address=address,
             phone=phone,
             is_receiver=True,
-            is_shipper=False,
-            user_id=user_id
+            is_shipper=True,
+            user=user
         )
         return HttpResponseRedirect(reverse('friendship:login'))
 
@@ -176,6 +185,65 @@ def login_process(request):
             error(request, 'Did not find a match.')
             return render(request, 'friendship/login.html', {
             })
+
+
+def open_orders(request, filter):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        user_info = UserInfo.objects.get(pk=request.user.id)
+        if not user_info.is_shipper:
+            error(request, 'You do not have permissions to access this page.')
+            return redirect('friendship:index')
+        timelim = datetime.datetime.now() - datetime.timedelta(days=1)
+        qset = Order.objects.filter(date_placed__gte=timelim)
+        for order in qset:
+            bids = Bid.objects.filter(order=order)
+            min_arr = [x.bid_amount for x in bids]
+            if min_arr:
+                min_bid = min(min_arr)
+            else:
+                min_bid = "No current bids"
+            order.min_bid = min_bid
+
+        return render(request, 'friendship/open_orders.html', {
+            'orders': qset
+        })
+
+
+def make_bid(request, order_id):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        user_info = UserInfo.objects.get(pk=request.user.id)
+        if not user_info.is_shipper:
+            error(request, 'You do not have permissions to access this page.')
+            return redirect('friendship:index')
+        order = Order.objects.get(pk=order_id)
+        return render(request, 'friendship/make_bid.html', {'order' : order})
+
+
+def make_bid_process(request, order_id):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        user_info = UserInfo.objects.get(pk=request.user.id)
+        if not user_info.is_shipper:
+            error(request, 'You do not have permissions to access this page.')
+            return redirect('friendship:index')
+        bid_amount = request.POST["bid_amount"]
+        order = Order.objects.get(pk=order_id)
+        Bid.objects.create(
+            bid_amount=bid_amount,
+            order=order,
+            shipper_id=request.user.id,
+        )
+        timelim = datetime.datetime.now() - datetime.timedelta(days=1)
+        qset = Order.objects.filter(date_placed__gte=timelim)
+        return open_orders(request, "recent")
 
 
 def logout_view(request):
