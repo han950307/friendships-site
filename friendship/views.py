@@ -26,37 +26,30 @@ import datetime
 import re
 
 # Create your views here.
+def get_min_bid(order):
+    """
+    Given an order, returns the min bid.
+    """
+    bids = Bid.objects.filter(order=order)
+    min_arr = [x.bid_amount for x in bids]
+    if min_arr:
+        min_bid = min(min_arr)
+    else:
+        min_bid = "No current bids"
+    return min_bid
+
+
 def index(request, **kwargs):
+    """
+    Our homepage!
+    """
     return render(request, 'friendship/index.html', **kwargs)
 
 
-class OrderDetailView(generic.DetailView):
-    """
-    Should show details of the order with items and stuff.
-    """
-    model = Order
-
-
-# class DetailsView(generic.DetailView):
-#     model = UserInfo
-#     template_name = 'friendship/details.html'
-
-
-class ItemDetailView(generic.DetailView):
-    """
-    Should show details of the item itself.
-    """
-    pass
-
-
-class SenderDashboard(generic.ListView):
-    """
-    Should show a list of accepted items, its progress
-    Also items that they can accept.
-    """
-    pass
-
 def order_details(request, pk):
+    """
+    Given the order_id (pk), displays its info.
+    """
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
@@ -71,7 +64,7 @@ def order_details(request, pk):
 
 def receiver_landing_view(request):
     """
-    Form
+    This is a page for a form for making an order.
     """
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
@@ -82,7 +75,7 @@ def receiver_landing_view(request):
 
 def place_order_process(request):
     """
-    processing inputs.
+    When order is placed, it takes it to this page.
     """
     # render view for returning to dashboard or requesting another item
     if not request.user.is_authenticated:
@@ -126,6 +119,7 @@ def register_process(request):
     """
     Process registration and put user data into the database.
     """
+    # Trying to get the items.
     try:
         firstname = request.POST['first_name']
         lastname = request.POST['last_name']
@@ -134,9 +128,10 @@ def register_process(request):
         address = request.POST['address']
         phone = request.POST['phone']
     except KeyError:
-        error(request, 'Did not find a match.')
+        error(request, 'You did not fill out a field.')
         return render(request, 'friendship/register.html', {})
     else:
+        # hack for generating a username from email.
         user = User.objects.create_user(
             re.sub(r"@|\.", r"", email),
             email,
@@ -158,15 +153,22 @@ def register_process(request):
             is_shipper=True,
             user=user
         )
-        return HttpResponseRedirect(reverse('friendship:login'))
+        return redirect('friendship:login')
 
 
 def login_view(request):
+    """
+    load login view.
+    """
     return render(request, 'friendship/login.html', {})
 
 
 def login_process(request):
+    """
+    Process login
+    """
     try:
+        # hack for generating a username from email
         username = re.sub(r"@|\.", r"", request.POST['email'])
         password = request.POST['password']
     except KeyError:
@@ -174,8 +176,8 @@ def login_process(request):
             error(request, 'You didn\'t fill out something')
         })
     else:
+        # Use username to authenticate. LOL this is so bad
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             print(request.session.__dict__)
@@ -183,11 +185,13 @@ def login_process(request):
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
             error(request, 'Did not find a match.')
-            return render(request, 'friendship/login.html', {
-            })
+            return render(request, 'friendship/login.html', {})
 
 
 def open_orders(request, filter):
+    """
+    View currently open orders.
+    """
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
@@ -196,16 +200,14 @@ def open_orders(request, filter):
         if not user_info.is_shipper:
             error(request, 'You do not have permissions to access this page.')
             return redirect('friendship:index')
+
+        # Only display orders within a day ago.
         timelim = datetime.datetime.now() - datetime.timedelta(days=1)
         qset = Order.objects.filter(date_placed__gte=timelim)
+
+        # Get minimum bid.
         for order in qset:
-            bids = Bid.objects.filter(order=order)
-            min_arr = [x.bid_amount for x in bids]
-            if min_arr:
-                min_bid = min(min_arr)
-            else:
-                min_bid = "No current bids"
-            order.min_bid = min_bid
+            order.min_bid = get_min_bid(order)
 
         return render(request, 'friendship/open_orders.html', {
             'orders': qset
@@ -213,6 +215,9 @@ def open_orders(request, filter):
 
 
 def make_bid(request, order_id):
+    """
+    Make bid view. Allows sender to make a bid for the order.
+    """
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
@@ -226,11 +231,15 @@ def make_bid(request, order_id):
 
 
 def make_bid_process(request, order_id):
+    """
+    Processes make bid
+    """
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     else:
         user_info = UserInfo.objects.get(pk=request.user.id)
+        # Must be a shipper.
         if not user_info.is_shipper:
             error(request, 'You do not have permissions to access this page.')
             return redirect('friendship:index')
@@ -241,12 +250,15 @@ def make_bid_process(request, order_id):
             order=order,
             shipper_id=request.user.id,
         )
-        timelim = datetime.datetime.now() - datetime.timedelta(days=1)
-        qset = Order.objects.filter(date_placed__gte=timelim)
+
+        # Just return another view after processing it.
         return open_orders(request, "recent")
 
 
 def logout_view(request):
+    """
+    Logs a user out :P
+    """
     logout(request)
     error(request, 'Successfully Logged out.')
     return redirect('friendship:login')
