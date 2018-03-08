@@ -2,9 +2,13 @@
 {% load static %}
 
 
-{% block title %} Success! {% endblock title %}
+{% block title %} Order Confirmation {% endblock title %}
 
 {% block main_content %}
-<p> Your order have been placed! </p>
-<a href="{% url 'friendship:place_order' %}"><button class="btn ui-gradient-blue">Click here to place another order</button></a>
+<h1> Order has been placed!</h1>
+<p>We will notify you as soon as you receive a match :D</p>
+<p>In the meantime, you can review the details of your order
+	<a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a>
+</p>
+<a href="{% url 'friendship:receiver_landing' %}"><button class="btn ui-gradient-blue">Place another Order</button></a>
 {% endblock main_content %}
