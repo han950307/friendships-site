@@ -262,3 +262,7 @@ def logout_view(request):
     logout(request)
     error(request, 'Successfully Logged out.')
     return redirect('friendship:login')
+
+
+def testing(request):
+    return render(request, 'friendship/testing.html', {})

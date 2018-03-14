@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import friendsite
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,7 @@ SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = ["0.0.0.0", "52.14.138.237", "127.0.0.1", "localhost"]
 
 

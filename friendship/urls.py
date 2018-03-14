@@ -34,4 +34,5 @@ urlpatterns = [
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
+    path('testing/', views.testing, name='testing'),
 ]
