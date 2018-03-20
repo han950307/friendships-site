@@ -20,7 +20,7 @@ from . import views
 
 app_name = 'friendship'
 urlpatterns = [
-    re_path('.*', views.index, name='index'),
+    path('', views.index, name='index'),
     # path('', views.IndexView.as_view(), name='index'),
     # path('<int:id>/', views.details, name='details'),
     path('register/', views.register, name='register'),
