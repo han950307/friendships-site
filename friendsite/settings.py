@@ -27,7 +27,7 @@ SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
 DEBUG = False
 
 # WSGI_APPLICATION = "friendsite.wsgi.application"
-ALLOWED_HOSTS = ["18.188.123.79", "dev.friendships.us", "friendships.us", "www.friendships.us"]
+ALLOWED_HOSTS = ["52.14.220.60", "friendships.us", "www.friendships.us"]
 
 
 # Application definition
