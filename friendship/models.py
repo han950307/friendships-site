@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 
-
 # Create your models here.
 class UserInfo(models.Model):
     """
@@ -24,16 +23,18 @@ class Order(models.Model):
     An entry gets created when a receiver places an order.
     """
     url = models.URLField()
-    merchandise_type = models.IntegerField()
+    merchandise_type = models.TextField()
     # When the receiver places a request
     date_placed = models.DateTimeField(auto_now_add=True)
     # When it was delivered
     date_completed = models.DateTimeField(null=True)
     status = models.IntegerField()
+    description = models.TextField()
     shipper = models.ForeignKey(
         User,
         related_name="shipper",
         on_delete=models.CASCADE,
+        null=True
     )
     receiver = models.ForeignKey(
         User,

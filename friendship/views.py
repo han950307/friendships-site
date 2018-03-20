@@ -84,7 +84,29 @@ def place_order_process(request):
     processing inputs.
     """
     # render view for returning to dashboard or requesting another item
-    pass
+
+    response = request.POST
+    try:
+        url = response['url']
+        merchandise_type = response['type']
+        description = response['desc']
+        receiver = User.objects.get(id=request.user.id)
+    except KeyError:
+        return render(request, 'friendship/place_order.html', {
+            error(request, 'You didn\'t fill out something.')
+        })
+    else:
+        print(receiver)
+        order = Order.objects.create(
+            url = url,
+            merchandise_type = merchandise_type,
+            # let 0 be placeholder for "requested"
+            status = 0,
+            description = description,
+            receiver = receiver,
+        )
+        return render(request, 'friendship/index.html', {})
+
 
 
 def register(request):
