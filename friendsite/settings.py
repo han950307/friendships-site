@@ -15,7 +15,7 @@ import friendsite
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRIENDSHIP_VERSION = "0.0.1"
+FRIENDSHIP_VERSION = "0.0.2"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -24,7 +24,7 @@ FRIENDSHIP_VERSION = "0.0.1"
 SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = ["18.188.123.79", "dev.friendships.us", "friendships.us", "www.friendships.us"]
@@ -82,8 +82,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'friendships',
         'USER': 'root',
-        'PASSWORD': 'togetheragain',
-        'HOST': '13.58.205.194',
+        'PASSWORD': 'wehavepowerfulfriends',
+        'HOST': '172.31.1.244',
         'PORT': '5432',
     }
 }
