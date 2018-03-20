@@ -132,8 +132,15 @@ def register_process(request):
         return render(request, 'friendship/register.html', {})
     else:
         # hack for generating a username from email.
+        uname = re.sub(r"@|\.", r"", email)
+
+        # Check whether this email exists in the database already.
+        obj = User.objects.filter(username=uname)
+        if obj:
+            error(request, 'The email \'{}\' is already registered.'.format(email))
+            return render(request, 'friendship/register.html', {})
         user = User.objects.create_user(
-            re.sub(r"@|\.", r"", email),
+            uname,
             email,
             password
         )
