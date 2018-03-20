@@ -72,3 +72,12 @@ class Image(models.Model):
     mimetype = models.CharField(max_length=25)
     # Bank-slip or whatever
     image_type = models.IntegerField()
+
+
+class Message(models.Model):
+    date_sent = models.DateTimeField(auto_now_add=True)
+    transaction = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+    )
+    content = models.TextField()
