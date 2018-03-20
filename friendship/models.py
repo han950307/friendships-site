@@ -19,6 +19,7 @@ class UserInfo(models.Model):
     is_shipper = models.BooleanField(default=False)
 
 
+
 class Order(models.Model):
     """
     An entry gets created when a receiver places an order.
@@ -30,10 +31,13 @@ class Order(models.Model):
     # When it was delivered
     date_completed = models.DateTimeField(null=True)
     status = models.IntegerField()
+    description = models.TextField()
+    quantity = models.IntegerField()
     shipper = models.ForeignKey(
         User,
         related_name="shipper",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True
     )
     receiver = models.ForeignKey(
         User,

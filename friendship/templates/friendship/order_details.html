@@ -1,0 +1,14 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+
+{% block title %} Order # {{ order.id }} {% endblock title %}
+
+{% block main_content %}
+<h1> Order # {{ order.id }}</h1>
+<p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
+<p>Quantity: {{ order.quantity }}</p>
+<p>Description: {{ order.description }}</p>
+<p>Shipping Address: {{ order.reciever.shipping_address }}</p>
+<p>Order Status: {{ order.status }}</p>
+{% endblock main_content %}

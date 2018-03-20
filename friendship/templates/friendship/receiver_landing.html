@@ -6,7 +6,7 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-	<form action="{% url 'friendship:place_order_process' %}" method="post">
+	<form action="{% url 'friendship:place_order_process' %}" method="post" name="order_form">
 		{% csrf_token %}
 		<div class="form-group">
 			<div class="row">
@@ -15,8 +15,12 @@
 					<input type="url" name="url" class="input form-control" id="form_url">
 				</div>
 				<div class="col-sm-6">
-					<label for="type">Type</label>
-					<input type="url" name="type" class="input form-control" id="form_type">
+					<label for="merchandise_type">Type</label>
+					<input type="text" name="merchandise_type">
+				</div>
+				<div class="col-sm-6">
+					<label for="quantity">Quantity</label>
+					<input type="text" name="quantity">
 				</div>
 			</div>
 		</div>
@@ -24,7 +28,7 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<label for="desc">Description</label>
-					<input type="text" name="desc" class="input form-control" id="form_desc" placeholder="I.e., shoe-size and color, etc">
+					<input type="textarea" name="desc" class="input form-control" id="form_desc" placeholder="I.e., shoe-size and color, etc">
 				</div>
 			</div>
 		</div>
