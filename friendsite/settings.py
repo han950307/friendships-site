@@ -27,7 +27,7 @@ SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
 DEBUG = True
 
 # WSGI_APPLICATION = "friendsite.wsgi.application"
-ALLOWED_HOSTS = ["52.14.138.237", "dev.friendships.us", "friendships.us", "www.friendships.us"]
+ALLOWED_HOSTS = ["52.14.220.60", "dev.friendships.us", "friendships.us", "www.friendships.us"]
 
 
 # Application definition
@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'friendsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendship',
+        'NAME': 'friendships',
         'USER': 'root',
-        'PASSWORD': 'friend',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'wehavepowerfulfriends',
+        'HOST': '172.31.1.244',
         'PORT': '5432',
     }
 }
