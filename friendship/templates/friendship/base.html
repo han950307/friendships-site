@@ -49,6 +49,11 @@
 						<a href="{% url 'friendship:receiver_landing' %}">Place Order</a>
 					</li>
 				{% endif %}
+				{% if request.session.is_shipper %}
+					<li>
+						<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
+					</li>
+				{% endif %}
 				<!-- Nav Item -->
 				<li>
 					<a href="page-api-docs.html">API Docs</a>

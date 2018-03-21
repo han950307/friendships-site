@@ -82,30 +82,29 @@ def place_order_process(request):
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     else:
-        return render(request, 'friendship/receiver_landing.html', {})
-    try:
-        url = request.POST['url']
-        merchandise_type = request.POST['merchandise_type']
-        quantity = int(request.POST['quantity'])
-        if (merchandise_type == "shoes"):
-            thetype = 1
+        try:
+            url = request.POST['url']
+            merchandise_type = request.POST['merchandise_type']
+            quantity = int(request.POST['quantity'])
+            if (merchandise_type == "shoes"):
+                thetype = 1
+            else:
+                thetype = 0
+            desc = request.POST['desc']
+        except (KeyError, ValueError):
+            error(request, 'You didn\'t fill out something or you' + \
+                ' didn\'t enter a value for quantity.')
+            return render(request, 'friendship/place_order.html', {})
         else:
-            thetype = 0
-        desc = request.POST['desc']
-    except (KeyError, ValueError):
-        error(request, 'You didn\'t fill out something or you' + \
-            ' didn\'t enter a value for quantity.')
-        return render(request, 'friendship/place_order.html', {})
-    else:
-        order = Order.objects.create(
-            url=url,
-            merchandise_type=thetype,
-            status=0,
-            quantity=quantity,
-            description=desc,
-            receiver=request.user,
-        )
-        return render(request, 'friendship/place_order_landing.html', {'order': order})
+            order = Order.objects.create(
+                url=url,
+                merchandise_type=thetype,
+                status=0,
+                quantity=quantity,
+                description=desc,
+                receiver=request.user,
+            )
+            return render(request, 'friendship/place_order_landing.html', {'order': order})
 
 
 def register(request):
@@ -157,9 +156,10 @@ def register_process(request):
             shipping_address=address,
             phone=phone,
             is_receiver=True,
-            is_shipper=True,
+            is_shipper=False,
             user=user
         )
+
         return redirect('friendship:login')
 
 
@@ -187,8 +187,8 @@ def login_process(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            print(request.session.__dict__)
-            request.session['logged_on'] = True
+            user_info = UserInfo.objects.get(pk=user)
+            request.session["is_shipper"] = user_info.is_shipper
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
             error(request, 'Did not find a match.')
