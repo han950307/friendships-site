@@ -38,15 +38,15 @@
 				</li>
 				<!-- Nav Item -->
 				<li>
-					<a href="#" data-scrollto="integrate">Integrate</a>
-				</li>
-				<!-- Nav Item -->
-				<li>
 					<a href="#" data-scrollto="pricing">Pricing</a>
 				</li>
 				{% if request.user.is_authenticated %}
 					<li>
 						<a href="{% url 'friendship:receiver_landing' %}">Place Order</a>
+					</li>
+					<!-- Nav Item -->
+					<li>
+						<a href="{% url 'friendship:open_orders' 'all' %}">My Orders</a>
 					</li>
 				{% endif %}
 				{% if request.session.is_shipper %}
@@ -54,13 +54,10 @@
 						<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
 					</li>
 				{% endif %}
-				<!-- Nav Item -->
-				<li>
-					<a href="page-api-docs.html">API Docs</a>
-				</li>
+
 				<!-- Nav Item -->
 				<li class="active">
-					<a href="page-contact.html">Contact</a>
+					<a href="#">Contact</a>
 				</li>
 			</ul><!--.navbar-nav -->
 		</div><!--.ui-navigation -->
