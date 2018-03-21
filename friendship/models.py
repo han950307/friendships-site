@@ -24,7 +24,7 @@ class Order(models.Model):
     An entry gets created when a receiver places an order.
     """
     url = models.URLField()
-    merchandise_type = models.TextField()
+    merchandise_type = models.IntegerField()
     # When the receiver places a request
     date_placed = models.DateTimeField(auto_now_add=True)
     # When it was delivered
@@ -83,4 +83,4 @@ class Message(models.Model):
         Order,
         on_delete=models.CASCADE,
     )
-    content = models.TextField()
+    content = models.CharField(max_length=5000)
