@@ -1,0 +1,25 @@
+{% extends "friendship/base_forms.html" %}
+{% load static %}
+
+{% block title %} Bid {% endblock title %}
+{% block title_desc %} It's easy as ship {% endblock title_desc %}
+
+{% block form %}
+	<form action="{% url 'friendship:make_bid_process' order.id %}" method="post" name="order_form">
+		{% csrf_token %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="bid_amount">Amount</label>
+					<input type="text" name="bid_amount">
+				</div>
+				<div class="col-sm-6">
+					<label for="currency">Currencty</label>
+					<input type="text" name="currency">
+				</div>
+			</div>
+		</div>
+		<br />
+		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="BID" />
+	</form>
+{% endblock form %}

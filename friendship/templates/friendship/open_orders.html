@@ -1,0 +1,22 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+{% block title %} Open Orders {{ order.id }} {% endblock title %}
+
+{% block main_content %}
+{% for order in orders %}
+	<h1> Order # {{ order.id }}</h1>
+	<p>Order Placed: {{ order.date_placed }}</p>
+	<p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
+	<p>Quantity: {{ order.quantity }}</p>
+	<p>Description: {{ order.description }}</p>
+	<p>Shipping Address: {{ order.reciever.shipping_address }}</p>
+	<p>Order Status: {{ order.status }}</p>
+	<p>Current Lowest Bid for Shipping: {{ order.min_bid }}</p>
+	<div id="make_bid_form">
+		<a href="{% url 'friendship:make_bid' order.id %}">
+			<button class="btn btn-block ui-gradient-blue">Make Bid</button>
+		</a>
+	</div>
+{% endfor %}
+{% endblock main_content %}
