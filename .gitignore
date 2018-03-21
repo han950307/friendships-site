@@ -4,3 +4,10 @@ vendor/*
 !*/migrations/__init__.py
 */__pycache__/*
 *.pyc
+friendship/.Python
+friendship/bin/*
+friendship/include/*
+.idea/*
+friendship/lib/*
+friendship/pip-selfcheck.json
+friendship/share/*
