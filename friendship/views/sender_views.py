@@ -1,4 +1,4 @@
-from ..models import UserInfo, Order, Bid
+from ..models import Order, Bid
 
 from .order_views import open_orders
 
@@ -15,11 +15,10 @@ def make_bid(request, order_id):
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
+    elif not request.session["is_shipper"]:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
     else:
-        user_info = UserInfo.objects.get(pk=request.user.id)
-        if not user_info.is_shipper:
-            error(request, 'You do not have permissions to access this page.')
-            return redirect('friendship:index')
         order = Order.objects.get(pk=order_id)
         return render(request, 'friendship/make_bid.html', {'order' : order})
 
@@ -31,12 +30,10 @@ def make_bid_process(request, order_id):
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
+    elif not request.session["is_shipper"]:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
     else:
-        user_info = UserInfo.objects.get(pk=request.user.id)
-        # Must be a shipper.
-        if not user_info.is_shipper:
-            error(request, 'You do not have permissions to access this page.')
-            return redirect('friendship:index')
         bid_amount = request.POST["bid_amount"]
         order = Order.objects.get(pk=order_id)
         Bid.objects.create(
