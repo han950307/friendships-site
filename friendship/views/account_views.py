@@ -100,9 +100,11 @@ def login_process(request):
             login(request, user)
 
             # check if the user is a shipper.
-            user = ShipperList.objects.get(pk=user)
+            user = ShipperList.objects.filter(pk=user)
             if user:
                 request.session["is_shipper"] = True
+            else:
+                request.session["is_shipper"] = False
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
             error(request, 'Did not find a match.')
