@@ -4,7 +4,7 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import UserInfo, Order, Bid
+from ..models import Order, Bid
 
 import datetime
 
@@ -33,11 +33,10 @@ def order_details(request, pk):
         return redirect('friendship:login')
     else:
         order = Order.objects.get(pk=pk)
-        receiver_info = UserInfo.objects.get(pk=order.receiver.id)
         return render(request, 'friendship/order_details.html', {
-            'order': order,
-            'receiver_info': receiver_info
+            'order': order
         })
+
 
 def open_orders(request, filter):
     """
@@ -46,12 +45,10 @@ def open_orders(request, filter):
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
+    elif not request.session["is_shipper"]:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
     else:
-        user_info = UserInfo.objects.get(pk=request.user.id)
-        if not user_info.is_shipper:
-            error(request, 'You do not have permissions to access this page.')
-            return redirect('friendship:index')
-
         # Only display orders within a day ago.
         timelim = datetime.datetime.now() - datetime.timedelta(days=1)
         qset = Order.objects.filter(date_placed__gte=timelim)

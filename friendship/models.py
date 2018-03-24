@@ -3,20 +3,34 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 # Create your models here.
-class UserInfo(models.Model):
+class ShipperList(models.Model):
     """
-    Links to the User model.
+    Contains a list of shippers.
     """
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    shipping_address = models.CharField(max_length=500)
-    phone = models.CharField(max_length=25)
-    is_receiver = models.BooleanField(default=True)
-    is_shipper = models.BooleanField(default=False)
 
+
+class ShippingAddress(models.Model):
+    """
+    Keeps track of shipping addresses for each user.
+    """
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+    )
+    address = models.CharField(max_length=1000)
+    
+    # Each shipping address should have an associated phone number.
+    phone = models.CharField(max_length=50, null=True)
+
+    # Will be referencing an enum for sender_address, receiver_address.
+    address_type = models.IntegerField()
+
+    primary = models.BooleanField()
 
 
 class Order(models.Model):
@@ -38,9 +52,20 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    shipper_address = models.ForeignKey(
+        ShippingAddress,
+        related_name="shipper_address",
+        on_delete=models.SET_NULL,
+        null=True
+    )
     receiver = models.ForeignKey(
         User,
         related_name="receiver",
+        on_delete=models.CASCADE,
+    )
+    receiver_address = models.ForeignKey(
+        ShippingAddress,
+        related_name="receiver_address",
         on_delete=models.CASCADE,
     )
 

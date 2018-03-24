@@ -32,6 +32,20 @@
 				</div>
 			</div>
 		</div>
+		{% if not address %}
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="desc">Shipping Address</label>
+					<input type="text" name="shipping_address" class="input form-control" id="form_desc" placeholder="Write your full address here.">
+				</div>
+				<div class="col-sm-6">
+					<label for="desc">Phone</label>
+					<input type="text" name="shipping_address" class="input form-control" id="form_desc" placeholder="phone number here.">
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		<br />
 		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
 	</form>

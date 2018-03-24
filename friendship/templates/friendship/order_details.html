@@ -9,6 +9,6 @@
 <p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
 <p>Quantity: {{ order.quantity }}</p>
 <p>Description: {{ order.description }}</p>
-<p>Shipping Address: {{ order.reciever.shipping_address }}</p>
+<p>Shipping Address: {{ order.reciever_address.address }}</p>
 <p>Order Status: {{ order.status }}</p>
 {% endblock main_content %}

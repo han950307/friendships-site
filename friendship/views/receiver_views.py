@@ -5,7 +5,7 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import Order
+from ..models import Order, ShippingAddress
 
 def receiver_landing_view(request):
     """
@@ -15,7 +15,17 @@ def receiver_landing_view(request):
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     else:
-        return render(request, 'friendship/receiver_landing.html', {})
+
+        primary_address = ShippingAddress.objects.filter(
+            user=request.user
+        ).filter(
+            primary=True
+        )
+        if primary_address:
+            address = primary_address[0]
+        else:
+            address = None
+        return render(request, 'friendship/receiver_landing.html', {'address': address})
 
 
 def place_order_process(request):
@@ -41,6 +51,31 @@ def place_order_process(request):
                 ' didn\'t enter a value for quantity.')
             return render(request, 'friendship/place_order.html', {})
         else:
+            # TODO should change this to receiver's choice
+            primary_address = ShippingAddress.objects.filter(
+                user=request.user
+            ).filter(
+                primary=True
+            )
+            # TODO add an exception for no primary address.
+
+            if not primary_address:
+                try:
+                    shipping_address = request.POST['shipping_address']
+                    phone = int(request.POST['phone'])
+                except KeyError:
+                    error(request, 'You didn\'t fill out something')
+                    return render(request, 'friendship/place_order.html', {})
+                address = ShippingAddress.objects.create(
+                    user=request.user,
+                    address=address,
+                    phone=phone,
+                    address_type=0,
+                    primary=True,
+                )
+            else:
+                address = primary_address[0]
+
             order = Order.objects.create(
                 url=url,
                 merchandise_type=thetype,
@@ -48,5 +83,6 @@ def place_order_process(request):
                 quantity=quantity,
                 description=desc,
                 receiver=request.user,
+                receiver_address=address,
             )
             return render(request, 'friendship/place_order_landing.html', {'order': order})

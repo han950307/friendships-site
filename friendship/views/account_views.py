@@ -14,7 +14,7 @@ from django.shortcuts import (
 )
 from django.urls import reverse
 
-from ..models import UserInfo
+from ..models import ShippingAddress, ShipperList
 
 import re
 
@@ -63,13 +63,12 @@ def register_process(request):
         user.is_active = True
         user.save()
 
-        user_id = user.id
-        user_info = UserInfo.objects.create(
-            shipping_address=address,
+        shipping_address = ShippingAddress.objects.create(
+            user=user,
+            address=address,
             phone=phone,
-            is_receiver=True,
-            is_shipper=False,
-            user=user
+            address_type=0,
+            primary=True,
         )
 
         return redirect('friendship:login')
@@ -99,8 +98,13 @@ def login_process(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            user_info = UserInfo.objects.get(pk=user)
-            request.session["is_shipper"] = user_info.is_shipper
+
+            # check if the user is a shipper.
+            user = ShipperList.objects.filter(pk=user)
+            if user:
+                request.session["is_shipper"] = True
+            else:
+                request.session["is_shipper"] = False
             return HttpResponseRedirect(reverse('friendship:index'))
         else:
             error(request, 'Did not find a match.')
