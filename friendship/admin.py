@@ -5,7 +5,8 @@ from .models import (
 	Order,
 	Bid,
 	Image,
-	Message
+	Message,
+	OrderAction
 )
 
 
@@ -16,3 +17,4 @@ admin.site.register(Order)
 admin.site.register(Bid)
 admin.site.register(Image)
 admin.site.register(Message)
+admin.site.register(OrderAction)

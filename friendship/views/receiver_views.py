@@ -5,7 +5,13 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import Order, ShippingAddress
+from ..models import (
+    Order,
+    ShippingAddress,
+    OrderAction
+)
+
+import datetime
 
 def receiver_landing_view(request):
     """
@@ -41,10 +47,11 @@ def place_order_process(request):
             url = request.POST['url']
             merchandise_type = request.POST['merchandise_type']
             quantity = int(request.POST['quantity'])
+            bid_time = int(request.POST['bid_time'])
             if (merchandise_type == "shoes"):
-                thetype = 1
+                thetype = Order.MerchandiseType.SHOES
             else:
-                thetype = 0
+                thetype = Order.MerchandiseType.OTHER
             desc = request.POST['desc']
         except (KeyError, ValueError):
             error(request, 'You didn\'t fill out something or you' + \
@@ -57,8 +64,8 @@ def place_order_process(request):
             ).filter(
                 primary=True
             )
-            # TODO add an exception for no primary address.
 
+            # If primary address does not exist, make them add one.
             if not primary_address:
                 try:
                     shipping_address = request.POST['shipping_address']
@@ -70,19 +77,31 @@ def place_order_process(request):
                     user=request.user,
                     address=address,
                     phone=phone,
-                    address_type=0,
+                    address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
                     primary=True,
                 )
             else:
                 address = primary_address[0]
 
+            # Calculate end time
+            now = datetime.datetime.now()
+            bid_end_datetime = now + datetime.timedelta(hours=bid_time)
+
+            # Make Order
             order = Order.objects.create(
                 url=url,
                 merchandise_type=thetype,
-                status=0,
                 quantity=quantity,
                 description=desc,
                 receiver=request.user,
                 receiver_address=address,
+                bid_end_datetime=bid_end_datetime,
             )
+
+            # Add order action
+            action = OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.ORDER_PLACED,
+            )
+
             return render(request, 'friendship/place_order_landing.html', {'order': order})

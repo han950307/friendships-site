@@ -29,7 +29,6 @@ DEBUG = True
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = ["18.188.123.79", "friendships.us", "www.friendships.us", "127.0.0.1"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -80,12 +80,20 @@ WSGI_APPLICATION = 'friendsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendships',
+        'NAME': 'friendship',
         'USER': 'root',
-        'PASSWORD': 'togetheragain',
-        'HOST': '13.58.205.194',
+        'PASSWORD': 'friend',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'friendships',
+    #     'USER': 'root',
+    #     'PASSWORD': 'togetheragain',
+    #     'HOST': '13.58.205.194',
+    #     'PORT': '5432',
+    # }
 }
 
 
@@ -105,6 +113,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+CRONJOBS = [
+    ('*/1 * * * *', 'friendsite.friendship.order_bid_update')
 ]
 
 # Internationalization

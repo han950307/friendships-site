@@ -4,7 +4,11 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import Order, Bid
+from ..models import (
+    Order,
+    Bid,
+    OrderAction,
+)
 
 import datetime
 
@@ -13,14 +17,15 @@ import datetime
 
 def get_min_bid(order):
     """
-    Given an order, returns the min bid.
+    Given an order, returns the min bid object.
     """
     bids = Bid.objects.filter(order=order)
-    min_arr = [x.bid_amount for x in bids]
-    if min_arr:
-        min_bid = min(min_arr)
+    min_tups = [(x.bid_amount, x) for x in bids]
+    if min_tups:
+        min_bid = min(min_tups)
+        min_bid = min_bid[1]
     else:
-        min_bid = "No current bids"
+        min_bid = None
     return min_bid
 
 
@@ -33,8 +38,13 @@ def order_details(request, pk):
         return redirect('friendship:login')
     else:
         order = Order.objects.get(pk=pk)
+        actions = OrderAction.objects.filter(order=pk)
+        for action in actions:
+            if not action.text:
+                action.text = OrderAction.Action(action.action)
         return render(request, 'friendship/order_details.html', {
-            'order': order
+            'order': order,
+            'actions': actions,
         })
 
 
@@ -55,7 +65,11 @@ def open_orders(request, filter):
 
         # Get minimum bid.
         for order in qset:
-            order.min_bid = get_min_bid(order)
+            min_bid = get_min_bid(order)
+            if not min_bid:
+                order.min_bid = "No current bids"
+            else:
+                order.min_bid = min_bid
 
         return render(request, 'friendship/open_orders.html', {
             'orders': qset
