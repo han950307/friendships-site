@@ -11,7 +11,7 @@ from ..models import (
     OrderAction
 )
 
-import datetime
+import datetime, pytz
 
 def receiver_landing_view(request):
     """
@@ -84,7 +84,7 @@ def place_order_process(request):
                 address = primary_address[0]
 
             # Calculate end time
-            now = datetime.datetime.now()
+            now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
             bid_end_datetime = now + datetime.timedelta(hours=bid_time)
 
             # Make Order

@@ -1,15 +1,16 @@
 """
 A file containing all cronjobs.
 """
-from models import (
+from friendship.models import (
     Order,
     ShippingAddress,
     Bid,
     OrderAction
 )
-from views.order_views import get_min_bid
+from friendship.views.order_views import get_min_bid
 
 import datetime
+import pytz
 
 
 def order_bid_update():
@@ -19,7 +20,7 @@ def order_bid_update():
 	# first filter to see all objects with orders without a shipper that has
 	# no more bidtime left.
 	orders = Order.objects.filter(
-		bid_end_datetime__lte=datetime.datetime.now()
+		bid_end_datetime__lte=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
 	).filter(
 		shipper=None
 	)

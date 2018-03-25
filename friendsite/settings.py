@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CRONJOBS = [
-    ('*/1 * * * *', 'friendsite.friendship.order_bid_update')
+    ('*/1 * * * *', 'friendship.cron.order_bid_update'),
 ]
 
 # Internationalization
@@ -124,7 +124,7 @@ CRONJOBS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
