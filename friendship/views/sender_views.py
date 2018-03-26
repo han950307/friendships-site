@@ -1,6 +1,6 @@
 from ..models import Order, Bid
 
-from .order_views import open_orders
+from .order_views import all_open_orders
 
 from django.contrib.messages import error
 from django.shortcuts import (
@@ -43,5 +43,5 @@ def make_bid_process(request, order_id):
         )
 
         # Just return another view after processing it.
-        return open_orders(request, "recent")
+        return all_open_orders(request, "recent")
 

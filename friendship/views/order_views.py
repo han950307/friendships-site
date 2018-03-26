@@ -4,7 +4,9 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import Order, Bid
+from django.contrib.auth.models import User
+
+from ..models import Order, Bid, ShippingAddress
 
 import datetime
 
@@ -38,7 +40,7 @@ def order_details(request, pk):
         })
 
 
-def open_orders(request, filter):
+def all_open_orders(request, filter):
     """
     View currently open orders.
     """
@@ -57,7 +59,23 @@ def open_orders(request, filter):
         for order in qset:
             order.min_bid = get_min_bid(order)
 
-        return render(request, 'friendship/open_orders.html', {
+        return render(request, 'friendship/all_open_orders.html', {
             'orders': qset
         })
 
+
+def user_open_orders(request):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        qset = Order.objects.filter(receiver=request.user)
+        return render(request, 'friendship/user_open_orders.html', {
+            'orders': qset
+        })
+
+def match_bid(orderID, bidID):
+    order = Order.objects.get(pk=orderID)
+    bid = Bid.ojects.get(pk=bidID)
+    order.shipper = bid.shipper
+    order.shipper_address = ShippingAddress.objects.get(fk=bid.shipper).address
