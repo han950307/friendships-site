@@ -67,7 +67,7 @@ def register_process(request):
             user=user,
             address=address,
             phone=phone,
-            address_type=0,
+            address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
             primary=True,
         )
 

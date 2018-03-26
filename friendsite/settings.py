@@ -29,7 +29,6 @@ DEBUG = True
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = ["18.188.123.79", "friendships.us", "www.friendships.us", "127.0.0.1"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -80,12 +80,20 @@ WSGI_APPLICATION = 'friendsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendships',
+        'NAME': 'friendship',
         'USER': 'root',
-        'PASSWORD': 'togetheragain',
-        'HOST': '13.58.205.194',
+        'PASSWORD': 'friend',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'friendships',
+    #     'USER': 'root',
+    #     'PASSWORD': 'togetheragain',
+    #     'HOST': '13.58.205.194',
+    #     'PORT': '5432',
+    # }
 }
 
 
@@ -107,12 +115,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRONJOBS = [
+    ('*/1 * * * *', 'friendship.cron.order_bid_update'),
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -124,7 +136,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+STATIC_ROOT = 'friendship/static/friendship/'
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'friendship/media/friendship/'
+MEDIA_URL = '/media/'
 
 EMAIL_HOST = '23.21.52.192'
 EMAIL_HOST_USER = 'AKIAJGV6EBDOMNUSNNXA'

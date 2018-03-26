@@ -1,0 +1,21 @@
+{% extends "friendship/base_forms.html" %}
+{% load static %}
+
+{% block title %} Upload Bank Note {% endblock title %}
+{% block title_desc %}
+   This is where you upload your bank note for order <a href="{% url 'friendship:order_details' order.id %}"> # {{ order.id }} </a>
+{% endblock title_desc %}
+
+{% block form %}
+   <form name = "form" enctype = "multipart/form-data" 
+      action = "{% url 'friendship:upload_picture_process' order.id %}" method = "POST" >
+      {% csrf_token %}
+      <div style = "max-width:470px;">
+         <center> 
+            <input type = "file" style = "margin-left:20%;" 
+               placeholder = "Picture" name = "picture" />
+         </center>
+      </div>
+      <input type="submit" value="submit">
+   </form>
+{% endblock form %}
