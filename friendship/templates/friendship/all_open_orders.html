@@ -11,7 +11,7 @@
 	<p>Quantity: {{ order.quantity }}</p>
 	<p>Description: {{ order.description }}</p>
 	<p>Shipping Address: {{ order.reciever.shipping_address }}</p>
-<!-- ^^^ this is dangerous, don't let shippers people see all addresses-->
+<!-- ^^^ this is dangerous, don't let shippers see all addresses.-->
 	<p>Order Status: {{ order.status }}</p>
 	<p>Current Lowest Bid for Shipping: {{ order.min_bid }}</p>
 	<div id="make_bid_form">

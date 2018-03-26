@@ -6,7 +6,7 @@ from django.shortcuts import (
 
 from django.contrib.auth.models import User
 
-from ..models import Order, Bid, ShippingAddress
+from ..models import Order, Bid, ShippingAddress, Message
 
 import datetime
 
@@ -35,10 +35,14 @@ def order_details(request, pk):
         return redirect('friendship:login')
     else:
         order = Order.objects.get(pk=pk)
+        if order.receiver != request.user and order.shipper != request.user:
+            error(request, 'You\'ve got the wrong user')
+            return redirect('friendship:index')
+        messages = Message.objects.filter(transaction=order)
         return render(request, 'friendship/order_details.html', {
-            'order': order
+            'order': order,
+            'messages': messages,
         })
-
 
 def all_open_orders(request, filter):
     """
