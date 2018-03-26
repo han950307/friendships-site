@@ -5,13 +5,68 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import (
+from friendship.models import (
     Order,
     ShippingAddress,
-    OrderAction
+    OrderAction,
+    Image
+)
+
+from friendship.forms import (
+    UploadPictureForm
 )
 
 import datetime, pytz
+
+
+def upload_picture_view(request, order_id):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    else:
+        orders = Order.objects.filter(pk=order_id)
+
+        # if multiple orders or no order found with that id.
+        if len(orders) != 1:
+            error(request, 'Order not found')
+            return redirect('friendship:receiver_landing')
+        else:
+            order = orders[0]
+            return render(
+                request,
+                'friendship/upload_picture.html',
+                {'order': order}
+            )
+
+
+def upload_picture_process(request, order_id):
+    if not request.user.is_authenticated:
+        error(request, 'You must login first to access this page.')
+        return redirect('friendship:login')
+    elif request.method == "POST":
+        form = UploadPictureForm(request.POST, request.FILES)
+        order = Order.objects.get(pk=order_id)
+
+        if form.is_valid():
+            image = Image.objects.create(
+                user=request.user,
+                order=order,
+                image=form.cleaned_data["picture"],
+                mimetype="0",
+                image_type="0"
+            )
+            OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.BANKNOTE_UPLOADED
+            )
+            return redirect('friendship:order_details', pk=order_id)
+        else:
+            error(request, 'Bad image')
+            return redirect('friendship:upload_picture_view', order_id=order_id)
+    else:
+        error(request, 'Must be a post request')
+        return redirect('friendship:order_details', pk=order_id)
+
 
 def receiver_landing_view(request):
     """

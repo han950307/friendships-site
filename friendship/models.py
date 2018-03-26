@@ -98,6 +98,7 @@ class OrderAction(models.Model):
         ORDER_PLACED = 0
         MATCH_FOUND = 1
         PRICE_CONFIRMED = 2
+        BANKNOTE_UPLOADED = 5
         PAYMENT_RECEIVED = 3
         ORDER_FULFILLED = 4
 

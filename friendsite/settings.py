@@ -136,7 +136,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+STATIC_ROOT = 'friendship/static/friendship/'
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'friendship/media/friendship/'
+MEDIA_URL = '/media/'
 
 EMAIL_HOST = '23.21.52.192'
 EMAIL_HOST_USER = 'AKIAJGV6EBDOMNUSNNXA'
