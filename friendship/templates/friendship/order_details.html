@@ -13,5 +13,23 @@
 <p>Order Status: {{ order.status }}</p>
 <p>Messages</p>
 
+{% for message in messages %}
+<p>{{message.content}}</p>
+{% endfor %}
+
+<form action="{% url 'friendship:send_message' order.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_message">Message</label>
+                <input type="text" name="message" class="input form-control" id="form_message">
+                <br />
+                <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Send" />
+            </div>
+        </div>
+    </div>
+</form>
+
 
 {% endblock main_content %}

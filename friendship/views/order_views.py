@@ -39,9 +39,14 @@ def order_details(request, pk):
             error(request, 'You\'ve got the wrong user')
             return redirect('friendship:index')
         messages = Message.objects.filter(transaction=order)
+        # authors = {}
+        # if User.objects.get(order.shipper) is not None:
+        #     authors[order.shipper] = User.objects.get(order.shipper).first_name
+        # authors[order.receiver] = User.objects.get(order.receiver).first_name
         return render(request, 'friendship/order_details.html', {
             'order': order,
             'messages': messages,
+            # 'shipper': authors,
         })
 
 def all_open_orders(request, filter):

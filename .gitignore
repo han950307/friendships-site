@@ -11,3 +11,4 @@ friendship/include/*
 friendship/lib/*
 friendship/pip-selfcheck.json
 friendship/share/*
+.DS_Store

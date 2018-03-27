@@ -36,4 +36,5 @@ urlpatterns = [
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
     path('testing/', views.testing, name='testing'),
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
+    path('user_open_orders', views.send_message, name='send_message')
 ]
