@@ -20,7 +20,8 @@ import re
 
 
 def get_username_from_email(email):
-    return re.sub(r"@|\.", r"", email)
+    # return re.sub(r"@|\.", r"", email)
+    return email
 
 
 def register(request):

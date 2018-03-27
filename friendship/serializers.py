@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import (
     User,
 )
@@ -72,10 +73,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
 	class Meta:
-		models = Message
+		model = Message
 		fields = (
 			'id',
 			'date_sent',
 			'transaction',
 			'content',
+		)
+
+
+class TokenSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Token
+		fields = (
+			'user_id',
+			'key',
 		)

@@ -46,6 +46,7 @@ urlpatterns = [
     # API Views
     path('users/', views.UserList.as_view(), name="list_users"),
     path('users/<int:pk>', views.UserDetail.as_view(), name="get_user_data"),
+    path('api/request_auth_token/', views.request_auth_token, name="request_auth_token"),
 
     # Other views
     path('testing/', views.testing, name='testing'),
