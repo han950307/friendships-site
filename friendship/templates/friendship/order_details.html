@@ -2,6 +2,7 @@
 {% load static %}
 
 
+
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
 {% block main_content %}
@@ -17,7 +18,7 @@
 <p>{{message.content}}</p>
 {% endfor %}
 
-<form action="{% url 'friendship:send_message' order.id %}" method="post">
+<form action="{% url 'friendship:send_message' order.id%}" method="post">
     {% csrf_token %}
     <div class="form-group">
         <div class="row">

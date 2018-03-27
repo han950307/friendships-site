@@ -1,4 +1,5 @@
 
+from django.http import HttpResponse
 
 from django.contrib.messages import error
 from django.shortcuts import (
@@ -6,24 +7,26 @@ from django.shortcuts import (
     redirect,
 )
 
-from ..models import Message
+from .order_views import order_details
 
+from ..models import (
+    Message,
+    Order,
+)
 
-def send_message(request, orderID, asdf):
+def send_message(request, orderID):
     """
-    Process registration and put user data into the database.
+    Send message
     """
-    # Trying to get the items.
-    print("MADE IT HERE")
     try:
         text = request.POST['message']
     except KeyError:
         error(request, 'You did not fill out a field.')
-        return redirect('friendship:index')
+        return order_details(request, orderID)
     else:
         message = Message.objects.create(
             author=request.user,
-            transaction=orderID,
+            transaction=Order.objects.get(pk=orderID),
             content=text,
         )
-        return redirect('friendship:index')
+        return order_details(request, orderID)

@@ -39,14 +39,9 @@ def order_details(request, pk):
             error(request, 'You\'ve got the wrong user')
             return redirect('friendship:index')
         messages = Message.objects.filter(transaction=order)
-        # authors = {}
-        # if User.objects.get(order.shipper) is not None:
-        #     authors[order.shipper] = User.objects.get(order.shipper).first_name
-        # authors[order.receiver] = User.objects.get(order.receiver).first_name
         return render(request, 'friendship/order_details.html', {
             'order': order,
             'messages': messages,
-            # 'shipper': authors,
         })
 
 def all_open_orders(request, filter):
@@ -78,7 +73,7 @@ def user_open_orders(request):
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     else:
-        qset = Order.objects.filter(receiver=request.user)
+        qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
         return render(request, 'friendship/user_open_orders.html', {
             'orders': qset
         })
