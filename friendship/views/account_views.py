@@ -19,6 +19,10 @@ from ..models import ShippingAddress, ShipperList
 import re
 
 
+def get_username_from_email(email):
+    return re.sub(r"@|\.", r"", email)
+
+
 def register(request):
     """
     Load the registration page
@@ -43,7 +47,7 @@ def register_process(request):
         return render(request, 'friendship/register.html', {})
     else:
         # hack for generating a username from email.
-        uname = re.sub(r"@|\.", r"", email)
+        uname = get_username_from_email(email)
 
         # Check whether this email exists in the database already.
         obj = User.objects.filter(username=uname)
@@ -87,7 +91,7 @@ def login_process(request):
     """
     try:
         # hack for generating a username from email
-        username = re.sub(r"@|\.", r"", request.POST['email'])
+        username = get_username_from_email(request.POST['email'])
         password = request.POST['password']
     except KeyError:
         return render(request, 'friendship/login.html', {
