@@ -39,10 +39,15 @@ def order_details(request, pk):
             error(request, 'You\'ve got the wrong user')
             return redirect('friendship:index')
         messages = Message.objects.filter(transaction=order)
+        first = 0
+        if len(messages) != 0:
+            first = messages.first().pk
         return render(request, 'friendship/order_details.html', {
             'order': order,
             'messages': messages,
+            'first': 0,
         })
+
 
 def all_open_orders(request, filter):
     """
@@ -77,6 +82,7 @@ def user_open_orders(request):
         return render(request, 'friendship/user_open_orders.html', {
             'orders': qset
         })
+
 
 def match_bid(orderID, bidID):
     order = Order.objects.get(pk=orderID)

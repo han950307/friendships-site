@@ -31,6 +31,7 @@ urlpatterns = [
     path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
     path('place_order_process/', views.place_order_process, name='place_order_process'),
     path('order_details/<int:orderID>', views.send_message, name='send_message'),
+    path('testing/<int:orderID>', views.sync_message, name='sync_message'),
     path('order_details/<int:pk>', views.order_details, name='order_details'),
     path('all_open_orders/<str:filter>', views.all_open_orders, name='all_open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
