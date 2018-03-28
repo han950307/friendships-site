@@ -137,16 +137,6 @@ def auth_token_line_is_valid(request):
 def request_auth_token_line(request):
 	is_valid, response_dict = auth_token_line_is_valid(request)
 	if is_valid:
-		request_str = "https://api.line.me/oauth2/v2.1/token?" + \
-					"input_token={}" \
-					.format(
-						requests.utils.quote(user_token)
-					)
-		if request.method == "POST":
-			user_id = request.data["user_id"]
-		if request.method == "GET":
-			user_id = request.GET["user_id"]
-
 		queryset = None
 		client_id = str(response_dict["client_id"])
 		if client_id != CLIENT_ID_LINE:
