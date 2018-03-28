@@ -295,6 +295,14 @@ class CreateUser(generics.CreateAPIView):
 			token_valid, response_dict = auth_token_line_is_valid(request)
 		elif social_auth == "none":
 			token_valid = True
+		else:
+			return Response(
+				{
+					"message": "You did not choose a valid social_auth"
+				},
+				status=status.HTTP_400_BAD_REQUEST,
+
+			)
 
 		if not token_valid:
 			return Response(
