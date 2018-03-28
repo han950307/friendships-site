@@ -1,24 +1,24 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import (
-    User,
+	User,
 )
 from friendship.models import (
-    ShipperList,
-    ShippingAddress,
-    Order,
-    OrderAction,
-    Bid,
-    Image,
-    Message,
+	ShipperList,
+	ShippingAddress,
+	Order,
+	OrderAction,
+	Bid,
+	Image,
+	Message,
 )
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'email', 'first_name', 'last_name')
-        read_only_fields = ('id',)
+	class Meta:
+		model = User
+		fields = ('id', 'email', 'first_name', 'last_name')
+		read_only_fields = ('id',)
 
 
 class ShippingAddressSerializer(serializers.ModelSerializer):
@@ -27,24 +27,28 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ShippingAddress
 		fields = ('id', 'user', 'address', 'phone', 'address_type', 'primary')
+		read_only_fields = ('id',)
 
 
 class OrderActionSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = OrderAction
 		fields = ('id', 'order', 'action', 'date_placed', 'text')
+		read_only_fields = ('id',)
 
 
 class BidSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Bid
 		fields = ('id', 'bid_shipper', 'order', 'date_placed', 'bid_amount')
+		read_only_fields = ('id',)
 
 
 class ImageSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Image
 		fields = ('id', 'date_uploaded', 'user', 'order', 'image', 'mimetype', 'image_type')
+		read_only_fields = ('id',)
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -70,6 +74,7 @@ class OrderSerializer(serializers.ModelSerializer):
 			'receiver_address',
 			'actions',
 		)
+		read_only_fields = ('id',)
 
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -81,6 +86,7 @@ class MessageSerializer(serializers.ModelSerializer):
 			'transaction',
 			'content',
 		)
+		read_only_fields = ('id',)
 
 
 class TokenSerializer(serializers.ModelSerializer):
@@ -90,3 +96,4 @@ class TokenSerializer(serializers.ModelSerializer):
 			'user_id',
 			'key',
 		)
+		read_only_fields = ('user_id', 'key')
