@@ -157,7 +157,7 @@ def request_auth_token_line(request):
 		)
 
 
-def request_auth_token_facebook(request):
+def auth_token_facebook_is_valid(request):
 	user_token = request.GET["user_token"]
 	social_auth = request.GET["social_auth"]
 	request_str = "https://graph.facebook.com/debug_token?" + \
@@ -172,10 +172,14 @@ def request_auth_token_facebook(request):
 	response_dict = json.loads(response.content)
 
 	# Do this if user_auth_token is valid
-	if (response.status_code == status.HTTP_200_OK \
-			and response_dict["data"]["is_valid"]) \
-			or True:
-		print(response.content)
+	if (response.status_code == status.HTTP_200_OK) and response_dict["data"]["is_valid"]:
+		return True
+	else:
+		return False
+
+
+def request_auth_token_facebook(request):
+	if auth_token_facebook_is_valid(request):
 		queryset = User.objects.filter(email=email)
 		
 		# raise 404 if the user is not found with the email.
@@ -252,7 +256,7 @@ class CreateUser(generics.CreateAPIView):
 
 		# is a passord present?
 		try:
-			password = request.POST['password']
+			password = request.data['password']
 		# if no pass, then generate a random pass and let user change it later if need to.
 		except KeyError:
 			password = "".join([
