@@ -200,6 +200,8 @@ def auth_token_facebook_is_valid(request):
 				{"message": "All the fields have to be filled out"},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
+
+	print(user_token)
 	request_str = "https://graph.facebook.com/debug_token?" + \
 				"input_token={}&access_token={}" \
 				.format(
@@ -303,6 +305,8 @@ class CreateUser(generics.CreateAPIView):
 				},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
+		elif type(token_valid) == Response:
+			return token_valid
 
 		# return bad request response if it's not valid.
 		if serialized.is_valid():
