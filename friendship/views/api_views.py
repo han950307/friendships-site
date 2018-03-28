@@ -106,15 +106,25 @@ def make_token_for_user(request, user):
 
 
 def auth_token_line_is_valid(request):
-	user_token = request.GET["user_token"]
-	social_auth = request.GET["social_auth"]
+	try:
+		if request.method == "POST":
+			user_token = request.data["user_token"]
+			social_auth = request.data["social_auth"]
+			user_id = request.data["user_id"]
+		if request.method == "GET":
+			user_token = request.GET["user_token"]
+			social_auth = request.GET["social_auth"]
+			user_id = request.GET["user_id"]
+	except KeyError:
+			return Response(
+				{"message": "All the fields have to be filled out"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 	request_str = "https://api.line.me/oauth2/v2.1/token?" + \
 				"input_token={}" \
 				.format(
 					requests.utils.quote(user_token)
 				)
-	user_id = request.GET["user_id"]
-
 	response = requests.get(request_str)
 	response_dict = json.loads(response.content)
 
@@ -131,6 +141,11 @@ def request_auth_token_line(request):
 					.format(
 						requests.utils.quote(user_token)
 					)
+		if request.method == "POST":
+			user_id = request.data["user_id"]
+		if request.method == "GET":
+			user_id = request.GET["user_id"]
+
 		response = requests.get(request_str)
 		response_dict = json.loads(response.content)
 
@@ -173,14 +188,24 @@ def request_auth_token_line(request):
 
 
 def auth_token_facebook_is_valid(request):
-	user_token = request.GET["user_token"]
+	try:
+		if request.method == "POST":
+			user_token = request.data["user_token"]
+			email = request.data["email"]
+		if request.method == "GET":
+			user_token = request.GET["user_token"]
+			email = request.GET["email"]
+	except KeyError:
+			return Response(
+				{"message": "All the fields have to be filled out"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 	request_str = "https://graph.facebook.com/debug_token?" + \
 				"input_token={}&access_token={}" \
 				.format(
 					requests.utils.quote(user_token),
 					requests.utils.quote(ACCESS_TOKEN_FACEBOOK)
 				)
-	email = request.GET["email"]
 
 	response = requests.get(request_str)
 	response_dict = json.loads(response.content)
@@ -194,6 +219,10 @@ def auth_token_facebook_is_valid(request):
 
 def request_auth_token_facebook(request):
 	if auth_token_facebook_is_valid(request):
+		if request.method == "POST":
+			email = request.data["email"]
+		if request.method == "GET":
+			email = request.GET["email"]
 		queryset = User.objects.filter(email=email)
 		
 		# raise 404 if the user is not found with the email.
@@ -263,6 +292,8 @@ class CreateUser(generics.CreateAPIView):
 			token_valid = auth_token_facebook_is_valid(request)
 		elif social_auth == "line":
 			token_valid = auth_token_line_is_valid(request)
+		elif social_auth == "none":
+			token_valid = True
 
 		if not token_valid:
 			return Response(
