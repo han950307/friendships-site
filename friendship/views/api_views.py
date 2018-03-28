@@ -105,7 +105,7 @@ def make_token_for_user(request, user):
 	)
 
 
-def request_auth_token_line(request):
+def auth_token_line_is_valid(request):
 	user_token = request.GET["user_token"]
 	social_auth = request.GET["social_auth"]
 	request_str = "https://api.line.me/oauth2/v2.1/token?" + \
@@ -118,7 +118,22 @@ def request_auth_token_line(request):
 	response = requests.get(request_str)
 	response_dict = json.loads(response.content)
 
-	if response.status_code == status.HTTP_200_OK or True:
+	if response.status_code == status.HTTP_200_OK:
+		return True
+	else:
+		return False
+
+
+def request_auth_token_line(request):
+	if auth_token_line_is_valid(request):
+		request_str = "https://api.line.me/oauth2/v2.1/token?" + \
+					"input_token={}" \
+					.format(
+						requests.utils.quote(user_token)
+					)
+		response = requests.get(request_str)
+		response_dict = json.loads(response.content)
+
 		queryset = None
 		client_id = str(response_dict["client_id"])
 		if client_id != CLIENT_ID_LINE:
@@ -159,7 +174,6 @@ def request_auth_token_line(request):
 
 def auth_token_facebook_is_valid(request):
 	user_token = request.GET["user_token"]
-	social_auth = request.GET["social_auth"]
 	request_str = "https://graph.facebook.com/debug_token?" + \
 				"input_token={}&access_token={}" \
 				.format(
@@ -239,6 +253,23 @@ class CreateUser(generics.CreateAPIView):
 		except KeyError:
 			return Response(
 				{"message": "All the fields have to be filled out"},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
+
+
+		# make sure auth tokens are valid for social auth.
+		token_valid = False
+		if social_auth == "facebook":
+			token_valid = auth_token_facebook_is_valid(request)
+		elif social_auth == "line":
+			token_valid = auth_token_line_is_valid(request)
+
+		if not token_valid:
+			return Response(
+				{
+					"message": "User auth key was invalid or bad.",
+					"data_from_social_auth": response_dict,
+				},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 
