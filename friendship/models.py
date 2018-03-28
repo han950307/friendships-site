@@ -159,3 +159,13 @@ class Message(models.Model):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=5000)
+
+
+class LineUser(models.Model):
+    line_user_id = models.CharField(max_length=200, unique=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        related_name="line_user_id",
+    )

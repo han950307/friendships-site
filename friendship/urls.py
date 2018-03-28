@@ -44,9 +44,16 @@ urlpatterns = [
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
 
     # API Views
-    path('users/', views.UserList.as_view(), name="list_users"),
-    path('users/<int:pk>', views.UserDetail.as_view(), name="get_user_data"),
+    path('api/user/<int:pk>', views.UserDetail.as_view(), name="user_data"),
+    path('api/order/<int:pk>', views.OrderDetail.as_view(), name="order_data"),
+    path('api/orderaction/<int:pk>', views.OrderActionDetail.as_view(), name="order_action_data"),
+    path('api/shippingaddress/<int:pk>', views.ShippingAddressDetail.as_view(), name="shipping_address_data"),
+    path('api/bid/<int:pk>', views.BidDetail.as_view(), name="bid_data"),
+    path('api/image/<int:pk>', views.ImageDetail.as_view(), name="image_data"),
+    path('api/message/<int:pk>', views.MessageDetail.as_view(), name="message_data"),
+
     path('api/request_auth_token/', views.request_auth_token, name="request_auth_token"),
+    path('api/accounts/create_user/', views.CreateUser.as_view(), name="create_user"),
 
     # Other views
     path('testing/', views.testing, name='testing'),

@@ -69,6 +69,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '35/second',
+        # 'user': '300/second'
+    }
 }
 
 TEMPLATES = [
@@ -162,4 +170,5 @@ EMAIL_HOST_USER = 'AKIAJGV6EBDOMNUSNNXA'
 EMAIL_HOST_PASSWORD = 'AhrS5tvKP2jX7yb+Fmsl7CZOu2zACLj+ZnrLgoDZZRE/'
 EMAIL_USE_TLS = True
 
-ACCESS_TOKEN_FACEBOOK = "148610779299581|W2PRUEdmEHALXDv8JWpVayJo3C8"
+ACCESS_TOKEN_FACEBOOK = "113952869449776|ViUDAV41AijN5pEhKC6RGhyiWsY"
+CLIENT_ID_LINE = "1569916870"
