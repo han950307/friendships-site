@@ -129,13 +129,14 @@ def auth_token_line_is_valid(request):
 	response_dict = json.loads(response.content)
 
 	if response.status_code == status.HTTP_200_OK:
-		return True
+		return True, response_dict
 	else:
-		return False
+		return False, response_dict
 
 
 def request_auth_token_line(request):
-	if auth_token_line_is_valid(request):
+	is_valid, response_dict = auth_token_line_is_valid(request)
+	if is_valid:
 		request_str = "https://api.line.me/oauth2/v2.1/token?" + \
 					"input_token={}" \
 					.format(
@@ -145,9 +146,6 @@ def request_auth_token_line(request):
 			user_id = request.data["user_id"]
 		if request.method == "GET":
 			user_id = request.GET["user_id"]
-
-		response = requests.get(request_str)
-		response_dict = json.loads(response.content)
 
 		queryset = None
 		client_id = str(response_dict["client_id"])
@@ -214,13 +212,14 @@ def auth_token_facebook_is_valid(request):
 
 	# Do this if user_auth_token is valid
 	if (response.status_code == status.HTTP_200_OK) and response_dict["data"]["is_valid"]:
-		return True
+		return True, response_dict
 	else:
-		return False
+		return False, response_dict
 
 
 def request_auth_token_facebook(request):
-	if auth_token_facebook_is_valid(request):
+	is_valid, response_dict = auth_token_facebook_is_valid(request)
+	if is_valid:
 		if request.method == "POST":
 			email = request.data["email"]
 		if request.method == "GET":
@@ -291,9 +290,9 @@ class CreateUser(generics.CreateAPIView):
 		# make sure auth tokens are valid for social auth.
 		token_valid = False
 		if social_auth == "facebook":
-			token_valid = auth_token_facebook_is_valid(request)
+			token_valid, response_dict = auth_token_facebook_is_valid(request)
 		elif social_auth == "line":
-			token_valid = auth_token_line_is_valid(request)
+			token_valid, response_dict = auth_token_line_is_valid(request)
 		elif social_auth == "none":
 			token_valid = True
 
