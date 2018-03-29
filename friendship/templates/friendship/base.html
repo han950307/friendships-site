@@ -5,10 +5,15 @@
 	<meta charset="utf-8">
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Applify - App Landing Page</title>
+	<title>FriendShip - Optimized Thai-US Shipping Solutions</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
+	<!-- Scripts -->
+	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>
+	<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
+
 </head>
 <body class="ui-transparent-nav" data-fade_in="on-load">
 <!-- Navbar Fixed + Default -->
@@ -16,13 +21,13 @@
 	<div class="container">
 
 		<!-- Navbar Logo -->
-		<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="Applify - App Landing HTML Template">
+		<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
 			<!-- Default Logo -->
 			<img class="logo-default" src="{% static 'friendship/img/logo/friendship.png' %}"
-			     alt="Applify - App Landing HTML Template" data-uhd>
+			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
 			<!-- Transparent Logo -->
 			<img class="logo-transparent" src="{% static 'friendship/img/logo/friendship.png' %}"
-			     alt="Applify - App Landing HTML Template" data-uhd>
+			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
 		</a><!-- .navbar-brand -->
 
 		<!-- Navbar Navigation -->
@@ -30,15 +35,7 @@
 			<ul class="nav navbar-nav">
 				<!-- Nav Item -->
 				<li>
-					<a href="#" data-scrollto="features">Features</a>
-				</li>
-				<!-- Nav Item -->
-				<li>
 					<a href="#" data-scrollto="how-it-works">How It Works</a>
-				</li>
-				<!-- Nav Item -->
-				<li>
-					<a href="#" data-scrollto="pricing">Pricing</a>
 				</li>
 				{% if request.user.is_authenticated %}
 					<li>
@@ -53,11 +50,6 @@
 						<a href="{% url 'friendship:all_open_orders' 'all' %}">Make a Bid</a>
 					</li>
 				{% endif %}
-
-				<!-- Nav Item -->
-				<li class="active">
-					<a href="#">Contact</a>
-				</li>
 			</ul><!--.navbar-nav -->
 		</div><!--.ui-navigation -->
 
@@ -212,18 +204,16 @@
 
 </div><!-- .main -->
 
-<!-- Scripts -->
-<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>
-<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
-<!--
-# Google Maps
-# Add Your Google Maps API Key Below !!
--->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5B2iXEELo6aIReGYLJdVKBlzHnrM0YLU' %}"></script>
-<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>
-<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
-<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
-<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
+
+	<!--
+	# Google Maps
+	# Add Your Google Maps API Key Below !!
+	-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5B2iXEELo6aIReGYLJdVKBlzHnrM0YLU' %}"></script>
+	<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>
+	<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
+	<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
+	<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
+
 </body>
 </html>

@@ -15,7 +15,8 @@
 <div id="messages" data-first="{{ first }}"></div>
 
 
-<div id="message_dummy" style="display:none;"  data-action="{% url 'friendship:sync_message' order.id%}" data-method="post">
+<div id="message_dummy" style="display:none;"
+     data-action="{% url 'friendship:sync_message' order.id%}" data-method="post">
 </div>
 
 <form action="{% url 'friendship:send_message' order.id %}" method="post" id="message_form">
@@ -39,8 +40,6 @@
 	<li>{{ action.text }}: {{ action.date_placed }}</li>
 {% endfor %}
 </p>
-
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
 <script src="{% static 'friendship/js/libs/custom/chat.js' %}" >
 

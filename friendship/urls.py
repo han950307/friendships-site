@@ -21,8 +21,6 @@ from . import views
 app_name = 'friendship'
 urlpatterns = [
     path('', views.index, name='index'),
-    # path('', views.IndexView.as_view(), name='index'),
-    # path('<int:id>/', views.details, name='details'),
     path('register/', views.register, name='register'),
     path('register_process/', views.register_process, name='register_process'),
     path('login/', views.login_view, name='login'),
@@ -40,7 +38,5 @@ urlpatterns = [
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
     path('testing/', views.testing, name='testing'),
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
-
-
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
