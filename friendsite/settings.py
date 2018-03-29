@@ -74,10 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'friendsite.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -109,10 +105,9 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-STATIC_ROOT = 'friendship/static/friendship/'
-STATIC_URL = '/static/'
-MEDIA_ROOT = 'friendship/media/friendship/'
-MEDIA_URL = '/media/'
+SECURE_REDIRECT_EXEMPT = [r'.*']
