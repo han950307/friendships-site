@@ -160,6 +160,3 @@ class Message(models.Model):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=5000)
-
-# we need to figure out whether cascading or setting null is the better option. In most cases we should try to preserve
-# data even if the person deleted their account later, right?
