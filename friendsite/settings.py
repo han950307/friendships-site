@@ -81,17 +81,9 @@ WSGI_APPLICATION = 'friendsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-local = True
+local = False
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'friendship',
-    #     'USER': 'root',
-    #     'PASSWORD': 'friend',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'friendship' if local else 'friendships',
