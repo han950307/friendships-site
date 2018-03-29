@@ -93,11 +93,29 @@ def receiver_landing_view(request):
                       {'address': address, 'form': form, },
                       )
     else:
+        req = request.POST
         form = OrderForm(request.POST)
+        order = Order.objects.create(
+            url=req['url'],
+            merchandise_type=req['merchandise_type'],
+            quantity=int(req['quantity']),
+            description=req['description'],
+            receiver=request.user,
+            receiver_address=ShippingAddress.objects.filter(
+            user=request.user
+        ).filter(
+            primary=True
+        )[0],
+            bid_end_datetime=datetime.datetime.utcnow().replace(tzinfo=pytz.utc) + datetime.timedelta(hours=int(req['quantity']))
+        )
         print(form)
-        order = form.save()
+        # order = form.save()
+        action = OrderAction.objects.create(
+            order=order,
+            action=OrderAction.Action.ORDER_PLACED,
+        )
 
-        place_order_process(request)
+        return render(request, 'friendship/place_order_landing.html', {'order': order})
 
 def place_order_process(request):
     """

@@ -10,8 +10,8 @@
 
 
 {% block form %}
-
-    <form action="{% url 'friendship:place_order_process' %}" method="post" name="order_form">
+<!--action="{% url 'friendship:place_order_process' %}" -->
+    <form method="post" name="order_form">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
