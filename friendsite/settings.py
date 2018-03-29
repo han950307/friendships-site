@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
+from friendsite.production_secrets import *
 
 import os
 import friendsite
@@ -19,9 +20,6 @@ FRIENDSHIP_VERSION = "0.0.2"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -61,24 +59,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'friendsite.urls'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_THROTTLE_CLASSES': (
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ),
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '35/second',
-        'user': '300/second'
-    }
-}
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -96,30 +76,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'friendsite.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'friendship',
-    #     'USER': 'root',
-    #     'PASSWORD': 'friend',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendships',
-        'USER': 'root',
-        'PASSWORD': 'togetheragain',
-        'HOST': '13.58.205.194',
-        'PORT': '5432',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -147,15 +103,10 @@ CRONJOBS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -164,12 +115,3 @@ STATIC_ROOT = 'friendship/static/friendship/'
 STATIC_URL = '/static/'
 MEDIA_ROOT = 'friendship/media/friendship/'
 MEDIA_URL = '/media/'
-
-EMAIL_HOST = '23.21.52.192'
-EMAIL_HOST_USER = 'AKIAJGV6EBDOMNUSNNXA'
-EMAIL_HOST_PASSWORD = 'AhrS5tvKP2jX7yb+Fmsl7CZOu2zACLj+ZnrLgoDZZRE/'
-EMAIL_USE_TLS = True
-
-ACCESS_TOKEN_FACEBOOK = "113952869449776|ViUDAV41AijN5pEhKC6RGhyiWsY"
-CLIENT_ID_LINE = "1570838345"
-CLIENT_SECRET_LINE = "2483f61d87e4206f7d9f9f23188ec469"
