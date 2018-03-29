@@ -1,5 +1,16 @@
-from django import forms
+from django.forms import (
+    Form,
+    ModelForm,
+    ImageField,
+)
+from friendship.models import Order
 
 
-class UploadPictureForm(forms.Form):
-	picture = forms.ImageField()
+class UploadPictureForm(Form):
+    picture = ImageField()
+
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = ['url', 'merchandise_type', 'bid_end_datetime', 'description', 'quantity']

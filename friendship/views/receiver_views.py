@@ -9,11 +9,12 @@ from friendship.models import (
     Order,
     ShippingAddress,
     OrderAction,
-    Image
+    Image,
 )
 
 from friendship.forms import (
-    UploadPictureForm
+    UploadPictureForm,
+    OrderForm,
 )
 
 import datetime, pytz
@@ -75,8 +76,9 @@ def receiver_landing_view(request):
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
-    else:
-
+    # serve em a fresh form
+    elif request.method != 'POST':
+        form = OrderForm()
         primary_address = ShippingAddress.objects.filter(
             user=request.user
         ).filter(
@@ -86,8 +88,16 @@ def receiver_landing_view(request):
             address = primary_address[0]
         else:
             address = None
-        return render(request, 'friendship/receiver_landing.html', {'address': address})
+        return render(request,
+                      'friendship/receiver_landing.html',
+                      {'address': address, 'form': form, },
+                      )
+    else:
+        form = OrderForm(request.POST)
+        print(form)
+        order = form.save()
 
+        place_order_process(request)
 
 def place_order_process(request):
     """
