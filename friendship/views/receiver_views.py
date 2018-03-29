@@ -103,7 +103,7 @@ def place_order_process(request):
             merchandise_type = request.POST['merchandise_type']
             quantity = int(request.POST['quantity'])
             bid_time = int(request.POST['bid_time'])
-            if (merchandise_type == "shoes"):
+            if merchandise_type == "shoes":
                 thetype = Order.MerchandiseType.SHOES
             else:
                 thetype = Order.MerchandiseType.OTHER
@@ -111,7 +111,7 @@ def place_order_process(request):
         except (KeyError, ValueError):
             error(request, 'You didn\'t fill out something or you' + \
                 ' didn\'t enter a value for quantity.')
-            return render(request, 'friendship/place_order.html', {})
+            return render(request, 'friendship/receiver_landing.html', {})
         else:
             # TODO should change this to receiver's choice
             primary_address = ShippingAddress.objects.filter(
@@ -127,7 +127,7 @@ def place_order_process(request):
                     phone = int(request.POST['phone'])
                 except KeyError:
                     error(request, 'You didn\'t fill out something')
-                    return render(request, 'friendship/place_order.html', {})
+                    return render(request, 'friendship/receiver_landing.html', {})
                 address = ShippingAddress.objects.create(
                     user=request.user,
                     address=shipping_address,

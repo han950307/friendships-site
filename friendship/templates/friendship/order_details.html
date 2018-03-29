@@ -2,8 +2,6 @@
 
 {% load static %}
 
-
-
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
 {% block main_content %}
@@ -12,7 +10,6 @@
 <p>Quantity: {{ order.quantity }}</p>
 <p>Description: {{ order.description }}</p>
 <p>Shipping Address: {{ order.reciever_address.address }}</p>
-<!--<<<<<<< HEAD-->
 <p>Order Status: {{ order.status }}</p>
 <p>Messages</p>
 <div id="messages" data-first="{{ first }}"></div>
@@ -35,7 +32,6 @@
     </div>
 </form>
 
-<!--<p><tt id="results"></tt></p>-->
 
 
 <p>Order Actions:
