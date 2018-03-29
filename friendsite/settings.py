@@ -21,9 +21,6 @@ FRIENDSHIP_VERSION = "0.0.2"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = [
     "18.188.123.79",
@@ -62,7 +59,7 @@ ROOT_URLCONF = 'friendsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['friendship/templates/friendship', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +73,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'friendsite.wsgi.application'
+
+# Database
+# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

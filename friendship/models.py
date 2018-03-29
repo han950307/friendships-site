@@ -154,6 +154,11 @@ class Image(models.Model):
 
 class Message(models.Model):
     date_sent = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     transaction = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,

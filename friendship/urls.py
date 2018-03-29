@@ -34,6 +34,8 @@ urlpatterns = [
     # Receiver views
     path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
     path('place_order_process/', views.place_order_process, name='place_order_process'),
+    path('order_details/<int:order_id>', views.send_message, name='send_message'),
+    path('testing/<int:order_id>', views.sync_message, name='sync_message'),
     path('order_details/<int:pk>', views.order_details, name='order_details'),
     path('upload_picture/<int:order_id>', views.upload_picture_view, name='upload_picture_view'),
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
@@ -57,5 +59,8 @@ urlpatterns = [
 
     # Other views
     path('testing/', views.testing, name='testing'),
+    path('user_open_orders', views.user_open_orders, name='user_open_orders'),
+
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

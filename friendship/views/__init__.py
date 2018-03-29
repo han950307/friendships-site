@@ -4,3 +4,4 @@ from .order_views import *
 from .receiver_views import *
 from .sender_views import *
 from .api_views import *
+from .message_views import *

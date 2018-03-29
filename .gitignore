@@ -2,6 +2,7 @@
 vendor/*
 */__pycache__/*
 *.pyc
+friendship/migrations/*
 friendship/.Python
 friendship/bin/*
 friendship/include/*
@@ -9,3 +10,4 @@ friendship/include/*
 friendship/lib/*
 friendship/pip-selfcheck.json
 friendship/share/*
+.DS_Store
