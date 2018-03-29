@@ -193,14 +193,6 @@ def auth_token_line_is_valid(request):
 def request_auth_token_line(request):
 	is_valid, response_dict = auth_token_line_is_valid(request)
 	if is_valid:
-		if request.method == "POST":
-			user_token = request.data["user_token"]
-			social_auth = request.data["social_auth"]
-			user_id = request.data["user_id"]
-		if request.method == "GET":
-			user_token = request.GET["user_token"]
-			social_auth = request.GET["social_auth"]
-			user_id = request.GET["user_id"]
 		queryset = None
 		client_id = str(response_dict["client_id"])
 		if client_id != CLIENT_ID_LINE:
@@ -230,6 +222,14 @@ def request_auth_token_line(request):
 		return make_token_for_user(request, user)
 	# Auth key was wrong or something.
 	else:
+		if request.method == "POST":
+			user_token = request.data["user_token"]
+			social_auth = request.data["social_auth"]
+			user_id = request.data["user_id"]
+		if request.method == "GET":
+			user_token = request.GET["user_token"]
+			social_auth = request.GET["social_auth"]
+			user_id = request.GET["user_id"]
 		return Response(
 			{
 				"message": "User auth key was invalid or bad.",
