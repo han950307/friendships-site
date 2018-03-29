@@ -1,10 +1,13 @@
 function displaySyncedMessages(json) {
+//    alert(JSON.stringify(json));
 	var first = $('#messages').attr('data-first');
+//	alert(first);
 	$.each( json, function( key, value ) {
 		if (value.pk > first) {
 			$('#messages').append('<div>' + value.fields.content + '</div>');
 			first = value.pk;
 		}
+//		alert(first);
 	});
 
 	$('#messages').attr('data-first', first);

@@ -35,10 +35,10 @@ def send_message(request, orderID):
         return order_details(request, orderID)
 
 
-def sync_message(request, orderID):
+def sync_message(request, orderID, after=0):
     order = Order.objects.get(pk=orderID)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
-    messages = Message.objects.filter(transaction=order)
+    messages = reversed(Message.objects.filter(transaction=order))
     return HttpResponse(serializers.serialize('json', messages))

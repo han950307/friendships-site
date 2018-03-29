@@ -11,24 +11,30 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="url">URL</label>
+					<label for="form_url">URL</label>
 					<input type="url" name="url" class="input form-control" id="form_url">
 				</div>
 				<div class="col-sm-6">
 					<label for="merchandise_type">Type</label>
-					<input type="text" name="merchandise_type">
+					<input type="text" id="merchandise_type">
 				</div>
 				<div class="col-sm-6">
 					<label for="quantity">Quantity</label>
-					<input type="text" name="quantity">
+					<input type="text" id="quantity">
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="desc">Description</label>
+					<label for="form_desc">Description</label>
 					<input type="textarea" name="desc" class="input form-control" id="form_desc" placeholder="I.e., shoe-size and color, etc">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<label for="bid_time">Bid time</label>
+					<input type="text" name="bid_time" class="input form-control" id="bid_time" placeholder="2, 4, 24, 0, etc. -- 0 for buy now">
 				</div>
 			</div>
 		</div>
@@ -36,12 +42,12 @@
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="desc">Shipping Address</label>
-					<input type="text" name="shipping_address" class="input form-control" id="form_desc" placeholder="Write your full address here.">
+					<label for="shipping_address">Shipping Address</label>
+					<input type="text" id="shipping_address" class="input form-control" placeholder="Write your full address here.">
 				</div>
 				<div class="col-sm-6">
-					<label for="desc">Phone</label>
-					<input type="text" name="shipping_address" class="input form-control" id="form_desc" placeholder="phone number here.">
+					<label for="phone">Phone</label>
+					<input type="text" id="phone" class="input form-control" placeholder="phone number here.">
 				</div>
 			</div>
 		</div>
