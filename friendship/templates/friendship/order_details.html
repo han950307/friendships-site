@@ -1,6 +1,6 @@
-{% extends "friendship/base_generic_content.html" %}
-{% load static %}
+ {% extends "friendship/base_generic_content.html" %}
 
+{% load static %}
 
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
@@ -10,9 +10,42 @@
 <p>Quantity: {{ order.quantity }}</p>
 <p>Description: {{ order.description }}</p>
 <p>Shipping Address: {{ order.reciever_address.address }}</p>
+<p>Order Status: {{ order.status }}</p>
+<p>Messages</p>
+<div id="messages" data-first="{{ first }}"></div>
+
+
+<div id="message_dummy" style="display:none;"  data-action="{% url 'friendship:sync_message' order.id %}" data-method="post">
+</div>
+
+<form action="{% url 'friendship:send_message' order.id %}" method="post" id="message_form">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="form_message">Message</label>
+                <input type="text" name="message" class="input form-control" id="form_message">
+                <br />
+                <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Send" id="form_button"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
 <p>Order Actions:
 {% for action in actions %}
 	<li>{{ action.text }}: {{ action.date_placed }}</li>
 {% endfor %}
 </p>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src="{% static 'friendship/js/libs/custom/chat.js' %}" >
+
+</script>
+
 {% endblock main_content %}
+
+

@@ -62,7 +62,7 @@ ROOT_URLCONF = 'friendsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['friendship/templates/friendship', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,21 +81,15 @@ WSGI_APPLICATION = 'friendsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+local = False
+
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'friendship',
-    #     'USER': 'root',
-    #     'PASSWORD': 'friend',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '5432',
-    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendships',
+        'NAME': 'friendship' if local else 'friendships',
         'USER': 'root',
-        'PASSWORD': 'togetheragain',
-        'HOST': '13.58.205.194',
+        'PASSWORD': 'friend' if local else 'togetheragain',
+        'HOST': '127.0.0.1' if local else '13.58.205.194',
         'PORT': '5432',
     }
 }
