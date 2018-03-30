@@ -17,6 +17,8 @@ from friendship.forms import (
     OrderForm,
 )
 
+from django.forms.formsets import formset_factory
+
 import datetime, pytz
 
 
@@ -73,12 +75,15 @@ def receiver_landing_view(request):
     """
     This is a page for a form for making an order.
     """
+
+    OrderFormSet = formset_factory(OrderForm)
+
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     # serve em a fresh form
     elif request.method != 'POST':
-        form = OrderForm()
+        formset = OrderFormSet()
         primary_address = ShippingAddress.objects.filter(
             user=request.user
         ).filter(
@@ -90,32 +95,33 @@ def receiver_landing_view(request):
             address = None
         return render(request,
                       'friendship/receiver_landing.html',
-                      {'address': address, 'form': form, },
+                      {'address': address, 'formset': formset, },
                       )
     else:
         req = request.POST
-        form = OrderForm(request.POST)
-        order = Order.objects.create(
-            url=req['url'],
-            merchandise_type=req['merchandise_type'],
-            quantity=int(req['quantity']),
-            description=req['description'],
-            receiver=request.user,
-            receiver_address=ShippingAddress.objects.filter(
-            user=request.user
-        ).filter(
-            primary=True
-        )[0],
-            bid_end_datetime=datetime.datetime.utcnow().replace(tzinfo=pytz.utc) + datetime.timedelta(hours=int(req['quantity']))
-        )
-        print(form)
-        # order = form.save()
-        action = OrderAction.objects.create(
-            order=order,
-            action=OrderAction.Action.ORDER_PLACED,
-        )
+        num = req['form-TOTAL_FORMS']
+        print(req)
+        orders = {}
+        for i in range(int(num)):
+            order = Order.objects.create(
+                url=req['form-' + str(i) + '-url'],
+                merchandise_type=req['form-' + str(i) + '-merchandise_type'],
+                quantity=int(req['form-' + str(i) + '-quantity']),
+                description=req['form-' + str(i) + '-description'],
+                receiver=request.user,
+                receiver_address=ShippingAddress.objects.
+                    filter(user=request.user).
+                    filter(primary=True)[0],
+                bid_end_datetime=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+                                 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity'])),
+            )
+            action = OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.ORDER_PLACED,
+            )
+            orders[i] = order
 
-        return render(request, 'friendship/place_order_landing.html', {'order': order})
+        return render(request, 'friendship/place_order_landing.html', {'orders': orders}) # CHANGE TEMPLATE HERE BITCH
 
 def place_order_process(request):
     """
