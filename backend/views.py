@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import error
 
-from api.models import LineUser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.throttling import AnonRateThrottle
@@ -18,6 +17,16 @@ from friendsite.settings import (
 	LINE_CLIENT_ID,
 )
 
+from api.models import LineUser
+from friendship.models import (
+	ShipperList,
+	ShippingAddress,
+	Order,
+	OrderAction,
+	Bid,
+	Image,
+	Message,
+)
 from friendship.serializers import (
 	UserSerializer,
 	TokenSerializer,
@@ -116,6 +125,10 @@ def login_user(request, **kwargs):
 			return HttpResponseRedirect(reverse('friendship:index'))
 		else:
 			raise ValueError(USER_NOT_FOUND_MSG)
+
+
+### ORDER RELATED FUNCTIONS ###
+
 
 
 ### API SPECIFIC FUNCTIONS ###
