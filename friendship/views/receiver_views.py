@@ -87,7 +87,7 @@ def receiver_landing_view(request):
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
     # serve em a fresh form
-    elif request.method != 'POST':
+    elif request.method != 'POST' or int(request.POST['form-TOTAL_FORMS']) == 0:
         formset = OrderFormSet()
         primary_address = ShippingAddress.objects.filter(
             user=request.user
@@ -104,14 +104,9 @@ def receiver_landing_view(request):
                       )
     else:
         req = request.POST
-
-        # Bro really gotta clear up this part
-        print(req)
         fs = OrderFormSet(req)
-        print(fs)
         if not fs.is_valid():
-            return redirect('friendship:index')
-        print(fs.is_valid())
+            redirect('friendship:index')
         num = req['form-TOTAL_FORMS']
         orders = {}
         for i in range(int(num)):

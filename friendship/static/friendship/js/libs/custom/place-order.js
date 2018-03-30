@@ -1,19 +1,32 @@
 $('#add_more').click(function() {
-    var form_idx = parseInt($('#id_form-TOTAL_FORMS').val()) + 1;
-    var formNum = 'form-' + form_idx;
+    var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
+    $('#id_form-TOTAL_FORMS').val(form_idx + 1);
+
     $('#all_forms').append('<div class="container" id="info-' + form_idx +  '">' +
-                           '<div class="row"><h1>Item '+ form_idx + ' of Order</h1>' +
+                           '<div class="row"><h3 id="header-' + form_idx + '">Item</h3>' +
                            '<i class="toggler fa fa-window-maximize" id="toggle-' + form_idx + '"></i>' +
                            '<i class="remover fa fa-times-circle" id="remove-' + form_idx + '"></i>');
 
-    $('#all_forms').append('<div id="' + formNum + '">');
-    $('#' + formNum).append($('#empty_form').html().replace(/__prefix__/g, (form_idx-1).toString()));
-    $('#id_form-TOTAL_FORMS').val(form_idx);
+    $('#all_forms').append('<div id="form-' + form_idx + '">');
+    $('#form-' + form_idx).append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+    $('#form-' + form_idx).append('<br />');
 });
 
 $(document).on("click", ".toggler", function(e){
     var id = this.id.split("-")[1];
-    $('#form-' + id).toggle("fast");
+
+    var url = $('#id_form-' + parseInt(id) + '-url').val();
+    if($('#form-' + id).css('display') === 'none') {
+        $("#header-" + id).replaceWith('<h3 id="header-' + id + '">Item</h3>');
+        $('#form-' + id).show("fast");
+    } else {
+        $("#header-" + id).replaceWith('<h6 id="header-' + id + '">Item</h6>');
+        $('#form-' + id).hide("fast");
+    }
+    if (url !== '') {
+        $('#header-' + id).text(url);
+    }
+
 });
 
 $(document).on("click", ".remover", function(e){
@@ -22,4 +35,12 @@ $(document).on("click", ".remover", function(e){
     var id = this.id.split("-")[1];
     $('#info-' + id).remove();
     $('#form-' + id).remove();
+    var prefixes = ['info', 'header', 'toggle', 'remove', 'form']
+    for (var i = id; i<form_idx; i++) {
+        for (var k = 0; k<prefixes.length; k++) {
+            console.log('#' + prefixes[k] + '-' + (parseInt(i)+1));
+            console.log($('#' + prefixes[k] + '-' + (parseInt(i)+1)));
+            $('#' + prefixes[k] + '-' + (parseInt(i)+1)).attr('id', prefixes[k] + '-' + i);
+        }
+    }
 });

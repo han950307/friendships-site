@@ -26,3 +26,12 @@ class OrderForm(ModelForm):
             'description': TextInput(attrs=common_settings),
             'quantity': NumberInput(attrs=common_settings),
         }
+
+    # def full_clean(self):
+    #     super(OrderForm, self).full_clean()
+    #     if not self.cleaned_data:
+    #         return
+    #     if self.cleaned_data.get('bid_end_datetime') and 'bid_end_datetime' in self._errors:
+    #         del self._errors['bid_end_datetime']
+    #     return self.cleaned_data
+

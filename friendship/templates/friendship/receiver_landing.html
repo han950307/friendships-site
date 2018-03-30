@@ -2,8 +2,11 @@
     i {
         padding: 5px;
     }
-    h1 {
+    h3 {
         display: inline;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
     .toggler {
         margin-left: auto;
@@ -31,19 +34,20 @@
         {% csrf_token %}
         <div id="all_forms">
 
-            <div class="container panel-default" id="info-1">
+            <div class="container" id="info-0">
                 <div class="row">
-                    <h1>Item</h1>
-                    <i class="toggler fa fa-window-maximize" id="toggle-1"></i>
-                    <i class="remover fa fa-times-circle" id="remove-1"></i>
-                </div>
-
-                <div id="form-1" class="panel-body">
-                    {% for form in formset %}
-                        {{ form.as_p }}
-                    {% endfor %}
+                    <h3 id="header-0">Item</h3>
+                    <i class="toggler fa fa-window-maximize" id="toggle-0"></i>
+                    <i class="remover fa fa-times-circle" id="remove-0"></i>
                 </div>
             </div>
+
+            <div id="form-0">
+                {% for form in formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
+
 
 
         </div>
