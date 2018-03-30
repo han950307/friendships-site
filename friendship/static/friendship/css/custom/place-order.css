@@ -1,0 +1,20 @@
+i {
+    margin: 5px;
+}
+h3 {
+    display: inline;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.toggler {
+    margin-left: auto;
+}
+#empty_form {
+    display:none;
+}
+.info-container {
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 2px 2px #aaaaaa;
+}
