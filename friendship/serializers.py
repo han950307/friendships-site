@@ -14,16 +14,7 @@ from friendship.models import (
 )
 
 
-class UserSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = User
-		fields = ('id', 'email', 'first_name', 'last_name')
-		read_only_fields = ('id',)
-
-
 class ShippingAddressSerializer(serializers.ModelSerializer):
-	user = UserSerializer(read_only=True)
-
 	class Meta:
 		model = ShippingAddress
 		fields = ('id', 'user', 'address', 'phone', 'address_type', 'primary')
@@ -52,11 +43,11 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-	shipper = UserSerializer(read_only=True)
 	shipper_address = ShippingAddressSerializer(read_only=True)
-	receiver = UserSerializer(read_only=True)
 	receiver_address = ShippingAddressSerializer(read_only=True)
 	actions = OrderActionSerializer(many=True, read_only=True)
+	order_images = ImageSerializer(many=True)
+	bids = BidSerializer(many=True)
 
 	class Meta:
 		model = Order
@@ -73,6 +64,23 @@ class OrderSerializer(serializers.ModelSerializer):
 			'receiver',
 			'receiver_address',
 			'actions',
+			'order_images',
+			'bids',
+		)
+		read_only_fields = ('id',)
+
+
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = (
+			'id',
+			'email',
+			'first_name',
+			'last_name',
+			'receiver_orders',
+			'shipper_orders',
+			'shipping_addresses',
 		)
 		read_only_fields = ('id',)
 

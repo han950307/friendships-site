@@ -1,125 +1,82 @@
 from django.contrib.auth import (
-    authenticate,
-    login,
-    logout,
+	authenticate,
+	login,
+	logout,
 )
 from django.contrib.auth.models import User
 from django.http import (
-    HttpResponseRedirect
+	HttpResponseRedirect
 )
 from django.contrib.messages import error
 from django.shortcuts import (
-    render,
-    redirect,
+	render,
+	redirect,
 )
 from django.urls import reverse
 
 from ..models import ShippingAddress, ShipperList
+from backend.views import (
+	create_user,
+	login_user,
+)
 
 import re
 
 
 def get_username_from_email(email):
-    # return re.sub(r"@|\.", r"", email)
-    return email
+	return re.sub(r"@|\.", r"", email)
+	# return email
 
 
 def register(request):
-    """
-    Load the registration page
-    """
-    return render(request, 'friendship/register.html', {})
+	"""
+	Load the registration page
+	"""
+	return render(request, 'friendship/register.html', {})
 
 
 def register_process(request):
-    """
-    Process registration and put user data into the database.
-    """
-    # Trying to get the items.
-    try:
-        firstname = request.POST['first_name']
-        lastname = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
-        address = request.POST['address']
-        phone = request.POST['phone']
-    except KeyError:
-        error(request, 'You did not fill out a field.')
-        return render(request, 'friendship/register.html', {})
-    else:
-        # hack for generating a username from email.
-        uname = get_username_from_email(email)
-
-        # Check whether this email exists in the database already.
-        obj = User.objects.filter(username=uname)
-        if obj:
-            error(request, 'The email \'{}\' is already registered.'.format(email))
-            return render(request, 'friendship/register.html', {})
-        user = User.objects.create_user(
-            uname,
-            email,
-            password
-        )
-        user.first_name = firstname
-        user.last_name = lastname
-        user.email = email
-        user.is_superuser = False
-        user.is_staff = False
-        user.is_active = True
-        user.save()
-
-        shipping_address = ShippingAddress.objects.create(
-            user=user,
-            address=address,
-            phone=phone,
-            address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
-            primary=True,
-        )
-
-        return redirect('friendship:login')
+	"""
+	Process registration and put user data into the database.
+	"""
+	# Trying to get the items.
+	try:
+		data_dict = {x: v for x, v in request.POST.items()}
+		data_dict["social_auth"] = "none"
+		create_user(**data_dict)
+	except (KeyError, ValueError):
+		return render(request, 'friendship/register.html', {})
+	
+	return redirect('friendship:login')
 
 
 def login_view(request):
-    """
-    load login view.
-    """
-    return render(request, 'friendship/login.html', {})
+	"""
+	load login view.
+	"""
+	return render(request, 'friendship/login.html', {})
 
 
 def login_process(request):
-    """
-    Process login
-    """
-    try:
-        # hack for generating a username from email
-        username = get_username_from_email(request.POST['email'])
-        password = request.POST['password']
-    except KeyError:
-        return render(request, 'friendship/login.html', {
-            error(request, 'You didn\'t fill out something')
-        })
-    else:
-        # Use username to authenticate. LOL this is so bad
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
+	"""
+	Process login
+	"""
+	try:
+		data_dict = {x: v for x, v in request.POST.items()}
+		login_user(request, **data_dict)
+		if request.session["is_shipper"] == True:
+			return HttpResponseRedirect(reverse('friendship:index'))
+		else:
+			return HttpResponseRedirect(reverse('friendship:receiver_landing'))
+	except (KeyError, ValueError) as e:
+		return render(request, 'friendship/login.html', {"error": str(e)})
+	else:
+		return HttpResponseRedirect(reverse('friendship:index'))
 
-            # check if the user is a shipper.
-            user = ShipperList.objects.filter(pk=user)
-            if user:
-                request.session["is_shipper"] = True
-                return HttpResponseRedirect(reverse('friendship:index'))
-            else:
-                request.session["is_shipper"] = False
-                return HttpResponseRedirect(reverse('friendship:receiver_landing'))
-
-        else:
-            error(request, 'Did not find a match.')
-            return render(request, 'friendship/login.html', {})
 
 def logout_view(request):
-    """
-    Logs a user out :P
-    """
-    logout(request)
-    return redirect('friendship:login')
+	"""
+	Logs a user out :P
+	"""
+	logout(request)
+	return redirect('friendship:login')
