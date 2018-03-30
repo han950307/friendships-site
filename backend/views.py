@@ -18,6 +18,11 @@ from friendsite.settings import (
 	LINE_CLIENT_ID,
 )
 
+from friendship.serializers import (
+	UserSerializer,
+	TokenSerializer,
+)
+
 import requests
 import json
 import random
