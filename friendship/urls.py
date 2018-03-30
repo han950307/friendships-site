@@ -23,11 +23,15 @@ urlpatterns = [
     path('', views.index, name='index'),
     # path('', views.IndexView.as_view(), name='index'),
     # path('<int:id>/', views.details, name='details'),
+
+    # Account views
     path('register/', views.register, name='register'),
     path('register_process/', views.register_process, name='register_process'),
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),
+
+    # Receiver views
     path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
     path('place_order_process/', views.place_order_process, name='place_order_process'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),
@@ -35,9 +39,25 @@ urlpatterns = [
     path('order_details/<int:pk>', views.order_details, name='order_details'),
     path('upload_picture/<int:order_id>', views.upload_picture_view, name='upload_picture_view'),
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
+
+    # Sender views
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
+
+    # API Views
+    path('api/user/<int:pk>', views.UserDetail.as_view(), name="user_data"),
+    path('api/order/<int:pk>', views.OrderDetail.as_view(), name="order_data"),
+    path('api/orderaction/<int:pk>', views.OrderActionDetail.as_view(), name="order_action_data"),
+    path('api/shippingaddress/<int:pk>', views.ShippingAddressDetail.as_view(), name="shipping_address_data"),
+    path('api/bid/<int:pk>', views.BidDetail.as_view(), name="bid_data"),
+    path('api/image/<int:pk>', views.ImageDetail.as_view(), name="image_data"),
+    path('api/message/<int:pk>', views.MessageDetail.as_view(), name="message_data"),
+
+    path('api/request_auth_token/', views.request_auth_token, name="request_auth_token"),
+    path('api/accounts/create_user/', views.CreateUser.as_view(), name="create_user"),
+
+    # Other views
     path('testing/', views.testing, name='testing'),
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
 

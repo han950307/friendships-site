@@ -15,6 +15,7 @@ class ShipperList(models.Model):
         User,
         on_delete=models.CASCADE,
         primary_key=True,
+        related_name="user",
     )
 
 
@@ -25,6 +26,7 @@ class ShippingAddress(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name='shipping_addresses'
     )
     address = models.CharField(max_length=1000)
     
@@ -105,6 +107,7 @@ class OrderAction(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
+        related_name="actions",
     )
     action = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in Action)
@@ -124,6 +127,7 @@ class Bid(models.Model):
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
+        related_name="bids",
     )
     date_placed = models.DateTimeField(
         auto_now_add=True,
@@ -142,7 +146,7 @@ class Image(models.Model):
         Order,
         on_delete=models.CASCADE,
     )
-    image = models.ImageField()
+    image = models.TextField()
     mimetype = models.CharField(max_length=25)
     # Bank-slip or whatever
     image_type = models.IntegerField()
@@ -160,3 +164,13 @@ class Message(models.Model):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=5000)
+
+
+class LineUser(models.Model):
+    line_user_id = models.CharField(max_length=200, unique=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        related_name="line_user_id",
+    )
