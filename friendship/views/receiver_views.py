@@ -1,5 +1,6 @@
 
 from django.contrib.messages import error
+
 from django.shortcuts import (
     render,
     redirect,
@@ -9,12 +10,15 @@ from friendship.models import (
     Order,
     ShippingAddress,
     OrderAction,
-    Image
+    Image,
 )
 
 from friendship.forms import (
-    UploadPictureForm
+    UploadPictureForm,
+    OrderForm,
 )
+
+from django.forms.formsets import formset_factory
 
 import datetime
 import pytz
@@ -76,11 +80,15 @@ def receiver_landing_view(request):
     """
     This is a page for a form for making an order.
     """
+
+    OrderFormSet = formset_factory(OrderForm)
+
     if not request.user.is_authenticated:
         error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
-    else:
-
+    # serve em a fresh form
+    elif request.method != 'POST':
+        formset = OrderFormSet()
         primary_address = ShippingAddress.objects.filter(
             user=request.user
         ).filter(
@@ -90,77 +98,31 @@ def receiver_landing_view(request):
             address = primary_address[0]
         else:
             address = None
-        return render(request, 'friendship/receiver_landing.html', {'address': address})
-
-
-def place_order_process(request):
-    """
-    When order is placed, it takes it to this page.
-    """
-    # render view for returning to dashboard or requesting another item
-    if not request.user.is_authenticated:
-        error(request, 'You must login first to access this page.')
-        return redirect('friendship:login')
+        return render(request,
+                      'friendship/receiver_landing.html',
+                      {'address': address, 'formset': formset, },
+                      )
     else:
-        try:
-            url = request.POST['url']
-            merchandise_type = request.POST['merchandise_type']
-            quantity = int(request.POST['quantity'])
-            bid_time = int(request.POST['bid_time'])
-            if merchandise_type == "shoes":
-                thetype = Order.MerchandiseType.SHOES
-            else:
-                thetype = Order.MerchandiseType.OTHER
-            desc = request.POST['desc']
-        except (KeyError, ValueError):
-            error(request, 'You didn\'t fill out something or you' + \
-                ' didn\'t enter a value for quantity.')
-            return render(request, 'friendship/receiver_landing.html', {})
-        else:
-            # TODO should change this to receiver's choice
-            primary_address = ShippingAddress.objects.filter(
-                user=request.user
-            ).filter(
-                primary=True
-            )
-
-            # If primary address does not exist, make them add one.
-            if not primary_address:
-                try:
-                    shipping_address = request.POST['shipping_address']
-                    phone = int(request.POST['phone'])
-                except KeyError:
-                    error(request, 'You didn\'t fill out something')
-                    return render(request, 'friendship/receiver_landing.html', {})
-                address = ShippingAddress.objects.create(
-                    user=request.user,
-                    address=shipping_address,
-                    phone=phone,
-                    address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
-                    primary=True,
-                )
-            else:
-                address = primary_address[0]
-
-            # Calculate end time
-            now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-            bid_end_datetime = now + datetime.timedelta(hours=bid_time)
-
-            # Make Order
+        req = request.POST
+        num = req['form-TOTAL_FORMS']
+        orders = {}
+        for i in range(int(num)):
             order = Order.objects.create(
-                url=url,
-                merchandise_type=thetype,
-                quantity=quantity,
-                description=desc,
+                url=req['form-' + str(i) + '-url'],
+                merchandise_type=req['form-' + str(i) + '-merchandise_type'],
+                quantity=int(req['form-' + str(i) + '-quantity']),
+                description=req['form-' + str(i) + '-description'],
                 receiver=request.user,
-                receiver_address=address,
-                bid_end_datetime=bid_end_datetime,
+                receiver_address=ShippingAddress.objects.
+                    filter(user=request.user).
+                    filter(primary=True)[0],
+                bid_end_datetime=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+                                 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity'])),
             )
-
-            # Add order action
             action = OrderAction.objects.create(
                 order=order,
                 action=OrderAction.Action.ORDER_PLACED,
             )
+            orders[i] = order
 
-            return render(request, 'friendship/place_order_landing.html', {'order': order})
+        return render(request, 'friendship/place_order_landing.html', {'orders': orders})

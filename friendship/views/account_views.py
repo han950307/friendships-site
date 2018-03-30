@@ -61,16 +61,19 @@ def login_process(request):
 	"""
 	try:
 		login_user(request, **request.POST)
-	except (KeyError, ValueError):
-		return render(request, 'friendship/login.html', {})
+	    if request.session["is_shipper"] == True
+	        return HttpResponseRedirect(reverse('friendship:index'))
+	    else:
+	        return HttpResponseRedirect(reverse('friendship:receiver_landing'))
+	except (KeyError, ValueError) as e:
+		return render(request, 'friendship/login.html', {"error": str(e)})
 	else:
 		return HttpResponseRedirect(reverse('friendship:index'))
 
 
 def logout_view(request):
-	"""
-	Logs a user out :P
-	"""
-	logout(request)
-	error(request, 'Successfully Logged out.')
-	return redirect('friendship:login')
+    """
+    Logs a user out :P
+    """
+    logout(request)
+    return redirect('friendship:login')
