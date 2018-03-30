@@ -138,7 +138,7 @@ class CreateUser(generics.CreateAPIView):
 			data_dict.update({x: v for x, v in request.data.items()})
 		else:
 			return Response(
-				{"error": "Input data was bad. DATA DUMP".format(str(request.data))},
+				{"error": "Input data was bad. DATA DUMP {}".format(str(request.data))},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 
