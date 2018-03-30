@@ -15,7 +15,7 @@ class ShipperList(models.Model):
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name="user",
+        related_name="is_shipper",
     )
 
 
@@ -66,7 +66,7 @@ class Order(models.Model):
     quantity = models.IntegerField()
     shipper = models.ForeignKey(
         User,
-        related_name="shipper",
+        related_name="shipper_orders",
         on_delete=models.SET_NULL,
         null=True,
         blank=True
@@ -80,7 +80,7 @@ class Order(models.Model):
     )
     receiver = models.ForeignKey(
         User,
-        related_name="receiver",
+        related_name="receiver_orders",
         on_delete=models.CASCADE,
     )
     receiver_address = models.ForeignKey(
@@ -141,10 +141,12 @@ class Image(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name="uploaded_images",
     )
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
+        related_name="order_images",
     )
     image = models.TextField()
     mimetype = models.CharField(max_length=25)

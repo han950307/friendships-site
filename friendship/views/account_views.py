@@ -24,8 +24,8 @@ import re
 
 
 def get_username_from_email(email):
-	# return re.sub(r"@|\.", r"", email)
-	return email
+	return re.sub(r"@|\.", r"", email)
+	# return email
 
 
 def register(request):
@@ -41,7 +41,8 @@ def register_process(request):
 	"""
 	# Trying to get the items.
 	try:
-		create_user(**request.POST)
+		data_dict = {x: v for x, v in request.POST.items()}
+		create_user(**data_dict)
 	except (KeyError, ValueError):
 		return render(request, 'friendship/register.html', {})
 	
@@ -60,11 +61,12 @@ def login_process(request):
 	Process login
 	"""
 	try:
-		login_user(request, **request.POST)
-	    if request.session["is_shipper"] == True
-	        return HttpResponseRedirect(reverse('friendship:index'))
-	    else:
-	        return HttpResponseRedirect(reverse('friendship:receiver_landing'))
+		data_dict = {x: v for x, v in request.POST.items()}
+		login_user(request, **data_dict)
+		if request.session["is_shipper"] == True:
+			return HttpResponseRedirect(reverse('friendship:index'))
+		else:
+			return HttpResponseRedirect(reverse('friendship:receiver_landing'))
 	except (KeyError, ValueError) as e:
 		return render(request, 'friendship/login.html', {"error": str(e)})
 	else:
@@ -72,8 +74,8 @@ def login_process(request):
 
 
 def logout_view(request):
-    """
-    Logs a user out :P
-    """
-    logout(request)
-    return redirect('friendship:login')
+	"""
+	Logs a user out :P
+	"""
+	logout(request)
+	return redirect('friendship:login')

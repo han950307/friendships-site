@@ -12,4 +12,6 @@ urlpatterns = [
 
     path('request_auth_token/', views.request_auth_token, name="request_auth_token"),
     path('accounts/create_user/', views.CreateUser.as_view(), name="create_user"),
+
+    path('submit_order', views.CreateOrder.as_view(), name="create_order")
 ]

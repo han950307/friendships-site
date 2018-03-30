@@ -5,7 +5,11 @@ from django.contrib.auth.models import User
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import (
+	AnonRateThrottle,
+	UserRateThrottle,
+)
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework import (
 	status,
@@ -15,13 +19,13 @@ from rest_framework import (
 )
 
 from friendship.models import (
-    ShipperList,
-    ShippingAddress,
-    Order,
-    OrderAction,
-    Bid,
-    Image,
-    Message,
+	ShipperList,
+	ShippingAddress,
+	Order,
+	OrderAction,
+	Bid,
+	Image,
+	Message,
 )
 
 from api.models import LineUser
@@ -162,11 +166,24 @@ class CreateUser(generics.CreateAPIView):
 				)
 		else:
 			return Response(
-				{"error": "Social auth token validation failed. JSONDUMPS {}" \
-					.format(json.dumps(response_dict))},
+				{
+					"error": "Social auth token validation failed. JSONDUMPS {}" \
+						.format(json.dumps(response_dict)),
+					"error_msg": serialized.errors,
+					},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 
 		return Response(
 			status=status.HTTP_201_CREATED
 		)
+
+
+class CreateOrder(generics.CreateAPIView):
+	model = Order
+	serializer_class = OrderSerializer
+	authentication_classes = (TokenAuthentication,)
+	permission_classes = (permissions.IsAuthenticated,)
+	throttle_classes = (UserRateThrottle,)
+
+	

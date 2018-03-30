@@ -1,6 +1,10 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import error
-
+from django.contrib.auth import (
+	authenticate,
+	login,
+	logout,
+)
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.throttling import AnonRateThrottle
@@ -34,18 +38,22 @@ from friendship.serializers import (
 
 import requests
 import json
+import datetime
+import pytz
+import re
 import random
 
 INCOMPLETE_DATA_MSG = "Not all required data was passed in."
 USER_NOT_FOUND_MSG = "This user was not found matching the credentials. Perhaps need to register?"
 BAD_DATA_MSG = "Data passed in was bad."
 
+
 # BACKEND DOESNT RENDER ANYTHING!
 
 ### ACCOUNT FUNCTIONS ###
 def create_line_user(user, **kwargs):
 	try:
-		user_id = kwargs['user_id']
+		user_id = kwargs['line_user_id']
 		if type(user_id) != str:
 			user_id = user_id.decode("utf-8")
 	except KeyError:
@@ -104,15 +112,18 @@ def create_user(**kwargs):
 	if 'social_auth' in kwargs and social_auth == "line":
 		create_line_user(user, **kwargs)
 
+	return user
+
 
 def login_user(request, **kwargs):
 	try:
 		email = kwargs['email']
 		password = kwargs['password']
 	except KeyError:
+		error(request, INCOMPLETE_DATA_MSG)
 		raise KeyError(INCOMPLETE_DATA_MSG)		
 	else:
-		user = authenticate(request, username=username, password=password)
+		user = authenticate(request, username=email, password=password)
 		if user is not None:
 			login(request, user)
 
@@ -122,13 +133,42 @@ def login_user(request, **kwargs):
 				request.session["is_shipper"] = True
 			else:
 				request.session["is_shipper"] = False
-			return HttpResponseRedirect(reverse('friendship:index'))
 		else:
+			error(request, USER_NOT_FOUND_MSG)
 			raise ValueError(USER_NOT_FOUND_MSG)
 
 
 ### ORDER RELATED FUNCTIONS ###
+def create_order(user, **kwargs):
+	try:
+		url = kwargs["url"]
+		merchandise_type = kwargs["merchandise_type"]
+		quantity = kwargs["quantity"]
+		description = kwargs["description"]
+		receiver = kwargs["receiver"]
+		receiver_address = kwargs["receiver_address"]
+		bid_end_datetime = kwargs["bid_end_datetime"]
+	except KeyError as e:
+		raise KeyError(INCOMPLETE_DATA_MSG)
+	else:
+		order = Order.objects.create(
+			url = url,
+			merchandise_type = merchandise_type,
+			quantity = quantity,
+			description = description,
+			receiver = user,
+			receiver_address = receiver_address,
+			bid_end_datetime = bid_end_datetime,
+		)
 
+		action = OrderAction.objects.create(
+			order=order,
+			action=OrderAction.Action.ORDER_PLACED,
+		)
+
+		return order
+	finally:
+		pass
 
 
 ### API SPECIFIC FUNCTIONS ###
