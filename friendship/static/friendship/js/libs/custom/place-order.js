@@ -4,7 +4,7 @@ $('#add_more').click(function() {
 
     $('#all_forms').append('<div class="container" id="info-' + form_idx +  '">' +
                            '<div class="row"><h3 id="header-' + form_idx + '">Item</h3>' +
-                           '<i class="toggler fa fa-window-maximize" id="toggle-' + form_idx + '"></i>' +
+                           '<i class="toggler fa fa-chevron-up" id="toggle-' + form_idx + '"></i>' +
                            '<i class="remover fa fa-times-circle" id="remove-' + form_idx + '"></i>');
 
     $('#all_forms').append('<div id="form-' + form_idx + '">');
@@ -14,14 +14,15 @@ $('#add_more').click(function() {
 
 $(document).on("click", ".toggler", function(e){
     var id = this.id.split("-")[1];
-
     var url = $('#id_form-' + parseInt(id) + '-url').val();
     if($('#form-' + id).css('display') === 'none') {
         $("#header-" + id).replaceWith('<h3 id="header-' + id + '">Item</h3>');
         $('#form-' + id).show("fast");
+        $("#toggle-" + id).removeClass("fa-chevron-down").addClass("fa-chevron-up");
     } else {
         $("#header-" + id).replaceWith('<h6 id="header-' + id + '">Item</h6>');
         $('#form-' + id).hide("fast");
+        $("#toggle-" + id).removeClass("fa-chevron-up").addClass("fa-chevron-down");
     }
     if (url !== '') {
         $('#header-' + id).text(url);
