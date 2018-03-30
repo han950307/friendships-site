@@ -14,6 +14,13 @@
     #empty_form {
         display:none;
     }
+    .info-container {
+        border-style: solid;
+        border-width: thin;
+        border-color: grey;
+        padding: 10px;
+        margin: 10px;
+    }
 </style>
 
 {% extends "friendship/base_forms.html" %}
@@ -33,19 +40,20 @@
         {{ formset.management_form }}
         {% csrf_token %}
         <div id="all_forms">
-
-            <div class="container" id="info-0">
-                <div class="row">
-                    <h3 id="header-0">Item</h3>
-                    <i class="toggler fa fa-chevron-up" id="toggle-0"></i>
-                    <i class="remover fa fa-times-circle" id="remove-0"></i>
+            <div class="container info-container rounded" id="container-0">
+                <div class="container" id="info-0">
+                    <div class="row">
+                        <h3 id="header-0">Item</h3>
+                        <i class="toggler fa fa-chevron-up" id="toggle-0"></i>
+                        <i class="remover fa fa-times-circle" id="remove-0"></i>
+                    </div>
                 </div>
-            </div>
 
-            <div id="form-0">
-                {% for form in formset %}
-                    {{ form.as_p }}
-                {% endfor %}
+                <div id="form-0">
+                    {% for form in formset %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                </div>
             </div>
 
 

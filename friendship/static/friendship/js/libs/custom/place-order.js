@@ -2,12 +2,15 @@ $('#add_more').click(function() {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
     $('#id_form-TOTAL_FORMS').val(form_idx + 1);
 
-    $('#all_forms').append('<div class="container" id="info-' + form_idx +  '">' +
-                           '<div class="row"><h3 id="header-' + form_idx + '">Item</h3>' +
-                           '<i class="toggler fa fa-chevron-up" id="toggle-' + form_idx + '"></i>' +
-                           '<i class="remover fa fa-times-circle" id="remove-' + form_idx + '"></i>');
+    $('#all_forms').append('<div class="container info-container rounded" id="container-' + form_idx +  '">');
 
-    $('#all_forms').append('<div id="form-' + form_idx + '">');
+
+    $('#container-' + form_idx).append('<div class="container" id="info-' + form_idx +  '">' +
+                                       '<div class="row"><h3 id="header-' + form_idx + '">Item</h3>' +
+                                       '<i class="toggler fa fa-chevron-up" id="toggle-' + form_idx + '"></i>' +
+                                       '<i class="remover fa fa-times-circle" id="remove-' + form_idx + '"></i>');
+
+    $('#container-' + form_idx).append('<div id="form-' + form_idx + '">');
     $('#form-' + form_idx).append($('#empty_form').html().replace(/__prefix__/g, form_idx));
     $('#form-' + form_idx).append('<br />');
 });
@@ -34,8 +37,7 @@ $(document).on("click", ".remover", function(e){
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val()) - 1;
     $('#id_form-TOTAL_FORMS').val(form_idx);
     var id = this.id.split("-")[1];
-    $('#info-' + id).remove();
-    $('#form-' + id).remove();
+    $('#container-' + id).remove();
     var prefixes = ['info', 'header', 'toggle', 'remove', 'form']
     for (var i = id; i<form_idx; i++) {
         for (var k = 0; k<prefixes.length; k++) {
