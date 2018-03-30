@@ -70,11 +70,11 @@ def create_user(**kwargs):
 	"""
 	# Trying to get the items.
 	try:
+		print(kwargs)
 		firstname = kwargs['first_name']
 		lastname = kwargs['last_name']
 		email = kwargs['email']
 
-		password = ""
 		if 'social_auth' in kwargs:
 			social_auth = kwargs["social_auth"]
 
@@ -89,6 +89,7 @@ def create_user(**kwargs):
 				])
 
 	except KeyError:
+		error(request, INCOMPLETE_DATA_MSG)
 		raise KeyError(INCOMPLETE_DATA_MSG)
 	else:
 		# Check whether this email exists in the database already.
@@ -97,17 +98,12 @@ def create_user(**kwargs):
 			msg = 'The email \'{}\' is already registered.'.format(email)
 			raise ValueError(msg)
 		user = User.objects.create_user(
-			email,
-			email,
-			password
+			username=email,
+			email=email,
+			password=password,
+			first_name=firstname,
+			last_name=lastname,
 		)
-		user.first_name = firstname
-		user.last_name = lastname
-		user.email = email
-		user.is_superuser = False
-		user.is_staff = False
-		user.is_active = True
-		user.save()
 
 	if 'social_auth' in kwargs and social_auth == "line":
 		create_line_user(user, **kwargs)
@@ -119,6 +115,7 @@ def login_user(request, **kwargs):
 	try:
 		email = kwargs['email']
 		password = kwargs['password']
+		print(kwargs)
 	except KeyError:
 		error(request, INCOMPLETE_DATA_MSG)
 		raise KeyError(INCOMPLETE_DATA_MSG)		

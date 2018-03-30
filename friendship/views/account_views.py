@@ -42,6 +42,7 @@ def register_process(request):
 	# Trying to get the items.
 	try:
 		data_dict = {x: v for x, v in request.POST.items()}
+		data_dict["social_auth"] = "none"
 		create_user(**data_dict)
 	except (KeyError, ValueError):
 		return render(request, 'friendship/register.html', {})
