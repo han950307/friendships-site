@@ -120,7 +120,7 @@ def line_auth_token_is_valid(**kwargs):
 	Checks token issued by line.
 	"""
 	user_token = kwargs["user_token"]
-	user_id = kwargs["user_id"]
+	user_id = kwargs["line_user_id"]
 
 	request_url = "https://api.line.me/v2/oauth/verify"
 	response = requests.post(request_url, {'access_token': user_token})
@@ -164,7 +164,7 @@ def verify_social_auth_token(**kwargs):
 		social_auth = kwargs["social_auth"]
 		user_token = kwargs["user_token"]
 		if social_auth == "line":
-			user_id = kwargs["user_id"]
+			user_id = kwargs["line_user_id"]
 			return line_auth_token_is_valid(**kwargs)
 		elif social_auth == "facebook":
 			email = kwargs["email"]
@@ -204,7 +204,7 @@ def get_user_auth_token(**kwargs):
 	social_auth = kwargs["social_auth"]
 
 	if social_auth == "line":
-		user_id = kwargs["user_id"]
+		user_id = kwargs["line_user_id"]
 		queryset = LineUser.objects.filter(line_user_id=user_id)
 
 		if not queryset:
