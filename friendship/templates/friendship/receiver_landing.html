@@ -10,16 +10,18 @@
 
 
 {% block form %}
-<!--action="{% url 'friendship:place_order_process' %}" -->
 
     <form method="post" name="order_form">
         {{ formset.management_form }}
         {% csrf_token %}
         <div id="all_forms">
-            <h1> Item 1 of Order </h1>
-            {% for form in formset %}
-                {{ form.as_p }}
-            {% endfor %}
+            <p class="toggler" id="toggle-1"> Toggle Item 1 </p>
+            <div id="form-1">
+                <h1> Item 1 of Order </h1>
+                {% for form in formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
         </div>
 
         <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
