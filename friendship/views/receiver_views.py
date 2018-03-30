@@ -1,5 +1,6 @@
 
 from django.contrib.messages import error
+
 from django.shortcuts import (
     render,
     redirect,
@@ -19,7 +20,9 @@ from friendship.forms import (
 
 from django.forms.formsets import formset_factory
 
-import datetime, pytz
+import datetime
+import pytz
+import base64
 
 
 def upload_picture_view(request, order_id):
@@ -51,12 +54,14 @@ def upload_picture_process(request, order_id):
         order = Order.objects.get(pk=order_id)
 
         if form.is_valid():
+            imagef = form.cleaned_data["picture"]
+            encoded_string = base64.b64encode(imagef.read())
             image = Image.objects.create(
                 user=request.user,
                 order=order,
-                image=form.cleaned_data["picture"],
+                image=encoded_string,
                 mimetype="0",
-                image_type="0"
+                image_type=0,
             )
             OrderAction.objects.create(
                 order=order,

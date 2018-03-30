@@ -1,4 +1,4 @@
-{% extends "friendship/base_generic_content.html" %}
+ {% extends "friendship/base_generic_content.html" %}
 
 {% load static %}
 
@@ -14,7 +14,7 @@
 <p>Messages</p>
 <div id="messages" data-first="{{ first }}"></div>
 
-
+ 
 <div id="message_dummy" style="display:none;"
      data-action="{% url 'friendship:sync_message' order.id%}" data-method="post">
 </div>

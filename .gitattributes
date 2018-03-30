@@ -1,0 +1,2 @@
+friendsite/production_secrets.py filter=git-crypt diff=git-crypt
+*.key filter=git-crypt diff=git-crypt

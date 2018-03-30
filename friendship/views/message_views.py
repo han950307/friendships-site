@@ -1,4 +1,3 @@
-
 from django.http import HttpResponse
 
 from django.core import serializers
@@ -17,26 +16,26 @@ from ..models import (
 )
 
 
-def send_message(request, orderID):
+def send_message(request, order_id):
     """
     Send message
     """
     try:
         text = request.POST['message']
     except KeyError:
-        return order_details(request, orderID)
+        return order_details(request, order_id)
     else:
         if len(text) != 0:
             message = Message.objects.create(
                 author=request.user,
-                transaction=Order.objects.get(pk=orderID),
+                transaction=Order.objects.get(pk=order_id),
                 content=text,
             )
-        return order_details(request, orderID)
+        return order_details(request, order_id)
 
 
-def sync_message(request, orderID, after=0):
-    order = Order.objects.get(pk=orderID)
+def sync_message(request, order_id, after=0):
+    order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')

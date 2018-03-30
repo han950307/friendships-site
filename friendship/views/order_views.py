@@ -100,8 +100,8 @@ def user_open_orders(request):
         })
 
 
-def match_bid(orderID, bidID):
-    order = Order.objects.get(pk=orderID)
-    bid = Bid.ojects.get(pk=bidID)
+def match_bid(order_id, bid_id):
+    order = Order.objects.get(pk=order_id)
+    bid = Bid.ojects.get(pk=bid_id)
     order.shipper = bid.shipper
     order.shipper_address = ShippingAddress.objects.get(fk=bid.shipper).address
