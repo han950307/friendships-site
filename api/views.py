@@ -108,8 +108,9 @@ class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes((permissions.AllowAny,))
 def request_auth_token(request):
 	if request.method == 'GET':
+		data_dict = {x: v for x, v in request.GET.items()}
 		try:
-			serialized_token = get_user_auth_token(**request.GET)
+			serialized_token = get_user_auth_token(**data_dict)
 		except KeyError as e:
 			return Response(
 				{"error": str(e)},
@@ -135,20 +136,32 @@ class CreateUser(generics.CreateAPIView):
 
 	def create(self, request):
 		serialized = UserSerializer(data=request.data)
+		if (serialized.is_valid()):
+			data_dict = {x: v for x, v in serialized.data.items()}
+			data_dict.update({x: v for x, v in request.data.items()})
+
 		# make sure auth tokens are valid for social auth.
 		try:
-			valid, response_dict = verify_social_auth_token(**serialized.data)
-		except ValueError as e:
+			valid, response_dict = verify_social_auth_token(**data_dict)
+		except (ValueError, KeyError) as e:
 			return Response(
 				{"error": str(e)},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 
-		try:
-			create_user(**serialized.data)
-		except ValueError as e:
+		# only do this if valid.
+		if valid:
+			try:
+				create_user(**data_dict)
+			except ValueError as e:
+				return Response(
+					{"error": str(e)},
+					status=status.HTTP_400_BAD_REQUEST,
+				)
+		else:
 			return Response(
-				{"error": str(e)},
+				{"error": "Social auth token validation failed. JSONDUMPS {}" \
+					.format(json.dumps(response_dict))},
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 

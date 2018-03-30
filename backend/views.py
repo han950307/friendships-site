@@ -1,14 +1,28 @@
 from django.contrib.auth.models import User
 from django.contrib.messages import error
 from friendship.models import (
-	ShippingAddress,
-	ShipperList,
+    LineUser,
+)
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.throttling import AnonRateThrottle
+from rest_framework.authtoken.models import Token
+from rest_framework import (
+	status,
+	permissions,
+	authentication,
+	generics,
 )
 
 from friendsite.settings import (
 	ACCESS_TOKEN_FACEBOOK,
 	CLIENT_ID_LINE,
 )
+
+import requests
+import json
+import random
 
 INCOMPLETE_DATA_MSG = "Not all required data was passed in."
 USER_NOT_FOUND_MSG = "This user was not found matching the credentials. Perhaps need to register?"
@@ -19,7 +33,7 @@ BAD_DATA_MSG = "Data passed in was bad."
 
 def create_line_user(user, **kwargs):
 	try:
-		user_id = request.data['user_id']
+		user_id = kwargs['user_id']
 		if type(user_id) != str:
 			user_id = user_id.decode("utf-8")
 	except KeyError:
@@ -137,7 +151,7 @@ def facebook_auth_token_is_valid(**kwargs):
 					requests.utils.quote(ACCESS_TOKEN_FACEBOOK)
 				)
 
-	response = requests.get(request_str)
+	response = requests.get(request_url)
 	response_dict = json.loads(response.content)
 
 	if (response.status_code == status.HTTP_200_OK) and response_dict["data"]["is_valid"]:
@@ -183,7 +197,7 @@ def get_user_auth_token(**kwargs):
 	"""
 	valid, response_dict = verify_social_auth_token(**kwargs)
 	if not valid:
-		raise ValueError("Auth token was not valid. JSONDUMPS {}".format(
+		raise ValueError("Social auth token validation failed. JSONDUMPS {}".format(
 			json.dumps(response_dict)
 		))
 
