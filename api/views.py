@@ -22,8 +22,9 @@ from friendship.models import (
     Bid,
     Image,
     Message,
-    LineUser,
 )
+
+from api.models import LineUser
 
 from friendship.serializers import (
 	UserSerializer,
