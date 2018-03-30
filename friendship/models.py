@@ -1,10 +1,10 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import User
 
 import enum
 
 import datetime
+
 
 # Create your models here.
 class ShipperList(models.Model):
@@ -165,6 +165,8 @@ class Message(models.Model):
     )
     content = models.CharField(max_length=5000)
 
+# we need to figure out whether cascading or setting null is the better option. In most cases we should try to preserve
+# data even if the person deleted their account later, right?
 
 class LineUser(models.Model):
     line_user_id = models.CharField(max_length=200, unique=True)
