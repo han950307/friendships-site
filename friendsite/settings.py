@@ -31,6 +31,8 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
+    'backend.apps.BackendConfig',
     'friendship.apps.FriendshipConfig',
     'django.contrib.admin',
     'django.contrib.auth',
