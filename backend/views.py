@@ -16,8 +16,8 @@ from rest_framework import (
 )
 
 from friendsite.settings import (
-	ACCESS_TOKEN_FACEBOOK,
-	CLIENT_ID_LINE,
+	FACEBOOK_ACCESS_TOKEN,
+	LINE_CLIENT_ID,
 )
 
 import requests
@@ -30,7 +30,7 @@ BAD_DATA_MSG = "Data passed in was bad."
 
 # BACKEND DOESNT RENDER ANYTHING!
 
-
+### ACCOUNT FUNCTIONS ###
 def create_line_user(user, **kwargs):
 	try:
 		user_id = kwargs['user_id']
@@ -44,7 +44,6 @@ def create_line_user(user, **kwargs):
 	)
 
 
-# Create your views here.
 def create_user(**kwargs):
 	"""
 	Process registration and put user data into the database.
@@ -116,6 +115,7 @@ def login_user(request, **kwargs):
 			raise ValueError(USER_NOT_FOUND_MSG)
 
 
+### API SPECIFIC FUNCTIONS ###
 def line_auth_token_is_valid(**kwargs):
 	"""
 	Assumes the kwargs is formatted correctly.

@@ -25,10 +25,6 @@ from friendship.models import (
     LineUser,
 )
 
-from friendsite.settings import (
-	ACCESS_TOKEN_FACEBOOK,
-	CLIENT_ID_LINE,
-)
 from friendship.serializers import (
 	UserSerializer,
 	TokenSerializer,
