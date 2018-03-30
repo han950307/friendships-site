@@ -1,3 +1,18 @@
+<style>
+    i {
+        padding: 5px;
+    }
+    h1 {
+        display: inline;
+    }
+    .toggler {
+        margin-left: auto;
+    }
+    #empty_form {
+        display:none;
+    }
+</style>
+
 {% extends "friendship/base_forms.html" %}
 {% load static %}
 
@@ -15,20 +30,30 @@
         {{ formset.management_form }}
         {% csrf_token %}
         <div id="all_forms">
-            <p class="toggler" id="toggle-1"> Toggle Item 1 </p>
-            <div id="form-1">
-                <h1> Item 1 of Order </h1>
-                {% for form in formset %}
-                    {{ form.as_p }}
-                {% endfor %}
+
+            <div class="container panel-default" id="info-1">
+                <div class="row">
+                    <h1>Item</h1>
+                    <i class="toggler fa fa-window-maximize" id="toggle-1"></i>
+                    <i class="remover fa fa-times-circle" id="remove-1"></i>
+                </div>
+
+                <div id="form-1" class="panel-body">
+                    {% for form in formset %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                </div>
             </div>
+
+
         </div>
 
+        <br/>
         <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
 
-<div id="empty_form" style="display:none">
+<div id="empty_form">
     {{ formset.empty_form.as_p }}
 </div>
 
