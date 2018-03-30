@@ -15,12 +15,20 @@
     <form method="post" name="order_form">
         {{ formset.management_form }}
         {% csrf_token %}
-        {% for form in formset %}
-            {{ form.as_p }}
-        {% endfor %}
+        <div id="all_forms">
+            <h1> Item 1 of Order </h1>
+            {% for form in formset %}
+                {{ form.as_p }}
+            {% endfor %}
+        </div>
+
+        <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
 
+<div id="empty_form" style="display:none">
+    {{ formset.empty_form.as_p }}
+</div>
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>
 
