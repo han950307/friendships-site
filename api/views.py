@@ -136,6 +136,11 @@ class CreateUser(generics.CreateAPIView):
 		if (serialized.is_valid()):
 			data_dict = {x: v for x, v in serialized.data.items()}
 			data_dict.update({x: v for x, v in request.data.items()})
+		else:
+			return Response(
+				{"error": "Input data was bad. DATA DUMP".format(str(request.data))},
+				status=status.HTTP_400_BAD_REQUEST,
+			)
 
 		# make sure auth tokens are valid for social auth.
 		try:
