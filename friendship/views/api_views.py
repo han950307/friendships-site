@@ -341,7 +341,6 @@ class CreateUser(generics.CreateAPIView):
 				status=status.HTTP_400_BAD_REQUEST,
 			)
 
-
 		# make sure auth tokens are valid for social auth.
 		token_valid = False
 		if social_auth == "facebook":
