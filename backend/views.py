@@ -128,9 +128,10 @@ def line_auth_token_is_valid(**kwargs):
 	response = requests.post(request_url, {'access_token': user_token})
 	response_dict = json.loads(response.content)
 
+	# if response is good, check whether client is
 	if response.status_code == status.HTTP_200_OK:
 		client_id = str(response_dict["client_id"])
-		if client_id != CLIENT_ID_LINE:
+		if client_id != LINE_CLIENT_ID:
 			raise ValueError("This user needs to give permission to use friendship.")
 		return True, response_dict
 	else:
@@ -148,7 +149,7 @@ def facebook_auth_token_is_valid(**kwargs):
 				"input_token={}&access_token={}" \
 				.format(
 					requests.utils.quote(user_token),
-					requests.utils.quote(ACCESS_TOKEN_FACEBOOK)
+					requests.utils.quote(FACEBOOK_ACCESS_TOKEN)
 				)
 
 	response = requests.get(request_url)
