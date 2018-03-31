@@ -83,7 +83,7 @@ def facebook_callback(request):
 	except:
 		print(response_dict)
 		error(request, "Failed logging into facebook." + str(response_dict))
-		redirect("friendship:index")
+		return redirect("friendship:index")
 
 	valid, response_dict = facebook_auth_token_is_valid(**data_dict)
 
@@ -114,7 +114,7 @@ def facebook_callback(request):
 		user = User.objects.get(pk=int(serialized.data["user_id"]))
 	else:
 		error(request, "Failed logging into facebook. Please try again.")
-		redirect("friendship:index")
+		return redirect("friendship:index")
 
 	content += response.content
 	return render(request, 'friendship/testing.html', {'data': content})
