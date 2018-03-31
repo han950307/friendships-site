@@ -63,6 +63,7 @@ def facebook_callback(request):
 			"social_auth": "facebook",
 			"user_token": user_token
 		}
+		content = str(data_dict)
 	except:
 		error(request, "Failed logging into facebook.")
 		redirect("friendship:index")
@@ -73,6 +74,5 @@ def facebook_callback(request):
 		response = requests.get("https://graph.facebook.com/v2.12me?access_token="
 					.format(user_token))
 
-	content = response.content
-	print(content)
+	content += response.content
 	return render(request, 'friendship/testing.html', {'data': content})
