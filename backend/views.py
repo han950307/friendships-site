@@ -111,7 +111,18 @@ def create_user(**kwargs):
 	return user
 
 
-def login_user(request, **kwargs):
+def login_user(request, user):
+	login(request, user)
+
+	# check if the user is a shipper.
+	user = ShipperList.objects.filter(pk=user)
+	if user:
+		request.session["is_shipper"] = True
+	else:
+		request.session["is_shipper"] = False
+
+
+def login_user_web(request, **kwargs):
 	try:
 		email = kwargs['email']
 		password = kwargs['password']
@@ -122,14 +133,7 @@ def login_user(request, **kwargs):
 	else:
 		user = authenticate(request, username=email, password=password)
 		if user is not None:
-			login(request, user)
-
-			# check if the user is a shipper.
-			user = ShipperList.objects.filter(pk=user)
-			if user:
-				request.session["is_shipper"] = True
-			else:
-				request.session["is_shipper"] = False
+			login_user(request, user)
 		else:
 			error(request, USER_NOT_FOUND_MSG)
 			raise ValueError(USER_NOT_FOUND_MSG)
@@ -175,7 +179,6 @@ def line_auth_token_is_valid(**kwargs):
 	Checks token issued by line.
 	"""
 	user_token = kwargs["user_token"]
-	user_id = kwargs["line_user_id"]
 
 	request_url = "https://api.line.me/v2/oauth/verify"
 	response = requests.post(request_url, {'access_token': user_token})
@@ -196,7 +199,6 @@ def facebook_auth_token_is_valid(**kwargs):
 	Checks token issued by facebook.
 	"""
 	user_token = kwargs["user_token"]
-	email = kwargs["email"]
  
 	request_url = "https://graph.facebook.com/debug_token?" + \
 				"input_token={}&access_token={}" \

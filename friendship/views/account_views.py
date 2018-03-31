@@ -18,6 +18,7 @@ from ..models import ShippingAddress, ShipperList
 from backend.views import (
 	create_user,
 	login_user,
+	login_user_web,
 )
 
 import re
@@ -63,7 +64,7 @@ def login_process(request):
 	"""
 	try:
 		data_dict = {x: v for x, v in request.POST.items()}
-		login_user(request, **data_dict)
+		login_user_web(request, **data_dict)
 		if request.session["is_shipper"] == True:
 			return HttpResponseRedirect(reverse('friendship:index'))
 		else:

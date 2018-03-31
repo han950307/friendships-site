@@ -11,11 +11,22 @@ class ShipperList(models.Model):
     """
     Contains a list of shippers.
     """
+    @enum.unique
+    class ShipperType(enum.IntEnum):
+        TRAVELER = 0
+        FLIGHT_ATTENDANTS = 1
+        SHIPPING_COMPANIES = 2
+        FRIENDSHIP_BIDDERS = 3
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
         related_name="is_shipper",
+    )
+
+    shipper_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in ShipperType)
     )
 
 
@@ -28,6 +39,8 @@ class ShippingAddress(models.Model):
         on_delete=models.CASCADE,
         related_name='shipping_addresses'
     )
+    # name field associated for each shipping address. doesn't really matter.
+    name = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=1000)
     
     # Each shipping address should have an associated phone number.
@@ -88,6 +101,7 @@ class Order(models.Model):
         related_name="receiver_address",
         on_delete=models.CASCADE,
     )
+    estimated_weight = models.IntegerField()
 
 
 class OrderAction(models.Model):
