@@ -48,7 +48,7 @@ def facebook_callback(request):
 		code=code
 	)
 	
-	response = request.get(url)
+	response = requests.get(url)
 
 	content = response.content
 	print(content)
