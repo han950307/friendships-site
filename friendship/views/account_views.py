@@ -18,6 +18,7 @@ from ..models import ShippingAddress, ShipperList
 from backend.views import (
 	create_user,
 	login_user,
+	login_user_web,
 )
 
 import re

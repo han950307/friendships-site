@@ -12,6 +12,7 @@ from backend.views import (
     login_user,
     get_user_auth_token,
     create_user,
+    create_line_user,
 )
 
 import json
@@ -208,7 +209,7 @@ def line_callback(request):
 
 
 def line_create_account(request):
-    return render(request, "friendsite_social_auth/line_create_user.html", {})
+    return render(request, "friendsite_social_auth/line_create_user.html", {'user': None})
 
 
 def line_register_process(request):
@@ -216,10 +217,29 @@ def line_register_process(request):
         data_dict = {x: v for x, v in request.POST.items()}
         data_dict.update({x: v for x, v in request.session.items()})
         data_dict["social_auth"] = "line"
-        del request.session['line_user_id']
-        user = create_user(**data_dict)
+
+        # This is logic for after user input his info and there's a conflict.
+        if 'confirm' in data_dict:
+            if data_dict["confirm"] == "True":
+                user = User.objects.filter(username=data_dict["email"])[0]
+                create_line_user(user, **data_dict)
+            else:
+                error(request, "Please double check your account. Perhaps you already have an account?")
+                return redirect("friendship:login")
+        # if no conflict, then do this.
+        else:
+            try:
+                user = create_user(**data_dict)
+            # This error gets raised when email already exists.
+            except ValueError:
+                user = User.objects.filter(username=data_dict["email"])[0]
+                request.session.update({x: v for x, v in request.POST.items()})
+                return render(request, "friendsite_social_auth/line_create_user.html", {'user': user})
+        for key in list(request.session.keys()):
+            del request.session[key]
         login_user(request, user)
-    except (KeyError, ValueError):
+    except (KeyError, ValueError) as e:
+        print(e)
         return render(request, 'friendship/register.html', {})
 
     return redirect('friendship:receiver_landing')

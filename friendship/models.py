@@ -28,6 +28,8 @@ class ShippingAddress(models.Model):
         on_delete=models.CASCADE,
         related_name='shipping_addresses'
     )
+    # name field associated for each shipping address. doesn't really matter.
+    name = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=1000)
     
     # Each shipping address should have an associated phone number.
