@@ -20,7 +20,7 @@ from friendship.forms import (
 	UploadPictureForm,
 	OrderForm,
 )
-
+from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 
 import datetime
@@ -28,31 +28,26 @@ import pytz
 import base64
 
 
+@login_required
 def upload_picture_view(request, order_id):
-	if not request.user.is_authenticated:
-		error(request, 'You must login first to access this page.')
-		return redirect('friendship:login')
+	orders = Order.objects.filter(pk=order_id)
+
+	# if multiple orders or no order found with that id.
+	if len(orders) != 1:
+		error(request, 'Order not found')
+		return redirect('friendship:receiver_landing')
 	else:
-		orders = Order.objects.filter(pk=order_id)
-
-		# if multiple orders or no order found with that id.
-		if len(orders) != 1:
-			error(request, 'Order not found')
-			return redirect('friendship:receiver_landing')
-		else:
-			order = orders[0]
-			return render(
-				request,
-				'friendship/upload_picture.html',
-				{'order': order}
-			)
+		order = orders[0]
+		return render(
+			request,
+			'friendship/upload_picture.html',
+			{'order': order}
+		)
 
 
+@login_required
 def upload_picture_process(request, order_id):
-	if not request.user.is_authenticated:
-		error(request, 'You must login first to access this page.')
-		return redirect('friendship:login')
-	elif request.method == "POST":
+	if request.method == "POST":
 		form = UploadPictureForm(request.POST, request.FILES)
 		order = Order.objects.get(pk=order_id)
 
@@ -79,18 +74,14 @@ def upload_picture_process(request, order_id):
 		return redirect('friendship:order_details', pk=order_id)
 
 
+@login_required
 def receiver_landing_view(request):
 	"""
 	This is a page for a form for making an order.
 	"""
-
 	OrderFormSet = formset_factory(OrderForm)
 
-	if not request.user.is_authenticated:
-		error(request, 'You must login first to access this page.')
-		return redirect('friendship:login')
-	# serve em a fresh form
-	elif request.method != 'POST':
+	if request.method != 'POST':
 		formset = OrderFormSet()
 		primary_address = ShippingAddress.objects.filter(
 			user=request.user

@@ -10,6 +10,12 @@ from friendsite.settings import (
 	DEBUG,
 )
 
+from backend.views import (
+	facebook_auth_token_is_valid,
+	login_user,
+)
+
+import json
 import requests
 
 
@@ -49,6 +55,24 @@ def facebook_callback(request):
 	)
 	
 	response = requests.get(url)
+	response_dict = json.loads(response.content)
+
+	try:
+		user_token = response_dict["access_token"]
+		data_dict = {
+			"social_auth": "facebook",
+			"user_token": user_token
+		}
+	except:
+		error(request, "Failed logging into facebook.")
+		redirect("friendship:index")
+
+	valid, response_dict = facebook_auth_token_is_valid(**data_dict)
+
+	if valid:
+		response = requests.get("https://graph.facebook.com/me?access_token="
+					.format(user_token))
 
 	content = response.content
 	print(content)
+	return render(request, 'friendship/testing.html', {'data': content})

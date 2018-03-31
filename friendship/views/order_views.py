@@ -3,7 +3,7 @@ from django.shortcuts import (
     render,
     redirect,
 )
-
+from django.contrib.auth.decorators import login_required
 from ..models import (
     Order,
     Bid,
@@ -31,44 +31,39 @@ def get_min_bid(order):
     return min_bid
 
 
+@login_required
 def order_details(request, pk):
     """
     Given the order_id (pk), displays its info.
     """
-    if not request.user.is_authenticated:
-        error(request, 'You must login first to access this page.')
-        return redirect('friendship:login')
-    else:
-        order = Order.objects.get(pk=pk)
-        if order.receiver != request.user and order.shipper != request.user:
-            error(request, 'You\'ve got the wrong user')
-            return redirect('friendship:index')
-        messages = Message.objects.filter(transaction=order)
-        first = 0
-        if len(messages) != 0:
-            first = messages.first().pk
+    order = Order.objects.get(pk=pk)
+    if order.receiver != request.user and order.shipper != request.user:
+        error(request, 'You\'ve got the wrong user')
+        return redirect('friendship:index')
+    messages = Message.objects.filter(transaction=order)
+    first = 0
+    if len(messages) != 0:
+        first = messages.first().pk
 
-        actions = OrderAction.objects.filter(order=pk)
-        for action in actions:
-            if not action.text:
-                action.text = OrderAction.Action(action.action)
+    actions = OrderAction.objects.filter(order=pk)
+    for action in actions:
+        if not action.text:
+            action.text = OrderAction.Action(action.action)
 
-        return render(request, 'friendship/order_details.html', {
-            'order': order,
-            'messages': messages,
-            'first': first,
-            'actions': actions,
-        })
+    return render(request, 'friendship/order_details.html', {
+        'order': order,
+        'messages': messages,
+        'first': first,
+        'actions': actions,
+    })
 
 
+@login_required
 def open_orders(request, filter):
     """
     View currently open orders.
     """
-    if not request.user.is_authenticated:
-        error(request, 'You must login first to access this page.')
-        return redirect('friendship:login')
-    elif not request.session["is_shipper"]:
+    if not request.session["is_shipper"]:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
@@ -89,15 +84,12 @@ def open_orders(request, filter):
         })
 
 
+@login_required
 def user_open_orders(request):
-    if not request.user.is_authenticated:
-        error(request, 'You must login first to access this page.')
-        return redirect('friendship:login')
-    else:
-        qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
-        return render(request, 'friendship/user_open_orders.html', {
-            'orders': qset
-        })
+    qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
+    return render(request, 'friendship/user_open_orders.html', {
+        'orders': qset
+    })
 
 
 def match_bid(order_id, bid_id):

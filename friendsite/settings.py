@@ -121,3 +121,5 @@ if not DEBUG:
 
 if DEBUG:
     SECURE_REDIRECT_EXEMPT = [r'.*']
+
+LOGIN_URL = '/login/'
