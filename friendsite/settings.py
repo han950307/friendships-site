@@ -123,3 +123,4 @@ if DEBUG:
     SECURE_REDIRECT_EXEMPT = [r'.*']
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/receiver_landing/'
