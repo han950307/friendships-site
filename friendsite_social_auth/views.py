@@ -70,7 +70,7 @@ def facebook_callback(request):
 	valid, response_dict = facebook_auth_token_is_valid(**data_dict)
 
 	if valid:
-		response = requests.get("https://graph.facebook.com/me?access_token="
+		response = requests.get("https://graph.facebook.com/v2.12me?access_token="
 					.format(user_token))
 
 	content = response.content
