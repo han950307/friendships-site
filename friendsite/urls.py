@@ -41,6 +41,7 @@ router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('social_auth/', include('friendsite_social_auth.urls')),
     path('api/', include('api.urls')),
     path('', include('friendship.urls')),
     path('', include(router.urls)),
