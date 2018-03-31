@@ -1,4 +1,4 @@
-$('#add_more').click(function() {
+function addForm() {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
     $('#id_form-TOTAL_FORMS').val(form_idx + 1);
 
@@ -13,10 +13,9 @@ $('#add_more').click(function() {
     $('#container-' + form_idx).append('<div id="form-' + form_idx + '">');
     $('#form-' + form_idx).append($('#empty_form').html().replace(/__prefix__/g, form_idx));
     $('#form-' + form_idx).append('<br />');
-});
+}
 
-$(document).on("click", ".toggler", function(e){
-    var id = this.id.split("-")[1];
+function toggle(id) {
     var url = $('#id_form-' + parseInt(id) + '-url').val();
     if($('#form-' + id).css('display') === 'none') {
         $("#header-" + id).replaceWith('<h3 id="header-' + id + '">Item</h3>');
@@ -30,15 +29,13 @@ $(document).on("click", ".toggler", function(e){
     if (url !== '') {
         $('#header-' + id).text(url);
     }
+}
 
-});
-
-$(document).on("click", ".remover", function(e){
+function remove(id) {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val()) - 1;
     $('#id_form-TOTAL_FORMS').val(form_idx);
-    var id = this.id.split("-")[1];
     $('#container-' + id).remove();
-    var prefixes = ['info', 'header', 'toggle', 'remove', 'form']
+    var prefixes = ['info', 'header', 'toggle', 'remove', 'form', 'container']
     for (var i = id; i<form_idx; i++) {
         for (var k = 0; k<prefixes.length; k++) {
             console.log('#' + prefixes[k] + '-' + (parseInt(i)+1));
@@ -46,4 +43,23 @@ $(document).on("click", ".remover", function(e){
             $('#' + prefixes[k] + '-' + (parseInt(i)+1)).attr('id', prefixes[k] + '-' + i);
         }
     }
+
+}
+
+
+$('#add_more').click(function() {
+    addForm()
+});
+
+$(document).on("click", ".toggler", function(e){
+    var id = this.id.split("-")[1];
+    toggle(id);
+});
+
+$(document).on("click", ".remover", function(e){
+    var id = this.id.split("-")[1];
+});
+
+$(function() {
+    console.log( "ready!" );
 });

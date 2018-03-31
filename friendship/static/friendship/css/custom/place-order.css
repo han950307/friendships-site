@@ -13,8 +13,13 @@ h3 {
 #empty_form {
     display:none;
 }
+
 .info-container {
     padding: 10px;
     margin: 10px;
     box-shadow: 0px 0px 2px 2px #aaaaaa;
+}
+
+label {
+    display: none;
 }

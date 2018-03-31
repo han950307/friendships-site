@@ -106,7 +106,7 @@ def receiver_landing_view(request):
         req = request.POST
         fs = OrderFormSet(req)
         if not fs.is_valid():
-            redirect('friendship:index')
+            return redirect('friendship:index')
         num = req['form-TOTAL_FORMS']
         orders = {}
         for i in range(int(num)):

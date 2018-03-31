@@ -54,9 +54,13 @@ class Order(models.Model):
         OTHER = 0
         SHOES = 1
 
+    choices = [(x.value, x.name.title()) for x in MerchandiseType]
+    choices.insert(0, (-1, "Category - please choose one"))
+
     url = models.URLField()
     merchandise_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in MerchandiseType)
+        default=-1,
+        choices=choices,
     )
     # When the receiver places a request
     date_placed = models.DateTimeField(auto_now_add=True)
