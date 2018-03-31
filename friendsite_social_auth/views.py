@@ -29,7 +29,7 @@ def facebook_login(request):
 		state="yayimalive"
 	)
 
-	redirect(url)
+	return redirect(url)
 
 
 def facebook_callback(request):
