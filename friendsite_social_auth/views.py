@@ -113,7 +113,7 @@ def facebook_callback(request):
 		try:
 			serialized = get_user_auth_token(**data_dict)
 		except ValueError:
-			user = create_user(**kwargs)
+			user = create_user(**data_dict)
 			serialized = get_user_auth_token(**data_dict)
 
 		user = User.objects.get(pk=int(serialized.data["user_id"]))
