@@ -102,8 +102,6 @@ def facebook_callback(request):
 
 		response = requests.get(url)
 		response_dict = json.loads(response.content)
-		print(response_dict)
-		print(response.status_code)
 
 		# Login user if already exists. else, create user then login.
 		data_dict = {x: v for x, v in response_dict.items()}
@@ -117,9 +115,9 @@ def facebook_callback(request):
 			serialized = get_user_auth_token(**data_dict)
 
 		user = User.objects.get(pk=int(serialized.data["user_id"]))
+		login_user(request, user)
 	else:
 		error(request, "Failed logging into facebook. Please try again.")
 		return redirect("friendship:index")
 
-	content += response.content
 	return render(request, 'friendship/testing.html', {'data': content})
