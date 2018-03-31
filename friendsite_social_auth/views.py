@@ -1,8 +1,8 @@
 from django.shortcuts import (
-    render,
-    redirect,
+	render,
+	redirect,
 )
-
+from django.contrib.auth.models import User
 from friendsite.settings import (
 	FACEBOOK_CLIENT_ID,
 	FACEBOOK_CLIENT_SECRET,
@@ -13,13 +13,26 @@ from friendsite.settings import (
 from backend.views import (
 	facebook_auth_token_is_valid,
 	login_user,
+	get_user_auth_token,
+	create_user,
 )
 
 import json
 import requests
+import hashlib
+import hmac
 
 
 # Create your views here.
+def genAppSecretProof(app_secret, access_token):
+	h = hmac.new (
+		app_secret.encode('utf-8'),
+		msg=access_token.encode('utf-8'),
+		digestmod=hashlib.sha256
+	)
+	return h.hexdigest()
+
+
 def facebook_login(request):
 	"""
 	Log in using facebook
@@ -57,8 +70,10 @@ def facebook_callback(request):
 	response = requests.get(url)
 	response_dict = json.loads(response.content)
 
+	# Try to see if user token is valid.
 	try:
 		user_token = response_dict["access_token"]
+		user_id = response_dict["data"]["user_id"]
 		data_dict = {
 			"social_auth": "facebook",
 			"user_token": user_token
@@ -70,9 +85,34 @@ def facebook_callback(request):
 
 	valid, response_dict = facebook_auth_token_is_valid(**data_dict)
 
+	# If the token is valid, then get user info from facebook.
 	if valid:
-		response = requests.get("https://graph.facebook.com/v2.12/me?access_token="
-					.format(user_token))
+		request_url = "https://graph.facebook.com/v2.12/{user_id}?" + \
+					  "fields=id,first_name,email,last_name" + \
+					  "&appsecret_proof={appsecret_proof}"
+
+		url = request_url.format(
+			user_id=user_id,
+			appsecret_proof=genAppSecretProof(user_token, FACEBOOK_CLIENT_SECRET)
+		)
+
+		response = requests.get(request_url)
+		response_dict = json.loads(response.content)		
+
+		# Login user if already exists. else, create user then login.
+		data_dict = {x: v for x, v in response_dict.items()}
+		data_dict['social_auth'] = 'facebook'
+
+		try:
+			serialized = get_user_auth_token(**data_dict)
+		except ValueError:
+			user = create_user(**kwargs)
+			serialized = get_user_auth_token(**data_dict)
+
+		user = User.objects.get(pk=int(serialized.data["user_id"]))
+	else:
+		error(request, "Failed logging into facebook. Please try again.")
+		redirect("friendship:index")
 
 	content += response.content
 	return render(request, 'friendship/testing.html', {'data': content})
