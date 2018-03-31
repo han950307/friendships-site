@@ -90,16 +90,20 @@ def facebook_callback(request):
 	if valid:
 		user_id = response_dict["data"]["user_id"]
 		request_url = "https://graph.facebook.com/v2.12/{user_id}?" + \
-					  "fields=id,first_name,email,last_name" + \
+					  "fields=id,first_name,last_name,email" + \
+					  "&access_token={access_token}" + \
 					  "&appsecret_proof={appsecret_proof}"
 
 		url = request_url.format(
 			user_id=user_id,
-			appsecret_proof=genAppSecretProof(user_token, FACEBOOK_CLIENT_SECRET)
+			access_token=user_token,
+			appsecret_proof=genAppSecretProof(FACEBOOK_CLIENT_SECRET, user_token)
 		)
 
-		response = requests.get(request_url)
-		response_dict = json.loads(response.content)		
+		response = requests.get(url)
+		response_dict = json.loads(response.content)
+		print(response_dict)
+		print(response.status_code)
 
 		# Login user if already exists. else, create user then login.
 		data_dict = {x: v for x, v in response_dict.items()}
