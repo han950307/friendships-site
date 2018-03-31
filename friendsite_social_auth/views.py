@@ -38,7 +38,7 @@ def facebook_callback(request):
 	request_url = "https://graph.facebook.com/v2.12/oauth/access_token?" + \
 				  "client_id={client_id}" + \
 				  "&redirect_uri={redirect_uri}" + \
-				  "&client_secret={app_secret}" + \
+				  "&client_secret={client_secret}" + \
 				  "&code={code_parameter}"
 
 	url = request_url.format(
