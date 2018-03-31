@@ -74,7 +74,6 @@ def facebook_callback(request):
 	# Try to see if user token is valid.
 	try:
 		user_token = response_dict["access_token"]
-		user_id = response_dict["data"]["user_id"]
 		data_dict = {
 			"social_auth": "facebook",
 			"user_token": user_token
@@ -89,6 +88,7 @@ def facebook_callback(request):
 
 	# If the token is valid, then get user info from facebook.
 	if valid:
+		user_id = response_dict["data"]["user_id"]
 		request_url = "https://graph.facebook.com/v2.12/{user_id}?" + \
 					  "fields=id,first_name,email,last_name" + \
 					  "&appsecret_proof={appsecret_proof}"
