@@ -73,6 +73,11 @@ def genAppSecretProof(app_secret, access_token):
 
 
 def facebook_callback(request):
+    """
+    Interesting thing is if you register as line or any other method,
+    You automatically register as facebook too. Basically
+    if you have an email on our server you can login through facebook.
+    """
     try:
         code = request.GET["code"]
     except KeyError:
