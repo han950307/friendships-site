@@ -3,7 +3,7 @@ from django.shortcuts import (
     redirect,
 )
 
-from settings import (
+from friendsite.settings import (
 	FACEBOOK_CLIENT_ID,
 	FACEBOOK_CLIENT_SECRET,
 	FACEBOOK_REDIRECT_URI,
