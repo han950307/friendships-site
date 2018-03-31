@@ -3,7 +3,7 @@ vendor/*
 */__pycache__/*
 *.pyc
 */migrations/*
-!*/migrations/*/__init__.py
+!*/migrations/__init__.py
 friendship/.Python
 friendship/bin/*
 friendship/include/*

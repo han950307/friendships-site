@@ -87,9 +87,7 @@ def create_user(**kwargs):
 					for _
 					in range(12)
 				])
-
 	except KeyError:
-		error(request, INCOMPLETE_DATA_MSG)
 		raise KeyError(INCOMPLETE_DATA_MSG)
 	else:
 		# Check whether this email exists in the database already.

@@ -5,7 +5,7 @@
 {% block title_desc %} We need just a couple more pieces of information from you! {% endblock title_desc %}
 
 {% block form %}
-	<form action="{% url 'friendship:line_register_process' %}" method="post">
+	<form action="{% url 'friendsite_social_auth:line_register_process' %}" method="post">
 		{% csrf_token %}
 		<div class="form-group">
 			<label for="form_email">Email</label>

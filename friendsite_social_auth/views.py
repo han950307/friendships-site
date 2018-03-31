@@ -36,6 +36,7 @@ class SocialLoginView(View):
                "&redirect_uri=" + quote(self.redirect_uri) + \
                "&state=" + quote(self.state)
 
+        print(url)
         return redirect(url)
 
     def get(self, request):
@@ -52,7 +53,7 @@ class FacebookSocialLoginView(SocialLoginView):
 
 
 class LineSocialLoginView(SocialLoginView):
-    base_url = settings.LINE_AUTH_URL + "weblogin"
+    base_url = settings.LINE_AUTH_URL
     client_id = settings.LINE_CLIENT_ID
     redirect_uri = settings.LINE_REDIRECT_URI
 
@@ -171,21 +172,21 @@ def line_callback(request):
         access_token = response_dict['access_token']
     except KeyError:
         error(request, "Line login failed" + str(response_dict))
-        return redirect("friendship:index")
+        return redirect("friendship:login")
 
     ## NOW GET USER ID!
     header_dict = {
-        'Authorization': 'Bearer {}'.foramt(accessToken)
+        'Authorization': 'Bearer {}'.format(access_token)
     }
 
     request_url = "https://api.line.me/v2/profile"
     response = requests.get(request_url, headers=header_dict)
     response_dict = json.loads(response.content)
     try:
-        user_id = response['user_id']
+        user_id = response_dict['userId']
     except KeyError:
         error(request, "Line login failed" + str(response_dict))
-        return redirect("friendship:index")
+        return redirect("friendship:login")
 
     # Login user if already exists. else, create user then login.
     data_dict = {x: v for x, v in response_dict.items()}
@@ -197,8 +198,7 @@ def line_callback(request):
     try:
         serialized = get_user_auth_token(**data_dict)
     except ValueError:
-        user = create_user(**data_dict)
-        request.session["line_user_id"] = line_user_id
+        request.session["line_user_id"] = user_id
         return redirect("friendsite_social_auth:line_create_account")
     
     serialized = get_user_auth_token(**data_dict)
@@ -208,12 +208,12 @@ def line_callback(request):
 
 
 def line_create_account(request):
-    render(request, "friendsite_social_auth/line_create_account/", {})
+    return render(request, "friendsite_social_auth/line_create_user.html", {})
 
 
 def line_register_process(request):
     try:
-        data_dict = {x: v for x, v in request.data.items()}
+        data_dict = {x: v for x, v in request.POST.items()}
         data_dict.update({x: v for x, v in request.session.items()})
         data_dict["social_auth"] = "line"
         del request.session['line_user_id']
@@ -221,3 +221,5 @@ def line_register_process(request):
         login_user(request, user)
     except (KeyError, ValueError):
         return render(request, 'friendship/register.html', {})
+
+    return redirect('friendship:receiver_landing')
