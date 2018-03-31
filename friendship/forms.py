@@ -2,7 +2,7 @@ from django.forms import (
     Form,
     ModelForm,
     ImageField,
-    TextInput,
+    Textarea,
     NumberInput,
     URLInput,
     Select,
@@ -17,14 +17,14 @@ class UploadPictureForm(Form):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['url', 'merchandise_type', 'bid_end_datetime', 'description', 'quantity']
+        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime', ]
         common_settings = {'class': 'input form-control', 'required': 'required', }
         widgets = {
             'url': URLInput(attrs={**common_settings, **{'placeholder': 'URL'}}),
-            'merchandise_type': Select(attrs={**common_settings, **{'placeholder': 'Category'}}),
+            'merchandise_type': Select(attrs={**common_settings, **{'placeholder': 'Category', }}),
+            'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity', }}),
+            'description': Textarea(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code (i.e. size, color, style, etc.)'}}),
             'bid_end_datetime': NumberInput(attrs={**common_settings, **{'placeholder': 'Bid End Time'}}),
-            'description': TextInput(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code (i.e. size, color, style, etc.)'}}),
-            'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity'}}),
         }
 
     def is_valid(self):

@@ -19,34 +19,23 @@
         {{ formset.management_form }}
         {% csrf_token %}
         <div id="all_forms">
-            <div class="container info-container rounded z-depth-5" id="container-0">
-                <div class="container" id="info-0">
-                    <div class="row">
-                        <h3 id="header-0">Item</h3>
-                        <i class="toggler fa fa-chevron-up" id="toggle-0"></i>
-                        <i class="remover fa fa-times-circle" id="remove-0"></i>
-                    </div>
-                </div>
-
-                <div id="form-0">
-                    {% for form in formset %}
-                        {{ form.as_p }}
-                    {% endfor %}
-                </div>
-            </div>
-
-
 
         </div>
-
-        <br/>
         <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
 
+<!--This below is the template for all forms-->
+
 <div id="empty_form">
     {{ formset.empty_form.as_p }}
 </div>
+
+
+
+
+
+
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>
 

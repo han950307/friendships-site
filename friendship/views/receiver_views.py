@@ -84,10 +84,8 @@ def receiver_landing_view(request):
     OrderFormSet = formset_factory(OrderForm)
 
     if not request.user.is_authenticated:
-        error(request, 'You must login first to access this page.')
         return redirect('friendship:login')
-    # serve em a fresh form
-    elif request.method != 'POST' or int(request.POST['form-TOTAL_FORMS']) == 0:
+    elif request.method != 'POST':
         formset = OrderFormSet()
         primary_address = ShippingAddress.objects.filter(
             user=request.user
@@ -105,8 +103,9 @@ def receiver_landing_view(request):
     else:
         req = request.POST
         fs = OrderFormSet(req)
-        if not fs.is_valid():
-            return redirect('friendship:index')
+        if not fs.is_valid()or int(request.POST['form-TOTAL_FORMS']) == 0:
+            error(request, "You made a mistake in your form.")
+            return redirect('friendship:receiver_landing')
         num = req['form-TOTAL_FORMS']
         orders = {}
         for i in range(int(num)):

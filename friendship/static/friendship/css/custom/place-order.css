@@ -7,9 +7,11 @@ h3 {
     overflow: hidden;
     white-space: nowrap;
 }
+
 .toggler {
     margin-left: auto;
 }
+
 #empty_form {
     display:none;
 }
@@ -22,4 +24,8 @@ h3 {
 
 label {
     display: none;
+}
+
+select {
+    font: inherit;
 }
