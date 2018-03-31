@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'backend.apps.BackendConfig',
     'friendship.apps.FriendshipConfig',
+    'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
