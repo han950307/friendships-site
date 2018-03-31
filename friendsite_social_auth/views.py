@@ -63,7 +63,7 @@ def facebook_callback(request):
 			"social_auth": "facebook",
 			"user_token": user_token
 		}
-		content = str(data_dict).decode('utf-8')
+		content = response.content
 	except:
 		error(request, "Failed logging into facebook.")
 		redirect("friendship:index")
