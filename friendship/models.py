@@ -25,7 +25,6 @@ class ShipperList(models.Model):
         related_name="is_shipper",
     )
 
-    url = models.URLField()
     shipper_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShipperType)
     )
