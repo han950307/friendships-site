@@ -8,5 +8,6 @@ def index(request, **kwargs):
     """
     return render(request, 'friendship/index.html', **kwargs)
 
+
 def testing(request):
     return render(request, 'friendship/testing.html', {})

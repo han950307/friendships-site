@@ -1,0 +1,40 @@
+{% extends "friendship/base_forms.html" %}
+{% load static %}
+
+{% block title %} Line Registration {% endblock title %}
+{% block title_desc %} We need just a couple more pieces of information from you! {% endblock title_desc %}
+
+{% block form %}
+	<form action="{% url 'friendsite_social_auth:line_register_process' %}" method="post">
+		{% csrf_token %}
+		{% if not user %}
+			<div class="form-group">
+				<label for="form_email">Email</label>
+				<input type="email" name="email" class="input form-control" id="form_email">
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-6">
+						<label for="form_first_name">First Name</label>
+						<input type="text" name="first_name" class="input form-control" id="form_first_name">
+					</div>
+					<div class="col-sm-6">
+						<label for="form_last_name">Last Name</label>
+						<input type="text" name="last_name" class="input form-control" id="form_last_name">
+					</div>
+				</div>
+			</div>
+			<br />
+		{% else %}
+			Is this you? <br>
+			First Name: {{ user.first_name }} <br>
+			Last Name: {{ user.last_name }} <br>
+			Email: {{ user.email }} <br>
+			<input type="radio" name="confirm" value="True">YES<br>
+			<input type="radio" name="confirm" value="False">NO<br>
+		{% endif %}
+
+		<input type="submit" class="btn btn-block ui-gradient-peach shadow-md" value="Register" />
+	</form>
+<br />
+{% endblock form %}

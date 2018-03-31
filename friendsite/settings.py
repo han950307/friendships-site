@@ -31,7 +31,10 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
+    'backend.apps.BackendConfig',
     'friendship.apps.FriendshipConfig',
+    'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,9 +111,16 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+# HTTPS Stuff.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SECURE_REDIRECT_EXEMPT = [r'.*']
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+if DEBUG:
+    SECURE_REDIRECT_EXEMPT = [r'.*']
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/receiver_landing/'

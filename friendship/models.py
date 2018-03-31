@@ -11,11 +11,22 @@ class ShipperList(models.Model):
     """
     Contains a list of shippers.
     """
+    @enum.unique
+    class ShipperType(enum.IntEnum):
+        TRAVELER = 0
+        FLIGHT_ATTENDANTS = 1
+        SHIPPING_COMPANIES = 2
+        FRIENDSHIP_BIDDERS = 3
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name="user",
+        related_name="is_shipper",
+    )
+
+    shipper_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in ShipperType)
     )
 
 
@@ -28,6 +39,8 @@ class ShippingAddress(models.Model):
         on_delete=models.CASCADE,
         related_name='shipping_addresses'
     )
+    # name field associated for each shipping address. doesn't really matter.
+    name = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=1000)
     
     # Each shipping address should have an associated phone number.
@@ -70,7 +83,7 @@ class Order(models.Model):
     quantity = models.IntegerField()
     shipper = models.ForeignKey(
         User,
-        related_name="shipper",
+        related_name="shipper_orders",
         on_delete=models.SET_NULL,
         null=True,
         blank=True
@@ -84,7 +97,7 @@ class Order(models.Model):
     )
     receiver = models.ForeignKey(
         User,
-        related_name="receiver",
+        related_name="receiver_orders",
         on_delete=models.CASCADE,
     )
     receiver_address = models.ForeignKey(
@@ -92,6 +105,7 @@ class Order(models.Model):
         related_name="receiver_address",
         on_delete=models.CASCADE,
     )
+    estimated_weight = models.IntegerField()
 
 
 class OrderAction(models.Model):
@@ -145,10 +159,12 @@ class Image(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name="uploaded_images",
     )
     order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
+        related_name="order_images",
     )
     image = models.TextField()
     mimetype = models.CharField(max_length=25)
@@ -168,15 +184,3 @@ class Message(models.Model):
         on_delete=models.CASCADE,
     )
     content = models.CharField(max_length=5000)
-
-# we need to figure out whether cascading or setting null is the better option. In most cases we should try to preserve
-# data even if the person deleted their account later, right?
-
-class LineUser(models.Model):
-    line_user_id = models.CharField(max_length=200, unique=True)
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        related_name="line_user_id",
-    )
