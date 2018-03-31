@@ -2,6 +2,7 @@ from django.shortcuts import (
 	render,
 	redirect,
 )
+from django.contrib.messages import error
 from django.contrib.auth.models import User
 from friendsite.settings import (
 	FACEBOOK_CLIENT_ID,
@@ -81,7 +82,7 @@ def facebook_callback(request):
 		content = response.content
 	except:
 		print(response_dict)
-		error(request, "Failed logging into facebook.")
+		error(request, "Failed logging into facebook." + str(response_dict))
 		redirect("friendship:index")
 
 	valid, response_dict = facebook_auth_token_is_valid(**data_dict)
