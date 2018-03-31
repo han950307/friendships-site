@@ -39,7 +39,7 @@ def facebook_callback(request):
 				  "client_id={client_id}" + \
 				  "&redirect_uri={redirect_uri}" + \
 				  "&client_secret={client_secret}" + \
-				  "&code={code_parameter}"
+				  "&code={code}"
 
 	url = request_url.format(
 		client_id=FACEBOOK_CLIENT_ID,
