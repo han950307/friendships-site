@@ -80,6 +80,7 @@ def facebook_callback(request):
 		}
 		content = response.content
 	except:
+		print(response_dict)
 		error(request, "Failed logging into facebook.")
 		redirect("friendship:index")
 
