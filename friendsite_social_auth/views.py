@@ -102,9 +102,9 @@ def facebook_callback(request):
 		response_dict = json.loads(response.content)		
 
 		# Login user if already exists. else, create user then login.
-		data_dict = {x: v for x, v in response_dict['data'].items()}
+		data_dict = {x: v for x, v in response_dict.items()}
 		data_dict['social_auth'] = 'facebook'
-		data_dict['user_token'] = data_dict['access_token']
+		data_dict['user_token'] = user_token
 
 		try:
 			serialized = get_user_auth_token(**data_dict)
