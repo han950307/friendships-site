@@ -90,6 +90,7 @@ class Order(models.Model):
         related_name="receiver_address",
         on_delete=models.CASCADE,
     )
+    estimated_weight = models.IntegerField()
 
 
 class OrderAction(models.Model):
