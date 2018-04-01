@@ -25,6 +25,8 @@ class ShipperList(models.Model):
         related_name="is_shipper",
     )
 
+    url = models.URLField(null=True)
+
     shipper_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShipperType)
     )
@@ -42,6 +44,13 @@ class ShippingAddress(models.Model):
     # name field associated for each shipping address. doesn't really matter.
     name = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=1000)
+    address_line_1 = models.CharField(max_length=300)
+    address_line_2 = models.CharField(max_length=300)
+    address_line_3 = models.CharField(max_length=300)
+    city = models.CharField(max_length=300)
+    region = models.CharField(max_length=300)
+    postal_code = models.CharField(max_length=30)
+    country = models.CharField(max_length=120)
     
     # Each shipping address should have an associated phone number.
     phone = models.CharField(max_length=50, null=True)

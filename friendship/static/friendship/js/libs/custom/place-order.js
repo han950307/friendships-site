@@ -20,15 +20,17 @@ function toggle(id) {
     if($('#form-' + id).css('display') === 'none') {
         $("#header-" + id).replaceWith('<h3 id="header-' + id + '">Item</h3>');
         $('#form-' + id).show("fast");
-        $("#toggle-" + id).removeClass("fa-chevron-down").addClass("fa-chevron-up");
+//        $("#toggle-" + id).removeClass("fa-chevron-down").addClass("fa-chevron-up");
     } else {
         $("#header-" + id).replaceWith('<h6 id="header-' + id + '">Item</h6>');
         $('#form-' + id).hide("fast");
-        $("#toggle-" + id).removeClass("fa-chevron-up").addClass("fa-chevron-down");
+//        $("#toggle-" + id).removeClass("fa-chevron-up").addClass("fa-chevron-down");
     }
+    $("#toggle-" + id).toggleClass("flip");
     if (url !== '') {
         $('#header-' + id).text(url);
     }
+
 }
 
 function remove(id) {
