@@ -82,6 +82,7 @@ def receiver_landing_view(request):
 	OrderFormSet = formset_factory(OrderForm)
 
 	if request.method != 'POST':
+		# TODO Should display all the forms.
 		formset = OrderFormSet()
 		primary_address = ShippingAddress.objects.filter(
 			user=request.user
@@ -92,11 +93,16 @@ def receiver_landing_view(request):
 			address = primary_address[0]
 		else:
 			address = None
-		return render(request,
-					  'friendship/receiver_landing.html',
-					  {'address': address, 'formset': formset, },
-					  )
+		return render(
+			request,
+			'friendship/receiver_landing.html',
+			{
+				'address': address, 'formset': formset,
+			},
+			)
 	else:
+		# TODO should use the value of the address.id chosen from the form
+		# to choose the ShippingAddress
 		req = request.POST
 		num = req['form-TOTAL_FORMS']
 		orders = {}

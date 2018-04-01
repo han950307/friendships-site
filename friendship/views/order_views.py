@@ -96,4 +96,5 @@ def match_bid(order_id, bid_id):
     order = Order.objects.get(pk=order_id)
     bid = Bid.ojects.get(pk=bid_id)
     order.shipper = bid.shipper
-    order.shipper_address = ShippingAddress.objects.get(fk=bid.shipper).address
+    # TODO: should default to primary shipping address but able to confirm.
+    order.shipper_address = ShippingAddress.objects.get(fk=bid.shipper)[0]
