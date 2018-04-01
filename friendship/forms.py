@@ -24,7 +24,12 @@ class OrderForm(ModelForm):
             'merchandise_type': Select(attrs={**common_settings, **{'placeholder': 'Category', }}),
             'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity', }}),
             'description': Textarea(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code (i.e. size, color, style, etc.)'}}),
-            'bid_end_datetime': NumberInput(attrs={**common_settings, **{'placeholder': 'Bid End Time'}}),
+            'bid_end_datetime': NumberInput(attrs={**common_settings, **{'placeholder': '# Hours To Bid',
+                                                                         'type': 'range',
+                                                                         'step': '1',
+                                                                         'min': '3',
+                                                                         'max': '24',
+                                                                         }}),
         }
 
     def is_valid(self):

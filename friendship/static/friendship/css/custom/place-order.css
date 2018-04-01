@@ -29,3 +29,7 @@ label {
 select {
     font: inherit;
 }
+
+.show {
+    display: block;
+}
