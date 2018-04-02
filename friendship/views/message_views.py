@@ -41,3 +41,8 @@ def sync_message(request, order_id, after=0):
         return redirect('friendship:index')
     messages = reversed(Message.objects.filter(transaction=order))
     return HttpResponse(serializers.serialize('json', messages))
+
+def messages(request):
+    return render(request, 'friendship/messages.html', {
+
+        })

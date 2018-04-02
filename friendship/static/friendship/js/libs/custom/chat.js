@@ -1,7 +1,9 @@
-function displaySyncedMessages(json) {
-//    alert(JSON.stringify(json));
-	var first = $('#messages').attr('data-first');
-//	alert(first);
+function displaySyncedMessages(json, firstLoad) {
+	var first = parseInt($('#messages').attr('data-first'));
+	if (firstLoad) {
+	    first--;
+	}
+	alert(first);
 	$.each( json, function( key, value ) {
 		if (value.pk > first) {
 			$('#messages').append('<div>' + value.fields.content + '</div>');
@@ -13,7 +15,7 @@ function displaySyncedMessages(json) {
 	$('#messages').attr('data-first', first);
 }
 
-function getMessages(repeat) {
+function getMessages(repeat, firstLoad) {
 	var dummy = $('#message_dummy');
     $.ajax({
         type: dummy.attr('data-method'),
@@ -21,11 +23,11 @@ function getMessages(repeat) {
         data: $('#message_form').serialize(),
 		dataType: 'json',
 		success: function (json) {
-			displaySyncedMessages(json);
+			displaySyncedMessages(json, firstLoad);
 		}
     });
-    if (repeat === true) {
-    	setTimeout("getMessages(true)", 10000);
+    if (firstLoad === true) {
+    	setTimeout("getMessages(true, false)", 10000);
     }
 }
 
@@ -38,7 +40,7 @@ function sendMessage() {
             url: frm.attr('action'),
             data: frm.serialize(),
             success: function(response) {
-				getMessages(false);
+				getMessages(false, false);
             }
         });
         $('#form_message').val('');
@@ -50,5 +52,5 @@ function sendMessage() {
 
 $(document).ready(function() {
 	sendMessage();
-	getMessages(true);
+	getMessages(true, true);
 });

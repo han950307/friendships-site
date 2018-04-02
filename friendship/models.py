@@ -114,7 +114,9 @@ class Order(models.Model):
         related_name="receiver_address",
         on_delete=models.CASCADE,
     )
-    estimated_weight = models.IntegerField()
+    estimated_weight = models.IntegerField(null=True)
+    # this is hacky
+    picture = models.FileField(null=True)
 
 
 class OrderAction(models.Model):

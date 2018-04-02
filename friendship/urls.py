@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('messages/', views.messages, name='messages'),
 
+
     # Receiver views
     path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),

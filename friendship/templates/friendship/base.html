@@ -39,6 +39,9 @@
 				</li>
 				{% if request.user.is_authenticated %}
 					<li>
+						<a href="{% url 'friendship:messages' %}">Messages</a>
+					</li>
+					<li>
 						<a href="{% url 'friendship:receiver_landing' %}">Place Order</a>
 					</li>
 					<li>
