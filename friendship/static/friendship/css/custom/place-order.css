@@ -22,14 +22,15 @@ h3 {
     box-shadow: 0px 0px 2px 2px #aaaaaa;
 }
 
-label {
-    display: none;
-}
-
 select {
     font: inherit;
 }
 
 .show {
     display: block;
+}
+
+select {
+    position:absolute;
+    height:70%;
 }

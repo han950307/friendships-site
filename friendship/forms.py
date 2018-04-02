@@ -6,6 +6,7 @@ from django.forms import (
     NumberInput,
     URLInput,
     Select,
+    FileField,
 )
 from friendship.models import Order
 
@@ -17,19 +18,22 @@ class UploadPictureForm(Form):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime', ]
+        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime',]
         common_settings = {'class': 'input form-control', 'required': 'required', }
         widgets = {
             'url': URLInput(attrs={**common_settings, **{'placeholder': 'URL'}}),
             'merchandise_type': Select(attrs={**common_settings, **{'placeholder': 'Category', }}),
-            'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity', }}),
-            'description': Textarea(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code (i.e. size, color, style, etc.)'}}),
+            'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity',
+                                                                 'min': '1',
+                                                                 }}),
+            'description': Textarea(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code'}}),
             'bid_end_datetime': NumberInput(attrs={**common_settings, **{'placeholder': '# Hours To Bid',
                                                                          'type': 'range',
                                                                          'step': '1',
                                                                          'min': '3',
                                                                          'max': '24',
                                                                          }}),
+            # 'picture': FileField(),
         }
 
     def is_valid(self):
@@ -41,10 +45,3 @@ class OrderForm(ModelForm):
         super(OrderForm, self).full_clean()
         if 'bid_end_datetime' in self.errors:
             del self.errors['bid_end_datetime']
-        # if not self.cleaned_data:
-        #     return
-        # if self.cleaned_data.get('bid_end_datetime') and 'bid_end_datetime' in self._errors:
-        #     del self._errors['bid_end_datetime']
-        # print(self.errors)
-        # return self.cleaned_data
-

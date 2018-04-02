@@ -80,7 +80,6 @@ def receiver_landing_view(request):
 	This is a page for a form for making an order.
 	"""
 	OrderFormSet = formset_factory(OrderForm)
-
 	if request.method != 'POST':
 		# TODO Should display all the forms.
 		formset = OrderFormSet()

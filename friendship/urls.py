@@ -26,6 +26,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),
+    path('messages/', views.messages, name='messages'),
 
     # Receiver views
     path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),

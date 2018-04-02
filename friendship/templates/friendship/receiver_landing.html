@@ -25,17 +25,39 @@
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
 
-<!--This below is the template for all forms-->
 
 <div id="empty_form">
-    {{ formset.empty_form.as_p }}
+
+    <div class="container info-container rounded" id="container-__prefix__">
+        <div class="container" id="info-__prefix__">
+            <div class="row">
+                <h3 id="header-__prefix__" style="padding-left: 10px;">New Item</h3>
+                <i class="toggler fa fa-chevron-up" id="toggle-__prefix__"></i>
+                <i class="remover fa fa-times-circle" id="remove-__prefix__"></i>
+            </div>
+        </div>
+
+        <div class="container" id="form-__prefix__">
+            <p> {{ formset.empty_form.url }} </p>
+
+            <div class="row" id="id_form-__prefix__-row">
+                <div class="col" id="id_form-__prefix__-type-container">
+                    <p> {{ formset.empty_form.merchandise_type }} </p>
+                </div>
+
+                <div class="col" id="id_form-__prefix__-quantity-container" >
+                    <p> {{ formset.empty_form.quantity }} </p>
+                </div>
+            </div>
+
+
+            <p> {{ formset.empty_form.description }} </p>
+            <p> <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
+                {{ formset.empty_form.bid_end_datetime }}
+            </p>
+        </div>
+    </div>
 </div>
-
-
-
-
-
-
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>
 
