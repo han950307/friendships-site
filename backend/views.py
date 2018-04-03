@@ -147,11 +147,14 @@ def create_order(user, **kwargs):
 		description = kwargs["description"]
 		receiver = kwargs["receiver"]
 		receiver_address = kwargs["receiver_address"]
-		estimated_weight = kwargs["estimated_weight"]
 		bid_end_datetime = kwargs["bid_end_datetime"]
 	except KeyError as e:
 		raise KeyError(INCOMPLETE_DATA_MSG)
 	else:
+		if "estimated_weight" not in kwargs:
+			estimated_weight = 0
+		else:
+			estimated_weight = kwargs["estimated_weight"]
 		order = Order.objects.create(
 			url=url,
 			merchandise_type=merchandise_type,
