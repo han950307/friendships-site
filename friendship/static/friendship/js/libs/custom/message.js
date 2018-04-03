@@ -4,20 +4,28 @@ var prev = null;
 
 $('.sidebar-btn').click( function() {
     var id = $(this).attr("id");
+    if (prev === id) {
+        return;
+    }
     $('.message_dummy').hide();
-    $('#messages-' + id).show();
+    var msg = $('#messages-' + id);
+    msg.show();
     $(this).addClass('ui-gradient-purple');
     $('#' + prev).removeClass('ui-gradient-purple');
     $('#message_form').off("submit");
     sendMessage(id);
     prev = id;
+    // this doesn't work to scroll unfortunately
+    msg.animate({scrollTop: msg.height()}, 'slow')
 });
 
 function addSyncedMessages(json, firstLoad, id) {
 	var first = parseInt($('#messages-' + id).attr('data-first'));
 	$.each( json, function( key, value ) {
 		if (value.pk > first && value.fields.transaction == id) {
-			$('#messages-' + id).append('<div>' + value.fields.content + '</div>');
+
+			$('#messages-' + id).append(
+			'<p>' + value.fields.content + '</p>');
 			first = value.pk;
 		}
 	});
@@ -57,7 +65,6 @@ function sendMessage(id) {
 }
 
 $(document).ready(function() {
-    alert('yooo');
     var first = true;
     var first_id = '';
     $('.message_dummy').each( function(index) {
@@ -66,7 +73,6 @@ $(document).ready(function() {
             first = false;
             first_id = id;
         }
-//        sendMessage(id);
 	    getMessages(true, true, id);
     } );
     $('.message_dummy').hide();
@@ -74,4 +80,5 @@ $(document).ready(function() {
     sendMessage(first_id);
     $('#' + first_id).addClass('ui-gradient-purple');
     prev = first_id;
+
 });

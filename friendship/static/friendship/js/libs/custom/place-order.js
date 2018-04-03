@@ -20,7 +20,6 @@ function toggle(id) {
     if (url !== '') {
         $('#header-' + id).text(url);
     }
-
 }
 
 function remove(id) {
@@ -55,13 +54,6 @@ $(document).on("click", ".remover", function(e){
     var id = this.id.split("-")[1];
     remove(id);
 });
-
-
-$(document).on("click", ".remover", function(e){
-    var id = this.id.split("-")[1];
-    remove(id);
-});
-
 
 $(function() {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val()) - 1;
