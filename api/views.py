@@ -19,7 +19,7 @@ from rest_framework import (
 )
 
 from friendship.models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	OrderAction,

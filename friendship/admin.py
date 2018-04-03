@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	Bid,
@@ -12,7 +12,7 @@ from .models import (
 
 # Register your models here.
 admin.site.register(ShippingAddress)
-admin.site.register(ShipperList)
+admin.site.register(ShipperInfo)
 admin.site.register(Order)
 admin.site.register(Bid)
 admin.site.register(Image)

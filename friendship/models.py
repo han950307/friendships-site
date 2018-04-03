@@ -2,21 +2,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 import enum
-
+import functools
 import datetime
 
 
 # Create your models here.
-class ShipperList(models.Model):
+class ShipperInfo(models.Model):
     """
     Contains a list of shippers.
     """
     @enum.unique
     class ShipperType(enum.IntEnum):
         TRAVELER = 0
-        FLIGHT_ATTENDANTS = 1
-        SHIPPING_COMPANIES = 2
-        FRIENDSHIP_BIDDERS = 3
+        FLIGHT_ATTENDANT = 1
+        SHIPPING_COMPANIE = 2
+        FRIENDSHIP_BIDDER = 3
 
     user = models.OneToOneField(
         User,
@@ -30,6 +30,23 @@ class ShipperList(models.Model):
     shipper_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShipperType)
     )
+
+    name = models.CharField(max_length=200, null=True)
+    phone_number = models.CharField(max_length=50, null=True)
+    email = models.CharField(max_length=200, null=True)
+    verified = models.BooleanField(default=False)
+
+
+class Flight(models.Model):
+    """
+    Shipper's flight info.
+    """
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='flights'
+    )
+    confirmation_number = models.CharField(max_length=120)
 
 
 class ShippingAddress(models.Model):
@@ -85,6 +102,8 @@ class Order(models.Model):
 
     description = models.TextField()
     quantity = models.IntegerField()
+    size = models.CharField(max_length=120)
+    color = models.CharField(max_length=120)
     shipper = models.ForeignKey(
         User,
         related_name="shipper_orders",
@@ -127,10 +146,30 @@ class TrackingNumber(models.Model):
         null=True,
     )
 
+    provider = models.CharField(max_length=100, null=True)
     tracking_number = models.CharField(max_length=140)
     shipping_stage = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShippingStage)
     )
+    url = models.URLField(null=True, blank=True)
+
+
+class PaymentAction(models.Model):
+    @enum.unique
+    class PaymentType(enum.IntEnum):
+        OTHER = -1
+        CREDIT_CARD = 0
+        ONLINE_WIRE_TRANSFER = 1
+        MANUAL_WIRE_TRANSFER = 2
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.SET_NULL,
+        related_name="payment_actions",
+        null=True
+    )
+
+    account_number = models.CharField(max_length=100)
 
 
 class OrderAction(models.Model):
@@ -163,10 +202,21 @@ class OrderAction(models.Model):
     text = models.CharField(max_length=1000, null=True)
 
 
+@functools.total_ordering
 class Bid(models.Model):
     """
     When a potential shipper places a bid, it goes in this database.
     """
+    def __lt__(self, other):
+        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
+        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
+        return this_value < other_value
+
+    def __eq__(self, other):
+        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
+        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
+        return this_value == other_value
+
     shipper = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -192,6 +242,7 @@ class Image(models.Model):
         OTHER = -1
         BANKNOTE = 0
         MERCHANDISE_IMAGE = 1
+        PASSPORT = 2
     date_uploaded = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         User,
@@ -200,12 +251,13 @@ class Image(models.Model):
     )
     order = models.ForeignKey(
         Order,
+        null=True,
         on_delete=models.CASCADE,
         related_name="order_images",
     )
     image = models.TextField()
     mimetype = models.CharField(max_length=25)
-    # Bank-slip or whatever
+
     image_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ImageType)
     )

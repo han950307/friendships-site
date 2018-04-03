@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
 	User,
 )
 from friendship.models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	OrderAction,

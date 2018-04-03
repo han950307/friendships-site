@@ -23,7 +23,7 @@ from friendsite.settings import (
 
 from api.models import LineUser
 from friendship.models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	OrderAction,
@@ -115,7 +115,7 @@ def login_user(request, user):
 	login(request, user)
 
 	# check if the user is a shipper.
-	user = ShipperList.objects.filter(pk=user)
+	user = ShipperInfo.objects.filter(pk=user)
 	if user:
 		request.session["is_shipper"] = True
 	else:

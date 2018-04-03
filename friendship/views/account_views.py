@@ -14,7 +14,7 @@ from django.shortcuts import (
 )
 from django.urls import reverse
 
-from ..models import ShippingAddress, ShipperList
+from ..models import ShippingAddress, ShipperInfo
 from backend.views import (
 	create_user,
 	login_user,
