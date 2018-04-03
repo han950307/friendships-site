@@ -31,10 +31,10 @@ def make_bid_process(request, order_id):
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
-        bid_amount = request.POST["bid_amount"]
+        wages = request.POST["wages"]
         order = Order.objects.get(pk=order_id)
         Bid.objects.create(
-            bid_amount=bid_amount,
+            wages=wages,
             order=order,
             shipper_id=request.user.id,
         )

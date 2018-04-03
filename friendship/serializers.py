@@ -31,7 +31,7 @@ class OrderActionSerializer(serializers.ModelSerializer):
 class BidSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Bid
-		fields = ('id', 'bid_shipper', 'order', 'date_placed', 'bid_amount')
+		fields = ('id', 'bid_shipper', 'order', 'date_placed', 'wages')
 		read_only_fields = ('id',)
 
 

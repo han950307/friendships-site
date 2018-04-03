@@ -25,7 +25,7 @@ class ShipperList(models.Model):
         related_name="is_shipper",
     )
 
-    url = models.URLField(null=True)
+    url = models.URLField(null=True, blank=True)
 
     shipper_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShipperType)
@@ -43,10 +43,9 @@ class ShippingAddress(models.Model):
     )
     # name field associated for each shipping address. doesn't really matter.
     name = models.CharField(max_length=200, null=True)
-    address = models.CharField(max_length=1000)
     address_line_1 = models.CharField(max_length=300)
-    address_line_2 = models.CharField(max_length=300)
-    address_line_3 = models.CharField(max_length=300)
+    address_line_2 = models.CharField(max_length=300, null=True, blank=True)
+    address_line_3 = models.CharField(max_length=300, null=True, blank=True)
     city = models.CharField(max_length=300)
     region = models.CharField(max_length=300)
     postal_code = models.CharField(max_length=30)
@@ -73,8 +72,8 @@ class Order(models.Model):
     """
     @enum.unique
     class MerchandiseType(enum.IntEnum):
-        OTHER = 0
-        SHOES = 1
+        OTHER = -1
+        SHOES = 0
 
     url = models.URLField()
     merchandise_type = models.IntegerField(
@@ -113,6 +112,27 @@ class Order(models.Model):
     estimated_weight = models.IntegerField()
 
 
+class TrackingNumber(models.Model):
+    @enum.unique
+    class ShippingStage(enum.IntEnum):
+        OTHER = -1
+        MERCHANT_TO_SHIPPER = 0
+        SHIPPER_TO_THAILAND = 1
+        DOMESTIC_TO_RECEIVER = 2
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.SET_NULL,
+        related_name="tracking_number",
+        null=True,
+    )
+
+    tracking_number = models.CharField(max_length=140)
+    shipping_stage = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in ShippingStage)
+    )
+
+
 class OrderAction(models.Model):
     """
     Keeps track of the actions that were made for each order until fulfillment.
@@ -123,9 +143,13 @@ class OrderAction(models.Model):
         ORDER_PLACED = 0
         MATCH_FOUND = 1
         PRICE_CONFIRMED = 2
-        BANKNOTE_UPLOADED = 5
-        PAYMENT_RECEIVED = 3
-        ORDER_FULFILLED = 4
+        BANKNOTE_UPLOADED = 3
+        PAYMENT_RECEIVED = 4
+        ITEM_SHIPPED_TO_SHIPPER = 5
+        ITEM_RECEIVED_BY_SHIPPER = 6
+        ORDER_FULFILLED = 7
+        ORDER_DECLINED = 8
+        ORDER_CLOSED = 9
 
     order = models.ForeignKey(
         Order,
@@ -155,11 +179,19 @@ class Bid(models.Model):
     date_placed = models.DateTimeField(
         auto_now_add=True,
     )
-    bid_amount = models.DecimalField(max_digits=50, decimal_places=4)
+    wages = models.DecimalField(max_digits=50, decimal_places=4, default=0)
+    retail_price = models.DecimalField(max_digits=50, decimal_places=4, default=0)
+    import_tax = models.DecimalField(max_digits=50, decimal_places=4, default=0)
+    domestic_shipping = models.DecimalField(max_digits=50, decimal_places=4, default=0)
     currency = models.CharField(max_length=15)
 
 
 class Image(models.Model):
+    @enum.unique
+    class ImageType(enum.IntEnum):
+        OTHER = -1
+        BANKNOTE = 0
+        MERCHANDISE_IMAGE = 1
     date_uploaded = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         User,
@@ -174,7 +206,9 @@ class Image(models.Model):
     image = models.TextField()
     mimetype = models.CharField(max_length=25)
     # Bank-slip or whatever
-    image_type = models.IntegerField()
+    image_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in ImageType)
+    )
 
 
 class Message(models.Model):
