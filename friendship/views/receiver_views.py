@@ -124,5 +124,5 @@ def receiver_landing_view(request):
 
 
 
-		
+
 		return render(request, 'friendship/place_order_landing.html', {'orders': orders})

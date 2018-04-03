@@ -1,3 +1,5 @@
+"use strict";
+
 function addForm() {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
     $('#id_form-TOTAL_FORMS').val(form_idx + 1);

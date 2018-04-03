@@ -4,5 +4,50 @@
 {% block title %} Messages {% endblock title %}
 
 {% block main_content %}
-HEY!
+
+<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/custom/messages.css' %}" />
+
+<div class="container">
+    <div class="row">
+        <div class="col" >
+            <div class="btn-group-vertical">
+                {% for order in orders %}
+                    <button class="btn shadow-md sidebar-btn" id="{{ order.id }}">
+                        <p> Order # {{ order.id }}</p>
+                        <p> {{ order.url }} </p>
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col">
+
+
+            {% for order in orders %}
+            <div id="messages-{{ order.id }}"
+                 class="message_dummy"
+                 data-sync="{% url 'friendship:sync_message' order.id %}"
+                 data-method="post" data-first="0"
+                 data-send="{% url 'friendship:send_message' order.id %}">
+            </div>
+            {% endfor %}
+
+            <form id="message_form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label for="form_message">Message</label>
+                        <input type="text" name="message" class="input form-control" id="form_message">
+                        <br />
+                        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Send" id="form_button"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static 'friendship/js/libs/custom/message.js' %}"></script>
+
 {% endblock main_content %}

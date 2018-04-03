@@ -16,7 +16,7 @@
 
 
 <div id="message_dummy" style="display:none;"
-     data-action="{% url 'friendship:sync_message' order.id%}" data-method="post">
+     data-action="{% url 'friendship:sync_message' order.id %}" data-method="post">
 </div>
 
 <form action="{% url 'friendship:send_message' order.id %}" method="post" id="message_form">
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <label for="form_message">Message</label>
-                <input type="text" name="message" class="input form-control" id="form_message">
+                <input type="text" name="message" class="input form-control required" id="form_message">
                 <br />
                 <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Send" id="form_button"/>
             </div>

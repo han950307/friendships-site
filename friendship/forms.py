@@ -18,7 +18,7 @@ class UploadPictureForm(Form):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime',]
+        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime',] #'actions__action']
         common_settings = {'class': 'input form-control', 'required': 'required', }
         widgets = {
             'url': URLInput(attrs={**common_settings, **{'placeholder': 'URL'}}),
@@ -33,7 +33,7 @@ class OrderForm(ModelForm):
                                                                          'min': '3',
                                                                          'max': '24',
                                                                          }}),
-            # 'picture': FileField(),
+            # 'actions__action': NumberInput(attrs=common_settings),
         }
 
     def is_valid(self):

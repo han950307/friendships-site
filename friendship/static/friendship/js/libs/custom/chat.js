@@ -1,15 +1,16 @@
+"use strict";
+
 function displaySyncedMessages(json, firstLoad) {
+    console.log(json);
 	var first = parseInt($('#messages').attr('data-first'));
 	if (firstLoad) {
 	    first--;
 	}
-	alert(first);
 	$.each( json, function( key, value ) {
 		if (value.pk > first) {
 			$('#messages').append('<div>' + value.fields.content + '</div>');
 			first = value.pk;
 		}
-//		alert(first);
 	});
 
 	$('#messages').attr('data-first', first);
@@ -26,7 +27,7 @@ function getMessages(repeat, firstLoad) {
 			displaySyncedMessages(json, firstLoad);
 		}
     });
-    if (firstLoad === true) {
+    if (repeat === true) {
     	setTimeout("getMessages(true, false)", 10000);
     }
 }
@@ -47,8 +48,6 @@ function sendMessage() {
     });
 
 }
-
-
 
 $(document).ready(function() {
 	sendMessage();
