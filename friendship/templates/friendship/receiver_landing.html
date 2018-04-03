@@ -5,12 +5,7 @@
 {% block title %} Place Order {% endblock title %}
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
-
-
-
-
 {% block form %}
-
     <form method="post" name="order_form">
         {{ formset.management_form }}
         {% csrf_token %}

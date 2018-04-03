@@ -75,6 +75,17 @@ def upload_picture_process(request, order_id):
 
 
 @login_required
+def make_payment(request):
+	return render(request, 'friendship/make_payment.html', {})
+
+
+@login_required
+def process_payment(request):
+	omise_token = request.POST['omise_token']
+	return render(request, 'friendship/index.html', {})
+
+
+@login_required
 def receiver_landing_view(request):
 	"""
 	This is a page for a form for making an order.

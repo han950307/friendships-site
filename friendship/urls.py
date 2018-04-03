@@ -34,6 +34,8 @@ urlpatterns = [
     path('order_details/<int:pk>', views.order_details, name='order_details'),
     path('upload_picture/<int:order_id>', views.upload_picture_view, name='upload_picture_view'),
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
+    path('make_payment/', views.make_payment, name='make_payment'),
+    path('process_payment/', views.process_payment, name='process_payment'),
 
     # Sender views
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
