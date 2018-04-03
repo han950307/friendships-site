@@ -117,7 +117,7 @@ class TrackingNumber(models.Model):
     class ShippingStage(enum.IntEnum):
         OTHER = -1
         MERCHANT_TO_SHIPPER = 0
-        SHIPPER_TO_THAILAND = 1
+        SHIPPER_TO_THAILAND_DOMESTIC = 1
         DOMESTIC_TO_RECEIVER = 2
 
     order = models.ForeignKey(
@@ -145,7 +145,7 @@ class OrderAction(models.Model):
         PRICE_CONFIRMED = 2
         BANKNOTE_UPLOADED = 3
         PAYMENT_RECEIVED = 4
-        ITEM_SHIPPED_TO_SHIPPER = 5
+        ITEM_SHIPPED_BY_MERCHANT = 5
         ITEM_RECEIVED_BY_SHIPPER = 6
         ORDER_FULFILLED = 7
         ORDER_DECLINED = 8
