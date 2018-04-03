@@ -5,7 +5,7 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-<form action="{% url 'friendship:process_payment' %}" method="post" id="checkout">
+<form action="{% url 'friendship:process_payment' request.order_id %}" method="post" id="checkout">
     {% csrf_token %}
 	<script src="https://cdn.omise.co/omise.js"></script>
 	<script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>

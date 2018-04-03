@@ -74,13 +74,14 @@ def upload_picture_process(request, order_id):
 
 
 @login_required
-def make_payment(request):
-	return render(request, 'friendship/make_payment.html', {})
+def make_payment(request, order_id):
+	return render(request, 'friendship/make_payment.html', {'order_id': order_id})
 
 
 @login_required
-def process_payment(request):
+def process_payment(request, order_id):
 	omise_token = request.POST['omise_token']
+
 	return render(request, 'friendship/index.html', {})
 
 

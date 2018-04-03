@@ -196,7 +196,7 @@ class OrderAction(models.Model):
         OTHER_ACTION = -1
         ORDER_PLACED = 0
         MATCH_FOUND = 1
-        PRICE_CONFIRMED = 2
+        PRICE_ACCEPTED = 2
         BANKNOTE_UPLOADED = 3
         PAYMENT_RECEIVED = 4
         ITEM_SHIPPED_BY_MERCHANT = 5
