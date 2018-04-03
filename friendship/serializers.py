@@ -9,7 +9,6 @@ from friendship.models import (
 	Order,
 	OrderAction,
 	Bid,
-	Image,
 	Message,
 )
 
@@ -35,18 +34,10 @@ class BidSerializer(serializers.ModelSerializer):
 		read_only_fields = ('id',)
 
 
-class ImageSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Image
-		fields = ('id', 'date_uploaded', 'user', 'order', 'image', 'mimetype', 'image_type')
-		read_only_fields = ('id',)
-
-
 class OrderSerializer(serializers.ModelSerializer):
 	shipper_address = ShippingAddressSerializer(read_only=True)
 	receiver_address = ShippingAddressSerializer(read_only=True)
 	actions = OrderActionSerializer(many=True, read_only=True)
-	order_images = ImageSerializer(many=True)
 	bids = BidSerializer(many=True)
 
 	class Meta:
@@ -64,7 +55,6 @@ class OrderSerializer(serializers.ModelSerializer):
 			'receiver',
 			'receiver_address',
 			'actions',
-			'order_images',
 			'bids',
 		)
 		read_only_fields = ('id',)

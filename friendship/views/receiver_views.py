@@ -13,7 +13,6 @@ from friendship.models import (
 	Order,
 	ShippingAddress,
 	OrderAction,
-	Image,
 )
 
 from friendship.forms import (
@@ -54,13 +53,13 @@ def upload_picture_process(request, order_id):
 		if form.is_valid():
 			imagef = form.cleaned_data["picture"]
 			encoded_string = base64.b64encode(imagef.read())
-			image = Image.objects.create(
-				user=request.user,
-				order=order,
-				image=encoded_string,
-				mimetype="0",
-				image_type=0,
-			)
+			# image = Image.objects.create(
+			# 	user=request.user,
+			# 	order=order,
+			# 	image=encoded_string,
+			# 	mimetype="0",
+			# 	image_type=0,
+			# )
 			OrderAction.objects.create(
 				order=order,
 				action=OrderAction.Action.BANKNOTE_UPLOADED

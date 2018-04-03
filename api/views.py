@@ -24,7 +24,6 @@ from friendship.models import (
 	Order,
 	OrderAction,
 	Bid,
-	Image,
 	Message,
 )
 
@@ -37,7 +36,6 @@ from friendship.serializers import (
 	OrderActionSerializer,
 	ShippingAddressSerializer,
 	BidSerializer,
-	ImageSerializer,
 	MessageSerializer,
 )
 
@@ -87,13 +85,6 @@ class OrderActionDetail(generics.RetrieveUpdateDestroyAPIView):
 class BidDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Bid.objects.all()
 	serializer_class = BidSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
-
-
-class ImageDetail(generics.RetrieveUpdateDestroyAPIView):
-	queryset = Image.objects.all()
-	serializer_class = ImageSerializer
 	authentication_classes = (authentication.TokenAuthentication,)
 	permission_classes = (permissions.IsAuthenticated,)
 
