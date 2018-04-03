@@ -15,7 +15,7 @@ class ShipperInfo(models.Model):
     class ShipperType(enum.IntEnum):
         TRAVELER = 0
         FLIGHT_ATTENDANT = 1
-        SHIPPING_COMPANIE = 2
+        SHIPPING_COMPANY = 2
         FRIENDSHIP_BIDDER = 3
 
     user = models.OneToOneField(
@@ -141,7 +141,9 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
-    estimated_weight = models.IntegerField()
+    estimated_weight = models.IntegerField(
+        default=0,
+    )
 
 
 class TrackingNumber(models.Model):
