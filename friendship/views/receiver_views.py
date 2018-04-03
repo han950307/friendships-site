@@ -80,7 +80,12 @@ def make_payment(request, order_id):
 
 @login_required
 def process_payment(request, order_id):
+	order = Order.objects.get(pk=order_id)
+	if order.receiver != request.user:
+		return redirect('friendship:receiver_landing')
+	
 	omise_token = request.POST['omise_token']
+
 
 	return render(request, 'friendship/index.html', {})
 

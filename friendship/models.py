@@ -144,6 +144,12 @@ class Order(models.Model):
     estimated_weight = models.IntegerField(
         default=0,
     )
+    final_bid = models.ForeignKey(
+        'Bid',
+        related_name="my_order",
+        on_delete="SET_NULL",
+        null=True,
+    )
 
 
 class TrackingNumber(models.Model):
