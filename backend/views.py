@@ -28,7 +28,6 @@ from friendship.models import (
 	Order,
 	OrderAction,
 	Bid,
-	Image,
 	Message,
 )
 from friendship.serializers import (

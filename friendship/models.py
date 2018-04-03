@@ -30,6 +30,11 @@ class ShipperInfo(models.Model):
     shipper_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShipperType)
     )
+    
+    id_image = models.ImageField(
+        null=True,
+        blank=True,
+    )
 
     name = models.CharField(max_length=200, null=True)
     phone_number = models.CharField(max_length=50, null=True)
@@ -127,6 +132,14 @@ class Order(models.Model):
         ShippingAddress,
         related_name="receiver_address",
         on_delete=models.CASCADE,
+    )
+    item_image = models.ImageField(
+        null=True,
+        blank=True,
+    )
+    banknote_image = models.ImageField(
+        null=True,
+        blank=True,
     )
     estimated_weight = models.IntegerField()
 
@@ -234,33 +247,6 @@ class Bid(models.Model):
     import_tax = models.DecimalField(max_digits=50, decimal_places=4, default=0)
     domestic_shipping = models.DecimalField(max_digits=50, decimal_places=4, default=0)
     currency = models.CharField(max_length=15)
-
-
-class Image(models.Model):
-    @enum.unique
-    class ImageType(enum.IntEnum):
-        OTHER = -1
-        BANKNOTE = 0
-        MERCHANDISE_IMAGE = 1
-        PASSPORT = 2
-    date_uploaded = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="uploaded_images",
-    )
-    order = models.ForeignKey(
-        Order,
-        null=True,
-        on_delete=models.CASCADE,
-        related_name="order_images",
-    )
-    image = models.TextField()
-    mimetype = models.CharField(max_length=25)
-
-    image_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in ImageType)
-    )
 
 
 class Message(models.Model):
