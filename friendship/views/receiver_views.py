@@ -13,7 +13,6 @@ from friendship.models import (
 	Order,
 	ShippingAddress,
 	OrderAction,
-	Image,
 )
 
 from friendship.forms import (
@@ -54,13 +53,13 @@ def upload_picture_process(request, order_id):
 		if form.is_valid():
 			imagef = form.cleaned_data["picture"]
 			encoded_string = base64.b64encode(imagef.read())
-			image = Image.objects.create(
-				user=request.user,
-				order=order,
-				image=encoded_string,
-				mimetype="0",
-				image_type=0,
-			)
+			# image = Image.objects.create(
+			# 	user=request.user,
+			# 	order=order,
+			# 	image=encoded_string,
+			# 	mimetype="0",
+			# 	image_type=0,
+			# )
 			OrderAction.objects.create(
 				order=order,
 				action=OrderAction.Action.BANKNOTE_UPLOADED
@@ -101,8 +100,7 @@ def receiver_landing_view(request):
 			},
 			)
 	else:
-		# TODO should use the value of the address.id chosen from the form
-		# to choose the ShippingAddress
+		# TODO change hardcoded things.
 		req = request.POST
 		num = req['form-TOTAL_FORMS']
 		orders = {}
@@ -114,6 +112,7 @@ def receiver_landing_view(request):
 				'description': req['form-' + str(i) + '-description'],
 				'receiver': request.user,
 				'receiver_address': ShippingAddress.objects.all()[0],
+				'estimated_weight': 1,
 				'bid_end_datetime': datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
 								 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity']))
 			}

@@ -22,13 +22,10 @@ def get_min_bid(order):
     Given an order, returns the min bid object.
     """
     bids = Bid.objects.filter(order=order)
-    min_tups = [(x.bid_amount, x) for x in bids]
-    if min_tups:
-        min_bid = min(min_tups)
-        min_bid = min_bid[1]
+    if bids:
+        return min(bids)
     else:
-        min_bid = None
-    return min_bid
+        return None
 
 
 @login_required

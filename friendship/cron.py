@@ -42,6 +42,7 @@ def match_with_shipper(order):
 		pass
 	else:
 		order.shipper = min_bid.shipper
+		# make shipper choose a shipping address when they're matched.
 		order.save()
 
 	OrderAction.objects.create(
