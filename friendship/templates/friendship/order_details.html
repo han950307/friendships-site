@@ -19,8 +19,23 @@
 </p>
 
 <div class="container" id="actions">
-
+	{% for action in actions %}
+		<p style="display: none;" id="{{ action.action }}" data-date="{{ action.date_placed }}"></p>
+	{% endfor %}
 </div>
+
+<p> {{ action_enum.ORDER_PLACED }} </p>
+{% if latest_action.action == action_enum.ORDER_PLACED %}
+<p> Order Placed </p>
+{% elif latest_action.action == action_enum.MATCH_FOUND %}
+<p> Match Found </p>
+{% else %}
+<p> Neither </p>
+{% endif %}
+
+<script>
+	var info = actions;
+</script>
 
 <script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 

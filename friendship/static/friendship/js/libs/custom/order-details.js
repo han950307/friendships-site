@@ -26,5 +26,6 @@ function addDivs() {
 
 
 $(function() {
+    alert(info);
     addDivs();
 });
