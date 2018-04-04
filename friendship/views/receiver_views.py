@@ -144,7 +144,7 @@ def receiver_landing_view(request):
 			address = None
 		return render(
 			request,
-			'friendship/receiver_landing.html',
+			'friendship/place_order.html',
 			{
 				'address': address, 'formset': formset,
 			},
