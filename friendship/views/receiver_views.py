@@ -111,7 +111,7 @@ def receiver_landing_view(request):
 				'description': req['form-' + str(i) + '-description'],
 				'receiver': request.user,
 				'receiver_address': ShippingAddress.objects.all()[0],
-				'estimated_weight': 1,
+				'estimated_weight': 0,
 				'bid_end_datetime': datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
 								 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity']))
 			}
