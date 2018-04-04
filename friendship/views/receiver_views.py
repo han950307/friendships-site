@@ -61,10 +61,12 @@ def upload_picture_process(request, order_id):
 			# 	mimetype="0",
 			# 	image_type=0,
 			# )
-			OrderAction.objects.create(
+			action = OrderAction.objects.create(
 				order=order,
 				action=OrderAction.Action.BANKNOTE_UPLOADED
 			)
+			order.latest_action = action
+			order.save()
 			return redirect('friendship:order_details', pk=order_id)
 		else:
 			messages.error(request, 'Bad image')
@@ -109,11 +111,12 @@ def process_payment(request, order_id):
 	)
 
 	if charge.authorized == True:
-		order_action = OrderAction.create(
+		action = OrderAction.objects.create(
 			order=order,
 			action=OrderAction.Action.PAYMENT_RECEIVED,
 		)
-		order.latest_action = order_action
+		order.latest_action = action
+		order.save()
 		messages.success(request, "Payment processed.")
 		redirect('friendship:receiver_landing')
 

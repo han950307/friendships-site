@@ -47,8 +47,9 @@ def match_with_shipper(order):
 
 	print(min_bid.__dict__)
 	order.final_bid = min_bid
-	order.save()
-	OrderAction.objects.create(
+	action = OrderAction.objects.create(
 		order=order,
 		action=OrderAction.Action.MATCH_FOUND
 	)
+	order.latest_action = action
+	order.save()
