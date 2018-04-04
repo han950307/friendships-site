@@ -34,14 +34,13 @@ def order_details(request, pk):
     """
     Given the order_id (pk), displays its info.
     """
+
+
+
     order = Order.objects.get(pk=pk)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
-    messages = Message.objects.filter(transaction=order)
-    first = 0
-    if len(messages) != 0:
-        first = messages.first().pk
 
     actions = OrderAction.objects.filter(order=pk)
     for action in actions:
@@ -50,9 +49,7 @@ def order_details(request, pk):
 
     return render(request, 'friendship/order_details.html', {
         'order': order,
-        'messages': messages,
-        'first': first,
-        'actions': actions,
+        'actions': reversed(actions),
     })
 
 
