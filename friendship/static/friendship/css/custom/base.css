@@ -4,3 +4,159 @@ form p {
     all: unset;
   }
 }
+
+/**
+* 29. Steps
+* ----------------------------------------------------------------------- *
+*/
+.ui-steps .row {
+  margin-left: -6rem;
+  margin-right: -6rem;
+}
+
+.ui-steps div[class^="col-"],
+.ui-steps div[class*=" col-"] {
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+.ui-steps div[class^="col-"]:nth-child(1),
+.ui-steps div[class*=" col-"]:nth-child(1) {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 740px) {
+  .ui-steps div[class^="col-"]:nth-child(1),
+  .ui-steps div[class*=" col-"]:nth-child(1) {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 740px) {
+  .ui-steps {
+    margin-top: 0;
+  }
+}
+
+.ui-steps .step-wrapper {
+  position: relative;
+  padding-left: 6rem;
+  text-align: left;
+  padding-top: 0;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 740px) {
+  .ui-steps .step-wrapper {
+    padding-left: 0;
+    padding-top: 2rem;
+  }
+  .ui-steps .step-wrapper:nth-child(1) {
+    margin-top: -2rem;
+  }
+}
+
+.ui-steps .step-wrapper::before, .ui-steps .step-wrapper::after {
+  content: ' ';
+  position: absolute;
+  left: 26px;
+  margin-left: 0;
+  width: 4px;
+  border-radius: 4px;
+  background-color: #c9d0d8;
+}
+
+@media (min-width: 740px) {
+  .ui-steps .step-wrapper::before, .ui-steps .step-wrapper::after {
+    left: 1.75%;
+    margin-left: -2px;
+  }
+}
+
+.ui-steps .step-wrapper::before {
+  top: -1rem;
+  bottom: calc(50% + (25px + 1rem));
+  display: none;
+}
+
+@media (min-width: 740px) {
+  .ui-steps .step-wrapper::before {
+    display: block;
+  }
+}
+
+.ui-steps .step-wrapper::after {
+  top: calc(50px + 1rem);
+  bottom: 1rem;
+}
+
+@media (min-width: 740px) {
+  .ui-steps .step-wrapper::after {
+    top: calc(50% + (25px + 1rem));
+    bottom: -1rem;
+  }
+}
+
+.ui-steps .step-wrapper:nth-child(1)::before {
+  display: none;
+}
+
+.ui-steps .step-wrapper:nth-last-child(1)::after {
+  display: none;
+}
+
+.ui-steps .step-wrapper .step-number {
+  position: absolute;
+  top: 10px;
+  left: 1rem;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  z-index: 2;
+}
+
+.ui-steps .step-wrapper .step-number::before {
+  content: ' ';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 50px;
+  height: 50px;
+  opacity: 0.25;
+  z-index: -1;
+}
+
+@media (min-width: 740px) {
+  .ui-steps .step-wrapper .step-number {
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.8rem;
+  }
+  .ui-steps .step-wrapper .step-number::before {
+    width: 60px;
+    height: 60px;
+    top: -10px;
+    left: -10px;
+  }
+}
+
+.ui-steps .step-wrapper .step-number,
+.ui-steps .step-wrapper .step-number::before {
+  border-radius: 100%;
+}
+
+.ui-steps .step-wrapper .step-number {
+	left: 0%;
+}
+
+.ui-steps .row {
+	padding-left: 6%;
+}
