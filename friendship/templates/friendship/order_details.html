@@ -24,10 +24,10 @@
 	{% endfor %}
 </div>
 
-<p> {{ action_enum.ORDER_PLACED }} </p>
-{% if latest_action.action == action_enum.ORDER_PLACED %}
+<p> {{ ORDER_PLACED }} </p>
+{% if latest_action.action == ORDER_PLACED %}
 <p> Order Placed </p>
-{% elif latest_action.action == action_enum.MATCH_FOUND %}
+{% elif latest_action.action == MATCH_FOUND %}
 <p> Match Found </p>
 {% else %}
 <p> Neither </p>
