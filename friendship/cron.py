@@ -33,19 +33,22 @@ def order_bid_update():
 
 
 def match_with_shipper(order):
-    """
-    Pick the lowest bidder and update the database.
-    """
-    min_bid = get_min_bid(order)
-    if not min_bid:
-        # pair with one of friendship accounts.
-        pass
-    else:
-        order.shipper = min_bid.shipper
-        # make shipper choose a shipping address when they're matched.
-        order.save()
+	"""
+	Pick the lowest bidder and update the database.
+	"""
+	min_bid = get_min_bid(order)
+	if not min_bid:
+		# pair with one of friendship accounts.
+		pass
+	else:
+		order.shipper = min_bid.shipper
+		# make shipper choose a shipping address when they're matched.
+		order.save()
 
-    OrderAction.objects.create(
-        order=order,
-        action=OrderAction.Action.MATCH_FOUND
-    )
+	order.final_bid = min_bid
+	action = OrderAction.objects.create(
+		order=order,
+		action=OrderAction.Action.MATCH_FOUND
+	)
+	order.latest_action = action
+	order.save()
