@@ -98,7 +98,7 @@ class ShippingAddress(models.Model):
             if self == self.RECEIVER_ADDRESS:
                 return "receiver address"
             elif self == self.SENDER_ADDRESS:
-                return "sender_address"
+                return "sender address"
             else:
                 return "other"
 
