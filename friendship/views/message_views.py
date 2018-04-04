@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from django.core import serializers
@@ -16,6 +17,7 @@ from ..models import (
 )
 
 
+@login_required
 def send_message(request, order_id):
     """
     Send message
@@ -34,10 +36,19 @@ def send_message(request, order_id):
         return order_details(request, order_id)
 
 
-def sync_message(request, order_id, after=0):
+@login_required
+def sync_message(request, order_id):
     order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
-    messages = reversed(Message.objects.filter(transaction=order))
+    messages = Message.objects.filter(transaction=order);
     return HttpResponse(serializers.serialize('json', messages))
+
+
+@login_required
+def messages(request):
+    qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
+    return render(request, 'friendship/messages.html', {
+        'orders': qset,
+    })

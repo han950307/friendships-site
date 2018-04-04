@@ -1,5 +1,8 @@
+
+
 {% extends "friendship/base_forms.html" %}
 {% load static %}
+
 
 
 {% block title %} Place Order {% endblock title %}
@@ -10,26 +13,49 @@
 
 
 {% block form %}
+    <link rel="stylesheet" type="text/css" href="{% static 'friendship/css/custom/place-order.css' %}" />
 
     <form method="post" name="order_form">
         {{ formset.management_form }}
         {% csrf_token %}
         <div id="all_forms">
-            <p class="toggler" id="toggle-1"> Toggle Item 1 </p>
-            <div id="form-1">
-                <h1> Item 1 of Order </h1>
-                {% for form in formset %}
-                    {{ form.as_p }}
-                {% endfor %}
-            </div>
-        </div>
 
+        </div>
         <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
 
-<div id="empty_form" style="display:none">
-    {{ formset.empty_form.as_p }}
+
+<div id="empty_form">
+    <div class="container info-container rounded" id="container-__prefix__">
+        <div class="container" id="info-__prefix__">
+            <div class="row">
+                <h3 id="header-__prefix__" style="padding-left: 10px;">New Item</h3>
+                <i class="toggler fa fa-chevron-up" id="toggle-__prefix__"></i>
+                <i class="remover fa fa-times-circle" id="remove-__prefix__"></i>
+            </div>
+        </div>
+
+        <div class="container" id="form-__prefix__">
+            <p> {{ formset.empty_form.url }} </p>
+
+            <div class="row" id="id_form-__prefix__-row">
+                <div class="col" id="id_form-__prefix__-type-container">
+                    <p> {{ formset.empty_form.merchandise_type }} </p>
+                </div>
+
+                <div class="col" id="id_form-__prefix__-quantity-container" >
+                    <p> {{ formset.empty_form.quantity }} </p>
+                </div>
+            </div>
+
+
+            <p> {{ formset.empty_form.description }} </p>
+            <p> <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
+                {{ formset.empty_form.bid_end_datetime }}
+            </p>
+        </div>
+    </div>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>

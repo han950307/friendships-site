@@ -97,9 +97,13 @@ class Order(models.Model):
         OTHER = -1
         SHOES = 0
 
+    choices = [(x.value, x.name.title()) for x in MerchandiseType]
+    choices.insert(0, (-1, "Category - please choose one"))
+
     url = models.URLField()
     merchandise_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in MerchandiseType)
+        default=-1,
+        choices=choices,
     )
     # When the receiver places a request
     date_placed = models.DateTimeField(auto_now_add=True)
@@ -185,7 +189,6 @@ class PaymentAction(models.Model):
     )
 
     account_number = models.CharField(max_length=100)
-
 
 class OrderAction(models.Model):
     """
