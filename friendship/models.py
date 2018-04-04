@@ -218,9 +218,11 @@ class OrderAction(models.Model):
         PAYMENT_RECEIVED = 4
         ITEM_SHIPPED_BY_MERCHANT = 5
         ITEM_RECEIVED_BY_SHIPPER = 6
-        ORDER_FULFILLED = 7
-        ORDER_DECLINED = 8
-        ORDER_CLOSED = 9
+        ITEM_IN_TRANSIT_BY_SHIPPER = 7
+        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 8
+        ORDER_FULFILLED = 9
+        ORDER_DECLINED = 10
+        ORDER_CLOSED = 11
 
     order = models.ForeignKey(
         Order,
