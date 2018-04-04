@@ -14,12 +14,11 @@
 
 <p>Order Actions:
 {% for action in actions %}
-	<li>{{ action.text }}: {{ action.date_placed }}</li>
+	<p style="display: none;" id="{{ action.action }}" data-date="{{ action.date_placed }}"></p>
 {% endfor %}
 </p>
 
 <div class="container" id="actions">
-
 
 </div>
 

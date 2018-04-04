@@ -35,8 +35,6 @@ def order_details(request, pk):
     Given the order_id (pk), displays its info.
     """
 
-
-
     order = Order.objects.get(pk=pk)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
