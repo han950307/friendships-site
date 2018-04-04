@@ -38,10 +38,15 @@
 				<li>
 					<a href="#" data-scrollto="how-it-works">How It Works</a>
 				</li>
-				{% if request.user.is_authenticated %}
+
+				{% if request.session.is_shipper %}
 					<li>
-						<a href="{% url 'friendship:messages' %}">Messages</a>
+						<a href="{% url 'friendship:open_orders' 'all' %}">Browse</a>
 					</li>
+					<li>
+						<a href="{% url 'friendship:user_open_bids' %}">Bid History</a>
+					</li>
+				{% else %}
 					<li>
 						<a href="{% url 'friendship:receiver_landing' %}">Place Order</a>
 					</li>
@@ -49,9 +54,10 @@
 						<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
 					</li>
 				{% endif %}
-				{% if request.session.is_shipper %}
+
+				{% if request.user.is_authenticated %}
 					<li>
-						<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
+						<a href="{% url 'friendship:messages' %}">Messages</a>
 					</li>
 				{% endif %}
 			</ul><!--.navbar-nav -->

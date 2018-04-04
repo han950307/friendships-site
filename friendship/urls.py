@@ -39,14 +39,16 @@ urlpatterns = [
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
     path('make_payment/<int:order_id>', views.make_payment, name='make_payment'),
     path('process_payment/<int:order_id>', views.process_payment, name='process_payment'),
+    path('user_open_orders', views.user_open_orders, name='user_open_orders'),
 
     # Sender views
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
+    path('user_open_bids', views.user_open_bids, name='user_open_bids'),
 
     # Other views
     path('testing/', views.testing, name='testing'),
-    path('user_open_orders', views.user_open_orders, name='user_open_orders'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -42,3 +42,12 @@ def make_bid_process(request, order_id):
         # Just return another view after processing it.
         return open_orders(request, "recent")
 
+@login_required
+def user_open_bids(request):
+    """
+    This displays all the orders for the receiver.
+    """
+    qset = Bid.objects.filter(shipper=request.user)
+    return render(request, 'friendship/user_open_bids.html', {
+        'data': qset,
+    })
