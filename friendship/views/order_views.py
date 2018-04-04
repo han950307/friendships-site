@@ -22,8 +22,9 @@ def get_min_bid(order):
     Given an order, returns the min bid object.
     """
     bids = Bid.objects.filter(order=order)
+    bid_list = [(x.get_total(), x) for x in bids]
     if bids:
-        return min(bids)
+        return min(bid_list)
     else:
         return None
 
@@ -71,6 +72,7 @@ def open_orders(request, filter):
         # Get minimum bid.
         for order in qset:
             min_bid = get_min_bid(order)
+            print(order, min_bid)
             if not min_bid:
                 order.min_bid = "No current bids"
             else:
@@ -83,7 +85,16 @@ def open_orders(request, filter):
 
 @login_required
 def user_open_orders(request):
+    """
+    This displays all the orders for the receiver.
+    """
     qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
+    for order in qset:
+        min_bid = get_min_bid(order)
+        if not min_bid:
+            order.min_bid = "No current bids"
+        else:
+            order.min_bid = min_bid
     return render(request, 'friendship/user_open_orders.html', {
         'orders': qset
     })

@@ -45,7 +45,11 @@ def match_with_shipper(order):
 		# make shipper choose a shipping address when they're matched.
 		order.save()
 
-	OrderAction.objects.create(
+	print(min_bid.__dict__)
+	order.final_bid = min_bid
+	action = OrderAction.objects.create(
 		order=order,
 		action=OrderAction.Action.MATCH_FOUND
 	)
+	order.latest_action = action
+	order.save()
