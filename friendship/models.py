@@ -107,8 +107,8 @@ class Order(models.Model):
 
     description = models.TextField()
     quantity = models.IntegerField()
-    size = models.CharField(max_length=120)
-    color = models.CharField(max_length=120)
+    size = models.CharField(max_length=120, null=True, blank=True,)
+    color = models.CharField(max_length=120, null=True, blank=True,)
     shipper = models.ForeignKey(
         User,
         related_name="shipper_orders",
@@ -149,6 +149,14 @@ class Order(models.Model):
         related_name="my_order",
         on_delete="SET_NULL",
         null=True,
+        blank=True,
+    )
+    latest_action = models.ForeignKey(
+        'OrderAction',
+        related_name="my_order_action",
+        on_delete="SET_NULL",
+        null=True,
+        blank=True,
     )
 
 
@@ -223,20 +231,12 @@ class OrderAction(models.Model):
     text = models.CharField(max_length=1000, null=True)
 
 
-@functools.total_ordering
 class Bid(models.Model):
     """
     When a potential shipper places a bid, it goes in this database.
     """
-    def __lt__(self, other):
-        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
-        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
-        return this_value < other_value
-
-    def __eq__(self, other):
-        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
-        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
-        return this_value == other_value
+    def get_total(self):
+        return self.wages + self.retail_price + self.import_tax + self.domestic_shipping
 
     shipper = models.ForeignKey(
         User,
