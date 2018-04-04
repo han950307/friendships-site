@@ -24,6 +24,58 @@
 	{% endfor %}
 </div>
 
+
+<div class="ui-steps">
+    <div class="step-wrapper">
+        <span class="step-number ui-gradient-blue"> </span>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Item Ordered</p>
+            </div>
+        </div>
+    </div>
+    <div class="step-wrapper">
+        {% if latest_action.action == ORDER_PLACED %}
+            <span class="step-number ui-gradient-green"> </span>
+        {% elif latest_action.action > ORDER_PLACED %}
+            <span class="step-number ui-gradient-blue"> </span>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <p>Finding Match</p>
+            </div>
+        </div>
+    </div>
+    <div class="step-wrapper">
+        {% if latest_action.action < MATCH_FOUND %}
+            <span class="step-number ui-gradient-purple"> </span>
+        {% elif latest_action.action == MATCH_FOUND %}
+            <span class="step-number ui-gradient-green"> </span>
+        {% elif latest_action.action >= MATCH_FOUND %}
+            <span class="step-number ui-gradient-blue"> </span>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <p>Confirm Price and Pay</p>
+            </div>
+        </div>
+    </div>
+    <div class="step-wrapper">
+        {% if latest_action.action < PRICE_ACCEPTED %}
+            <span class="step-number ui-gradient-purple"> </span>
+        {% elif latest_action.action == PRICE_ACCEPTED %}
+            <span class="step-number ui-gradient-green"> </span>
+        {% elif latest_action.action > PAYMENT_RECEIVED %}
+            <span class="step-number ui-gradient-blue"> </span>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-6">
+                <p>Item Ordered</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <p> {{ ORDER_PLACED }} </p>
 {% if latest_action.action == ORDER_PLACED %}
 <p> Order Placed </p>
@@ -40,5 +92,3 @@
 <script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 
 {% endblock main_content %}
-
-
