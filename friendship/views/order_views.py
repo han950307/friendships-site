@@ -1,4 +1,4 @@
-from django.contrib.messages import error
+from django.contrib import messages
 from django.shortcuts import (
     render,
     redirect,
@@ -35,12 +35,12 @@ def order_details(request, pk):
     """
     order = Order.objects.get(pk=pk)
     if order.receiver != request.user and order.shipper != request.user:
-        error(request, 'You\'ve got the wrong user')
+        messages.error(request, 'You do not have permission to view this page.')
         return redirect('friendship:index')
-    messages = Message.objects.filter(transaction=order)
+    fs_messages = Message.objects.filter(transaction=order)
     first = 0
-    if len(messages) != 0:
-        first = messages.first().pk
+    if len(fs_messages) != 0:
+        first = fs_messages.first().pk
 
     actions = OrderAction.objects.filter(order=pk)
     for action in actions:
@@ -49,7 +49,7 @@ def order_details(request, pk):
 
     return render(request, 'friendship/order_details.html', {
         'order': order,
-        'messages': messages,
+        'messages': fs_messages,
         'first': first,
         'actions': actions,
     })
@@ -61,7 +61,7 @@ def open_orders(request, filter):
     View currently open orders.
     """
     if not request.session["is_shipper"]:
-        error(request, 'You do not have permissions to access this page.')
+        messages.error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
         # Only display orders within a day ago.
