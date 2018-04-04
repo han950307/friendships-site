@@ -27,6 +27,7 @@ urlpatterns = [
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),
     path('messages/', views.messages, name='messages'),
+    path('account/', views.account, name='account'),
 
 
     # Receiver views

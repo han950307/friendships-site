@@ -1,0 +1,12 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+{% block title %} Account {% endblock title %}
+
+{% block main_content %}
+{{ data }}
+
+<a href="{% url 'friendship:logout' %}"
+			   class="btn ui-gradient-green">Logout</a>
+
+{% endblock main_content %}

@@ -81,3 +81,8 @@ def logout_view(request):
 	"""
 	logout(request)
 	return redirect('friendship:login')
+
+def account(request):
+	return render(request, 'friendship/account.html', {
+		'data': [request, ],
+	})

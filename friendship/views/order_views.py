@@ -73,7 +73,7 @@ def order_details(request, pk):
     for action in actions:
         order_data = {}
         data[action.action] = order_data
-        
+
         if not action.text:
             action.text = OrderAction.Action(action.action)
 
