@@ -14,6 +14,6 @@
 	<p>Shipping Address: {{ order.receiver_address }}</p>
 	<p>Order Status: {{ order.status }}</p>
 	<p>Current Lowest Bid for Shipping: {{ order.min_bid.wages }}</p>
-	<p><a href="{% url 'friendship:order_details' order.id %}">Message Sender</a></p>
+	<p><a href="{% url 'friendship:order_details' order.id %}">Order Details</a></p>
 {% endfor %}
 {% endblock main_content %}

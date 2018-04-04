@@ -14,8 +14,9 @@ from ..models import (
 
 import datetime
 
+from django.core import serializers
 
-# Create your views here.
+
 
 def get_min_bid(order):
     """
@@ -34,26 +35,72 @@ def order_details(request, pk):
     """
     Given the order_id (pk), displays its info.
     """
+
     order = Order.objects.get(pk=pk)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
-    messages = Message.objects.filter(transaction=order)
-    first = 0
-    if len(messages) != 0:
-        first = messages.first().pk
 
     actions = OrderAction.objects.filter(order=pk)
+
+    data = {}
+
+    # the structure of data
+
+    # orderaction enum value
+    #     order_action
+    #         order
+    #         action
+    #         date_placed
+    #         text
+    #     data
+    #         various keys
+    #
+    # example:
+    #
+    # 1
+    #     order_action
+    #     data
+    #         'min_bid':
+    #             'amount': 100
+    #             'currency': USD
+    # 2
+    #     order_action
+    #         ...
+    #         ...
+    #         ...
+
     for action in actions:
+        order_data = {}
+        data[action.action] = order_data
+
         if not action.text:
             action.text = OrderAction.Action(action.action)
 
-    return render(request, 'friendship/order_details.html', {
+        order_data['order_action'] = action
+        order_data['data'] = {}
+
+        # data for min bid
+        if action.action == OrderAction.Action.MATCH_FOUND:
+            order_data['data']['min_bid'] = get_min_bid(pk)
+        elif action.action == 2:
+            order_data['data']['']
+            order_data['data']['min_bid'] = get_min_bid(pk)
+
+    data_dict = {
         'order': order,
-        'messages': messages,
-        'first': first,
-        'actions': actions,
+        'actions': reversed(actions),
+        'data': data,
+        'latest_action': order.latest_action,
+    }
+
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
     })
+
+
+    return render(request, 'friendship/order_details.html', data_dict)
 
 
 @login_required
@@ -98,11 +145,3 @@ def user_open_orders(request):
     return render(request, 'friendship/user_open_orders.html', {
         'orders': qset
     })
-
-
-def match_bid(order_id, bid_id):
-    order = Order.objects.get(pk=order_id)
-    bid = Bid.ojects.get(pk=bid_id)
-    order.shipper = bid.shipper
-    # TODO: should default to primary shipping address but able to confirm.
-    order.shipper_address = ShippingAddress.objects.get(fk=bid.shipper)[0]

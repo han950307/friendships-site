@@ -6,6 +6,11 @@ import functools
 import datetime
 
 
+def forDjango(cls):
+    cls.do_not_call_in_templates = True
+    return cls
+
+
 # Create your models here.
 class ShipperInfo(models.Model):
     """
@@ -261,6 +266,7 @@ class OrderAction(models.Model):
     """
     Keeps track of the actions that were made for each order until fulfillment.
     """
+    @forDjango
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1

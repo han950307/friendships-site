@@ -92,3 +92,14 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
             else:
                 print("NOT FOUND")
         return super(SenderRegistrationWizard, self).process_step(form)
+
+
+@login_required
+def user_open_bids(request):
+    """
+    This displays all the orders for the receiver.
+    """
+    qset = Bid.objects.filter(shipper=request.user)
+    return render(request, 'friendship/user_open_bids.html', {
+        'data': qset,
+    })
