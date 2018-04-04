@@ -17,6 +17,7 @@ from friendship.forms import (
 	UploadPictureForm,
 	OrderForm,
 )
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 from django.contrib import messages
@@ -74,6 +75,10 @@ def upload_picture_process(request, order_id):
 	else:
 		messages.debug(request, 'Must be a post request')
 		return redirect('friendship:order_details', pk=order_id)
+
+
+class PaymentForm(forms.Form):
+	pass
 
 
 @login_required

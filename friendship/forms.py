@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import (
     Form,
     ModelForm,
@@ -45,3 +46,10 @@ class OrderForm(ModelForm):
         super(OrderForm, self).full_clean()
         if 'bid_end_datetime' in self.errors:
             del self.errors['bid_end_datetime']
+
+
+class RegistrationForm(forms.Form):
+    first_name = forms.CharField(max_length=120)
+    last_name = forms.CharField(max_length=120)
+    email = forms.EmailField()
+    password = forms.CharField(max_length=200, widget=forms.PasswordInput())

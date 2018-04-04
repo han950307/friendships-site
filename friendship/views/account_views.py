@@ -21,6 +21,8 @@ from backend.views import (
 	login_user_web,
 )
 
+from ..forms import RegistrationForm
+
 import re
 
 
@@ -33,7 +35,16 @@ def register(request):
 	"""
 	Load the registration page
 	"""
-	return render(request, 'friendship/register.html', {})
+	if request.method == 'POST':
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			data_dict = {x: v for x, v in request.POST.items()}
+			data_dict["social_auth"] = "none"
+			create_user(**data_dict)
+			return redirect('friendship:login')
+	else:
+		form = RegistrationForm()
+	return render(request, 'friendship/register.html', {'form': form})
 
 
 def register_process(request):
@@ -41,14 +52,15 @@ def register_process(request):
 	Process registration and put user data into the database.
 	"""
 	# Trying to get the items.
-	try:
-		data_dict = {x: v for x, v in request.POST.items()}
-		data_dict["social_auth"] = "none"
-		create_user(**data_dict)
-	except (KeyError, ValueError):
-		return render(request, 'friendship/register.html', {})
+	# try:
+	# 	data_dict = {x: v for x, v in request.POST.items()}
+	# 	data_dict["social_auth"] = "none"
+	# 	create_user(**data_dict)
+	# except (KeyError, ValueError):
+	# 	return render(request, 'friendship/register.html', {})
 	
-	return redirect('friendship:login')
+	# return redirect('friendship:login')
+	pass
 
 
 def login_view(request):
