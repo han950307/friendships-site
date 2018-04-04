@@ -8,6 +8,7 @@ from django.forms import (
     Select,
     FileField,
 )
+from django import forms
 from friendship.models import Order
 
 
@@ -45,3 +46,16 @@ class OrderForm(ModelForm):
         super(OrderForm, self).full_clean()
         if 'bid_end_datetime' in self.errors:
             del self.errors['bid_end_datetime']
+
+
+class SenderRegistrationForm(Form):
+
+    pass
+
+
+class TravelerRegistrationForm(Form):
+    pass
+
+
+class ShippingCompanyRegistrationForm(Form):
+    pass
