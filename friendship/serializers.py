@@ -4,12 +4,11 @@ from django.contrib.auth.models import (
 	User,
 )
 from friendship.models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	OrderAction,
 	Bid,
-	Image,
 	Message,
 )
 
@@ -31,14 +30,7 @@ class OrderActionSerializer(serializers.ModelSerializer):
 class BidSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Bid
-		fields = ('id', 'bid_shipper', 'order', 'date_placed', 'bid_amount')
-		read_only_fields = ('id',)
-
-
-class ImageSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Image
-		fields = ('id', 'date_uploaded', 'user', 'order', 'image', 'mimetype', 'image_type')
+		fields = ('id', 'bid_shipper', 'order', 'date_placed', 'wages')
 		read_only_fields = ('id',)
 
 
@@ -46,7 +38,6 @@ class OrderSerializer(serializers.ModelSerializer):
 	shipper_address = ShippingAddressSerializer(read_only=True)
 	receiver_address = ShippingAddressSerializer(read_only=True)
 	actions = OrderActionSerializer(many=True, read_only=True)
-	order_images = ImageSerializer(many=True)
 	bids = BidSerializer(many=True)
 
 	class Meta:
@@ -64,7 +55,6 @@ class OrderSerializer(serializers.ModelSerializer):
 			'receiver',
 			'receiver_address',
 			'actions',
-			'order_images',
 			'bids',
 		)
 		read_only_fields = ('id',)

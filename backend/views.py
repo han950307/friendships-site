@@ -23,12 +23,11 @@ from friendsite.settings import (
 
 from api.models import LineUser
 from friendship.models import (
-	ShipperList,
+	ShipperInfo,
 	ShippingAddress,
 	Order,
 	OrderAction,
 	Bid,
-	Image,
 	Message,
 )
 from friendship.serializers import (
@@ -115,7 +114,7 @@ def login_user(request, user):
 	login(request, user)
 
 	# check if the user is a shipper.
-	user = ShipperList.objects.filter(pk=user)
+	user = ShipperInfo.objects.filter(pk=user)
 	if user:
 		request.session["is_shipper"] = True
 	else:
@@ -152,14 +151,19 @@ def create_order(user, **kwargs):
 	except KeyError as e:
 		raise KeyError(INCOMPLETE_DATA_MSG)
 	else:
+		if "estimated_weight" not in kwargs:
+			estimated_weight = 0
+		else:
+			estimated_weight = kwargs["estimated_weight"]
 		order = Order.objects.create(
-			url = url,
-			merchandise_type = merchandise_type,
-			quantity = quantity,
-			description = description,
-			receiver = user,
-			receiver_address = receiver_address,
-			bid_end_datetime = bid_end_datetime,
+			url=url,
+			merchandise_type=merchandise_type,
+			quantity=quantity,
+			description=description,
+			receiver=user,
+			receiver_address=receiver_address,
+			bid_end_datetime=bid_end_datetime,
+			estimated_weight=estimated_weight,
 		)
 
 		action = OrderAction.objects.create(
