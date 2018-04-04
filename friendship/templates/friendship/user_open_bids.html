@@ -1,0 +1,15 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+{% block title %} Your Bids {% endblock title %}
+<!-- This page displays all the orders for the receiver. -->
+
+{% block main_content %}
+
+{% for item in data%}
+	{{ item }}
+{% endfor %}
+
+
+
+{% endblock main_content %}
