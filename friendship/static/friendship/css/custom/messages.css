@@ -1,0 +1,35 @@
+.sidebar-btn {
+    width: 100%;
+    border-radius: 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.panel {
+    width: 100%;
+}
+
+.hide {
+    display: none;
+}
+
+#main-row {
+    max-height: 500px;
+}
+
+.col {
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+.btn-group-vertical {
+    width: 100%;
+    min-height: 100%
+    overflow-y: scroll;
+    border: 1px solid grey;
+}
+
+.message_dummy {
+    overflow-y: scroll;
+}

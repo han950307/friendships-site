@@ -1,0 +1,35 @@
+i {
+    margin: 5px;
+}
+h3 {
+    display: inline;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.toggler {
+    margin-left: auto;
+}
+
+#empty_form {
+    display:none;
+}
+
+.info-container {
+    padding: 10px;
+    margin: 10px;
+}
+
+select {
+    font: inherit;
+}
+
+.show {
+    display: block;
+}
+
+select {
+    position:absolute;
+    height:70%;
+}
