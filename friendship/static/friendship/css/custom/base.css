@@ -1,0 +1,6 @@
+form p {
+  all: initial;
+  * {
+    all: unset;
+  }
+}

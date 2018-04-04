@@ -47,22 +47,6 @@ def register(request):
 	return render(request, 'friendship/register.html', {'form': form})
 
 
-def register_process(request):
-	"""
-	Process registration and put user data into the database.
-	"""
-	# Trying to get the items.
-	# try:
-	# 	data_dict = {x: v for x, v in request.POST.items()}
-	# 	data_dict["social_auth"] = "none"
-	# 	create_user(**data_dict)
-	# except (KeyError, ValueError):
-	# 	return render(request, 'friendship/register.html', {})
-	
-	# return redirect('friendship:login')
-	pass
-
-
 def login_view(request):
 	"""
 	load login view.

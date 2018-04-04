@@ -22,7 +22,6 @@ app_name = 'friendship'
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
-    path('register_process/', views.register_process, name='register_process'),
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),

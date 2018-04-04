@@ -69,7 +69,6 @@ def create_user(**kwargs):
 	"""
 	# Trying to get the items.
 	try:
-		print(kwargs)
 		firstname = kwargs['first_name']
 		lastname = kwargs['last_name']
 		email = kwargs['email']
