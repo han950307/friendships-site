@@ -9,6 +9,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'friendship/css/custom/base.css' %}"/>
+	
 	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 	<!-- Scripts -->
 	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
@@ -54,27 +56,28 @@
 					<a href="#" data-scrollto="how-it-works">How It Works</a>
 				</li>
 
-				{% if request.session.is_shipper %}
-					<li>
-						<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
-					</li>
-					<li>
-						<a href="{% url 'friendship:user_open_bids' %}">Your Bids</a>
-					</li>
-				{% else %}
-					<li>
-						<a href="{% url 'friendship:place_order' %}">Place Order</a>
-					</li>
-					<li>
-						<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
-					</li>
-				{% endif %}
-
 				{% if request.user.is_authenticated %}
+					{% if request.session.is_shipper %}
+						<li>
+							<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
+						</li>
+						<li>
+							<a href="{% url 'friendship:user_open_bids' %}">Your Bids</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{% url 'friendship:place_order' %}">Place Order</a>
+						</li>
+						<li>
+							<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
+						</li>
+					{% endif %}
 					<li>
 						<a href="{% url 'friendship:messages' %}">Messages</a>
 					</li>
-				{% endif %}
+				{% endif%}
+
+
 			</ul><!--.navbar-nav -->
 		</div><!--.ui-navigation -->
 

@@ -91,12 +91,16 @@ def order_details(request, pk):
         'order': order,
         'actions': reversed(actions),
         'data': data,
-        'action_enums': OrderAction.Action,
         'latest_action': order.latest_action,
     }
 
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
+    })
 
-    return render(request, 'friendship/order_details.html', )
+
+    return render(request, 'friendship/order_details.html', data_dict)
 
 
 @login_required
