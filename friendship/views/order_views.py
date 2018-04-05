@@ -65,12 +65,36 @@ def order_details(request, order_id, **kwargs):
 
 
 @login_required
+def confirm_order_price(request, order_id, choice):
+    order = Order.objects.get(pk=order_id)
+    if order.receiver != request.user and order.shipper != request.user:
+        messages.error(request, 'You\'ve got the wrong user')
+        return redirect('friendship:index')
+    if choice == "True":
+        action = OrderAction.objects.create(
+            order=order,
+            action=OrderAction.Action.PRICE_ACCEPTED,
+        )
+        order.latest_action = action
+        order.save()
+        form = ManualWireTransferForm()
+        return order_details(request, order_id, **{'manual_wire_transfer_form': form})
+    else:
+        action = OrderAction.objects.create(
+            order=order,
+            action=OrderAction.Action.ORDER_DECLINED,
+        )
+        order.latest_action = action
+        order.save()
+        return redirect('friendship:order_details', order_id=order_id)
+
+
+@login_required
 def submit_wire_transfer(request, order_id):
     order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
         messages.error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
-    print(request.method)
     if request.method == 'POST':
         form = ManualWireTransferForm(request.POST, request.FILES)
         if form.is_valid():
@@ -82,8 +106,8 @@ def submit_wire_transfer(request, order_id):
             )
             action = OrderAction.objects.create(
                 order=order,
-                # action=OrderAction.Action.BANKNOTE_UPLOADED,
-                action=OrderAction.Action.PAYMENT_RECEIVED,
+                action=OrderAction.Action.BANKNOTE_UPLOADED,
+                # action=OrderAction.Action.PAYMENT_RECEIVED,
             )
             order.latest_action = action
             order.save()

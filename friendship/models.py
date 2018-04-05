@@ -185,14 +185,14 @@ class Order(models.Model):
     final_bid = models.ForeignKey(
         'Bid',
         related_name="my_order",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
     latest_action = models.ForeignKey(
         'OrderAction',
         related_name="my_order_action",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
