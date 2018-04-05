@@ -17,7 +17,7 @@
 <div class="ui-steps" id="order-details">
     <!-- Item Ordered is always blue -->
     <div class="step-wrapper">
-        <span class="step-number ui-gradient-blue"> </span>
+        <span class="step-number ui-gradient-blue">&#x2713</span>
         <div class="row">
             <div class="col-md-6">
                 <h3>Item Ordered on [BLAH]</h3>
@@ -47,7 +47,7 @@
                 {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
             </div>
             {% elif latest_action.action >= MATCH_FOUND %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Found Match</h3>
             </div>
@@ -163,7 +163,7 @@
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
             </div>
             {% elif latest_action.action >= PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Payment Received</h3>
             </div>
@@ -185,7 +185,7 @@
                 <h3>Item Ordered By FriendShips</h3>
             </div>
             {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Item Ordered By FriendShips</h3>
             </div>
@@ -207,7 +207,7 @@
                 <h3>Sender Received Item</h3>
             </div>
             {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Sender Received Item</h3>
             </div>
@@ -224,7 +224,7 @@
                 <h3>Arrived in Thailand</h3>
             </div>
             {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Arrived in Thailand</h3>
             </div>
@@ -246,7 +246,7 @@
                 <h3>Item Delivered</h3>
             </div>
             {% elif latest_action.action >= ORDER_FULFILLED %}
-            <span class="step-number ui-gradient-blue"> </span>
+            <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Item Delivered</h3>
             </div>
