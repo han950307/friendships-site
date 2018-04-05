@@ -51,3 +51,9 @@ def user_open_bids(request):
     return render(request, 'friendship/user_open_bids.html', {
         'data': qset,
     })
+
+@login_required
+def sender_landing(request):
+	return render(request, 'friendship/sender_landing.html', {
+		'data': [request, ],
+	})

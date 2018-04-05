@@ -28,10 +28,11 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('messages/', views.messages, name='messages'),
     path('account/', views.account, name='account'),
-
+    path('become_sender/', views.become_sender, name='become_sender'),
 
     # Receiver views
-    path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
+    path('receiver_landing/', views.receiver_landing, name='receiver_landing'),
+    path('place_order/', views.place_order, name='place_order'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),
     path('testing/<int:order_id>', views.sync_message, name='sync_message'),
     path('order_details/<int:pk>', views.order_details, name='order_details'),
@@ -42,6 +43,7 @@ urlpatterns = [
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
 
     # Sender views
+    path('sender_landing/', views.sender_landing, name='sender_landing'),
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
