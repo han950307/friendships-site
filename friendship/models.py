@@ -185,14 +185,14 @@ class Order(models.Model):
     final_bid = models.ForeignKey(
         'Bid',
         related_name="my_order",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
     latest_action = models.ForeignKey(
         'OrderAction',
         related_name="my_order_action",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -260,7 +260,12 @@ class PaymentAction(models.Model):
         null=True
     )
 
+    payment_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in PaymentType)
+    )
+
     account_number = models.CharField(max_length=100)
+
 
 class OrderAction(models.Model):
     """
@@ -270,18 +275,20 @@ class OrderAction(models.Model):
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1
-        ORDER_PLACED = 0
-        MATCH_FOUND = 1
-        PRICE_ACCEPTED = 2
-        BANKNOTE_UPLOADED = 3
-        PAYMENT_RECEIVED = 4
-        ITEM_SHIPPED_BY_MERCHANT = 5
-        ITEM_RECEIVED_BY_SHIPPER = 6
-        ITEM_IN_TRANSIT_BY_SHIPPER = 7
-        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 8
-        ORDER_FULFILLED = 9
-        ORDER_DECLINED = 10
-        ORDER_CLOSED = 11
+        ORDER_PLACED = 100
+        MATCH_FOUND = 200
+        PRICE_ACCEPTED = 300
+        BANKNOTE_UPLOADED = 400
+        PAYMENT_RECEIVED = 500
+        ITEM_ORDERED_BY_FRIENDSHIPS = 600
+        ITEM_SHIPPED_BY_MERCHANT = 700
+        ITEM_RECEIVED_BY_SHIPPER = 800
+        ITEM_IN_TRANSIT_BY_SHIPPER = 900
+        ITEM_ARRIVED_IN_THAILAND = 950
+        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 1000
+        ORDER_FULFILLED = 1100
+        ORDER_DECLINED = 1200
+        ORDER_CLOSED = 1300
 
         def __str__(self):
             if self == self.OTHER_ACTION:
