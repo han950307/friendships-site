@@ -35,13 +35,28 @@
                 <table>
                     <tr>
                         <td>Current Total:</td>
-                        <td>Time Left:</td>
+												<td>[LOWEST BID]</td>
                     </tr>
                     <tr>
-                        <td>[LOWEST BID]</td>
-                        <td>[TIME LEFT]</td>
+                        <td>Time Left:</td>
+                        <td id="time_countdown">[TIME LEFT]</td>
                     </tr>
                 </table>
+								<span>Accept price and buy now</span>
+								<!-- COUNTDOWN TIME -->
+								<script>
+									var deadline = new Date("April 5, 2018 20:10:25").getTime() //should be passed in
+									var x = setInterval(function() {
+										var now = new Date().getTime()
+										var distance = deadline-now
+										var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+										var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+										var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+										document.getElementById('time_countdown').innerHTML = hours+":"+minutes+":"+seconds
+									}, 1000)
+
+								</script>
             </div>
             <div class="col-md-6">
                 {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
@@ -172,7 +187,7 @@
                     {{ manual_wire_transfer_form.as_p }}
                     <input type="submit">
                 </form>
-                
+
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
             </div>
             {% endif %}
