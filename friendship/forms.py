@@ -60,7 +60,7 @@ class ManualWireTransferForm(Form):
             }
         ),
     )
-    bank_note = forms.ImageField(
+    banknote_image = forms.ImageField(
         widget=forms.FileInput(),
     )
 

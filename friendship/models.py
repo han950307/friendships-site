@@ -260,7 +260,12 @@ class PaymentAction(models.Model):
         null=True
     )
 
+    payment_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in PaymentType)
+    )
+
     account_number = models.CharField(max_length=100)
+
 
 class OrderAction(models.Model):
     """

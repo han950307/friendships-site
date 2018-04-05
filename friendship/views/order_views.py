@@ -9,11 +9,15 @@ from ..models import (
     Bid,
     OrderAction,
     ShippingAddress,
+    PaymentAction,
     Message,
 )
 
 import datetime
 
+from ..forms import (
+    ManualWireTransferForm,
+)
 from django.core import serializers
 
 
@@ -60,7 +64,24 @@ def order_details(request, pk):
 
 @login_required
 def submit_wire_transfer(request, order_id):
-    pass
+    order = Order.objects.get(pk=pk)
+    if order.receiver != request.user and order.shipper != request.user:
+        error(request, 'You\'ve got the wrong user')
+        return redirect('friendship:index')
+    if request.method == 'POST':
+        form = ManualWireTransferForm(request.POST, request.FILES)
+        if form.is_valid():
+            order.banknote_image = form.cleaned_data["banknote_image"]
+            PaymentAction.objects.create(
+                order=order,
+                payment_type=PaymentAction.PaymentType.MANUAL_WIRE_TRANSFER,
+                account_number = form.cleaned_data["account_number"]
+            )
+            order.save()
+            return redirect('friendship:login')
+    else:
+        form = ManualWireTransferForm()
+    return render(request, 'friendship/register.html', {'form': form})
 
 
 @login_required
