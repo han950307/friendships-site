@@ -52,6 +52,7 @@ def order_details(request, pk):
         'data': data,
         'latest_action': order.latest_action,
         'min_bid': get_min_bid(order),
+        'manual_wire_transfer_form': ManualWireTransferForm(),
     }
 
     data_dict.update({ k : v.value
@@ -81,7 +82,8 @@ def submit_wire_transfer(request, order_id):
             return redirect('friendship:login')
     else:
         form = ManualWireTransferForm()
-    return render(request, 'friendship/register.html', {'form': form})
+    error(request, "You're not allowed here or something.")
+    return redirect('friendship:login')
 
 
 @login_required
