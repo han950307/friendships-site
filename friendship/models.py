@@ -6,6 +6,11 @@ import functools
 import datetime
 
 
+def forDjango(cls):
+    cls.do_not_call_in_templates = True
+    return cls
+
+
 # Create your models here.
 class ShipperInfo(models.Model):
     """
@@ -17,6 +22,19 @@ class ShipperInfo(models.Model):
         FLIGHT_ATTENDANT = 1
         SHIPPING_COMPANY = 2
         FRIENDSHIP_BIDDER = 3
+
+        def __str__(self):
+            if self == self.TRAVELER:
+                return "traveler"
+            elif self == self.FLIGHT_ATTENDANT:
+                return "flight attendant"
+            elif self == self.SHIPPING_COMPANY:
+                return "shipping company"
+            elif self == self.FRIENDSHIP_BIDDER:
+                return "friendship bidder"
+            else:
+                return "other"
+
 
     user = models.OneToOneField(
         User,
@@ -81,6 +99,14 @@ class ShippingAddress(models.Model):
         RECEIVER_ADDRESS = 0
         SENDER_ADDRESS = 1
 
+        def __str__(self):
+            if self == self.RECEIVER_ADDRESS:
+                return "receiver address"
+            elif self == self.SENDER_ADDRESS:
+                return "sender address"
+            else:
+                return "other"
+
     address_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in AddressType)
     )
@@ -97,6 +123,14 @@ class Order(models.Model):
         OTHER = -1
         SHOES = 0
 
+        def __str__(self):
+            if self == self.SHOES:
+                return "shoes"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
+
     choices = [(x.value, x.name.title()) for x in MerchandiseType]
     choices.insert(0, (-1, "Category - please choose one"))
 
@@ -111,8 +145,8 @@ class Order(models.Model):
 
     description = models.TextField()
     quantity = models.IntegerField()
-    size = models.CharField(max_length=120)
-    color = models.CharField(max_length=120)
+    size = models.CharField(max_length=120, null=True, blank=True,)
+    color = models.CharField(max_length=120, null=True, blank=True,)
     shipper = models.ForeignKey(
         User,
         related_name="shipper_orders",
@@ -148,6 +182,20 @@ class Order(models.Model):
     estimated_weight = models.IntegerField(
         default=0,
     )
+    final_bid = models.ForeignKey(
+        'Bid',
+        related_name="my_order",
+        on_delete="SET_NULL",
+        null=True,
+        blank=True,
+    )
+    latest_action = models.ForeignKey(
+        'OrderAction',
+        related_name="my_order_action",
+        on_delete="SET_NULL",
+        null=True,
+        blank=True,
+    )
 
 
 class TrackingNumber(models.Model):
@@ -157,6 +205,18 @@ class TrackingNumber(models.Model):
         MERCHANT_TO_SHIPPER = 0
         SHIPPER_TO_THAILAND_DOMESTIC = 1
         DOMESTIC_TO_RECEIVER = 2
+
+        def __str__(self):
+            if self == self.MERCHANT_TO_SHIPPER:
+                return "in route to shipper"
+            elif self == self.SHIPPER_TO_THAILAND_DOMESTIC:
+                return "in route to thailand"
+            elif self == self.DOMESTIC_TO_RECEIVER:
+                return "in route to receiver"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
 
     order = models.ForeignKey(
         Order,
@@ -181,6 +241,18 @@ class PaymentAction(models.Model):
         ONLINE_WIRE_TRANSFER = 1
         MANUAL_WIRE_TRANSFER = 2
 
+        def __str__(self):
+            if self == self.CREDIT_CARD:
+                return "credit card"
+            elif self == self.ONLINE_WIRE_TRANSFER:
+                return "online wire transfer"
+            elif self == self.MANUAL_WIRE_TRANSFER:
+                return "manual wire transfer"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
+
     order = models.ForeignKey(
         Order,
         on_delete=models.SET_NULL,
@@ -194,19 +266,54 @@ class OrderAction(models.Model):
     """
     Keeps track of the actions that were made for each order until fulfillment.
     """
+    @forDjango
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1
         ORDER_PLACED = 0
         MATCH_FOUND = 1
-        PRICE_CONFIRMED = 2
+        PRICE_ACCEPTED = 2
         BANKNOTE_UPLOADED = 3
         PAYMENT_RECEIVED = 4
         ITEM_SHIPPED_BY_MERCHANT = 5
         ITEM_RECEIVED_BY_SHIPPER = 6
-        ORDER_FULFILLED = 7
-        ORDER_DECLINED = 8
-        ORDER_CLOSED = 9
+        ITEM_IN_TRANSIT_BY_SHIPPER = 7
+        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 8
+        ORDER_FULFILLED = 9
+        ORDER_DECLINED = 10
+        ORDER_CLOSED = 11
+
+        def __str__(self):
+            if self == self.OTHER_ACTION:
+                return "other action"
+            elif self == self.ORDER_PLACED:
+                return "order placed"
+            elif self == self.MATCH_FOUND:
+                return "match_found"
+            elif self == self.PRICE_ACCEPTED:
+                return "price accepted"
+            elif self == self.BANKNOTE_UPLOADED:
+                return "banknote uploaded"
+            elif self == self.PAYMENT_RECEIVED:
+                return "payment received"
+            elif self == self.ITEM_SHIPPED_BY_MERCHANT:
+                return "item shipped by merchant"
+            elif self == self.ITEM_RECEIVED_BY_SHIPPER:
+                return "item received by shipper"
+            elif self == self.ITEM_IN_TRANSIT_BY_SHIPPER:
+                return "item left origin"
+            elif self == self.ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER:
+                return "item shipped domestically"
+            elif self == self.ORDER_FULFILLED:
+                return "order fulfilled"
+            elif self == self.ORDER_DECLINED:
+                return "order declined"
+            elif self == self.ORDER_CLOSED:
+                return "order closed"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
 
     order = models.ForeignKey(
         Order,
@@ -220,20 +327,12 @@ class OrderAction(models.Model):
     text = models.CharField(max_length=1000, null=True)
 
 
-@functools.total_ordering
 class Bid(models.Model):
     """
     When a potential shipper places a bid, it goes in this database.
     """
-    def __lt__(self, other):
-        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
-        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
-        return this_value < other_value
-
-    def __eq__(self, other):
-        this_value = self.wages + self.retail_price + self.import_tax + self.domestic_shipping
-        other_value = other.wages + other.retail_price + other.import_tax + other.domestic_shipping
-        return this_value == other_value
+    def get_total(self):
+        return self.wages + self.retail_price + self.import_tax + self.domestic_shipping
 
     shipper = models.ForeignKey(
         User,

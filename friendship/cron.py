@@ -41,11 +41,14 @@ def match_with_shipper(order):
 		# pair with one of friendship accounts.
 		pass
 	else:
-		order.shipper = min_bid.shipper
+		order.shipper = min_bid[1].shipper
 		# make shipper choose a shipping address when they're matched.
 		order.save()
 
-	OrderAction.objects.create(
+	order.final_bid = min_bid[1]
+	action = OrderAction.objects.create(
 		order=order,
 		action=OrderAction.Action.MATCH_FOUND
 	)
+	order.latest_action = action
+	order.save()

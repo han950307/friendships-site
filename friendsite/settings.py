@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'api.apps.ApiConfig',
+    'formtools',
     'backend.apps.BackendConfig',
     'friendship.apps.FriendshipConfig',
     'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
