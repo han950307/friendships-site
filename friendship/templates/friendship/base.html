@@ -53,7 +53,7 @@
 			<ul class="nav navbar-nav">
 				<!-- Nav Item -->
 				<li>
-					<a href="#" data-scrollto="how-it-works">How It Works</a>
+					<a href="{% url 'friendship:how_it_works' %}">How It Works</a>
 				</li>
 
 				{% if request.user.is_authenticated %}

@@ -51,6 +51,7 @@ urlpatterns = [
 
     # Other views
     path('testing/', views.testing, name='testing'),
+    path('how_it_works/', views.how_it_works, name='how_it_works'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
