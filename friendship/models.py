@@ -23,6 +23,19 @@ class ShipperInfo(models.Model):
         SHIPPING_COMPANY = 2
         FRIENDSHIP_BIDDER = 3
 
+        def __str__(self):
+            if self == self.TRAVELER:
+                return "traveler"
+            elif self == self.FLIGHT_ATTENDANT:
+                return "flight attendant"
+            elif self == self.SHIPPING_COMPANY:
+                return "shipping company"
+            elif self == self.FRIENDSHIP_BIDDER:
+                return "friendship bidder"
+            else:
+                return "other"
+
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -86,6 +99,14 @@ class ShippingAddress(models.Model):
         RECEIVER_ADDRESS = 0
         SENDER_ADDRESS = 1
 
+        def __str__(self):
+            if self == self.RECEIVER_ADDRESS:
+                return "receiver address"
+            elif self == self.SENDER_ADDRESS:
+                return "sender address"
+            else:
+                return "other"
+
     address_type = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in AddressType)
     )
@@ -101,6 +122,14 @@ class Order(models.Model):
     class MerchandiseType(enum.IntEnum):
         OTHER = -1
         SHOES = 0
+
+        def __str__(self):
+            if self == self.SHOES:
+                return "shoes"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
 
     choices = [(x.value, x.name.title()) for x in MerchandiseType]
     choices.insert(0, (-1, "Category - please choose one"))
@@ -177,6 +206,18 @@ class TrackingNumber(models.Model):
         SHIPPER_TO_THAILAND_DOMESTIC = 1
         DOMESTIC_TO_RECEIVER = 2
 
+        def __str__(self):
+            if self == self.MERCHANT_TO_SHIPPER:
+                return "in route to shipper"
+            elif self == self.SHIPPER_TO_THAILAND_DOMESTIC:
+                return "in route to thailand"
+            elif self == self.DOMESTIC_TO_RECEIVER:
+                return "in route to receiver"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
+
     order = models.ForeignKey(
         Order,
         on_delete=models.SET_NULL,
@@ -199,6 +240,18 @@ class PaymentAction(models.Model):
         CREDIT_CARD = 0
         ONLINE_WIRE_TRANSFER = 1
         MANUAL_WIRE_TRANSFER = 2
+
+        def __str__(self):
+            if self == self.CREDIT_CARD:
+                return "credit card"
+            elif self == self.ONLINE_WIRE_TRANSFER:
+                return "online wire transfer"
+            elif self == self.MANUAL_WIRE_TRANSFER:
+                return "manual wire transfer"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
 
     order = models.ForeignKey(
         Order,
@@ -229,6 +282,38 @@ class OrderAction(models.Model):
         ORDER_FULFILLED = 9
         ORDER_DECLINED = 10
         ORDER_CLOSED = 11
+
+        def __str__(self):
+            if self == self.OTHER_ACTION:
+                return "other action"
+            elif self == self.ORDER_PLACED:
+                return "order placed"
+            elif self == self.MATCH_FOUND:
+                return "match_found"
+            elif self == self.PRICE_ACCEPTED:
+                return "price accepted"
+            elif self == self.BANKNOTE_UPLOADED:
+                return "banknote uploaded"
+            elif self == self.PAYMENT_RECEIVED:
+                return "payment received"
+            elif self == self.ITEM_SHIPPED_BY_MERCHANT:
+                return "item shipped by merchant"
+            elif self == self.ITEM_RECEIVED_BY_SHIPPER:
+                return "item received by shipper"
+            elif self == self.ITEM_IN_TRANSIT_BY_SHIPPER:
+                return "item left origin"
+            elif self == self.ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER:
+                return "item shipped domestically"
+            elif self == self.ORDER_FULFILLED:
+                return "order fulfilled"
+            elif self == self.ORDER_DECLINED:
+                return "order declined"
+            elif self == self.ORDER_CLOSED:
+                return "order closed"
+            elif self == self.OTHER:
+                return "other"
+            else:
+                return "other"
 
     order = models.ForeignKey(
         Order,

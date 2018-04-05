@@ -8,7 +8,8 @@ from django.forms import (
     Select,
     FileField,
 )
-from friendship.models import Order
+from django import forms
+from friendship.models import Order, ShipperInfo
 
 
 class UploadPictureForm(Form):
@@ -45,3 +46,26 @@ class OrderForm(ModelForm):
         super(OrderForm, self).full_clean()
         if 'bid_end_datetime' in self.errors:
             del self.errors['bid_end_datetime']
+
+
+class SenderRegistrationForm(Form):
+    shipper_type = forms.ChoiceField(
+        widget=forms.Select,
+        choices=[
+            (x.value, x)
+            for x
+            in ShipperInfo.ShipperType
+        ]
+    )
+
+
+class TravelerRegistrationForm(Form):
+    phone_number = forms.CharField(max_length=50)
+    id_image = forms.ImageField()
+    pass
+
+
+class ShippingCompanyRegistrationForm(Form):
+    phone_number = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=200)
+    pass
