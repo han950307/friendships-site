@@ -123,9 +123,15 @@ def process_payment(request, order_id):
 	# for now, just get the min
 	return render(request, 'friendship/index.html', {})
 
+@login_required
+def receiver_landing(request):
+	return render(request, 'friendship/receiver_landing.html', {
+		'data': [request, ],
+	})
+
 
 @login_required
-def receiver_landing_view(request):
+def place_order(request):
 	"""
 	This is a page for a form for making an order.
 	"""
