@@ -48,10 +48,9 @@ class OrderForm(ModelForm):
             del self.errors['bid_end_datetime']
 
 
-class WireTransferForm(Form):
+class ManualWireTransferForm(Form):
     account_number = forms.CharField(max_length=50)
     bank_note = forms.ImageField()
-    pass
 
 
 class SenderRegistrationForm(Form):
@@ -68,10 +67,8 @@ class SenderRegistrationForm(Form):
 class TravelerRegistrationForm(Form):
     phone_number = forms.CharField(max_length=50)
     id_image = forms.ImageField()
-    pass
 
 
 class ShippingCompanyRegistrationForm(Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
-    pass
