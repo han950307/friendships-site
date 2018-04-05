@@ -4,7 +4,20 @@ form p {
     all: unset;
   }
 }
-
+#order-details div.row {
+  display: block;
+  width: 100%;
+  padding: 0.3rem 0.2rem;
+  margin-left: 4rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #708198;
+  background-color: #edeff2;
+  background-clip: padding-box;
+  border: 0 solid #ced4da;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *

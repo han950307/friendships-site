@@ -167,12 +167,6 @@ def receiver_landing_view(request):
 								 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity']))
 			}
 			order = create_order(request.user, **data_dict)
-
-
-
 			orders[i] = order
-
-
-
 
 		return render(request, 'friendship/place_order_landing.html', {'orders': orders})

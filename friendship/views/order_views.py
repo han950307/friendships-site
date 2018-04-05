@@ -25,7 +25,7 @@ def get_min_bid(order):
     bids = Bid.objects.filter(order=order)
     bid_list = [(x.get_total(), x) for x in bids]
     if bids:
-        return min(bid_list)
+        return min(bid_list)[1]
     else:
         return None
 
@@ -35,63 +35,19 @@ def order_details(request, pk):
     """
     Given the order_id (pk), displays its info.
     """
-
     order = Order.objects.get(pk=pk)
     if order.receiver != request.user and order.shipper != request.user:
         error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
 
-    actions = OrderAction.objects.filter(order=pk)
-
-    data = {}
-
-    # the structure of data
-
-    # orderaction enum value
-    #     order_action
-    #         order
-    #         action
-    #         date_placed
-    #         text
-    #     data
-    #         various keys
-    #
-    # example:
-    #
-    # 1
-    #     order_action
-    #     data
-    #         'min_bid':
-    #             'amount': 100
-    #             'currency': USD
-    # 2
-    #     order_action
-    #         ...
-    #         ...
-    #         ...
-
-    for action in actions:
-        order_data = {}
-        data[action.action] = order_data
-
-        if not action.text:
-            action.text = OrderAction.Action(action.action)
-
-        order_data['order_action'] = action
-        order_data['data'] = {}
-
-        # data for min bid
-        if action.action == OrderAction.Action.MATCH_FOUND:
-            order_data['data']['min_bid'] = get_min_bid(pk)
-        elif action.action == 2:
-            order_data['data']['']
-            order_data['data']['min_bid'] = get_min_bid(pk)
+    actions = OrderAction.objects.filter(order=order)
 
     data_dict = {
         'order': order,
         'actions': reversed(actions),
         'data': data,
         'latest_action': order.latest_action,
+        'min_bid': get_min_bid(order),
     }
 
     data_dict.update({ k : v.value
@@ -99,8 +55,12 @@ def order_details(request, pk):
                         in OrderAction.Action._member_map_.items()
     })
 
-
     return render(request, 'friendship/order_details.html', data_dict)
+
+
+@login_required
+def submit_wire_transfer(request, order_id):
+    pass
 
 
 @login_required

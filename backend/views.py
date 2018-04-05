@@ -170,6 +170,8 @@ def create_order(user, **kwargs):
 			order=order,
 			action=OrderAction.Action.ORDER_PLACED,
 		)
+		order.latest_action = action
+		order.save()
 
 		return order
 	finally:

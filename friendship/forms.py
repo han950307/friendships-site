@@ -48,6 +48,12 @@ class OrderForm(ModelForm):
             del self.errors['bid_end_datetime']
 
 
+class WireTransferForm(Form):
+    account_number = forms.CharField(max_length=50)
+    bank_note = forms.ImageField()
+    pass
+
+
 class SenderRegistrationForm(Form):
     shipper_type = forms.ChoiceField(
         widget=forms.Select,
