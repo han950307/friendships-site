@@ -131,4 +131,3 @@ class RegistrationForm(forms.Form):
             }
         ),
     )
->>>>>>> feature/hansung-frontend

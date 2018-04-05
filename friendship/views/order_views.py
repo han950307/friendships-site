@@ -35,25 +35,26 @@ def get_min_bid(order):
 
 
 @login_required
-def order_details(request, pk):
+def order_details(request, order_id, **kwargs):
     """
     Given the order_id (pk), displays its info.
     """
-    order = Order.objects.get(pk=pk)
+    order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
         messages.error(request, 'You do not have permission to view this page.')
         return redirect('friendship:index')
 
     actions = OrderAction.objects.filter(order=order)
 
-    data_dict = {
+    data_dict = {}
+    data_dict.update({
         'order': order,
         'actions': reversed(actions),
-        'data': data,
         'latest_action': order.latest_action,
         'min_bid': get_min_bid(order),
         'manual_wire_transfer_form': ManualWireTransferForm(),
-    }
+    })
+    data_dict.update(kwargs)
 
     data_dict.update({ k : v.value
                         for (k,v)
@@ -65,10 +66,11 @@ def order_details(request, pk):
 
 @login_required
 def submit_wire_transfer(request, order_id):
-    order = Order.objects.get(pk=pk)
+    order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
-        error(request, 'You\'ve got the wrong user')
+        messages.error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
+    print(request.method)
     if request.method == 'POST':
         form = ManualWireTransferForm(request.POST, request.FILES)
         if form.is_valid():
@@ -78,13 +80,18 @@ def submit_wire_transfer(request, order_id):
                 payment_type=PaymentAction.PaymentType.MANUAL_WIRE_TRANSFER,
                 account_number = form.cleaned_data["account_number"]
             )
+            action = OrderAction.objects.create(
+                order=order,
+                # action=OrderAction.Action.BANKNOTE_UPLOADED,
+                action=OrderAction.Action.PAYMENT_RECEIVED,
+            )
+            order.latest_action = action
             order.save()
-            return redirect('friendship:login')
+            return order_details(request, order_id)
     else:
         form = ManualWireTransferForm()
-    error(request, "You're not allowed here or something.")
-    return redirect('friendship:login')
-
+    
+    return order_details(request, order_id, **{'manual_wire_transfer_form': form})
 
 @login_required
 def open_orders(request, filter):

@@ -73,7 +73,7 @@
                 <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
 
                 <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
-                <form action="{% url 'friendship:process_payment' order_id %}" method="post" id="checkout">
+                <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
                     {% csrf_token %}
                     <script src="https://cdn.omise.co/omise.js"></script>
                     <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
@@ -154,8 +154,11 @@
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                {{ manual_wire_transfer_form.as_p }}
-                {# <form action="{% url 'friendship:process_manual_wire_payment' %}" #}
+                <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                    {% csrf_token %}
+                    {{ manual_wire_transfer_form.as_p }}
+                    <input type="submit">
+                </form>
                 
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
             </div>
@@ -174,17 +177,17 @@
             {% if latest_action.action < PAYMENT_RECEIVED %}
             <span class="step-number ui-gradient-purple"> </span>
             <div class="col-md-6">
-                <h3>Item Ordered By FriendShip</h3>
+                <h3>Item Ordered By FriendShips</h3>
             </div>
             {% elif latest_action.action == PAYMENT_RECEIVED %}
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-md-6">
-                <h3>Item Ordered By FriendShip</h3>
+                <h3>Item Ordered By FriendShips</h3>
             </div>
-            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIP %}
+            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
             <span class="step-number ui-gradient-blue"> </span>
             <div class="col-md-6">
-                <h3>Item Ordered By Friendship</h3>
+                <h3>Item Ordered By FriendShips</h3>
             </div>
             {% endif %}
         </div>
@@ -193,12 +196,12 @@
     <!-- SENDER RECEIVED ITEM LOGIC -->
     <div class="step-wrapper">
         <div class="row">
-            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIP %}
+            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS %}
             <span class="step-number ui-gradient-purple"> </span>
             <div class="col-md-6">
                 <h3>Sender Received Item</h3>
             </div>
-            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIP or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-md-6">
                 <h3>Sender Received Item</h3>
