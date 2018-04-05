@@ -49,8 +49,20 @@ class OrderForm(ModelForm):
 
 
 class ManualWireTransferForm(Form):
-    account_number = forms.CharField(max_length=50)
-    bank_note = forms.ImageField()
+    account_number = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Account Number: 45674894512456',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your account number.',
+            }
+        ),
+    )
+    bank_note = forms.ImageField(
+        widget=forms.FileInput(),
+    )
 
 
 class SenderRegistrationForm(Form):
