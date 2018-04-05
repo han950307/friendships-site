@@ -66,7 +66,7 @@ def login_process(request):
 		data_dict = {x: v for x, v in request.POST.items()}
 		login_user_web(request, **data_dict)
 		if request.session["is_shipper"] == True:
-			return HttpResponseRedirect(reverse('friendship:index'))
+			return HttpResponseRedirect(reverse('friendship:sender_landing'))
 		else:
 			return HttpResponseRedirect(reverse('friendship:receiver_landing'))
 	except (KeyError, ValueError) as e:
@@ -86,3 +86,9 @@ def account(request):
 	return render(request, 'friendship/account.html', {
 		'data': [request, ],
 	})
+
+def become_sender(request):
+	return render(request, 'friendship/become_sender.html', {
+		'data': [request, ],
+	})
+
