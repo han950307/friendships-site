@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import (
     Form,
     ModelForm,
@@ -84,3 +85,50 @@ class TravelerRegistrationForm(Form):
 class ShippingCompanyRegistrationForm(Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
+
+
+class RegistrationForm(forms.Form):
+    first_name = forms.CharField(
+        max_length=120,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'First Name *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your first name.',
+            }
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=120,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Last Name *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your last name.',
+            }
+        ),
+    )
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Email *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your email address.',
+            }
+        ),
+    )
+    password = forms.CharField(
+        max_length=200,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your desired password.',
+            }
+        ),
+    )
+>>>>>>> feature/hansung-frontend

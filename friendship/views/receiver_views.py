@@ -17,6 +17,7 @@ from friendship.forms import (
 	UploadPictureForm,
 	OrderForm,
 )
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 from django.contrib import messages
@@ -74,6 +75,10 @@ def upload_picture_process(request, order_id):
 	else:
 		messages.debug(request, 'Must be a post request')
 		return redirect('friendship:order_details', pk=order_id)
+
+
+class PaymentForm(forms.Form):
+	pass
 
 
 @login_required
@@ -168,7 +173,7 @@ def place_order(request):
 				'description': req['form-' + str(i) + '-description'],
 				'receiver': request.user,
 				'receiver_address': ShippingAddress.objects.all()[0],
-				'estimated_weight': 1,
+				'estimated_weight': 0,
 				'bid_end_datetime': datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
 								 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity']))
 			}

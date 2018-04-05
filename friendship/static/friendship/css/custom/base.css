@@ -4,6 +4,8 @@ form p {
     all: unset;
   }
 }
+
+/* order details step view. */
 #order-details div.row {
   display: block;
   width: 100%;
