@@ -77,6 +77,7 @@ def confirm_order_price(request, order_id, choice):
         action = OrderAction.objects.create(
             order=order,
             action=OrderAction.Action.PRICE_ACCEPTED,
+            #action=OrderAction.Action.PAYMENT_RECEIVED,
         )
         order.latest_action = action
         order.save()
@@ -117,7 +118,7 @@ def submit_wire_transfer(request, order_id):
             return redirect('friendship:order_details', order_id=order_id)
     else:
         form = ManualWireTransferForm()
-    
+
     return order_details(request, order_id, **{'manual_wire_transfer_form': form})
 
 
