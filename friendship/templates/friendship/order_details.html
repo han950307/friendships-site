@@ -38,14 +38,14 @@
                 <table>
                     <tr>
                         <td>Current Total:</td>
-												<td>[LOWEST BID]</td>
+                        <td>[LOWEST BID]</td>
                     </tr>
                     <tr>
                         <td>Time Left:</td>
                         <td id="time_countdown">[TIME LEFT] </td>
                     </tr>
                 </table>
-								<span>Accept price and buy now</span>
+                <span>Accept price and buy now</span>
 
             </div>
 
@@ -91,24 +91,24 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-md-6">
                 <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
-								<h3> Methods of Payment:</h3>
-								<form id="payment-form">
-									<input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
-									<input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
-								</form>
-								<br>
+                <h3> Methods of Payment:</h3>
+                <form id="payment-form">
+                    <input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
+                    <input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
+                </form>
+                <br>
                 <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
 
-								<div id="credit-card-payment" style="display: none">
-                <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
-                    {% csrf_token %}
-                    <script src="https://cdn.omise.co/omise.js"></script>
-                    <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-                    <script>
-                    Omise.setPublicKey("pkey_test_5bhaufrx5qsyotldxvl");
+                <div id="credit-card-payment" style="display: none">
+                    <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
+                        {% csrf_token %}
+                        <script src="https://cdn.omise.co/omise.js"></script>
+                        <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                        <script>
+                        Omise.setPublicKey("pkey_test_5bhaufrx5qsyotldxvl");
 
-                    $("#checkout").submit(function () {
-                        var form = $(this);
+                        $("#checkout").submit(function () {
+                            var form = $(this);
                         // Disable the submit button to avoid repeated click.
                         form.find("input[type=submit]").prop("disabled", true);
 
@@ -153,134 +153,134 @@
                         // Prevent the form from being submitted;
                         return false;
                     });
-                    </script>
-                    <div id="token_errors"></div>
+                        </script>
+                        <div id="token_errors"></div>
 
-                    <input type="hidden" name="omise_token">
+                        <input type="hidden" name="omise_token">
 
-                    <div>
-                        Name<br>
-                        <input type="text" data-omise="holder_name">
-                    </div>
-                    <div>
-                        Number<br>
-                        <input type="text" data-omise="number">
-                    </div>
-                    <div>
-                        Date<br>
-                        <input type="text" data-omise="expiration_month" size="4"> /
-                        <input type="text" data-omise="expiration_year" size="8">
-                    </div>
-                    <div>
-                        Security Code<br>
-                        <input type="text" data-omise="security_code" size="8">
-                    </div>
+                        <div>
+                            Name<br>
+                            <input type="text" data-omise="holder_name">
+                        </div>
+                        <div>
+                            Number<br>
+                            <input type="text" data-omise="number">
+                        </div>
+                        <div>
+                            Date<br>
+                            <input type="text" data-omise="expiration_month" size="4"> /
+                            <input type="text" data-omise="expiration_year" size="8">
+                        </div>
+                        <div>
+                            Security Code<br>
+                            <input type="text" data-omise="security_code" size="8">
+                        </div>
 
-                    <input type="submit" id="create_token">
-                </form>
-								</div>
+                        <input type="submit" id="create_token">
+                    </form>
+                </div>
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-								<div id="wire-payment" style="display: none">
-                	<form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                    {% csrf_token %}
-                    {{ manual_wire_transfer_form.as_p }}
-                    <input type="submit">
-                	</form>
-								</div>
+                <div id="wire-payment" style="display: none">
+                    <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                        {% csrf_token %}
+                        {{ manual_wire_transfer_form.as_p }}
+                        <input type="submit">
+                    </form>
+                </div>
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
-            {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey"> </span>
+                <div class="col-md-6">
+                    <h3>Item Ordered By FriendShips</h3>
+                </div>
+                {% elif latest_action.action == PAYMENT_RECEIVED %}
+                <span class="step-number ui-gradient-green"> </span>
+                <div class="col-md-6">
+                    <h3>Item Ordered By FriendShips</h3>
+                </div>
+                {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+                <span class="step-number ui-gradient-blue">&#x2713</span>
+                <div class="col-md-6">
+                    <h3>Item Ordered By FriendShips</h3>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- SENDER RECEIVED ITEM LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey"> </span>
+                <div class="col-md-6">
+                    <h3>Sender Received Item</h3>
+                </div>
+                {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+                <span class="step-number ui-gradient-green"> </span>
+                <div class="col-md-6">
+                    <h3>Sender Received Item</h3>
+                </div>
+                {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
+                <span class="step-number ui-gradient-blue">&#x2713</span>
+                <div class="col-md-6">
+                    <h3>Sender Received Item</h3>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey"> </span>
+                <div class="col-md-6">
+                    <h3>Arrived in Thailand</h3>
+                </div>
+                {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
+                <span class="step-number ui-gradient-blue">&#x2713</span>
+                <div class="col-md-6">
+                    <h3>Arrived in Thailand</h3>
+                </div>
+                {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+                <span class="step-number ui-gradient-green"> </span>
+                <div class="col-md-6">
+                    <h3>Arrived in Thailand</h3>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ITEM DELIVERED LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey"> </span>
+                <div class="col-md-6">
+                    <h3>Item Delivered</h3>
+                </div>
+                {% elif latest_action.action >= ORDER_FULFILLED %}
+                <span class="step-number ui-gradient-blue">&#x2713</span>
+                <div class="col-md-6">
+                    <h3>Item Delivered</h3>
+                </div>
+                {% else %}
+                <span class="step-number ui-gradient-green"> </span>
+                <div class="col-md-6">
+                    <h3>Item Delivered</h3>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 
-    <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-md-6">
-                <h3>Item Ordered By FriendShips</h3>
-            </div>
-            {% elif latest_action.action == PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
-                <h3>Item Ordered By FriendShips</h3>
-            </div>
-            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Item Ordered By FriendShips</h3>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- SENDER RECEIVED ITEM LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-md-6">
-                <h3>Sender Received Item</h3>
-            </div>
-            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
-                <h3>Sender Received Item</h3>
-            </div>
-            {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Sender Received Item</h3>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- ITEM ARRIVED IN THAILAND LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-md-6">
-                <h3>Arrived in Thailand</h3>
-            </div>
-            {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Arrived in Thailand</h3>
-            </div>
-            {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
-                <h3>Arrived in Thailand</h3>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- ITEM DELIVERED LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-md-6">
-                <h3>Item Delivered</h3>
-            </div>
-            {% elif latest_action.action >= ORDER_FULFILLED %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Item Delivered</h3>
-            </div>
-            {% else %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
-                <h3>Item Delivered</h3>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-{% endblock main_content %}
+    {% endblock main_content %}

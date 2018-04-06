@@ -24,6 +24,8 @@ from django.contrib import messages
 from friendsite import settings
 from friendship.views import(
     order_details,
+    get_min_bid,
+    match_with_shipper,
 )
 import datetime
 import requests
@@ -80,8 +82,14 @@ def upload_picture_process(request, order_id):
         return redirect('friendship:order_details', pk=order_id)
 
 
-class PaymentForm(forms.Form):
-    pass
+@login_required
+def buy_now(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    bids = Bid.objects.filter(order=order)
+    if not bids:
+        messages.error(request, 'There are no bids yet.')
+        return redirect('friendship:order_details', order_id=order_id)
+    match_with_shipper(order)
 
 
 @login_required
