@@ -14971,18 +14971,18 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.ui-curve.hero-center {
-  padding: 3rem 0 6rem 0;
+  padding: 7rem 0 0rem 0;
 }
 
 @media (min-width: 768px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 3rem 0 10rem 0;
+    padding: 7rem 0 0rem 0;
   }
 }
 
 @media (min-width: 1200px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 7rem 0 14rem 0;
+    padding: 12rem 0 2rem 0;
   }
 }
 
