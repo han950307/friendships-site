@@ -20,6 +20,13 @@ form p {
   border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+/* for my order view */
+.col-sm-13 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *
@@ -174,4 +181,9 @@ form p {
 
 .ui-steps .row {
 	padding-left: 6%;
+}
+
+.ui-gradient-grey {
+  background: -moz-linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
+  background: linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
 }
