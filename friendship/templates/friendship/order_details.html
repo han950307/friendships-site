@@ -14,6 +14,9 @@
 
 <hr />
 
+
+<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
+
 <div class="ui-steps" id="order-details">
     <!-- Item Ordered is always blue -->
     <div class="step-wrapper">
@@ -39,25 +42,14 @@
                     </tr>
                     <tr>
                         <td>Time Left:</td>
-                        <td id="time_countdown">[TIME LEFT]</td>
+                        <td id="time_countdown">[TIME LEFT] </td>
                     </tr>
                 </table>
 								<span>Accept price and buy now</span>
-								<!-- COUNTDOWN TIME -->
-								<script>
-									var deadline = new Date("April 5, 2018 20:10:25").getTime() //should be passed in
-									var x = setInterval(function() {
-										var now = new Date().getTime()
-										var distance = deadline-now
-										var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-										var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-										var seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-										document.getElementById('time_countdown').innerHTML = hours+":"+minutes+":"+seconds
-									}, 1000)
-
-								</script>
             </div>
+
+
             <div class="col-md-6">
                 {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
             </div>
@@ -99,8 +91,15 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-md-6">
                 <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
-
+								<h3> Methods of Payment:</h3>
+								<form id="payment-form">
+									<input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
+									<input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
+								</form>
+								<br>
                 <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+
+								<div id="credit-card-payment" style="display: none">
                 <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
                     {% csrf_token %}
                     <script src="https://cdn.omise.co/omise.js"></script>
@@ -179,17 +178,18 @@
 
                     <input type="submit" id="create_token">
                 </form>
+								</div>
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+								<div id="wire-payment" style="display: none">
+                	<form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
                     {% csrf_token %}
                     {{ manual_wire_transfer_form.as_p }}
                     <input type="submit">
-                </form>
-
+                	</form>
+								</div>
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
-            </div>
             {% endif %}
         </div>
     </div>
