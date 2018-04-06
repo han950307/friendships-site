@@ -17,6 +17,18 @@ class UploadPictureForm(forms.Form):
     picture = forms.ImageField()
 
 
+class ApplifyModelForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ShippingAddressForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if field.widget.__class__ == forms.widgets.TextInput:
+                if 'class' in field.widget.attrs:
+                    field.widget.attrs['class'] += ' input'
+                    field.widget.attrs['class'] += ' form-control'
+                else:
+                    field.widget.attrs.update({'class':'input form-control'})
+
+
 class OrderForm(forms.ModelForm):
     num_hours = forms.ChoiceField(
         widget=forms.RadioSelect(
