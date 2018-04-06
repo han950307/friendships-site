@@ -1,31 +1,33 @@
 {% extends "friendship/base_forms.html" %}
 {% load static %}
 
+
 {% block title %} Login {% endblock title %}
 {% block title_desc %} Authenticate yourself {% endblock title_desc %}
 
 {% block form %}
-	<form action="{% url 'friendship:login_process' %}" method="post">
-		{% csrf_token %}
-		<div class="form-group">
-			<label for="form_email">Email</label>
-			<input type="email" name="email" class="input form-control" id="form_email">
-		</div>
-		<div class="form-group">
-			<label for="form_password">Password</label>
-			<input type="password" name="password" class="input form-control" id="form_password">
-		</div>
-		<br />
-		<input type="submit" class="btn btn-block ui-gradient-peach shadow-md" value="Login" />
-	</form>
+<div class="container" id="login-container">
+	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-blue shadow-md" id="Facebook-login">Log in with Facebook</a><br>
+	<a href="{% url 'friendsite_social_auth:line_login' %}" class="btn btn-block ui-gradient-green shadow-md" id="Line-login">Log in with LINE</a>
+	<hr>
 
-<br />
+		<form action="{% url 'friendship:login_process' %}" method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="form_email">Email</label>
+				<input type="email" name="email" class="input form-control" id="form_email">
+			</div>
+			<div class="form-group">
+				<label for="form_password">Password</label>
+				<input type="password" name="password" class="input form-control" id="form_password">
+			</div>
+			<br />
+			<input type="submit" class="btn btn-block ui-gradient-peach shadow-md" value="Login" />
+		</form>
 
-<a href="{% url 'friendship:register' %}" class="btn btn-block ui-gradient-green shadow-md">
-	Don't have an account? Register here!
-</a>
-<a href="{% url 'friendsite_social_auth:facebook_login' %}">facebook login</a><br>
-<a href="{% url 'friendsite_social_auth:line_login' %}">line login</a>
+	<br />
+	<p>Don't have an account? <a href="{% url 'friendship:register' %}">Register here!</a></p>
+</div>
 {% endblock form %}
 
 

@@ -4,6 +4,31 @@ form p {
     all: unset;
   }
 }
+/**
+* 1. Home Page
+* ----------------------------------------------------------------------- *
+*/
+.ui-hero .btn {
+  margin-top: 50px;
+}
+
+.ui-hero.hero-center .paragraph {
+  max-width: 600px;
+}
+
+/**
+* 2. Login
+* ----------------------------------------------------------------------- *
+*/
+#Facebook-login {
+  margin-bottom:20px;
+}
+#Line-login {
+  margin-bottom:20px;
+}
+#login-container {
+  max-width:50%;
+}
 
 /* order details step view. */
 #order-details div.row {
