@@ -2,14 +2,20 @@
 {% load static %}
 {% block content %}
 <!-- Hero -->
+
 <div class="ui-hero hero-lg hero-center hero-bg ui-curve hero-svg-layer-4 bg-dark-gray">
 	<div class="container pb-4">
-		<div class="row pt-2 pb-8">
+		<div class="row pt-2 pb-4">
 			<div class="col-sm-12" data-vertical_center="true" data-vertical_offset="16">
 				<h1 class="heading animate" data-show="fade-in-up-big" data-delay="100">
 					The <span class="text-red">easiest</span> &amp; most <span class="text-red">secure</span> international shipping solution
 				</h1>
-				<a href="{% url 'friendship:register' %}"><button class="btn ui-gradient-peach">Get Started</button></a>
+				<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+				</p>
+				<div class="col-sm-12">
+					<a class="btn ui-gradient-peach shadow-lg" href="{% url 'friendship:register' %}">Get Started</a>
+				</div>
 				<!-- * Replace data-video with your youtube video id -->
 				<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
 					<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
@@ -31,7 +37,7 @@
 	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
 		<div class="section-heading cente">
 			<h2 class="heading text-dark-gray">
-				Awesome Features
+				How it Works
 			</h2>
 			<p class="paragraph">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut

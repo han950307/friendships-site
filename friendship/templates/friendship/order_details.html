@@ -5,12 +5,14 @@
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
 {% block main_content %}
-<h1> Order # {{ order.id }}</h1>
-<p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
-<p>Quantity: {{ order.quantity }}</p>
-<p>Description: {{ order.description }}</p>
-<p>Shipping Address: {{ order.reciever_address.address }}</p>
-<p>Order Status: {{ order.status }}</p>
+<div class="container" id="order-headings">
+    <h1> Order # {{ order.id }}</h1>
+    <p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
+    <p>Quantity: {{ order.quantity }}</p>
+    <p>Description: {{ order.description }}</p>
+    <p>Shipping Address: {{ order.reciever_address.address }}</p>
+    <p>Order Status: {{ order.status }}</p>
+</div>
 
 <hr />
 
@@ -22,8 +24,8 @@
     <div class="step-wrapper">
         <span class="step-number ui-gradient-blue">&#x2713</span>
         <div class="row">
-            <div class="col-md-6">
-                <h3>Item Ordered on {{ order.date_placed }}</h3>
+            <div class="col-auto">
+                <h4>Item Ordered on {{ order.date_placed }}</h4>
             </div>
         </div>
     </div>
@@ -33,8 +35,8 @@
         <div class="row">
             {% if latest_action.action == ORDER_PLACED %}
             <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
-                <h3>Finding Match</h3>
+            <div class="col-auto">
+                <h4>Finding Match</h4>
                 <table>
                     <tr>
                         <td>Current Total:</td>
@@ -50,13 +52,13 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-auto">
                 {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
             </div>
             {% elif latest_action.action >= MATCH_FOUND %}
             <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Found Match</h3>
+            <div class="col-auto">
+                <h4>Found Match</h4>
             </div>
             {% endif %}
         </div>
@@ -64,39 +66,38 @@
 
     <!-- PAYMENT LOGIC -->
     <div class="step-wrapper">
-        <div class="row">
+        <div class="row" >
             {% if latest_action.action < MATCH_FOUND %}
             <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-md-6">
-                <h3>Confirm Price and Pay</h3>
+            <div class="col-auto">
+                <h4>Confirm Price and Pay</h4>
             </div>
             {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
             <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-md-6">
-                <h3>Payment Received</h3>
+            <div class="col-auto">
+                <h4>Payment Received</h4>
             </div>
             {% elif latest_action.action == MATCH_FOUND %}
             <span class="step-number ui-gradient-green"> </span>
-            <div class="col-sm-6">
-                <h3>Confirm Price and Pay</h3>
-                <a class="btn btn-block ui-gradient-green shadow-md" href="{% url 'friendship:confirm_order_price' order.id True %}">Confirm</a>
-                <a class="btn btn-block ui-gradient-peach shadow-md" href="{% url 'friendship:confirm_order_price' order.id False %}">Decline</a>
+            <div class="col-auto">
+                <h4>Confirm Price and Pay</h4>
+                <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
+                <a class="btn btn-block ui-gradient-peach shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
             </div>
             {% elif latest_action.action == ORDER_DECLINED %}
             <span class="step-number ui-gradient-peach"> </span>
-            <div class="col-md-6">
-                <h3>Order Declined</h3>
+            <div class="col-auto">
+                <h4>Order Declined</h4>
             </div>
             {% elif latest_action.action == PRICE_ACCEPTED %}
             <span class="step-number ui-gradient-green"> </span>
-            <div class="col-md-6">
+            <div class="col-auto">
                 <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
-                <h3> Methods of Payment:</h3>
-                <form id="payment-form">
-                    <input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
-                    <input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
-                </form>
-                <br>
+				<h4> Methods of Payment:</h4>
+				<form id="payment-form">
+					<input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
+					<input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
+				</form>
                 <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
 
                 <div id="credit-card-payment" style="display: none">
@@ -194,6 +195,7 @@
             </div>
         </div>
 
+<<<<<<< HEAD
         <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
         <div class="step-wrapper">
             <div class="row">
@@ -213,9 +215,29 @@
                     <h3>Item Ordered By FriendShips</h3>
                 </div>
                 {% endif %}
+=======
+    <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-auto">
+                <h4>Item Ordered By FriendShips</h4>
+            </div>
+            {% elif latest_action.action == PAYMENT_RECEIVED %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-auto">
+                <h4>Item Ordered By FriendShips</h4>
+            </div>
+            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-auto">
+                <h4>Item Ordered By FriendShips</h4>
+>>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
+<<<<<<< HEAD
         <!-- SENDER RECEIVED ITEM LOGIC -->
         <div class="step-wrapper">
             <div class="row">
@@ -235,9 +257,29 @@
                     <h3>Sender Received Item</h3>
                 </div>
                 {% endif %}
+=======
+    <!-- SENDER RECEIVED ITEM LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-auto">
+                <h4>Sender Received Item</h4>
+            </div>
+            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-auto">
+                <h4>Sender Received Item</h4>
+            </div>
+            {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-auto">
+                <h4>Sender Received Item</h4>
+>>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
+<<<<<<< HEAD
         <!-- ITEM ARRIVED IN THAILAND LOGIC -->
         <div class="step-wrapper">
             <div class="row">
@@ -257,9 +299,29 @@
                     <h3>Arrived in Thailand</h3>
                 </div>
                 {% endif %}
+=======
+    <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-auto">
+                <h4>Arrived in Thailand</h4>
+            </div>
+            {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-auto">
+                <h4>Arrived in Thailand</h4>
+            </div>
+            {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-auto">
+                <h4>Arrived in Thailand</h4>
+>>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
+<<<<<<< HEAD
         <!-- ITEM DELIVERED LOGIC -->
         <div class="step-wrapper">
             <div class="row">
@@ -280,6 +342,27 @@
                 </div>
                 {% endif %}
             </div>
+=======
+    <!-- ITEM DELIVERED LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-auto">
+                <h4>Item Delivered</h4>
+            </div>
+            {% elif latest_action.action >= ORDER_FULFILLED %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-auto">
+                <h4>Item Delivered</h4>
+            </div>
+            {% else %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-auto">
+                <h4>Item Delivered</h4>
+            </div>
+            {% endif %}
+>>>>>>> feature/dorothyfrontend
         </div>
     </div>
 

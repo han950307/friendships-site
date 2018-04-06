@@ -51,12 +51,15 @@
     width: 100%;
     min-height: 100%
     overflow-y: scroll;
-    border: 1px rgb(230,233,235);
+    border: 1px rgb(230,233,235); 
+    /* light gray bg color */
 }
 
 .message_dummy {
     overflow-y: scroll;
     height:450px;
+    /*height is to specify bounds in which messages can flow 
+    to prevent them from appearing behind write message div*/
 }
 
 #right-pane {
