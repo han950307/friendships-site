@@ -56,7 +56,7 @@ class OrderForm(forms.ModelForm):
         widgets = {
             'url': forms.URLInput(
                 attrs={
-                    'placeholder': 'URL',
+                    'placeholder': 'URL*',
                     'required': 'required',
                     'class': 'input form-control',
                 }
@@ -64,14 +64,14 @@ class OrderForm(forms.ModelForm):
             'item_image': forms.FileInput(),
             'merchandise_type': forms.Select(
                 attrs={
-                    'placeholder': 'Category',
+                    'placeholder': 'Category*',
                     'required': 'required',
                     'class': 'input form-control',
                 }
             ),
             'quantity': forms.NumberInput(
                 attrs={
-                    'placeholder': 'Category',
+                    'placeholder': 'Quantity*',
                     'required': 'required',
                     'class': 'input form-control',
                     'min': 1
@@ -137,23 +137,59 @@ class ShippingAddressForm(ModelForm):
         fields = [
             'name',
             'address_line_1',
-            'address_line_2',
-            'address_line_3',
             'city',
             'region',
             'postal_code',
             'country',
             'phone',
         ]
-    def __init__(self, *args, **kwargs):
-        super(ShippingAddressForm, self).__init__(*args, **kwargs)
-        for name, field in self.fields.items():
-            if field.widget.__class__ == forms.widgets.TextInput:
-                if 'class' in field.widget.attrs:
-                    field.widget.attrs['class'] += ' input'
-                    field.widget.attrs['class'] += ' form-control'
-                else:
-                    field.widget.attrs.update({'class':'input form-control'})
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Name*',
+                    'class': 'input form-control',
+                }
+            ),
+            'address_line_1': forms.TextInput(
+                attrs={
+                    'placeholder': 'Address*',
+                    'class': 'input form-control',
+                }
+            ),
+            'city': forms.TextInput(
+                attrs={
+                    'placeholder': 'City*',
+                    'class': 'input form-control',
+                }
+            ),
+            'region': forms.TextInput(
+                attrs={
+                    'placeholder': 'Region*',
+                    'class': 'input form-control',
+                }
+            ),
+            'postal_code': forms.TextInput(
+                attrs={
+                    'placeholder': 'Postal Code*',
+                    'class': 'input form-control',
+                }
+            ),
+            'country': forms.TextInput(
+                attrs={
+                    'placeholder': 'Country*',
+                    'class': 'input form-control',
+                }
+            ),
+            'phone': forms.TextInput(
+                attrs={
+                    'placeholder': 'Phone*',
+                    'class': 'input form-control',
+                }
+            ),
+        }
+
+
+
 
 
 class TravelerRegistrationForm(Form):

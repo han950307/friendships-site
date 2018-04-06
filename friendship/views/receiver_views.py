@@ -149,13 +149,34 @@ def place_order(request):
     This is a page for a form for making an order.
     """
     user_addresses = request.user.shipping_addresses.all()
-    if not user_addresses:
-        shipping_address_form = ShippingAddressForm()
 
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
-        if form.is_valid():
+        shipping_address_form = ShippingAddressForm(request.POST)
+        if form.is_valid() and (shipping_address_form.is_valid() or len(user_addresses) > 0):
+            print("IS VALID")
             print(form.cleaned_data)
+
+            # First create a shipping address if user has none
+            if not user_addresses:
+                data_dict = {
+                    'address_line_1': shipping_address_form.cleaned_data['address_line_1'],
+                    'name': shipping_address_form.cleaned_data['name'],
+                    'city': shipping_address_form.cleaned_data['city'],
+                    'region': shipping_address_form.cleaned_data['region'],
+                    'postal_code': shipping_address_form.cleaned_data['postal_code'],
+                    'country': shipping_address_form.cleaned_data['country'],
+                    'phone': shipping_address_form.cleaned_data['phone'],
+                }
+                shipping_address = ShippingAddress.objects.create(
+                    **data_dict,
+                    user=request.user,
+                    primary=True,
+                    address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
+                )
+            else:
+                shipping_address = ShippingAddress.objects.get(pk=request.POST['shipping_address'])
+
             if "item_image" in form.cleaned_data:
                 item_image = form.cleaned_data["item_image"]
             else:
@@ -173,6 +194,7 @@ def place_order(request):
                 'color': form.cleaned_data['color'],
                 'description': form.cleaned_data['description'],
                 'receiver': request.user,
+                'receiver_address': shipping_address,
                 'bid_end_datetime': bid_end_datetime,
                 'estimated_weight': 0,
             }
@@ -184,11 +206,15 @@ def place_order(request):
             order.latest_action = action
             order.save()
 
-            return redirect(request, 'friendship/order_details', order_id=order.id)
+            return redirect('friendship:order_details', order_id=order.id)
         else:
             print(form.cleaned_data)
     else:
         form = OrderForm()
+        if not user_addresses:
+            shipping_address_form = ShippingAddressForm()
+        else:
+            shipping_address_form = None
     return render(
         request,
         'friendship/place_order.html',
