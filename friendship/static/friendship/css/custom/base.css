@@ -5,6 +5,28 @@ form p {
   }
 }
 
+/* order details step view. */
+#order-details div.row {
+  display: block;
+  width: 100%;
+  padding: 0.3rem 0.2rem;
+  margin-left: 4rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #708198;
+  background-color: #edeff2;
+  background-clip: padding-box;
+  border: 0 solid #ced4da;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* for my order view */
+.col-sm-13 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *
@@ -159,4 +181,9 @@ form p {
 
 .ui-steps .row {
 	padding-left: 6%;
+}
+
+.ui-gradient-grey {
+  background: -moz-linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
+  background: linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
 }

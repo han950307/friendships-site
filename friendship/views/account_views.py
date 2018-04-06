@@ -21,6 +21,8 @@ from backend.views import (
 	login_user_web,
 )
 
+from ..forms import RegistrationForm
+
 import re
 
 
@@ -33,22 +35,16 @@ def register(request):
 	"""
 	Load the registration page
 	"""
-	return render(request, 'friendship/register.html', {})
-
-
-def register_process(request):
-	"""
-	Process registration and put user data into the database.
-	"""
-	# Trying to get the items.
-	try:
-		data_dict = {x: v for x, v in request.POST.items()}
-		data_dict["social_auth"] = "none"
-		create_user(**data_dict)
-	except (KeyError, ValueError):
-		return render(request, 'friendship/register.html', {})
-	
-	return redirect('friendship:login')
+	if request.method == 'POST':
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			data_dict = {x: v for x, v in request.POST.items()}
+			data_dict["social_auth"] = "none"
+			create_user(**data_dict)
+			return redirect('friendship:login')
+	else:
+		form = RegistrationForm()
+	return render(request, 'friendship/register.html', {'form': form})
 
 
 def login_view(request):
@@ -66,7 +62,7 @@ def login_process(request):
 		data_dict = {x: v for x, v in request.POST.items()}
 		login_user_web(request, **data_dict)
 		if request.session["is_shipper"] == True:
-			return HttpResponseRedirect(reverse('friendship:index'))
+			return HttpResponseRedirect(reverse('friendship:sender_landing'))
 		else:
 			return HttpResponseRedirect(reverse('friendship:receiver_landing'))
 	except (KeyError, ValueError) as e:
@@ -86,3 +82,9 @@ def account(request):
 	return render(request, 'friendship/account.html', {
 		'data': [request, ],
 	})
+
+def become_sender(request):
+	return render(request, 'friendship/become_sender.html', {
+		'data': [request, ],
+	})
+

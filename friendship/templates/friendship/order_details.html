@@ -12,83 +12,275 @@
 <p>Shipping Address: {{ order.reciever_address.address }}</p>
 <p>Order Status: {{ order.status }}</p>
 
-<p>Order Actions:
-{% for action in actions %}
-	<p style="display: none;" id="{{ action.action }}" data-date="{{ action.date_placed }}"></p>
-{% endfor %}
-</p>
+<hr />
 
-<div class="container" id="actions">
-	{% for action in actions %}
-		<p style="display: none;" id="{{ action.action }}" data-date="{{ action.date_placed }}"></p>
-	{% endfor %}
+
+<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
+
+<div class="ui-steps" id="order-details">
+    <!-- Item Ordered is always blue -->
+    <div class="step-wrapper">
+        <span class="step-number ui-gradient-blue">&#x2713</span>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Item Ordered on {{ order.date_placed }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINDING MATCH LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action == ORDER_PLACED %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <h3>Finding Match</h3>
+                <table>
+                    <tr>
+                        <td>Current Total:</td>
+												<td>[LOWEST BID]</td>
+                    </tr>
+                    <tr>
+                        <td>Time Left:</td>
+                        <td id="time_countdown">[TIME LEFT] </td>
+                    </tr>
+                </table>
+								<span>Accept price and buy now</span>
+
+            </div>
+
+
+            <div class="col-md-6">
+                {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
+            </div>
+            {% elif latest_action.action >= MATCH_FOUND %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Found Match</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- PAYMENT LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < MATCH_FOUND %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-md-6">
+                <h3>Confirm Price and Pay</h3>
+            </div>
+            {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Payment Received</h3>
+            </div>
+            {% elif latest_action.action == MATCH_FOUND %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-sm-6">
+                <h3>Confirm Price and Pay</h3>
+                <a class="btn btn-block ui-gradient-green shadow-md" href="{% url 'friendship:confirm_order_price' order.id True %}">Confirm</a>
+                <a class="btn btn-block ui-gradient-peach shadow-md" href="{% url 'friendship:confirm_order_price' order.id False %}">Decline</a>
+            </div>
+            {% elif latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-peach"> </span>
+            <div class="col-md-6">
+                <h3>Order Declined</h3>
+            </div>
+            {% elif latest_action.action == PRICE_ACCEPTED %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
+								<h3> Methods of Payment:</h3>
+								<form id="payment-form">
+									<input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
+									<input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
+								</form>
+								<br>
+                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+
+								<div id="credit-card-payment" style="display: none">
+                <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
+                    {% csrf_token %}
+                    <script src="https://cdn.omise.co/omise.js"></script>
+                    <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                    <script>
+                    Omise.setPublicKey("pkey_test_5bhaufrx5qsyotldxvl");
+
+                    $("#checkout").submit(function () {
+                        var form = $(this);
+                        // Disable the submit button to avoid repeated click.
+                        form.find("input[type=submit]").prop("disabled", true);
+
+                        // Serialize the form fields into a valid card object.
+                        var card = {
+                            "name": form.find("[data-omise=holder_name]").val(),
+                            "number": form.find("[data-omise=number]").val(),
+                            "expiration_month": form.find("[data-omise=expiration_month]").val(),
+                            "expiration_year": form.find("[data-omise=expiration_year]").val(),
+                            "security_code": form.find("[data-omise=security_code]").val()
+                        };
+
+                        // Send a request to create a token then trigger the callback function once
+                        // a response is received from Omise.
+                        //
+                        // Note that the response could be an error and this needs to be handled within
+                        // the callback.
+                        Omise.createToken("card", card, function (statusCode, response) {
+                            if (response.object == "error" || !response.card.security_code_check) {
+                                // Display an error message.
+                                var message_text = "SET YOUR SECURITY CODE CHECK FAILED MESSAGE";
+                                if(response.object == "error") {
+                                    message_text = response.message;
+                                }
+                                $("#token_errors").html(message_text);
+
+                                // Re-enable the submit button.
+                                form.find("input[type=submit]").prop("disabled", false);
+                            } else {
+                                // Then fill the omise_token.
+                                form.find("[name=omise_token]").val(response.id);
+
+                                // Remove card number from form before submiting to server.
+                                form.find("[data-omise=number]").val("");
+                                form.find("[data-omise=security_code]").val("");
+
+                                // submit token to server.
+                                form.get(0).submit();
+                            };
+                        });
+
+                        // Prevent the form from being submitted;
+                        return false;
+                    });
+                    </script>
+                    <div id="token_errors"></div>
+
+                    <input type="hidden" name="omise_token">
+
+                    <div>
+                        Name<br>
+                        <input type="text" data-omise="holder_name">
+                    </div>
+                    <div>
+                        Number<br>
+                        <input type="text" data-omise="number">
+                    </div>
+                    <div>
+                        Date<br>
+                        <input type="text" data-omise="expiration_month" size="4"> /
+                        <input type="text" data-omise="expiration_year" size="8">
+                    </div>
+                    <div>
+                        Security Code<br>
+                        <input type="text" data-omise="security_code" size="8">
+                    </div>
+
+                    <input type="submit" id="create_token">
+                </form>
+								</div>
+                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+
+                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+								<div id="wire-payment" style="display: none">
+                	<form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                    {% csrf_token %}
+                    {{ manual_wire_transfer_form.as_p }}
+                    <input type="submit">
+                	</form>
+								</div>
+                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-md-6">
+                <h3>Item Ordered By FriendShips</h3>
+            </div>
+            {% elif latest_action.action == PAYMENT_RECEIVED %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <h3>Item Ordered By FriendShips</h3>
+            </div>
+            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Item Ordered By FriendShips</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- SENDER RECEIVED ITEM LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-md-6">
+                <h3>Sender Received Item</h3>
+            </div>
+            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <h3>Sender Received Item</h3>
+            </div>
+            {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Sender Received Item</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-md-6">
+                <h3>Arrived in Thailand</h3>
+            </div>
+            {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Arrived in Thailand</h3>
+            </div>
+            {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <h3>Arrived in Thailand</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ITEM DELIVERED LOGIC -->
+    <div class="step-wrapper">
+        <div class="row">
+            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
+            <div class="col-md-6">
+                <h3>Item Delivered</h3>
+            </div>
+            {% elif latest_action.action >= ORDER_FULFILLED %}
+            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <div class="col-md-6">
+                <h3>Item Delivered</h3>
+            </div>
+            {% else %}
+            <span class="step-number ui-gradient-green"> </span>
+            <div class="col-md-6">
+                <h3>Item Delivered</h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-
-
-<div class="ui-steps">
-    <div class="step-wrapper">
-        <span class="step-number ui-gradient-blue"> </span>
-        <div class="row">
-            <div class="col-md-6">
-                <p>Item Ordered</p>
-            </div>
-        </div>
-    </div>
-    <div class="step-wrapper">
-        {% if latest_action.action == ORDER_PLACED %}
-            <span class="step-number ui-gradient-green"> </span>
-        {% elif latest_action.action > ORDER_PLACED %}
-            <span class="step-number ui-gradient-blue"> </span>
-        {% endif %}
-        <div class="row">
-            <div class="col-md-6">
-                <p>Finding Match</p>
-            </div>
-        </div>
-    </div>
-    <div class="step-wrapper">
-        {% if latest_action.action < MATCH_FOUND %}
-            <span class="step-number ui-gradient-purple"> </span>
-        {% elif latest_action.action == MATCH_FOUND %}
-            <span class="step-number ui-gradient-green"> </span>
-        {% elif latest_action.action >= MATCH_FOUND %}
-            <span class="step-number ui-gradient-blue"> </span>
-        {% endif %}
-        <div class="row">
-            <div class="col-md-6">
-                <p>Confirm Price and Pay</p>
-            </div>
-        </div>
-    </div>
-    <div class="step-wrapper">
-        {% if latest_action.action < PRICE_ACCEPTED %}
-            <span class="step-number ui-gradient-purple"> </span>
-        {% elif latest_action.action == PRICE_ACCEPTED %}
-            <span class="step-number ui-gradient-green"> </span>
-        {% elif latest_action.action > PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-blue"> </span>
-        {% endif %}
-        <div class="row">
-            <div class="col-md-6">
-                <p>Item has been shipped by the merchant.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<p> {{ ORDER_PLACED }} </p>
-{% if latest_action.action == ORDER_PLACED %}
-<p> Order Placed </p>
-{% elif latest_action.action == MATCH_FOUND %}
-<p> Match Found </p>
-{% else %}
-<p> Neither </p>
-{% endif %}
-
-<script>
-	var info = actions;
-</script>
-
-<script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 
 {% endblock main_content %}

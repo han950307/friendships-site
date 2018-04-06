@@ -33,3 +33,11 @@ select {
     position:absolute;
     height:70%;
 }
+
+form p {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+}
