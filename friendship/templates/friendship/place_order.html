@@ -9,15 +9,15 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-    <form method="post" name="order_form">
-        {{ formset.management_form }}
-        {% csrf_token %}
-        <div id="all_forms">
+<form method="post" name="order_form">
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <div id="all_forms">
 
-        </div>
-        <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
-        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
-    </form>
+    </div>
+    <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
+    <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
+</form>
 
 <div id="empty_form">
     <div class="container info-container rounded" id="container-__prefix__">
@@ -30,23 +30,23 @@
         </div>
 
         <div class="container" id="form-__prefix__">
-            <p> {{ formset.empty_form.url }} </p>
+            {{ formset.empty_form.url }}
 
             <div class="row" id="id_form-__prefix__-row">
                 <div class="col" id="id_form-__prefix__-type-container">
-                    <p> {{ formset.empty_form.merchandise_type }} </p>
+                    {{ formset.empty_form.merchandise_type }}
                 </div>
 
                 <div class="col" id="id_form-__prefix__-quantity-container" >
-                    <p> {{ formset.empty_form.quantity }} </p>
+                    {{ formset.empty_form.quantity }}
                 </div>
             </div>
 
 
-            <p> {{ formset.empty_form.description }} </p>
-            <p> <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
-                {{ formset.empty_form.bid_end_datetime }}
-            </p>
+            {{ formset.empty_form.description }}
+            <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
+            {{ formset.empty_form.bid_end_datetime }}
+            
         </div>
     </div>
 </div>

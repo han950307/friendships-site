@@ -1,9 +1,27 @@
+.container #main-group {
+    height:500px;
+}
+
+#main-group {
+    border-radius: 0px;
+    box-shadow: 0px 2px 9px rgba(0,9,128,0.1);
+}
+
 .sidebar-btn {
     width: 100%;
     border-radius: 0px;
     text-overflow: ellipsis;
+    background-color: rgb(246,247,248);
     overflow: hidden;
     white-space: nowrap;
+    padding:25px;
+}
+
+.sidebar-btn p {
+    margin-bottom:4px;
+    text-align: left;
+    overflow:hidden;
+    text-overflow: ellipsis;
 }
 
 .panel {
@@ -16,20 +34,41 @@
 
 #main-row {
     max-height: 500px;
+    height:500px;
+}
+
+#main-row .col-4{
+    background-color: rgb(246,247,248);
 }
 
 .col {
     max-height: 100%;
     overflow-y: scroll;
+    padding: 0px;
 }
 
 .btn-group-vertical {
     width: 100%;
     min-height: 100%
     overflow-y: scroll;
-    border: 1px solid grey;
+    border: 1px rgb(230,233,235);
 }
 
 .message_dummy {
     overflow-y: scroll;
+    height:450px;
 }
+
+#right-pane {
+    padding: 20px 20px 0px 20px;
+    border-left: 1px rgb(230,233,235);
+}
+
+#message_form {
+    height:40px;
+    padding-top:10px;
+    background-color: white;
+    position: sticky;
+    bottom: 20px;
+}
+
