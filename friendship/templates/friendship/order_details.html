@@ -20,7 +20,7 @@
         <span class="step-number ui-gradient-blue">&#x2713</span>
         <div class="row">
             <div class="col-md-6">
-                <h3>Item Ordered on [BLAH]</h3>
+                <h3>Item Ordered on {{ order.date_placed }}</h3>
             </div>
         </div>
     </div>
@@ -59,11 +59,11 @@
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < MATCH_FOUND %}
-            <span class="step-number ui-gradient-purple"> </span>
+            <span class="step-number ui-gradient-grey"> </span>
             <div class="col-md-6">
                 <h3>Confirm Price and Pay</h3>
             </div>
-            {% elif latest_action.action >= PAYMENT_RECEIVED and not latest_action.action == ORDER_DECLINED %}
+            {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
             <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-md-6">
                 <h3>Payment Received</h3>
@@ -182,8 +182,8 @@
     <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
     <div class="step-wrapper">
         <div class="row">
-            {% if latest_action.action < PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-purple"> </span>
+            {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
             <div class="col-md-6">
                 <h3>Item Ordered By FriendShips</h3>
             </div>
@@ -204,8 +204,8 @@
     <!-- SENDER RECEIVED ITEM LOGIC -->
     <div class="step-wrapper">
         <div class="row">
-            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS %}
-            <span class="step-number ui-gradient-purple"> </span>
+            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
             <div class="col-md-6">
                 <h3>Sender Received Item</h3>
             </div>
@@ -226,8 +226,8 @@
     <!-- ITEM ARRIVED IN THAILAND LOGIC -->
     <div class="step-wrapper">
         <div class="row">
-            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER %}
-            <span class="step-number ui-gradient-purple"> </span>
+            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
             <div class="col-md-6">
                 <h3>Arrived in Thailand</h3>
             </div>
@@ -248,8 +248,8 @@
     <!-- ITEM DELIVERED LOGIC -->
     <div class="step-wrapper">
         <div class="row">
-            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND %}
-            <span class="step-number ui-gradient-purple"> </span>
+            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+            <span class="step-number ui-gradient-grey"> </span>
             <div class="col-md-6">
                 <h3>Item Delivered</h3>
             </div>
@@ -267,16 +267,5 @@
         </div>
     </div>
 </div>
-
-<p> {{ ORDER_PLACED }} </p>
-{% if latest_action.action == ORDER_PLACED %}
-<p> Order Placed </p>
-{% elif latest_action.action == MATCH_FOUND %}
-<p> Match Found </p>
-{% else %}
-<p> Neither </p>
-{% endif %}
-
-<script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 
 {% endblock main_content %}
