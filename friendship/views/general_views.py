@@ -11,3 +11,9 @@ def index(request, **kwargs):
 
 def testing(request):
     return render(request, 'friendship/testing.html', {})
+
+
+def how_it_works(request):
+    return render(request, 'friendship/how_it_works.html', {
+		'data': [request, ],
+	})

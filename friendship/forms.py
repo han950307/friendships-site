@@ -1,3 +1,4 @@
+from django import forms
 from django.forms import (
     Form,
     ModelForm,
@@ -48,6 +49,23 @@ class OrderForm(ModelForm):
             del self.errors['bid_end_datetime']
 
 
+class ManualWireTransferForm(Form):
+    account_number = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Account Number: 45674894512456',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your account number.',
+            }
+        ),
+    )
+    banknote_image = forms.ImageField(
+        widget=forms.FileInput(),
+    )
+
+
 class SenderRegistrationForm(Form):
     shipper_type = forms.ChoiceField(
         widget=forms.Select,
@@ -62,10 +80,54 @@ class SenderRegistrationForm(Form):
 class TravelerRegistrationForm(Form):
     phone_number = forms.CharField(max_length=50)
     id_image = forms.ImageField()
-    pass
 
 
 class ShippingCompanyRegistrationForm(Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
-    pass
+
+
+class RegistrationForm(forms.Form):
+    first_name = forms.CharField(
+        max_length=120,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'First Name *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your first name.',
+            }
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=120,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Last Name *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your last name.',
+            }
+        ),
+    )
+    email = forms.EmailField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Email *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your email address.',
+            }
+        ),
+    )
+    password = forms.CharField(
+        max_length=200,
+        widget=forms.PasswordInput(
+            attrs={
+                'placeholder': 'Password *',
+                'data-validation': 'required',
+                'class': 'input form-control',
+                'data-validation-error-msg': 'Please enter your desired password.',
+            }
+        ),
+    )
