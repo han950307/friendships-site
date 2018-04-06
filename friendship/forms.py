@@ -10,43 +10,85 @@ from django.forms import (
     FileField,
 )
 from django import forms
-from friendship.models import Order, ShipperInfo
+from friendship.models import Order, ShipperInfo, ShippingAddress
 
 
-class UploadPictureForm(Form):
-    picture = ImageField()
+class UploadPictureForm(forms.Form):
+    picture = forms.ImageField()
 
 
-class OrderForm(ModelForm):
+class OrderForm(forms.ModelForm):
+    num_hours = forms.ChoiceField(
+        widget=forms.RadioSelect(
+            attrs={
+                'required': 'required',
+            }
+        ),
+        choices=[
+            (6, "6 hours"),
+            (14, "14 hours"),
+            (24, "24 hours"),
+        ]
+    )
     class Meta:
         model = Order
-        fields = ['url', 'merchandise_type', 'quantity', 'description', 'bid_end_datetime',] #'actions__action']
-        common_settings = {'class': 'input form-control', 'required': 'required', }
+        fields = [
+            'url',
+            'merchandise_type',
+            'quantity',
+            'description',
+            'item_image',
+            'size',
+            'color',
+        ]
         widgets = {
-            'url': URLInput(attrs={**common_settings, **{'placeholder': 'URL'}}),
-            'merchandise_type': Select(attrs={**common_settings, **{'placeholder': 'Category', }}),
-            'quantity': NumberInput(attrs={**common_settings, **{'placeholder': 'Quantity',
-                                                                 'min': '1',
-                                                                 }}),
-            'description': Textarea(attrs={**common_settings, **{'placeholder': ' Item Description + Promotion Code'}}),
-            'bid_end_datetime': NumberInput(attrs={**common_settings, **{'placeholder': '# Hours To Bid',
-                                                                         'type': 'range',
-                                                                         'step': '1',
-                                                                         'min': '3',
-                                                                         'max': '24',
-                                                                         }}),
-            # 'actions__action': NumberInput(attrs=common_settings),
+            'url': forms.URLInput(
+                attrs={
+                    'placeholder': 'URL',
+                    'required': 'required',
+                    'class': 'input form-control',
+                }
+            ),
+            'item_image': forms.FileInput(),
+            'merchandise_type': forms.Select(
+                attrs={
+                    'placeholder': 'Category',
+                    'required': 'required',
+                    'class': 'input form-control',
+                }
+            ),
+            'quantity': forms.NumberInput(
+                attrs={
+                    'placeholder': 'Category',
+                    'required': 'required',
+                    'class': 'input form-control',
+                    'min': 1
+                }
+            ),
+            'size': forms.TextInput(
+                attrs={
+                    'placeholder': 'Size',
+                    'class': 'input form-control',
+                }
+            ),
+            'color': forms.TextInput(
+                attrs={
+                    'placeholder': 'Color',
+                    'class': 'input form-control',
+                }
+            ),
+            'description': forms.TextInput(
+                attrs={
+                    'placeholder': 'Any other details about the item',
+                    'class': 'input form-control',
+                }
+            ),
         }
 
     def is_valid(self):
         return super(OrderForm, self).is_valid()\
                and int(self.cleaned_data['merchandise_type']) != -1\
                and int(self.cleaned_data['quantity']) > 0
-
-    def full_clean(self):
-        super(OrderForm, self).full_clean()
-        if 'bid_end_datetime' in self.errors:
-            del self.errors['bid_end_datetime']
 
 
 class ManualWireTransferForm(Form):
@@ -75,6 +117,31 @@ class SenderRegistrationForm(Form):
             in ShipperInfo.ShipperType
         ]
     )
+
+
+class ShippingAddressForm(ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = [
+            'name',
+            'address_line_1',
+            'address_line_2',
+            'address_line_3',
+            'city',
+            'region',
+            'postal_code',
+            'country',
+            'phone',
+        ]
+    def __init__(self, *args, **kwargs):
+        super(ShippingAddressForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if field.widget.__class__ == forms.widgets.TextInput:
+                if 'class' in field.widget.attrs:
+                    field.widget.attrs['class'] += ' input'
+                    field.widget.attrs['class'] += ' form-control'
+                else:
+                    field.widget.attrs.update({'class':'input form-control'})
 
 
 class TravelerRegistrationForm(Form):

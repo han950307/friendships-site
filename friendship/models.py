@@ -143,7 +143,7 @@ class Order(models.Model):
     date_placed = models.DateTimeField(auto_now_add=True)
     bid_end_datetime = models.DateTimeField()
 
-    description = models.TextField()
+    description = models.TextField(null=True)
     quantity = models.IntegerField()
     size = models.CharField(max_length=120, null=True, blank=True,)
     color = models.CharField(max_length=120, null=True, blank=True,)

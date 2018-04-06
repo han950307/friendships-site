@@ -2,55 +2,96 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/custom/place-order.css' %}" />
 {% endblock head %}
 
 {% block title %} Place Order {% endblock title %}
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-<form method="post" name="order_form">
-    {{ formset.management_form }}
+<h3>New Item</h3>
+<form method="post" name="order_form" enctype="multipart/form-data">
     {% csrf_token %}
-    <div id="all_forms">
-
+    {{ form.non_field_errors }}
+    <div class="form-group">
+        {{ form.url.errors }}
+        {{ form.url }}
     </div>
-    <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
+    <div class="form-group">
+        {{ form.merchandise_type.errors }}
+        {{ form.merchandise_type }}
+    </div>
+    <div class="form-group">
+        {{ form.quantity.errors }}
+        {{ form.quantity }}
+    </div>
+    <div class="form-group">
+        {{ form.size.errors }}
+        {{ form.size }}
+    </div>
+    <div class="form-group">
+        {{ form.color.errors }}
+        {{ form.color }}
+    </div>
+    <div class="form-group">
+        {{ form.description.errors }}
+        {{ form.description }}
+    </div>
+    <div class="form-group">
+        {{ form.num_hours.errors }}
+        <div class="btn-group" data-toggle="buttons">
+        {% for field in form.num_hours %}
+            <label class="btn btn-primary">
+            {{ field }}
+            </label>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.item_image.errors }}
+        {{ form.item_image }}
+    </div>
+    <hr />
+    <!-- display shipping information -->
+    <h4>Shipping Details</h4>
+    {% for user_address in user_addresses %}
+    {% empty %}
+        <div class="form-group">
+            {{ shipping_address_form.name.errors }}
+            {{ shipping_address_form.name.label }}
+            {{ shipping_address_form.name }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.address_line_1.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.address_line_1 }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.city.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.city }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.region.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.region }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.postal_code.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.postal_code }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.country.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.country }}
+        </div>
+        <div class="form-group">
+            {{ shipping_address_form.phone.errors }}
+            {{ shipping_address_form.phone.label }}
+            {{ shipping_address_form.phone }}
+        </div>
+    {% endfor %}
     <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
 </form>
-
-<div id="empty_form">
-    <div class="container info-container rounded" id="container-__prefix__">
-        <div class="container" id="info-__prefix__">
-            <div class="row">
-                <h3 id="header-__prefix__" style="padding-left: 10px;">New Item</h3>
-                <i class="toggler fa fa-chevron-up" id="toggle-__prefix__"></i>
-                <i class="remover fa fa-times-circle" id="remove-__prefix__"></i>
-            </div>
-        </div>
-
-        <div class="container" id="form-__prefix__">
-            {{ formset.empty_form.url }}
-
-            <div class="row" id="id_form-__prefix__-row">
-                <div class="col" id="id_form-__prefix__-type-container">
-                    {{ formset.empty_form.merchandise_type }}
-                </div>
-
-                <div class="col" id="id_form-__prefix__-quantity-container" >
-                    {{ formset.empty_form.quantity }}
-                </div>
-            </div>
-
-
-            {{ formset.empty_form.description }}
-            <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
-            {{ formset.empty_form.bid_end_datetime }}
-            
-        </div>
-    </div>
-</div>
-
-<script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>
 
 {% endblock form %}
