@@ -70,6 +70,9 @@ def confirm_order_price(request, order_id, choice):
     if order.receiver != request.user and order.shipper != request.user:
         messages.error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
+    if order.latest_action == OrderAction.Action.ORDER_DECLINED:
+        messages.error(request, 'Sorry, but you already declined this order.')
+        return redirect('friendship:index')
     if choice == "True":
         action = OrderAction.objects.create(
             order=order,
@@ -111,11 +114,12 @@ def submit_wire_transfer(request, order_id):
             )
             order.latest_action = action
             order.save()
-            return order_details(request, order_id)
+            return redirect('friendship:order_details', order_id=order_id)
     else:
         form = ManualWireTransferForm()
     
     return order_details(request, order_id, **{'manual_wire_transfer_form': form})
+
 
 @login_required
 def open_orders(request, filter):
@@ -126,9 +130,9 @@ def open_orders(request, filter):
         messages.error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
-        # Only display orders within a day ago.
-        timelim = datetime.datetime.now() - datetime.timedelta(days=1)
-        qset = Order.objects.filter(date_placed__gte=timelim)
+        # Only display orders that are due later than right now.
+        right_now = datetime.datetime.now()
+        qset = Order.objects.filter(bid_end_datetime__gte=right_now)
 
         # Get minimum bid.
         for order in qset:
@@ -156,6 +160,12 @@ def user_open_orders(request):
             order.min_bid = "No current bids"
         else:
             order.min_bid = min_bid
-    return render(request, 'friendship/user_open_orders.html', {
-        'orders': qset
+
+    data_dict = {}
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
     })
+    data_dict['orders'] = qset
+
+    return render(request, 'friendship/user_open_orders.html', data_dict)
