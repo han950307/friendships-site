@@ -6,7 +6,6 @@
 
 {% block main_content %}
 <div class="container" id="order-headings">
-    <h1> Order # {{ order.id }}</h1>
     <p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
     <p>Quantity: {{ order.quantity }}</p>
     <p>Description: {{ order.description }}</p>
@@ -15,8 +14,6 @@
 </div>
 
 <hr />
-
-
 <div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
 
 <div class="ui-steps" id="order-details">
@@ -195,174 +192,92 @@
             </div>
         </div>
 
-<<<<<<< HEAD
         <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
         <div class="step-wrapper">
             <div class="row">
                 {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey"> </span>
-                <div class="col-md-6">
-                    <h3>Item Ordered By FriendShips</h3>
+                <div class="col-auto">
+                    <h4>Item Ordered By FriendShips</h4>
                 </div>
                 {% elif latest_action.action == PAYMENT_RECEIVED %}
                 <span class="step-number ui-gradient-green"> </span>
-                <div class="col-md-6">
-                    <h3>Item Ordered By FriendShips</h3>
+                <div class="col-auto">
+                    <h4>Item Ordered By FriendShips</h4>
                 </div>
                 {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
                 <span class="step-number ui-gradient-blue">&#x2713</span>
-                <div class="col-md-6">
-                    <h3>Item Ordered By FriendShips</h3>
+                <div class="col-auto">
+                    <h4>Item Ordered By FriendShips</h4>
                 </div>
                 {% endif %}
-=======
-    <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-auto">
-                <h4>Item Ordered By FriendShips</h4>
-            </div>
-            {% elif latest_action.action == PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-auto">
-                <h4>Item Ordered By FriendShips</h4>
-            </div>
-            {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-auto">
-                <h4>Item Ordered By FriendShips</h4>
->>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
-<<<<<<< HEAD
         <!-- SENDER RECEIVED ITEM LOGIC -->
         <div class="step-wrapper">
             <div class="row">
                 {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey"> </span>
-                <div class="col-md-6">
-                    <h3>Sender Received Item</h3>
+                <div class="col-auto">
+                    <h4>Sender Received Item</h4>
                 </div>
                 {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
                 <span class="step-number ui-gradient-green"> </span>
-                <div class="col-md-6">
-                    <h3>Sender Received Item</h3>
+                <div class="col-auto">
+                    <h4>Sender Received Item</h4>
                 </div>
                 {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
                 <span class="step-number ui-gradient-blue">&#x2713</span>
-                <div class="col-md-6">
-                    <h3>Sender Received Item</h3>
+                <div class="col-auto">
+                    <h4>Sender Received Item</h4>
                 </div>
                 {% endif %}
-=======
-    <!-- SENDER RECEIVED ITEM LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-auto">
-                <h4>Sender Received Item</h4>
-            </div>
-            {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-auto">
-                <h4>Sender Received Item</h4>
-            </div>
-            {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-auto">
-                <h4>Sender Received Item</h4>
->>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
-<<<<<<< HEAD
         <!-- ITEM ARRIVED IN THAILAND LOGIC -->
         <div class="step-wrapper">
             <div class="row">
                 {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey"> </span>
-                <div class="col-md-6">
-                    <h3>Arrived in Thailand</h3>
+                <div class="col-auto">
+                    <h4>Arrived in Thailand</h4>
                 </div>
                 {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
                 <span class="step-number ui-gradient-blue">&#x2713</span>
-                <div class="col-md-6">
-                    <h3>Arrived in Thailand</h3>
+                <div class="col-auto">
+                    <h4>Arrived in Thailand</h4>
                 </div>
                 {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
                 <span class="step-number ui-gradient-green"> </span>
-                <div class="col-md-6">
-                    <h3>Arrived in Thailand</h3>
+                <div class="col-auto">
+                    <h4>Arrived in Thailand</h4>
                 </div>
                 {% endif %}
-=======
-    <!-- ITEM ARRIVED IN THAILAND LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-auto">
-                <h4>Arrived in Thailand</h4>
-            </div>
-            {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-auto">
-                <h4>Arrived in Thailand</h4>
-            </div>
-            {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-auto">
-                <h4>Arrived in Thailand</h4>
->>>>>>> feature/dorothyfrontend
             </div>
         </div>
 
-<<<<<<< HEAD
         <!-- ITEM DELIVERED LOGIC -->
         <div class="step-wrapper">
             <div class="row">
                 {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey"> </span>
-                <div class="col-md-6">
-                    <h3>Item Delivered</h3>
+                <div class="col-auto">
+                    <h4>Item Delivered</h4>
                 </div>
                 {% elif latest_action.action >= ORDER_FULFILLED %}
                 <span class="step-number ui-gradient-blue">&#x2713</span>
-                <div class="col-md-6">
-                    <h3>Item Delivered</h3>
+                <div class="col-auto">
+                    <h4>Item Delivered</h4>
                 </div>
                 {% else %}
                 <span class="step-number ui-gradient-green"> </span>
-                <div class="col-md-6">
-                    <h3>Item Delivered</h3>
+                <div class="col-auto">
+                    <h4>Item Delivered</h4>
                 </div>
                 {% endif %}
             </div>
-=======
-    <!-- ITEM DELIVERED LOGIC -->
-    <div class="step-wrapper">
-        <div class="row">
-            {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
-            <div class="col-auto">
-                <h4>Item Delivered</h4>
-            </div>
-            {% elif latest_action.action >= ORDER_FULFILLED %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
-            <div class="col-auto">
-                <h4>Item Delivered</h4>
-            </div>
-            {% else %}
-            <span class="step-number ui-gradient-green"> </span>
-            <div class="col-auto">
-                <h4>Item Delivered</h4>
-            </div>
-            {% endif %}
->>>>>>> feature/dorothyfrontend
         </div>
     </div>
 

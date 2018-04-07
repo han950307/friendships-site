@@ -1,5 +1,6 @@
 "use strict";
 
+/*
 function addForm() {
     var form_idx = parseInt($('#id_form-TOTAL_FORMS').val());
     $('#id_form-TOTAL_FORMS').val(form_idx + 1);
@@ -62,3 +63,39 @@ $(function() {
     addForm();
 });
 
+$('.sidebar-btn').click( function() {
+    var id = $(this).attr("id");
+    if (prev === id) {
+        return;
+    }
+    $('.message_dummy').hide();
+    var msg = $('#messages-' + id);
+    msg.show();
+    $(this).addClass('ui-gradient-message-selected');
+    $(this).removeClass('ui-gradient-messages');
+    $('#' + prev).removeClass('ui-gradient-message-selected');
+    $('#' + prev).addClass('ui-gradient-messages');
+    $('#message_form').off("submit");
+    sendMessage(id);
+    prev = id;
+    // this doesn't work to scroll unfortunately
+    msg.animate({scrollTop: msg.height()}, 'slow')
+});
+*/
+
+// logic for choosing hours.
+var prev = null;
+
+$('.num-hours').click( function() {
+    var id = $(this).attr("id");
+    if (prev === id) {
+        return;
+    }
+    $(this).addClass('ui-gradient-message-selected');
+    $(this).removeClass('ui-gradient-messages');
+    $('#' + prev).removeClass('ui-gradient-message-selected');
+    $('#' + prev).addClass('ui-gradient-messages');
+    $(this).checked = true;
+    $('#' + prev).checked = false;
+    prev = id;
+});

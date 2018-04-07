@@ -14,7 +14,17 @@
 					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
 				</p>
 				<div class="col-sm-12">
-					<a class="btn ui-gradient-peach shadow-lg" href="{% url 'friendship:register' %}">Get Started</a>
+					<form action="{% url 'friendship:place_order' %}">
+						<div class="input-group">
+							<!-- Email Input -->
+							<input autocomplete="email" name="url" class="input form-control" placeholder="URL">
+							<div class="input-group-append">
+								<!-- Submit Button -->
+								<button class="btn btn-sm ui-gradient-negative">Get Started
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
 				<!-- * Replace data-video with your youtube video id -->
 				<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->

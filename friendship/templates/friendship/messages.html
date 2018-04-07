@@ -12,7 +12,7 @@
         <div class="col col-4" >
             <div class="btn-group-vertical">
                 {% for order in orders %}
-                    <button class="btn shadow-md sidebar-btn" id="{{ order.id }}">
+                    <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
                         <p> Order # {{ order.id }}</p>
                         <p style="font-size: 75%"> {{ order.url }} </p>
                     </button>
@@ -36,9 +36,9 @@
             <form id="message_form">
                 {% csrf_token %}
                 <div class="input-group mb-3">
-                    <input type="text" name="message" class="input form-control" id="form_message" placeholder="Write message:">
+                    <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
                     <div class="input-group-append">
-                        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Send" id="form_button"/>
+                        <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
                     </div>
                 </div>
 

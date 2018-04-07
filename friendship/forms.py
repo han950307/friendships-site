@@ -83,10 +83,25 @@ class ShippingCompanyRegistrationForm(forms.Form):
 
 """ORDER RELATED FORMS"""
 class OrderForm(forms.ModelForm):
+    merchandise_type = forms.ChoiceField(
+        choices=[
+            (x.value, str(x).title())
+            for x
+            in Order.MerchandiseType
+        ],
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Category*',
+                'required': 'required',
+                'class': 'input form-control',
+            }
+        ),
+    )
     num_hours = forms.ChoiceField(
         widget=forms.RadioSelect(
             attrs={
                 'required': 'required',
+                'class': 'num-hours',
             }
         ),
         choices=[
@@ -115,13 +130,6 @@ class OrderForm(forms.ModelForm):
                 }
             ),
             'item_image': forms.FileInput(),
-            'merchandise_type': forms.Select(
-                attrs={
-                    'placeholder': 'Category*',
-                    'required': 'required',
-                    'class': 'input form-control',
-                }
-            ),
             'quantity': forms.NumberInput(
                 attrs={
                     'placeholder': 'Quantity*',

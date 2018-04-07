@@ -10,8 +10,10 @@ $('.sidebar-btn').click( function() {
     $('.message_dummy').hide();
     var msg = $('#messages-' + id);
     msg.show();
-    $(this).addClass('ui-gradient-purple');
-    $('#' + prev).removeClass('ui-gradient-purple');
+    $(this).addClass('ui-gradient-message-selected');
+    $(this).removeClass('ui-gradient-messages');
+    $('#' + prev).removeClass('ui-gradient-message-selected');
+    $('#' + prev).addClass('ui-gradient-messages');
     $('#message_form').off("submit");
     sendMessage(id);
     prev = id;
@@ -78,7 +80,7 @@ $(document).ready(function() {
     $('.message_dummy').hide();
     $('#messages-' + first_id).show();
     sendMessage(first_id);
-    $('#' + first_id).addClass('ui-gradient-purple');
+    $('#' + first_id).removeClass('ui-gradient-messages');
+    $('#' + first_id).addClass('ui-gradient-message-selected');
     prev = first_id;
-
 });

@@ -4,11 +4,68 @@ form p {
     all: unset;
   }
 }
+
+#form-container {
+  max-width: 50%
+}
+
+/**
+MESSAGES
+------------------------------------*
+*/
+.ui-gradient-message-selected,
+.ui-gradient-message-selected:hover {
+  background: -moz-linear-gradient(45deg, #8582FE 0%, #8582FE 100%);
+  background: linear-gradient(45deg, #8582FE 0%, #8582FE 100%);
+  color: #FFF;
+}
+
+.ui-gradient-messages {
+  background: -moz-linear-gradient(45deg, #F6F7F8 0%, #F6F7F8 100%);
+  background: linear-gradient(45deg, #F6F7F8 0%, #F6F7F8 100%);
+  color: #485869;
+}
+
+.ui-gradient-messages:hover {
+  background: -moz-linear-gradient(45deg, #d7d8ea 0%, #d7d8ea 100%);
+  background: linear-gradient(45deg, #d7d8ea 0%, #d7d8ea 100%);
+  color: #485869;
+}
+
+.ui-gradient-green,
+.ui-gradient-green:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-found,
+.ui-gradient-found:hover {
+  background: -moz-linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
+  background: linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
+  color: #FFF;
+}
+
+.ui-gradient-purp,
+.ui-gradient-purp:hover {
+  background: -moz-linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
+  background: linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
+  color: #FFF;
+}
+
+div#right-pane{
+  height: 400px;
+}
+
 /**
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
 .ui-hero .btn {
+  margin-top: 0px;
+}
+
+.ui-hero .input-group {
   margin-top: 50px;
 }
 
@@ -30,12 +87,41 @@ form p {
   max-width:50%;
 }
 
+
+/**
+* place order 
+* ------------------------------------------------------
+*/
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+input.num-hours {
+  display: none;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+}
+
+.btn-group {
+  margin-top: .5rem;
+}
+
 /**
 * 3. Order List
 * ----------------------------------------------------------------------- *
 */
-#orders-row {
-  margin-left:0px;
+#orders-header {
+  margin-bottom: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+div.orders {
   margin-bottom: 15px;
 }
 
@@ -46,6 +132,26 @@ form p {
   margin-bottom:10px;
 }
 
+.ui-gradient-negative,
+.ui-gradient-negative:hover{
+  background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  color: #FFF;
+}
+
+.ui-gradient-positive,
+.ui-gradient-positive:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-inprogress,
+.ui-gradient-inprogress:hover {
+  background: -moz-linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  background: linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  color: #FFF;
+}
 /**
 * 3. Order Details 
 * ----------------------------------------------------------------------- *
@@ -63,6 +169,9 @@ hr {
   height:30px;
 }
 
+h4 {
+  margin-bottom: 0;
+}
 
 #order-details div.row {
   display: block;
@@ -87,6 +196,12 @@ hr {
   text-align: center;
 }
 
+.step-number.ui-gradient-grey,
+.step-number.ui-gradient-grey::before {
+  background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+  background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+}
+
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *
@@ -94,7 +209,6 @@ hr {
 
 .ui-steps .step-wrapper span {
   display:block;
-  float:left;
 }
 
 .ui-steps .col-auto h4 {
@@ -263,10 +377,6 @@ hr {
 }
 
 .ui-steps .row {
-	padding-left: 6%;
+  padding-left: 6%;
 }
 
-.ui-gradient-grey {
-  background: -moz-linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
-  background: linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
-}

@@ -83,10 +83,10 @@
 		<!-- Navbar Button -->
 		{% if request.user.is_authenticated %}
 			<a href="{% url 'friendship:logout' %}"
-			   class="btn btn-sm ui-gradient-green pull-right">Logout</a>
+			   class="btn btn-sm ui-gradient-positive pull-right">Logout</a>
 		{% else %}
 			<a href="{% url 'friendship:login' %}"
-			   class="btn btn-sm ui-gradient-peach pull-right">Login</a>
+			   class="btn btn-sm ui-gradient-negative pull-right">Login</a>
 		{% endif %}   
 
 		<!-- Navbar Toggle -->

@@ -120,14 +120,50 @@ class Order(models.Model):
     """
     @enum.unique
     class MerchandiseType(enum.IntEnum):
-        OTHER = -1
-        SHOES = 0
+        PLEASE_CHOOSE = 0
+        SHOES = 13
+        COLLECTIBLES = 1
+        FOOD_AND_DRINKS = 3
+        TOYS_AND_HOBBY = 2
+        ELECTRONICS_AND_ACCESSORIES = 4
+        LADIES_FASHION_AND_ACCESSORIES = 5
+        MENS_FASHION_AND_ACCESSORIES = 6
+        SPORTS = 7
+        BEAUTY_PRODUCTS = 8
+        HOUSEHOLD_PRODUCTS = 9
+        PET_PRODUCTS = 10
+        GAMES = 11
+        OTHER = 12
 
         def __str__(self):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
                 return "other"
+            elif self == self.COLLECTIBLES:
+                return "collectibles"
+            elif self == self.FOOD_AND_DRINKS:
+                return "food & drinks"
+            elif self == self.TOYS_AND_HOBBY:
+                return "toys & hobby"
+            elif self == self.ELECTRONICS_AND_ACCESSORIES:
+                return "electronics & accessories"
+            elif self == self.LADIES_FASHION_AND_ACCESSORIES:
+                return "ladies fashion & accessories"
+            elif self == self.MENS_FASHION_AND_ACCESSORIES:
+                return "mens fashion & accessories"
+            elif self == self.SPORTS:
+                return "sports"
+            elif self == self.BEAUTY_PRODUCTS:
+                return "beauty products"
+            elif self == self.HOUSEHOLD_PRODUCTS:
+                return "household products"
+            elif self == self.PET_PRODUCTS:
+                return "pet products"
+            elif self == self.GAMES:
+                return "games"
+            elif self == self.PLEASE_CHOOSE:
+                return "choose one*"
             else:
                 return "other"
 

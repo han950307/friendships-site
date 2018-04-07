@@ -2,25 +2,16 @@
 {% load static %}
 
 {% block banner %}
-	<!-- Hero -->
-	<div class="ui-hero hero-sm bg-dark-gray hero-svg-layer-4">
-		<div class="container">
-			<h1 class="heading">
-				{% block title %}
-				{% endblock title %}
-			</h1>
-			<p class="paragraph">
-				{% block title_desc %}
-				{% endblock title_desc %}
-			</p>
-		</div><!-- .container -->
-	</div><!-- .hero -->
 {% endblock banner %}
 
 {% block content %}
 	<!--  Section -->
 	<div class="section contact-section">
 		<div class="container">
+			<h1 class="heading">
+				{% block title %}
+				{% endblock title %}
+			</h1>
 			<p class="paragraph">
 				{% block form_desc %}
 				{% endblock form_desc %}

@@ -155,22 +155,21 @@ def place_order(request):
         shipping_address_form = ShippingAddressForm(request.POST)
         if form.is_valid() and (shipping_address_form.is_valid() or len(user_addresses) > 0):
             # First create a shipping address if user has none
-            if not user_addresses:
+            if not user_addresses or shipping_address_form.is_valid():
                 data_dict = {
-                    'address_line_1': shipping_address_form.cleaned_data['address_line_1'],
-                    'name': shipping_address_form.cleaned_data['name'],
-                    'city': shipping_address_form.cleaned_data['city'],
-                    'region': shipping_address_form.cleaned_data['region'],
-                    'postal_code': shipping_address_form.cleaned_data['postal_code'],
-                    'country': shipping_address_form.cleaned_data['country'],
-                    'phone': shipping_address_form.cleaned_data['phone'],
+                    'user': request.user,
+                    'primary': True,
+                    'address_type': ShippingAddress.AddressType.RECEIVER_ADDRESS,
+                    **shipping_address_form.cleaned_data,
                 }
-                shipping_address = ShippingAddress.objects.create(
-                    **data_dict,
-                    user=request.user,
-                    primary=True,
-                    address_type=ShippingAddress.AddressType.RECEIVER_ADDRESS,
-                )
+                qset = ShippingAddress.objects.filter(user=request.user)
+                if qset:
+                    shipping_address = qset[0]
+                    shipping_address.update(**data_dict)
+                else:
+                    shipping_address = ShippingAddress.objects.create(
+                        **data_dict,
+                    )
             else:
                 shipping_address = ShippingAddress.objects.get(pk=request.POST['shipping_address'])
 
@@ -207,7 +206,7 @@ def place_order(request):
         else:
             print(form.cleaned_data)
     else:
-        form = OrderForm()
+        form = OrderForm(request.GET)
         if not user_addresses:
             shipping_address_form = ShippingAddressForm()
         else:
