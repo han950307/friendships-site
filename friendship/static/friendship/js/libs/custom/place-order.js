@@ -99,3 +99,8 @@ $('.num-hours').click( function() {
     $('#' + prev).checked = false;
     prev = id;
 });
+
+
+$('.btn-group .btn').click( function() {
+    $(this).checked = true;
+});
