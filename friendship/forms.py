@@ -102,6 +102,7 @@ class OrderForm(forms.ModelForm):
             attrs={
                 'required': 'required',
                 'class': 'num-hours',
+                'checked': 'false',
             }
         ),
         choices=[
