@@ -14761,16 +14761,18 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.hero-svg-layer-4::before {
-  left: 10%;
-  right: 10%;
-  background-size: contain;
-  background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");
+  /*left: 10%;*/
+  /*right: 10%;*/
+  background-size: 100%;
+  /*background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");*/
+  background-image: url("../img/backgrounds/bgimg.jpg");
   background-position: center center;
 }
 
 @media (min-width: 992px) {
   .ui-hero.hero-svg-layer-4::before {
-    background-size: 1200px;
+    /*background-size: 1200px;*/
+    background-size: 100%;
   }
 }
 
