@@ -102,5 +102,5 @@ $('.num-hours').click( function() {
 
 
 $('.btn-group .btn').click( function() {
-    $(this).checked = true;
+    $(this).children('input').checked = true;
 });
