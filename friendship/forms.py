@@ -173,6 +173,10 @@ class ManualWireTransferForm(forms.Form):
     )
 
 
+class UploadPictureForm(forms.Form):
+    picture = forms.ImageField()
+
+
 class ShippingAddressForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress

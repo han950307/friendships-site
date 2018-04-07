@@ -14,9 +14,9 @@ from friendship.models import (
 )
 
 from friendship.forms import (
-    UploadPictureForm,
     OrderForm,
     ShippingAddressForm,
+    UploadPictureForm,
 )
 from django import forms
 from django.contrib.auth.decorators import login_required
