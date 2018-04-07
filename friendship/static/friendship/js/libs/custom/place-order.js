@@ -87,16 +87,16 @@ $('.sidebar-btn').click( function() {
 var prev = null;
 
 $('.num-hours').click( function() {
-    var id = $(this).attr("id");
+    var id = $(this).attr('id');
     if (prev === id) {
         return;
     }
     $(this).addClass('ui-gradient-message-selected');
     $(this).removeClass('ui-gradient-messages');
-    $(this).attr('checked', true);
-    $('#' + prev).removeClass('ui-gradient-message-selected');
-    $('#' + prev).addClass('ui-gradient-messages');
-    $('#' + prev).attr('checked', false);
+    $(this).attr("checked", true);
+    $("#" + prev).removeClass("ui-gradient-message-selected");
+    $("#" + prev).addClass("ui-gradient-messages");
+    $("#" + prev).attr("checked", false);
     prev = id;
 });
 
