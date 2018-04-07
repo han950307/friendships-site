@@ -93,10 +93,10 @@ $('.num-hours').click( function() {
     }
     $(this).addClass('ui-gradient-message-selected');
     $(this).removeClass('ui-gradient-messages');
+    $(this).attr('checked', true);
     $('#' + prev).removeClass('ui-gradient-message-selected');
     $('#' + prev).addClass('ui-gradient-messages');
-    $(this).checked = true;
-    $('#' + prev).checked = false;
+    $('#' + prev).attr('checked', false);
     prev = id;
 });
 
