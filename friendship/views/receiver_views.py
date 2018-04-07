@@ -154,9 +154,6 @@ def place_order(request):
         form = OrderForm(request.POST, request.FILES)
         shipping_address_form = ShippingAddressForm(request.POST)
         if form.is_valid() and (shipping_address_form.is_valid() or len(user_addresses) > 0):
-            print("IS VALID")
-            print(form.cleaned_data)
-
             # First create a shipping address if user has none
             if not user_addresses:
                 data_dict = {

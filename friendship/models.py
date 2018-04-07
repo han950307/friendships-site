@@ -54,9 +54,9 @@ class ShipperInfo(models.Model):
         blank=True,
     )
 
-    name = models.CharField(max_length=200, null=True)
-    phone_number = models.CharField(max_length=50, null=True)
-    email = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True,)
+    phone_number = models.CharField(max_length=50, null=True, blank=True,)
+    email = models.CharField(max_length=200, null=True, blank=True)
     verified = models.BooleanField(default=False)
 
 
@@ -82,7 +82,7 @@ class ShippingAddress(models.Model):
         related_name='shipping_addresses'
     )
     # name field associated for each shipping address. doesn't really matter.
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
     address_line_1 = models.CharField(max_length=300)
     address_line_2 = models.CharField(max_length=300, null=True, blank=True)
     address_line_3 = models.CharField(max_length=300, null=True, blank=True)
@@ -92,7 +92,7 @@ class ShippingAddress(models.Model):
     country = models.CharField(max_length=120)
     
     # Each shipping address should have an associated phone number.
-    phone = models.CharField(max_length=50, null=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
 
     @enum.unique
     class AddressType(enum.IntEnum):
@@ -143,7 +143,10 @@ class Order(models.Model):
     date_placed = models.DateTimeField(auto_now_add=True)
     bid_end_datetime = models.DateTimeField()
 
-    description = models.TextField(null=True)
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
     quantity = models.IntegerField()
     size = models.CharField(max_length=120, null=True, blank=True,)
     color = models.CharField(max_length=120, null=True, blank=True,)
@@ -223,9 +226,10 @@ class TrackingNumber(models.Model):
         on_delete=models.SET_NULL,
         related_name="tracking_number",
         null=True,
+        blank=True,
     )
 
-    provider = models.CharField(max_length=100, null=True)
+    provider = models.CharField(max_length=100, null=True, blank=True)
     tracking_number = models.CharField(max_length=140)
     shipping_stage = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShippingStage)
@@ -257,7 +261,8 @@ class PaymentAction(models.Model):
         Order,
         on_delete=models.SET_NULL,
         related_name="payment_actions",
-        null=True
+        null=True,
+        blank=True,
     )
 
     payment_type = models.IntegerField(
@@ -331,7 +336,7 @@ class OrderAction(models.Model):
         choices = ((x.value, x.name.title()) for x in Action)
     )
     date_placed = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length=1000, null=True)
+    text = models.CharField(max_length=1000, null=True, blank=True)
 
 
 class Bid(models.Model):
@@ -366,6 +371,7 @@ class Message(models.Model):
         User,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
     transaction = models.ForeignKey(
         Order,
