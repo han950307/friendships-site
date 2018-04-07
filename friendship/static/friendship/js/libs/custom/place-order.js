@@ -93,13 +93,12 @@ $('.num-hours').click( function() {
     }
     $(this).addClass('ui-gradient-message-selected');
     $(this).removeClass('ui-gradient-messages');
-    $(this).attr("checked", true);
-    $("#" + prev).removeClass("ui-gradient-message-selected");
-    $("#" + prev).addClass("ui-gradient-messages");
-    $("#" + prev).attr("checked", false);
+    $('#' + prev).removeClass('ui-gradient-message-selected');
+    $('#' + prev).addClass('ui-gradient-messages');
+    $('#' + prev).attr('checked', false);
+    $(this).attr('checked', true);
     prev = id;
 });
-
 
 $('.btn-group .btn').click( function() {
     $(this).children('input').checked = true;
