@@ -1,5 +1,5 @@
 .container #main-group {
-    height:500px;
+    height: 500px;
 }
 
 #main-group {
@@ -34,17 +34,11 @@
 
 #main-row {
     max-height: 500px;
-    height:500px;
+    height: 500px;
 }
 
-#main-row .col-4{
+#main-row .col-4 {
     background-color: rgb(246,247,248);
-}
-
-.col {
-    max-height: 100%;
-    overflow-y: scroll;
-    padding: 0px;
 }
 
 .btn-group-vertical {
@@ -57,21 +51,31 @@
 
 .message_dummy {
     overflow-y: scroll;
-    height:450px;
+    height: 90%;
     /*height is to specify bounds in which messages can flow 
     to prevent them from appearing behind write message div*/
 }
 
-#right-pane {
-    padding: 20px 20px 0px 20px;
+.col {
+    padding: 0;
+}
+
+div#right-pane {
+    height: 100%;
+    padding: 1.2rem 1.2rem 0 1.2rem;
     border-left: 1px rgb(230,233,235);
 }
 
-#message_form {
-    height:40px;
-    padding-top:10px;
-    background-color: white;
-    position: sticky;
-    bottom: 20px;
+div.message_dummy {
+    height: 83.33%;
+    margin: 0;
+    padding: 0;
 }
 
+div#message_input_area {
+    height: 10%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    position: sticky;
+}

@@ -91,10 +91,10 @@ $('.num-hours').click( function() {
     if (prev === id) {
         return;
     }
-    $(this).addClass('ui-gradient-message-selected');
-    $(this).removeClass('ui-gradient-messages');
-    $('#' + prev).removeClass('ui-gradient-message-selected');
-    $('#' + prev).addClass('ui-gradient-messages');
+    $(this).parent().parent('.btn').addClass('ui-gradient-message-selected');
+    $(this).parent().parent('.btn').removeClass('ui-gradient-messages');
+    $('#' + prev).parent().parent('.btn').removeClass('ui-gradient-message-selected');
+    $('#' + prev).parent().parent('.btn').addClass('ui-gradient-messages');
     $('#' + prev).attr('checked', false);
     $(this).attr('checked', true);
     prev = id;
@@ -102,4 +102,12 @@ $('.num-hours').click( function() {
 
 $('.btn-group .btn').click( function() {
     $(this).children('input').checked = true;
+});
+
+$(document).ready(function() {
+    $('.num-hours').each( function(index) {
+        $(this).attr('checked', true);
+        $(this).parent().parent('.btn').removeClass('ui-gradient-message-selected');
+        $(this).parent().parent('.btn').addClass('ui-gradient-messages');
+    } );
 });

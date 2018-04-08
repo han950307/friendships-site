@@ -19,12 +19,12 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6">
-                {# {{ form.merchandise_type.errors }} #}
-                {{ form.merchandise_type }}
-            </div>
-            <div class="col-sm-6">
                 {# {{ form.quantity.errors }} #}
                 {{ form.quantity }}
+            </div>
+            <div class="col-sm-6">
+                {# {{ form.merchandise_type.errors }} #}
+                {{ form.merchandise_type }}
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
         {# {{ form.num_hours.errors }} #}
         <div class="btn-group" data-toggle="buttons">
         {% for field in form.num_hours %}
-            <label class="btn btn-primary">
+            <label class="btn btn-primary btn-block">
                 {{ field }}
             </label>
         {% endfor %}

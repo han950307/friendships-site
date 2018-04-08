@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="col" id="right-pane">
+        <div class="col col-" id="right-pane">
 
             {% for order in orders %}
             <div id="messages-{{ order.id }}"
@@ -32,19 +32,17 @@
             {% endfor %}
 
             <br />
-
-            <form id="message_form">
-                {% csrf_token %}
-                <div class="input-group mb-3">
-                    <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
-                    <div class="input-group-append">
-                        <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+            <div id="message-input-area">
+                <form id="message_form">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+                        </div>
                     </div>
-                </div>
-
-
-
-            </form>
+                </form>
+            </div>
         </div>
 
     </div>

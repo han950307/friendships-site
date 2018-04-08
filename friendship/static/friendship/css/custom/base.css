@@ -9,6 +9,11 @@ form p {
   max-width: 50%
 }
 
+h1 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
 /**
 MESSAGES
 ------------------------------------*
@@ -73,6 +78,11 @@ div#right-pane{
   max-width: 600px;
 }
 
+.ui-hero.hero-lg {
+    padding: 4rem 0 1rem 0;
+    margin-bottom: 6rem;
+}
+
 /**
 * 2. Login
 * ----------------------------------------------------------------------- *
@@ -94,22 +104,43 @@ div#right-pane{
 */
 .upload-btn-wrapper {
   position: relative;
+  width: 100%;
   overflow: hidden;
   display: inline-block;
+}
+
+.upload-btn-wrapper button {
+  width: 100%;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  padding: 100%;
+  position: absolute;
 }
 
 input.num-hours {
   display: none;
 }
 
-.upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  position: absolute;
-}
-
 .btn-group {
+  width: 100%;
   margin-top: .5rem;
 }
+
+.btn-group label {
+  margin: .2rem 0;
+}
+
+.btn-group .btn {
+  margin-bottom: 0;
+  margin: 0 0 0 0;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
 
 /**
 * 3. Order List
