@@ -220,178 +220,24 @@
 						<p>Glossier Boy Brow</p>
 					</div>
 				</div>
-			</div>
+			</div><!--.slideshow -->
 			<!-- <div>
 				<a id="prev">&#10094;</a>
 				<a id="next">&#10095;</a>
 			</div> -->
-			<div style="text-align:center">
+			<div class="dot-section">
 	  		<span id="dot1" class="dot"></span>
 	  		<span id="dot2" class="dot"></span>
 	  		<span id="dot3" class="dot"></span>
 				<span id="dot4" class="dot"></span>
 				<span id="dot5" class="dot"></span>
 			</div>
-		</div>
+		</div><!--.slide-container-->
 	</div><!-- .container -->
 
 </div><!-- .section -->
-<style>
- .dot {
-	height: 5px;
-  width: 5px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.active {
-	background-color: black;
-}
-
-.slides-container {
-	display: inline-block;
-	width: 100%;
-  overflow: hidden;
-  margin: 10px auto;
-	background-color: white;
-	border-radius: 10px;
-	margin-bottom: 50px;
-}
-
-.trending-image {
-	height: 200px;
-	width: 200px;
-
-}
-
-.slide {
-	margin: 10px;
-	display: inline-block;
-	border-radius: 1%;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.slideshow {
-	width: 4500px;
-}
-
-.slide  {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    -ms-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-}
-
-#slide1 {
-    -webkit-animation: bannermove 10s linear infinite;
-       -moz-animation: bannermove 10s linear infinite;
-        -ms-animation: bannermove 10s linear infinite;
-         -o-animation: bannermove 10s linear infinite;
-            animation: bannermove 10s linear infinite;
-}
-
-@keyframes "bannermove" {
- 0% {margin-left: -1000px;}
- 100% {margin-left: -3230px;}
-}
-
-@-moz-keyframes bannermove {
-	0% {margin-left: -1000px;}
-  100% {margin-left: -3230px;}
-}
-
-@-webkit-keyframes "bannermove" {
-	0% {margin-left: -1000px;}
-  100% {margin-left: -3230px;}
-}
-
-@-ms-keyframes "bannermove" {
-	0% {margin-left: -1000px;}
-  100% {margin-left: -3230px;}
-}
-
-@-o-keyframes "bannermove" {
-	0% {margin-left: -1000px;}
-	100% {margin-left: -3230px;}
-}
-</style>
-<script>
-var paused = false;
-var dotIndex = 3;
-var pausedTime = 0;
-var timer;
-pauseSlides();
-
-function activateDot(dot) {
-	for(var i=1; i<=5; i++){
-		if(i !== dot){
-			if(document.getElementById('dot'+i).className.indexOf('active') !== -1){
-				document.getElementById('dot'+i).className = document.getElementById('dot'+i).className.replace(" active", "");
-			}
-		}else{
-			document.getElementById('dot'+dot).className += " active";
-		}
-	}
-}
-
-function slideAtCenter() {
-	var slides = document.getElementsByClassName('slide');
-	for(var i=0; i< slides.length; i++){
-		var center = ((slides[i].getBoundingClientRect().left + slides[i].getBoundingClientRect().right)/2);
-		if(center >= $(window).width()/2 - 1 && center <= $(window).width()/2 + 1 && paused === false){
-			return true;
-		}
-	}
-	return false;
-}
-
-function pauseSlides() {
-	var now = new Date().getTime();
-	if(now - pausedTime > 2000 && paused === true){
-		document.getElementById('slide1').style.animationPlayState="";
-		$(".slideshow").animate({"margin-left": "-=10px"}, "fast");
-		paused = false;
-	}else if(paused === false){
-		var slides = document.getElementsByClassName('slide');
-		for(var i=0; i< slides.length; i++){
-			var center = ((slides[i].getBoundingClientRect().left + slides[i].getBoundingClientRect().right)/2);
-			if(center >= $(window).width()/2 - 1 && center <= $(window).width()/2 + 1 && paused === false && now-pausedTime>2500){
-				document.getElementById('slide1').style.animationPlayState="paused";
-				pausedTime = new Date().getTime();
-				paused = true;
-				dotIndex = dotIndex%5===0? 5: dotIndex%5;
-				activateDot(dotIndex);
-				dotIndex ++;
-			}
-		}
-	}
-	timer = setTimeout(pauseSlides, 1);
-}
-
-var dots = document.getElementsByClassName('dot');
-for(var i in dots){
-	dots[i].onclick = function(e){
-		document.getElementById('slide1').style.animationPlayState="paused";
-		pausedTime = new Date().getTime();
-
-		var clickedIndex = parseInt(e.target.id[e.target.id.length-1]);
-		if(dotIndex > clickedIndex){
-			var distance = (dotIndex - clickedIndex -1)*220;
-			$(".slideshow").animate({"margin-left": "+="+distance+"px"}, "slow");
-		}else if(dotIndex < clickedIndex){
-			var distance = (clickedIndex-dotIndex+1)*220;
-			$(".slideshow").animate({"margin-left": "-="+distance+"px"}, "slow");
-		}
-		activateDot(clickedIndex);
-		dotIndex = clickedIndex+1;
-		paused = true;
-	};
-}
-
-</script>
+<script src="{% static 'friendship/js/libs/custom/trending.js' %}"></script>
+<link rel="stylesheet" href="{% static 'friendship/css/custom/trending.css' %}"/>
 
 <!-- App Features Section -->
 <div id="features" class="section pt-0">
