@@ -30,7 +30,7 @@ urlpatterns = [
     path('become_sender/', views.become_sender, name='become_sender'),
 
     # Receiver views
-    path('receiver_landing/', views.receiver_landing, name='receiver_landing'),
+    path('receiver_landing/', views.index, name='receiver_landing'),
     path('place_order/', views.place_order, name='place_order'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),
     path('testing/<int:order_id>', views.sync_message, name='sync_message'),

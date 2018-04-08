@@ -51,6 +51,8 @@ def login_view(request):
 	"""
 	load login view.
 	"""
+	if "next" in request.GET:
+		request.session["next"] = request.GET["next"]
 	return render(request, 'friendship/login.html', {})
 
 
@@ -61,6 +63,8 @@ def login_process(request):
 	try:
 		data_dict = {x: v for x, v in request.POST.items()}
 		login_user_web(request, **data_dict)
+		if 'next' in request.session:
+			return redirect(request.session["next"])
 		if request.session["is_shipper"] == True:
 			return HttpResponseRedirect(reverse('friendship:sender_landing'))
 		else:

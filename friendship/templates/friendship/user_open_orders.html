@@ -5,70 +5,66 @@
 <!-- This page displays all the orders for the receiver. -->
 
 {% block main_content %}
-<h1>Orders</h1>
 <hr>
-	<div class="row">
-		<div class="col-sm-13">Order #</div>
-		<div class="col-sm-13">Date</div>
-		<div class="col-sm-13">Payment Status</div>
-		<div class="col-sm-13">Order Status</div>
-		<div class="col-sm-13">Amount</div>
+	<div id="orders-header">
+		<div class="row" id="orders-row">
+			<div class="col-sm-13">Order #</div>
+			<div class="col-sm-13">Date</div>
+			<div class="col-sm-13">Payment Status</div>
+			<div class="col-sm-13">Order Status</div>
+			<div class="col-sm-13">Amount</div>
+		</div>
 	</div>
+<div class="container" id="orders-table">
 	<div class="orders">
-{% for order in orders %}
-	<!-- <h1> Order # {{ order.id }}</h1>
-	<p>Order Placed: {{ order.date_placed }}</p>
-	<p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
-	<p>Quantity: {{ order.quantity }}</p>
-	<p>Description: {{ order.description }}</p>
-	<p>Shipping Address: {{ order.receiver_address }}</p>
-	<p>Order Status: {{ order.status }}</p>
-	<p>Current Lowest Bid for Shipping: {{ order.min_bid.wages }}</p>
-	<p><a href="{% url 'friendship:order_details' order.id %}">Order Details</a></p> -->
+		{% for order in orders %}
 		<div class="row">
 			<!-- ORDER ID -->
 			<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a></span></div>
 
 			<!-- DATE -->
-			<div class="col-sm-13">{{ order.date_placed|date }}</div>
+			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
 
 			<!-- Payment Status -->
 			<div class="col-sm-13">
 				{% if order.latest_action.action < PAYMENT_RECEIVED %}
-					<span class="btn btn-sm ui-gradient-peach">Unfulfilled</span>
+				<span class="btn btn-sm ui-gradient-negative">Unfulfilled</span>
 				{% else %}
-					<span class="btn btn-sm ui-gradient-green">Fulfilled</span>
+				<span class="btn btn-sm ui-gradient-positive">Fulfilled</span>
 				{% endif %}
 			</div>
 
 			<!-- Order Status -->
 			<div class="col-sm-13">
 				{% if order.latest_action.action < MATCH_FOUND %}
-					<span class="btn btn-sm ui-gradient-peach">Matching</span>
+				<span class="btn btn-sm ui-gradient-inprogress">Matching</span>
 				{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
-					<span class="btn btn-sm ui-gradient-blue">Matched</span>
+				<span class="btn btn-sm ui-gradient-found">Matched</span>
 				{% elif order.latest_action.action == ORDER_FULFILLED %}
-					<span class="btn btn-sm ui-gradient-green">Delivered</span>
+				<span class="btn btn-sm ui-gradient-positive">Delivered</span>
 				{% elif order.latest_action.action == ORDER_DECLINED %}
-					<span class="btn btn-sm ui-gradient-peach">Declined</span>
+				<span class="btn btn-sm ui-gradient-negative">Declined</span>
+				{% elif order.latest_action.action < ORDER_CLOSED and order.latest_action.action > PAYMENT_RECEIVED %}
+				<span class="btn btn-sm ui-gradient-purp">On the way</span>
 				{% elif order.latest_action.action >= ORDER_CLOSED %}
-					<span class="btn btn-sm ui-gradient-peach">Order Closed</span>
+				<span class="btn btn-sm ui-gradient-negative">Order Closed</span>
 				{% endif %}
 			</div>
 
 			<!-- Amount -->
 			<div class="col-sm-13">
 				{% if order.final_bid != None %}
-					<span>{{ order.final_bid.get_total }}</span>
+				<span>{{ order.final_bid.get_total }}</span>
 				<!-- does not show if matching is in progress -->
 				{% else %}
-					<span>--</span>
+				<span>--</span>
 				{% endif %}
 			</div>
 		</div>
+		{% empty %}
+		<p>No orders yet</p>
+		{% endfor %}
 	</div>
-{% empty %}
-	<p>No orders yet</p>
-{% endfor %}
+</div>
 </table>
 {% endblock main_content %}

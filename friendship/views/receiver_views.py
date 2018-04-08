@@ -14,8 +14,9 @@ from friendship.models import (
 )
 
 from friendship.forms import (
-    UploadPictureForm,
     OrderForm,
+    ShippingAddressForm,
+    UploadPictureForm,
 )
 from django import forms
 from django.contrib.auth.decorators import login_required
@@ -24,6 +25,8 @@ from django.contrib import messages
 from friendsite import settings
 from friendship.views import(
     order_details,
+    get_min_bid,
+    match_with_shipper,
 )
 import datetime
 import requests
@@ -57,14 +60,6 @@ def upload_picture_process(request, order_id):
 
         if form.is_valid():
             imagef = form.cleaned_data["picture"]
-            # encoded_string = base64.b64encode(imagef.read())
-            # image = Image.objects.create(
-            #   user=request.user,
-            #   order=order,
-            #   image=encoded_string,
-            #   mimetype="0",
-            #   image_type=0,
-            # )
             action = OrderAction.objects.create(
                 order=order,
                 action=OrderAction.Action.BANKNOTE_UPLOADED
@@ -80,8 +75,14 @@ def upload_picture_process(request, order_id):
         return redirect('friendship:order_details', pk=order_id)
 
 
-class PaymentForm(forms.Form):
-    pass
+@login_required
+def buy_now(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    bids = Bid.objects.filter(order=order)
+    if not bids:
+        messages.error(request, 'There are no bids yet.')
+        return redirect('friendship:order_details', order_id=order_id)
+    match_with_shipper(order)
 
 
 @login_required
@@ -147,44 +148,76 @@ def place_order(request):
     """
     This is a page for a form for making an order.
     """
-    OrderFormSet = formset_factory(OrderForm)
-    if request.method != 'POST':
-        # TODO Should display all the forms.
-        formset = OrderFormSet()
-        primary_address = ShippingAddress.objects.filter(
-            user=request.user
-        ).filter(
-            primary=True
-        )
-        if primary_address:
-            address = primary_address[0]
-        else:
-            address = None
-        return render(
-            request,
-            'friendship/place_order.html',
-            {
-                'address': address, 'formset': formset,
-            },
-            )
-    else:
-        # TODO change hardcoded things.
-        req = request.POST
-        num = req['form-TOTAL_FORMS']
-        orders = {}
-        for i in range(int(num)):
-            data_dict = {
-                'url': req['form-' + str(i) + '-url'],
-                'merchandise_type': req['form-' + str(i) + '-merchandise_type'],
-                'quantity': int(req['form-' + str(i) + '-quantity']),
-                'description': req['form-' + str(i) + '-description'],
-                'receiver': request.user,
-                'receiver_address': ShippingAddress.objects.all()[0],
-                'estimated_weight': 0,
-                'bid_end_datetime': datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-                                 + datetime.timedelta(hours=int(req['form-' + str(i) + '-quantity']))
-            }
-            order = create_order(request.user, **data_dict)
-            orders[i] = order
+    # CURRENTLY ONLY GET PRIMARY ADDRESS.
+    user_addresses = request.user.shipping_addresses.filter(primary=True)
 
-        return render(request, 'friendship/place_order_landing.html', {'orders': orders})
+    if request.method == 'POST':
+        form = OrderForm(request.POST, request.FILES)
+        shipping_address_form = ShippingAddressForm(request.POST)
+        if form.is_valid() and (shipping_address_form.is_valid() or len(user_addresses) > 0):
+            # First create a shipping address if user has none
+            if not user_addresses or shipping_address_form.is_valid():
+                data_dict = {
+                    'user': request.user,
+                    'primary': True,
+                    'address_type': ShippingAddress.AddressType.RECEIVER_ADDRESS,
+                    **shipping_address_form.cleaned_data,
+                }
+                qset = ShippingAddress.objects.filter(user=request.user)
+                shipping_address = ShippingAddress.objects.create(
+                    **data_dict,
+                )
+                for user_address in user_addresses:
+                    user_address.primary = False
+                    user_address.save()
+                print("CREATING SHIPPING ADDRESS")
+            else:
+                shipping_address = ShippingAddress.objects.get(pk=request.POST['shipping_address'])
+
+            if "item_image" in form.cleaned_data:
+                item_image = form.cleaned_data["item_image"]
+            else:
+                item_image = None
+
+            bid_end_datetime = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) + \
+                                datetime.timedelta(hours=int(form.cleaned_data['num_hours']))
+
+            data_dict = {
+                'url': form.cleaned_data['url'],
+                'item_image': form.cleaned_data['item_image'],
+                'merchandise_type': form.cleaned_data['merchandise_type'],
+                'quantity': int(form.cleaned_data['quantity']),
+                'size': form.cleaned_data['size'],
+                'color': form.cleaned_data['color'],
+                'description': form.cleaned_data['description'],
+                'receiver': request.user,
+                'receiver_address': shipping_address,
+                'bid_end_datetime': bid_end_datetime,
+                'estimated_weight': 0,
+            }
+            order = create_order(**{'data': data_dict})
+            action = OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.ORDER_PLACED,
+            )
+            order.latest_action = action
+            order.save()
+
+            return redirect('friendship:order_details', order_id=order.id)
+        else:
+            print(form.cleaned_data)
+    else:
+        form = OrderForm(request.GET)
+        if not user_addresses:
+            shipping_address_form = ShippingAddressForm()
+        else:
+            shipping_address_form = ShippingAddressForm(instance=user_addresses[0])
+    return render(
+        request,
+        'friendship/place_order.html',
+        {
+            'form': form,
+            'shipping_address_form': shipping_address_form,
+            'user_addresses': user_addresses,
+        }
+    )

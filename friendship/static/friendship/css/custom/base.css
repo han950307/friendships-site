@@ -5,16 +5,242 @@ form p {
   }
 }
 
+#form-container {
+  max-width: 50%
+}
+
+h1 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+nav > .container {
+  max-width: 100%;
+}
+
+.navbar .ui-navigation.navbar-center {
+  justify-content: right;
+}
+
+.footer-copyright .container {
+  max-width: 100%;
+}
+
+h2 {
+  padding-top: 2rem;
+}
+
+/**
+MESSAGES
+------------------------------------*
+*/
+.ui-gradient-message-selected,
+.ui-gradient-message-selected:hover {
+  background: -moz-linear-gradient(45deg, #8582FE 0%, #8582FE 100%);
+  background: linear-gradient(45deg, #8582FE 0%, #8582FE 100%);
+  color: #FFF;
+}
+
+.ui-gradient-messages {
+  background: -moz-linear-gradient(45deg, #F6F7F8 0%, #F6F7F8 100%);
+  background: linear-gradient(45deg, #F6F7F8 0%, #F6F7F8 100%);
+  color: #485869;
+}
+
+.ui-gradient-messages:hover {
+  background: -moz-linear-gradient(45deg, #d7d8ea 0%, #d7d8ea 100%);
+  background: linear-gradient(45deg, #d7d8ea 0%, #d7d8ea 100%);
+  color: #485869;
+}
+
+.ui-gradient-green,
+.ui-gradient-green:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-found,
+.ui-gradient-found:hover {
+  background: -moz-linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
+  background: linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
+  color: #FFF;
+}
+
+.ui-gradient-purp,
+.ui-gradient-purp:hover {
+  background: -moz-linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
+  background: linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
+  color: #FFF;
+}
+
+div#right-pane{
+  height: 400px;
+}
+
+/**
+* 1. Home Page
+* ----------------------------------------------------------------------- *
+*/
+.ui-hero .btn {
+  margin-top: 0px;
+}
+
+.ui-hero.hero-lg {
+    padding: 14rem 0 0rem 0;
+}
+
+.ui-hero p {
+  margin-bottom: 2rem !important;
+}
+
+.ui-hero h2 {
+  margin-bottom: 4rem !important;
+}
+
+.pb-4,
+.py-4 {
+  padding-bottom: 10rem !important;
+}
+
+@media (min-width: 1200px) {
+  .ui-hero.hero-lg {
+    padding: 23rem 0 10rem 0 !important;
+  }
+}
+
+/**
+* 2. Login
+* ----------------------------------------------------------------------- *
+*/
+#Facebook-login {
+  margin-bottom:20px;
+}
+#Line-login {
+  margin-bottom:20px;
+}
+#login-container {
+  max-width:50%;
+}
+
+
+/**
+* place order 
+* ------------------------------------------------------
+*/
+
+input.num-hours {
+  display: none;
+}
+
+.btn-group {
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.btn-group label {
+  margin: .2rem 0;
+}
+
+.btn-group .btn {
+  margin-bottom: 0;
+  margin: 0 0 0 0;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper button {
+  width: 100%;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+/**
+* 3. Order List
+* ----------------------------------------------------------------------- *
+*/
+#orders-header {
+  margin-bottom: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+div.orders {
+  margin-bottom: 15px;
+}
+
+#orders-table .row{
+  background-color: rgb(246,247,248);
+  border-radius:0.5rem;
+  padding:20px 0px;
+  margin-bottom:10px;
+}
+
+.ui-gradient-negative,
+.ui-gradient-negative:hover{
+  background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  color: #FFF;
+}
+
+.ui-gradient-positive,
+.ui-gradient-positive:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-inprogress,
+.ui-gradient-inprogress:hover {
+  background: -moz-linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  background: linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  color: #FFF;
+}
+/**
+* 3. Order Details 
+* ----------------------------------------------------------------------- *
+*/
 /* order details step view. */
+#order-headings p{
+  margin-bottom:0.3rem;
+}
+#order-headings h1{
+  margin-bottom:1rem;
+}
+
+hr {
+  margin:30px 0px;
+  height:30px;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
 #order-details div.row {
   display: block;
-  width: 100%;
-  padding: 0.3rem 0.2rem;
-  margin-left: 4rem;
+  width: 93%;
+  padding: 2rem 0.2rem;
+  margin-left: -1rem;
   font-size: 1rem;
   line-height: 1.4;
   color: #708198;
-  background-color: #edeff2;
+  background-color: #F2F4F6;
   background-clip: padding-box;
   border: 0 solid #ced4da;
   border-radius: 0.5rem;
@@ -25,12 +251,36 @@ form p {
 .col-sm-13 {
   flex: 0 0 20%;
   max-width: 20%;
+  margin-left:-1rem;
+  text-align: center;
+}
+
+.step-number.ui-gradient-grey,
+.step-number.ui-gradient-grey::before {
+  background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+  background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
 }
 
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *
 */
+
+.ui-steps .step-wrapper span {
+  display:block;
+}
+
+.ui-steps .col-auto h4 {
+  font-weight: 600;
+}
+
+#confirm-button {
+  display:inline-block;
+}
+
+#decline-button {
+  display:inline-block;
+}
 .ui-steps .row {
   margin-left: -6rem;
   margin-right: -6rem;
@@ -38,7 +288,7 @@ form p {
 
 .ui-steps div[class^="col-"],
 .ui-steps div[class*=" col-"] {
-  padding-left: 6rem;
+  padding-left: 2rem;
   padding-right: 6rem;
 }
 
@@ -58,6 +308,10 @@ form p {
   .ui-steps {
     margin-top: 0;
   }
+
+  #order-details div.row {
+  margin-left: 4rem;
+  }
 }
 
 .ui-steps .step-wrapper {
@@ -65,13 +319,13 @@ form p {
   padding-left: 6rem;
   text-align: left;
   padding-top: 0;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper {
     padding-left: 0;
-    padding-top: 2rem;
+    padding-top: 0rem;
   }
   .ui-steps .step-wrapper:nth-child(1) {
     margin-top: -2rem;
@@ -93,6 +347,8 @@ form p {
     left: 1.75%;
     margin-left: -2px;
   }
+
+
 }
 
 .ui-steps .step-wrapper::before {
@@ -180,10 +436,6 @@ form p {
 }
 
 .ui-steps .row {
-	padding-left: 6%;
+  padding-left: 6%;
 }
 
-.ui-gradient-grey {
-  background: -moz-linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
-  background: linear-gradient(45deg, #f0f0f0 0%, #e0e0e0 100%);
-}
