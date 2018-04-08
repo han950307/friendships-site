@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <!-- Hero -->
+
 <div class="ui-hero hero-lg hero-center hero-bg ui-curve hero-svg-layer-4 bg-dark-gray">
 	<div class="container pb-4">
 		<div class="row pt-2 pb-8">
@@ -24,6 +25,371 @@
 	<img src="{% static 'friendship/img/mockups/applify-browser-mockup.png' %}" data-uhd data-max_width="1000"
 	     class="shadow-xxl responsive-on-lg" alt="Applify - App Landing HTML Template"/>
 </div><!-- .intro-image -->
+
+<!--Scrolling Trending Items Section -->
+<div id="trending" class="slideshow-container">
+	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+		<div class="section-heading cente">
+			<h2 class="heading text-dark-gray">
+				Trending Items
+			</h2>
+			<p>See what people are buying now</p>
+		</div><!-- .section-heading -->
+		<!-- Wrapper for slides -->
+		<div class="slides-container">
+			<div class="slideshow">
+				<div id="slide1" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide2" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide3" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide4" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide5" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide6" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide7" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide8" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide9" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide10" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide11" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide12" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide13" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide14" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide15" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide16" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide17" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide18" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide19" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide20" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+			</div>
+			<!-- <div>
+				<a id="prev">&#10094;</a>
+				<a id="next">&#10095;</a>
+			</div> -->
+			<div style="text-align:center">
+	  		<span id="dot1" class="dot"></span>
+	  		<span id="dot2" class="dot"></span>
+	  		<span id="dot3" class="dot"></span>
+				<span id="dot4" class="dot"></span>
+				<span id="dot5" class="dot"></span>
+			</div>
+		</div>
+	</div><!-- .container -->
+
+</div><!-- .section -->
+<style>
+ .dot {
+	height: 5px;
+  width: 5px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.active {
+	background-color: black;
+}
+
+.slides-container {
+	display: inline-block;
+	width: 100%;
+  overflow: hidden;
+  margin: 10px auto;
+	background-color: white;
+	border-radius: 10px;
+	margin-bottom: 50px;
+}
+
+.trending-image {
+	height: 200px;
+	width: 200px;
+
+}
+
+.slide {
+	margin: 10px;
+	display: inline-block;
+	border-radius: 1%;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.slideshow {
+	width: 4500px;
+}
+
+.slide  {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#slide1 {
+    -webkit-animation: bannermove 10s linear infinite;
+       -moz-animation: bannermove 10s linear infinite;
+        -ms-animation: bannermove 10s linear infinite;
+         -o-animation: bannermove 10s linear infinite;
+            animation: bannermove 10s linear infinite;
+}
+
+@keyframes "bannermove" {
+ 0% {margin-left: -1000px;}
+ 100% {margin-left: -3230px;}
+}
+
+@-moz-keyframes bannermove {
+	0% {margin-left: -1000px;}
+  100% {margin-left: -3230px;}
+}
+
+@-webkit-keyframes "bannermove" {
+	0% {margin-left: -1000px;}
+  100% {margin-left: -3230px;}
+}
+
+@-ms-keyframes "bannermove" {
+	0% {margin-left: -1000px;}
+  100% {margin-left: -3230px;}
+}
+
+@-o-keyframes "bannermove" {
+	0% {margin-left: -1000px;}
+	100% {margin-left: -3230px;}
+}
+</style>
+<script>
+var paused = false;
+var dotIndex = 3;
+var pausedTime = 0;
+var timer;
+pauseSlides();
+
+function activateDot(dot) {
+	for(var i=1; i<=5; i++){
+		if(i !== dot){
+			if(document.getElementById('dot'+i).className.indexOf('active') !== -1){
+				document.getElementById('dot'+i).className = document.getElementById('dot'+i).className.replace(" active", "");
+			}
+		}else{
+			document.getElementById('dot'+dot).className += " active";
+		}
+	}
+}
+
+function slideAtCenter() {
+	var slides = document.getElementsByClassName('slide');
+	for(var i=0; i< slides.length; i++){
+		var center = ((slides[i].getBoundingClientRect().left + slides[i].getBoundingClientRect().right)/2);
+		if(center >= $(window).width()/2 - 1 && center <= $(window).width()/2 + 1 && paused === false){
+			return true;
+		}
+	}
+	return false;
+}
+
+function pauseSlides() {
+	var now = new Date().getTime();
+	if(now - pausedTime > 2000 && paused === true){
+		document.getElementById('slide1').style.animationPlayState="";
+		$(".slideshow").animate({"margin-left": "-=10px"}, "fast");
+		paused = false;
+	}else if(paused === false){
+		var slides = document.getElementsByClassName('slide');
+		for(var i=0; i< slides.length; i++){
+			var center = ((slides[i].getBoundingClientRect().left + slides[i].getBoundingClientRect().right)/2);
+			if(center >= $(window).width()/2 - 1 && center <= $(window).width()/2 + 1 && paused === false && now-pausedTime>2500){
+				document.getElementById('slide1').style.animationPlayState="paused";
+				pausedTime = new Date().getTime();
+				paused = true;
+				dotIndex = dotIndex%5===0? 5: dotIndex%5;
+				activateDot(dotIndex);
+				dotIndex ++;
+			}
+		}
+	}
+	timer = setTimeout(pauseSlides, 1);
+}
+
+var dots = document.getElementsByClassName('dot');
+for(var i in dots){
+	dots[i].onclick = function(e){
+		document.getElementById('slide1').style.animationPlayState="paused";
+		pausedTime = new Date().getTime();
+
+		var clickedIndex = parseInt(e.target.id[e.target.id.length-1]);
+		if(dotIndex > clickedIndex){
+			var distance = (dotIndex - clickedIndex -1)*220;
+			$(".slideshow").animate({"margin-left": "+="+distance+"px"}, "slow");
+		}else if(dotIndex < clickedIndex){
+			var distance = (clickedIndex-dotIndex+1)*220;
+			$(".slideshow").animate({"margin-left": "-="+distance+"px"}, "slow");
+		}
+		activateDot(clickedIndex);
+		dotIndex = clickedIndex+1;
+		paused = true;
+	};
+}
+
+</script>
 
 <!-- App Features Section -->
 <div id="features" class="section pt-0">
