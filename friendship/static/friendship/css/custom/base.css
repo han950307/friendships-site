@@ -19,7 +19,11 @@ nav > .container {
 }
 
 .navbar .ui-navigation.navbar-center {
-    justify-content: right;
+  justify-content: right;
+}
+
+.footer-copyright .container {
+  max-width: 100%;
 }
 
 /**
@@ -83,7 +87,7 @@ div#right-pane{
 }
 
 .ui-hero p {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 2rem !important;
 }
 
 .ui-hero h2 {
@@ -97,7 +101,7 @@ div#right-pane{
 
 @media (min-width: 1200px) {
   .ui-hero.hero-lg {
-    padding: 17rem 0 7rem 0 !important;
+    padding: 23rem 0 10rem 0 !important;
   }
 }
 
@@ -120,22 +124,6 @@ div#right-pane{
 * place order 
 * ------------------------------------------------------
 */
-.upload-btn-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  display: inline-block;
-}
-
-.upload-btn-wrapper button {
-  width: 100%;
-}
-
-.upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  padding: 100%;
-  position: absolute;
-}
 
 input.num-hours {
   display: none;
