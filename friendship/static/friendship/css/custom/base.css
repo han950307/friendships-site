@@ -70,17 +70,19 @@ div#right-pane{
   margin-top: 0px;
 }
 
-.ui-hero .input-group {
-  margin-top: 50px;
-}
-
 .ui-hero.hero-center .paragraph {
   max-width: 600px;
 }
 
-.ui-hero.hero-lg {
-    padding: 4rem 0 1rem 0;
-    margin-bottom: 6rem;
+.hero-center div.col-sm-12 {
+  margin-top: 5rem;
+  margin-bottom: -2.5rem;
+}
+
+@media (min-width: 1200px) {
+  .ui-hero.hero-lg {
+    padding: 5rem 0 0rem 0;
+  }
 }
 
 /**
