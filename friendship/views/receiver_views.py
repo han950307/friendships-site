@@ -148,7 +148,8 @@ def place_order(request):
     """
     This is a page for a form for making an order.
     """
-    user_addresses = request.user.shipping_addresses.all()
+    # CURRENTLY ONLY GET PRIMARY ADDRESS.
+    user_addresses = request.user.shipping_addresses.filter(primary=True)
 
     if request.method == 'POST':
         form = OrderForm(request.POST, request.FILES)
@@ -163,13 +164,13 @@ def place_order(request):
                     **shipping_address_form.cleaned_data,
                 }
                 qset = ShippingAddress.objects.filter(user=request.user)
-                if qset:
-                    shipping_address = qset[0]
-                    shipping_address.update(**data_dict)
-                else:
-                    shipping_address = ShippingAddress.objects.create(
-                        **data_dict,
-                    )
+                shipping_address = ShippingAddress.objects.create(
+                    **data_dict,
+                )
+                for user_address in user_addresses:
+                    user_address.primary = False
+                    user_address.save()
+                print("CREATING SHIPPING ADDRESS")
             else:
                 shipping_address = ShippingAddress.objects.get(pk=request.POST['shipping_address'])
 
@@ -210,7 +211,7 @@ def place_order(request):
         if not user_addresses:
             shipping_address_form = ShippingAddressForm()
         else:
-            shipping_address_form = None
+            shipping_address_form = ShippingAddressForm(instance=user_addresses[0])
     return render(
         request,
         'friendship/place_order.html',

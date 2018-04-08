@@ -111,3 +111,24 @@ $(document).ready(function() {
         $(this).parent().parent('.btn').addClass('ui-gradient-messages');
     } );
 });
+
+var edit = false;
+
+//payment radio button listeners
+var editAddressForm = document.getElementById('edit-address-form');
+var currentAddressForm = document.getElementById('current-address');
+var editAddressLink = document.getElementById('edit-address');
+editAddressLink.onclick= function(){
+    editAddressForm.style.display = "block";
+    currentAddressForm.style.display = "none";
+    edit = true;
+}
+
+$("#create-order").submit(function () {
+    if (!edit) {
+        var form = $(this);
+        form.find("input[type=submit]").prop("disabled", true);
+        form.find('[name=address_line_1]').value(null);
+        form.find('[name=name]').value(null);
+    }
+});
