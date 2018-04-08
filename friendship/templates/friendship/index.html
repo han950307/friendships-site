@@ -5,33 +5,27 @@
 
 <div class="ui-hero hero-lg hero-center hero-bg hero-svg-layer-4 bg-dark-gray">
 	<div class="container pb-4">
-		<div class="row pt-2 pb-4">
-			<div class="col-sm-12" data-vertical_center="true" data-vertical_offset="16">
-				<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-					<span class="text-blue">The world is tied together by</span> FriendShips
-				</h2>
-				<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-					It's simple to get started
-				</p>
-				<div class="col-sm-12">
-					<form action="{% url 'friendship:place_order' %}">
-						<div class="input-group">
-							<!-- Email Input -->
-							<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
-							<div class="input-group-append">
-								<!-- Submit Button -->
-								<button class="btn btn-sm ui-gradient-found">Start here
-								</button>
-							</div>
-						</div>
-					</form>
+		<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
+			<span class="text-blue">The world is tied together by</span> FriendShips
+		</h2>
+		<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+			It's simple to get started
+		</p>
+		<form action="{% url 'friendship:place_order' %}">
+			<div class="input-group">
+				<!-- Email Input -->
+				<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
+				<div class="input-group-append">
+					<!-- Submit Button -->
+					<button class="btn btn-sm ui-gradient-found">Start here
+					</button>
 				</div>
-				<!-- * Replace data-video with your youtube video id -->
-				<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
-					<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
-				<!--</a>-->
 			</div>
-		</div><!-- .row -->
+		</form>
+		<!-- * Replace data-video with your youtube video id -->
+		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
+			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
+		<!--</a>-->
 	</div><!-- .container -->
 </div><!-- .ui-hero -->
 

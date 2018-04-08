@@ -14,6 +14,14 @@ h1 {
   margin-bottom: 3rem;
 }
 
+nav > .container {
+  max-width: 100%;
+}
+
+.navbar .ui-navigation.navbar-center {
+    justify-content: right;
+}
+
 /**
 MESSAGES
 ------------------------------------*
@@ -70,18 +78,26 @@ div#right-pane{
   margin-top: 0px;
 }
 
-.ui-hero.hero-center .paragraph {
-  max-width: 600px;
+.ui-hero.hero-lg {
+    padding: 14rem 0 0rem 0;
 }
 
-.hero-center div.col-sm-12 {
-  margin-top: 5rem;
-  margin-bottom: -2.5rem;
+.ui-hero p {
+  margin-bottom: 1.5rem !important;
+}
+
+.ui-hero h2 {
+  margin-bottom: 4rem !important;
+}
+
+.pb-4,
+.py-4 {
+  padding-bottom: 10rem !important;
 }
 
 @media (min-width: 1200px) {
   .ui-hero.hero-lg {
-    padding: 5rem 0 0rem 0;
+    padding: 17rem 0 7rem 0 !important;
   }
 }
 
