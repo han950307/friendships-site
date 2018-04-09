@@ -293,6 +293,13 @@ hr {
   text-align: center;
 }
 
+.col-sm-14 {
+  flex: auto
+  max-width: 50%;
+  margin-left:-1rem;
+  text-align: center;
+}
+
 .step-number.ui-gradient-grey,
 .step-number.ui-gradient-grey::before {
   background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
