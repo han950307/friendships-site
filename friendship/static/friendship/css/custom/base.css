@@ -134,9 +134,13 @@ div#right-pane{
   margin-bottom:20px;
 }
 
+#login-container {
+  max-width: 100%
+}
+
 @media (min-width: 1200px){
   #login-container {
-    max-width:50%;
+    max-width: 50%;
   }
 }
 
