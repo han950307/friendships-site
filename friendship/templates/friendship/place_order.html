@@ -9,122 +9,122 @@
 
 {% block form %}
 <div id="form-container" class="container">
-<form method="post" name="order_form" enctype="multipart/form-data" id="#create-order">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="form-group">
-        {# {{ form.url.errors }} #}
-        {{ form.url }}
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                {# {{ form.quantity.errors }} #}
-                {{ form.quantity }}
-            </div>
-            <div class="col-sm-6">
-                {# {{ form.merchandise_type.errors }} #}
-                {{ form.merchandise_type }}
-            </div>
+    <form method="post" name="order_form" enctype="multipart/form-data" id="#create-order">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {# {{ form.url.errors }} #}
+            {{ form.url }}
         </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-6">
-                {# {{ form.size.errors }} #}
-                {{ form.size }}
-            </div>
-            <div class="col-sm-6">
-                {# {{ form.color.errors }} #}
-                {{ form.color }}
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        {# {{ form.description.errors }} #}
-        {{ form.description }}
-    </div>
-    <div class="form-group">
-        {# {{ form.item_image.errors }} #}
-
-<div class="upload-btn-wrapper">
-        <div class="upload-btn-wrapper">
-            <button class="btn">Upload an image for the item (optional)</button>
-            {{ form.item_image }}
-        </div>
-    </div>
-    </div>
-    <div class="form-group">
-        <span class="desc">Choose a bidding deadline for this item.*</span>
-        {# {{ form.num_hours.errors }} #}
-        <div class="btn-group" data-toggle="buttons">
-        {% for field in form.num_hours %}
-            <label class="btn btn-primary btn-block">
-                {{ field }}
-            </label>
-        {% endfor %}
-        </div>
-    </div>
-
-    {% if form.errors %}
-        {% for field in form %}
-            {% for error in field.errors %}
-                <div class="alert alert-danger">
-                    <strong hidden="true">{{ error|escape }}</strong>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ form.quantity.errors }} #}
+                    {{ form.quantity }}
                 </div>
-            {% endfor %}
+                <div class="col-sm-6">
+                    {# {{ form.merchandise_type.errors }} #}
+                    {{ form.merchandise_type }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ form.size.errors }} #}
+                    {{ form.size }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ form.color.errors }} #}
+                    {{ form.color }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {# {{ form.description.errors }} #}
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            {# {{ form.item_image.errors }} #}
+
+            <div class="upload-btn-wrapper">
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Upload an image for the item (optional)</button>
+                    {{ form.item_image }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="desc">Choose a bidding deadline for this item.*</span>
+            {# {{ form.num_hours.errors }} #}
+            <div class="btn-group" data-toggle="buttons">
+                {% for field in form.num_hours %}
+                <label class="btn btn-primary btn-block">
+                    {{ field }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong hidden="true">{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            <div class="alert alert-danger">
-                <strong hidden="true">{{ error|escape }}</strong>
-            </div>
+        <div class="alert alert-danger">
+            <strong hidden="true">{{ error|escape }}</strong>
+        </div>
         {% endfor %}
-    {% endif %}
+        {% endif %}
 
-    <hr />
-    <!-- display shipping information -->
-    <h4>Shipping Details
-    {% for user_address in user_addresses %}
-        <a href="#" id="edit-address"> EDIT</a></h4>
-        <input name="shipping_address" value="{{ user_address.id }}" required="" type="radio" checked="checked" hidden="true" style="">
+        <hr />
+        <!-- display shipping information -->
+        <h4>Shipping Details
+            {% for user_address in user_addresses %}
+            <a href="#" id="edit-address"> EDIT</a></h4>
+            <input name="shipping_address" value="{{ user_address.id }}" required="" type="radio" checked="checked" hidden="true" style="">
             <div id="current-address">
-            {{ user_address.name }}<br>
-            {{ user_address.address_line_1 }} <br>
-            {{ user_address.city }}, {{ user_address.region }}, {{ user_address.postal_code }}<br>
-            {{ user_address.country }}<br>
-            {{ user_address.phone }}
-        </div>
-        <div id="edit-address-form" style="display: none">
-            <div class="form-group">
-                {# {{ shipping_address_form.name.errors }} #}
-                {{ shipping_address_form.name }}
+                {{ user_address.name }}<br>
+                {{ user_address.address_line_1 }} <br>
+                {{ user_address.city }}, {{ user_address.region }}, {{ user_address.postal_code }}<br>
+                {{ user_address.country }}<br>
+                {{ user_address.phone }}
             </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.address_line_1.errors }} #}
-                {{ shipping_address_form.address_line_1 }}
+            <div id="edit-address-form" style="display: none">
+                <div class="form-group">
+                    {# {{ shipping_address_form.name.errors }} #}
+                    {{ shipping_address_form.name }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.address_line_1.errors }} #}
+                    {{ shipping_address_form.address_line_1 }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.city.errors }} #}
+                    {{ shipping_address_form.city }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.region.errors }} #}
+                    {{ shipping_address_form.region }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.postal_code.errors }} #}
+                    {{ shipping_address_form.postal_code }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.country.errors }} #}
+                    {{ shipping_address_form.country }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.phone.errors }} #}
+                    {{ shipping_address_form.phone }}
+                </div>
             </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.city.errors }} #}
-                {{ shipping_address_form.city }}
-            </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.region.errors }} #}
-                {{ shipping_address_form.region }}
-            </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.postal_code.errors }} #}
-                {{ shipping_address_form.postal_code }}
-            </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.country.errors }} #}
-                {{ shipping_address_form.country }}
-            </div>
-            <div class="form-group">
-                {# {{ shipping_address_form.phone.errors }} #}
-                {{ shipping_address_form.phone }}
-            </div>
-        </div>
-    {% empty %}
+            {% empty %}
         </h4>
         <div class="form-group">
             {# {{ shipping_address_form.name.errors }} #}
@@ -154,10 +154,10 @@
             {# {{ shipping_address_form.phone.errors }} #}
             {{ shipping_address_form.phone }}
         </div>
-    {% endfor %}
-    <br><br>
-    <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
-</form>
+        {% endfor %}
+        <br><br>
+        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
+    </form>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>

@@ -178,7 +178,12 @@ class ManualWireTransferForm(forms.Form):
         ),
     )
     banknote_image = forms.ImageField(
-        widget=forms.FileInput(),
+        widget=forms.FileInput(
+            attrs={
+                'data-validation': 'required',
+                'data-validation-error-msg': 'Please upload an image.',
+            }
+        ),
     )
 
 

@@ -59,7 +59,7 @@
                         {% endif %}
                         <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</h5></td>
                         {% if min_bid.get_total %}
-                        <td class="bid-info-content"><a href="{% url 'friendship:confirm_order_price' order.id True %}" class="btn ui-gradient-positive">Accept price and buy now</a>
+                        <td class="bid-info-content"><a href="{% url 'friendship:confirm_order_price' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
                         </td>
                         {% endif %}
                     </tr>
@@ -145,21 +145,31 @@
                             <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
                         </div>
                         </table>
-                        <input type="submit" id="create_token" value="Pay">
+                        <input type="submit" class="btn btn-sm ui-gradient-positive" id="create_token" value="Submit Payment">
                     </form>
                 </div>
-            </div>
-            <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
-            <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-            <div id="wire-payment" style="display: none">
-                <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                    {% csrf_token %}
-                    {{ manual_wire_transfer_form.as_p }}
-                    <input type="submit">
-                </form>
+                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                <div id="wire-payment" style="display: none">
+                    <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ manual_wire_transfer_form.account_number.errors }}
+                            {{ manual_wire_transfer_form.account_number }}
+                            <div class="upload-btn-wrapper">
+                                <div class="upload-btn-wrapper">
+                                    <button class="btn btn-sm">Upload Banknote</button>
+                                    {{ manual_wire_transfer_form.banknote_image.errors }}
+                                    {{ manual_wire_transfer_form.banknote_image }}
+                                </div>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
+                    </form>
+                </div>
+                <!-- END OF WHAT SHOULD BE DISPLAYED -->
             </div>
-            <!-- END OF WHAT SHOULD BE DISPLAYED -->
             {% endif %}
         </div>
     </div>

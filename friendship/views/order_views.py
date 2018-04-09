@@ -159,7 +159,11 @@ def open_orders(request, filter):
     else:
         # Only display orders that are due later than right now.
         right_now = datetime.datetime.now()
-        qset = Order.objects.filter(bid_end_datetime__gte=right_now)
+        qset = Order.objects.filter(
+            bid_end_datetime__gte=right_now
+        ).order_by(
+            '-bid_end_datetime'
+        )
 
         # Get minimum bid.
         for order in qset:

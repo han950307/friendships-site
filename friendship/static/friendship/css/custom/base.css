@@ -272,8 +272,7 @@ div.orders {
 }
 
 hr {
-  margin:3rem 0;
-  height:3rem 0;
+  margin: 1.3rem 0;
 }
 
 .step-wrapper h4 {
@@ -317,9 +316,22 @@ span#time_countdown {
   display: inline-block;
 }
 
-#credit-card-payment div.form-group {
+#credit-card-payment div.form-group,
+#wire-payment div.form-group {
   margin-top: .4rem;
   margin-bottom: .4rem;
+}
+
+#wire-payment button {
+  margin-top: .3rem;
+  background-color: #F2F4F6;
+  border-style: solid;
+  border-width: .1rem;
+  border-color: #88B5E1;
+}
+
+#wire-payment button:hover {
+  background-color: #111111;
 }
 
 /* for my order view */
