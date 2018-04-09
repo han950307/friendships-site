@@ -11,6 +11,7 @@
 		<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
 			It's simple to get started
 			{{ request.session.is_shipper }}
+			{{ request.session.debug }}
 		</p>
 		<form action="{% url 'friendship:place_order' %}">
 			<div class="input-group">
