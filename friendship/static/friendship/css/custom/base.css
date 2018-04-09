@@ -5,8 +5,10 @@ form p {
   }
 }
 
-#form-container {
-  max-width: 100%
+@media (min-width: 1200px){
+  #form-container {
+    max-width: 50%
+  }
 }
 
 h1 {
@@ -131,8 +133,11 @@ div#right-pane{
 #Line-login {
   margin-bottom:20px;
 }
-#login-container {
-  max-width:50%;
+
+@media (min-width: 1200px){
+  #login-container {
+    max-width:50%;
+  }
 }
 
 
@@ -163,6 +168,14 @@ input.num-hours {
   margin-bottom: 1rem;
 }
 
+h4 {
+  margin-bottom: 1em;
+}
+
+span.bold {
+  font-weight: bold;
+}
+
 .upload-btn-wrapper {
   position: relative;
   width: 100%;
@@ -180,6 +193,15 @@ input.num-hours {
   left: 0;
   top: 0;
   opacity: 0;
+}
+
+.col-left {
+  width: 50%;
+}
+
+.col-right {
+  width: 50%;
+  text-align: right;
 }
 
 /**
@@ -240,7 +262,7 @@ hr {
   height:30px;
 }
 
-h4 {
+.step-wrapper h4 {
   margin-bottom: 0;
 }
 

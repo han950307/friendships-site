@@ -6,11 +6,20 @@
 
 {% block main_content %}
 <div class="container" id="order-headings">
-    <p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
-    <p>Quantity: {{ order.quantity }}</p>
-    <p>Description: {{ order.description }}</p>
-    <p>Shipping Address: {{ order.reciever_address.address }}</p>
-    <p>Order Status: {{ order.status }}</p>
+    <div class="row">
+        <div class="col-left">
+            <p><span class="bold">URL:</span> <a href="{{ order.url }}">{{ order_url }}</a></p>
+            <p><span class="bold">Quantity:</span> {{ order.quantity }}</p>
+            <p><span class="bold">Description:</span> {{ order.description }}</p>
+        </div>
+        <div class="col-right">
+            <p><span class="bold">Shipping Address:</span></p>
+            <p>{{ order.receiver_address.name }}</p>
+            <p>{{ order.receiver_address.address_line_1 }}</p>
+            <p>{{ order.receiver_address.city }}, {{ order.receiver_address.region }}, {{ order.receiver_address.postal_code }}</p>
+            <p>{{ order.receiver_address.country }}</p>
+        </div>
+    </div>
 </div>
 
 <hr />

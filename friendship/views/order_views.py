@@ -68,8 +68,13 @@ def order_details(request, order_id, **kwargs):
     actions = OrderAction.objects.filter(order=order)
 
     data_dict = {}
+    if len(order.url) > 50:
+        order_url = order.url[0:47] + "..."
+    else:
+        order_url = order.url
     data_dict.update({
         'order': order,
+        'order_url': order_url,
         'actions': reversed(actions),
         'latest_action': order.latest_action,
         'min_bid': get_min_bid(order),
