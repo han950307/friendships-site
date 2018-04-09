@@ -87,14 +87,14 @@ div#right-pane{
 
 .ui-hero {
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .pb-4 {
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   padding: 10% 0 !important;
-  box-sizing: border-box !important;
+  /* box-sizing: border-box !important; */
 }
 
 .ui-hero .btn {
@@ -102,16 +102,15 @@ div#right-pane{
 }
 
 .ui-hero.hero-lg {
-    padding: 10% 0 0rem 0;
 }
 
 .ui-hero p {
-  margin-bottom: 10% !important;
+  margin-bottom: 3% !important;
   position: relative !important;
 }
 
 .ui-hero h2 {
-  margin-bottom: 10% !important;
+  margin-bottom: 8% !important;
   position: relative !important;
 }
 
