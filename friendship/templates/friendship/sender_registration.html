@@ -5,7 +5,7 @@
 {% block title_desc %} Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }} {% endblock title_desc %}
 
 {% block form %}
-	<form action="" method="post">
+	<form action="" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
 		<table>
 			{{ wizard.management_form }}

@@ -30,7 +30,7 @@ urlpatterns = [
     path('become_sender/', views.become_sender, name='become_sender'),
 
     # Receiver views
-    path('receiver_landing/', views.receiver_landing, name='receiver_landing'),
+    path('receiver_landing/', views.index, name='receiver_landing'),
     path('place_order/', views.place_order, name='place_order'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),
     path('testing/<int:order_id>', views.sync_message, name='sync_message'),
@@ -42,6 +42,7 @@ urlpatterns = [
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
     path('submit_wire_transfer/<int:order_id>', views.submit_wire_transfer, name='submit_wire_transfer'),
     path('confirm_order_price/<int:order_id>/<str:choice>', views.confirm_order_price, name='confirm_order_price'),
+
 
     # Sender views
     path('sender_landing/', views.sender_landing, name='sender_landing'),

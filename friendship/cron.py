@@ -7,7 +7,7 @@ from friendship.models import (
     Bid,
     OrderAction
 )
-from friendship.views.order_views import get_min_bid
+from friendship.views import match_with_shipper
 
 import datetime
 import pytz
@@ -30,25 +30,3 @@ def order_bid_update():
     # then just match.
     for order in orders:
         match_with_shipper(order)
-
-
-def match_with_shipper(order):
-	"""
-	Pick the lowest bidder and update the database.
-	"""
-	min_bid = get_min_bid(order)
-	if not min_bid:
-		# pair with one of friendship accounts.
-		pass
-	else:
-		order.shipper = min_bid.shipper
-		# make shipper choose a shipping address when they're matched.
-		order.save()
-
-	order.final_bid = min_bid
-	action = OrderAction.objects.create(
-		order=order,
-		action=OrderAction.Action.MATCH_FOUND
-	)
-	order.latest_action = action
-	order.save()

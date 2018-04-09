@@ -2,53 +2,162 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/custom/place-order.css' %}" />
 {% endblock head %}
 
 {% block title %} Place Order {% endblock title %}
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-    <form method="post" name="order_form">
-        {{ formset.management_form }}
+<div id="form-container" class="container">
+    <form method="post" name="order_form" enctype="multipart/form-data" id="#create-order">
         {% csrf_token %}
-        <div id="all_forms">
-
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {# {{ form.url.errors }} #}
+            {{ form.url }}
         </div>
-        <input type="button" class="btn btn-block ui-gradient-peach shadow-md" value="Add More" id="add_more"/>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ form.quantity.errors }} #}
+                    {{ form.quantity }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ form.merchandise_type.errors }} #}
+                    {{ form.merchandise_type }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ form.size.errors }} #}
+                    {{ form.size }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ form.color.errors }} #}
+                    {{ form.color }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {# {{ form.description.errors }} #}
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            {# {{ form.item_image.errors }} #}
+
+            <div class="upload-btn-wrapper">
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Upload an image for the item (optional)</button>
+                    {{ form.item_image }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="desc">Choose a bidding deadline for this item.*</span>
+            {# {{ form.num_hours.errors }} #}
+            <div class="btn-group" data-toggle="buttons">
+                {% for field in form.num_hours %}
+                <label class="btn btn-primary btn-block">
+                    {{ field }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong hidden="true">{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong hidden="true">{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <hr />
+        <!-- display shipping information -->
+        <h4>Shipping Details
+            {% for user_address in user_addresses %}
+            <a href="#" id="edit-address"> EDIT</a></h4>
+            <input name="shipping_address" value="{{ user_address.id }}" required="" type="radio" checked="checked" hidden="true" style="">
+            <div id="current-address">
+                {{ user_address.name }}<br>
+                {{ user_address.address_line_1 }} <br>
+                {{ user_address.city }}, {{ user_address.region }}, {{ user_address.postal_code }}<br>
+                {{ user_address.country }}<br>
+                {{ user_address.phone }}
+            </div>
+            <div id="edit-address-form" style="display: none">
+                <div class="form-group">
+                    {# {{ shipping_address_form.name.errors }} #}
+                    {{ shipping_address_form.name }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.address_line_1.errors }} #}
+                    {{ shipping_address_form.address_line_1 }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.city.errors }} #}
+                    {{ shipping_address_form.city }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.region.errors }} #}
+                    {{ shipping_address_form.region }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.postal_code.errors }} #}
+                    {{ shipping_address_form.postal_code }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.country.errors }} #}
+                    {{ shipping_address_form.country }}
+                </div>
+                <div class="form-group">
+                    {# {{ shipping_address_form.phone.errors }} #}
+                    {{ shipping_address_form.phone }}
+                </div>
+            </div>
+            {% empty %}
+        </h4>
+        <div class="form-group">
+            {# {{ shipping_address_form.name.errors }} #}
+            {{ shipping_address_form.name }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.address_line_1.errors }} #}
+            {{ shipping_address_form.address_line_1 }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.city.errors }} #}
+            {{ shipping_address_form.city }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.region.errors }} #}
+            {{ shipping_address_form.region }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.postal_code.errors }} #}
+            {{ shipping_address_form.postal_code }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.country.errors }} #}
+            {{ shipping_address_form.country }}
+        </div>
+        <div class="form-group">
+            {# {{ shipping_address_form.phone.errors }} #}
+            {{ shipping_address_form.phone }}
+        </div>
+        {% endfor %}
+        <br><br>
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
     </form>
-
-<div id="empty_form">
-    <div class="container info-container rounded" id="container-__prefix__">
-        <div class="container" id="info-__prefix__">
-            <div class="row">
-                <h3 id="header-__prefix__" style="padding-left: 10px;">New Item</h3>
-                <i class="toggler fa fa-chevron-up" id="toggle-__prefix__"></i>
-                <i class="remover fa fa-times-circle" id="remove-__prefix__"></i>
-            </div>
-        </div>
-
-        <div class="container" id="form-__prefix__">
-            <p> {{ formset.empty_form.url }} </p>
-
-            <div class="row" id="id_form-__prefix__-row">
-                <div class="col" id="id_form-__prefix__-type-container">
-                    <p> {{ formset.empty_form.merchandise_type }} </p>
-                </div>
-
-                <div class="col" id="id_form-__prefix__-quantity-container" >
-                    <p> {{ formset.empty_form.quantity }} </p>
-                </div>
-            </div>
-
-
-            <p> {{ formset.empty_form.description }} </p>
-            <p> <label for="{{ formset.empty_form.bid_end_datetime.label }}"> When do you need it by? </label>
-                {{ formset.empty_form.bid_end_datetime }}
-            </p>
-        </div>
-    </div>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>

@@ -5419,7 +5419,7 @@ a.bg-dark:focus, a.bg-dark:hover {
 
 .pb-4,
 .py-4 {
-  padding-bottom: 1.5rem !important;
+  /* padding-bottom: 1.5rem !important; */
 }
 
 .pl-4,
@@ -14761,16 +14761,20 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.hero-svg-layer-4::before {
-  left: 10%;
-  right: 10%;
-  background-size: contain;
-  background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");
+  /*left: 10%;*/
+  /*right: 10%;*/
+  /*background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");*/
+  background-image: url("../img/backgrounds/bgimg.jpg");
   background-position: center center;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
 }
 
 @media (min-width: 992px) {
   .ui-hero.hero-svg-layer-4::before {
-    background-size: 1200px;
+    /*background-size: 1200px;*/
+    background-size: cover;
   }
 }
 
@@ -14971,18 +14975,18 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.ui-curve.hero-center {
-  padding: 3rem 0 6rem 0;
+  padding: 7rem 0 0rem 0;
 }
 
 @media (min-width: 768px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 3rem 0 10rem 0;
+    padding: 7rem 0 0rem 0;
   }
 }
 
 @media (min-width: 1200px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 7rem 0 14rem 0;
+    padding: 12rem 0 2rem 0;
   }
 }
 

@@ -223,19 +223,22 @@ def line_register_process(request):
         data_dict.update({x: v for x, v in request.session.items()})
         data_dict["social_auth"] = "line"
 
-        # This is logic for after user input his info and there's a conflict.
+        # If email already exists in the database, then this is executed.
         if 'confirm' in data_dict:
+            # If user already exists, then just create the line user.
             if data_dict["confirm"] == "True":
                 user = User.objects.filter(username=data_dict["email"])[0]
                 create_line_user(user, **data_dict)
             else:
                 error(request, "Please double check your account. Perhaps you already have an account?")
                 return redirect("friendship:login")
-        # if no conflict, then do this.
+        # If the email does not already exist in the database, then do this.
+        # This tries to create user
         else:
             try:
                 user = create_user(**data_dict)
-            # This error gets raised when email already exists.
+            # This error gets raised when email already exists. Ask users for
+            # additional info.
             except ValueError:
                 user = User.objects.filter(username=data_dict["email"])[0]
                 request.session.update({x: v for x, v in request.POST.items()})

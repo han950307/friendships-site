@@ -21,7 +21,6 @@ from ..forms import (
 from django.core import serializers
 
 
-
 def get_min_bid(order):
     """
     Given an order, returns the min bid object.
@@ -32,6 +31,28 @@ def get_min_bid(order):
         return min(bid_list)[1]
     else:
         return None
+
+
+def match_with_shipper(order):
+    """
+    Pick the lowest bidder and update the database.
+    """
+    min_bid = get_min_bid(order)
+    if not min_bid:
+        # pair with one of friendship accounts.
+        pass
+    else:
+        order.shipper = min_bid.shipper
+        # make shipper choose a shipping address when they're matched.
+        order.save()
+
+    order.final_bid = min_bid
+    action = OrderAction.objects.create(
+        order=order,
+        action=OrderAction.Action.MATCH_FOUND
+    )
+    order.latest_action = action
+    order.save()
 
 
 @login_required
@@ -47,8 +68,13 @@ def order_details(request, order_id, **kwargs):
     actions = OrderAction.objects.filter(order=order)
 
     data_dict = {}
+    if len(order.url) > 50:
+        order_url = order.url[0:47] + "..."
+    else:
+        order_url = order.url
     data_dict.update({
         'order': order,
+        'order_url': order_url,
         'actions': reversed(actions),
         'latest_action': order.latest_action,
         'min_bid': get_min_bid(order),
@@ -133,7 +159,11 @@ def open_orders(request, filter):
     else:
         # Only display orders that are due later than right now.
         right_now = datetime.datetime.now()
-        qset = Order.objects.filter(bid_end_datetime__gte=right_now)
+        qset = Order.objects.filter(
+            bid_end_datetime__gte=right_now
+        ).order_by(
+            '-bid_end_datetime'
+        )
 
         # Get minimum bid.
         for order in qset:
