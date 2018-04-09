@@ -82,30 +82,42 @@ div#right-pane{
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
+
+.ui-hero {
+  height: 100vh;
+  overflow: auto;
+}
+
+.pb-4 {
+  height: 100vh;
+  overflow: auto;
+  padding: 10% 0 !important;
+  box-sizing: border-box !important;
+}
+
 .ui-hero .btn {
   margin-top: 0px;
 }
 
 .ui-hero.hero-lg {
-    padding: 14rem 0 0rem 0;
+    padding: 10% 0 0rem 0;
 }
 
 .ui-hero p {
-  margin-bottom: 2rem !important;
+  margin-bottom: 10% !important;
+  position: relative !important;
 }
 
 .ui-hero h2 {
-  margin-bottom: 4rem !important;
-}
-
-.pb-4,
-.py-4 {
-  padding-bottom: 10rem !important;
+  margin-bottom: 10% !important;
+  position: relative !important;
 }
 
 @media (min-width: 1200px) {
   .ui-hero.hero-lg {
-    padding: 23rem 0 10rem 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
   }
 }
 
