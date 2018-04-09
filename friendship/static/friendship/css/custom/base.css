@@ -5,8 +5,10 @@ form p {
   }
 }
 
-#form-container {
-  max-width: 50%
+@media (min-width: 1200px){
+  #form-container {
+    max-width: 50%
+  }
 }
 
 h1 {
@@ -82,30 +84,42 @@ div#right-pane{
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
+
+.ui-hero {
+  height: 100vh;
+  overflow: auto;
+}
+
+.pb-4 {
+  height: 100vh;
+  overflow: auto;
+  padding: 10% 0 !important;
+  box-sizing: border-box !important;
+}
+
 .ui-hero .btn {
   margin-top: 0px;
 }
 
 .ui-hero.hero-lg {
-    padding: 14rem 0 0rem 0;
+    padding: 10% 0 0rem 0;
 }
 
 .ui-hero p {
-  margin-bottom: 2rem !important;
+  margin-bottom: 10% !important;
+  position: relative !important;
 }
 
 .ui-hero h2 {
-  margin-bottom: 4rem !important;
-}
-
-.pb-4,
-.py-4 {
-  padding-bottom: 10rem !important;
+  margin-bottom: 10% !important;
+  position: relative !important;
 }
 
 @media (min-width: 1200px) {
   .ui-hero.hero-lg {
-    padding: 23rem 0 10rem 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -119,8 +133,15 @@ div#right-pane{
 #Line-login {
   margin-bottom:20px;
 }
+
 #login-container {
-  max-width:50%;
+  max-width: 100%
+}
+
+@media (min-width: 1200px){
+  #login-container {
+    max-width: 50%;
+  }
 }
 
 
@@ -151,6 +172,14 @@ input.num-hours {
   margin-bottom: 1rem;
 }
 
+h4 {
+  margin-bottom: 1em;
+}
+
+span.bold {
+  font-weight: bold;
+}
+
 .upload-btn-wrapper {
   position: relative;
   width: 100%;
@@ -168,6 +197,15 @@ input.num-hours {
   left: 0;
   top: 0;
   opacity: 0;
+}
+
+.col-left {
+  width: 50%;
+}
+
+.col-right {
+  width: 50%;
+  text-align: right;
 }
 
 /**
@@ -216,6 +254,16 @@ div.orders {
 * ----------------------------------------------------------------------- *
 */
 /* order details step view. */
+#bid-info-table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.bid-info-content {
+  vertical-align: top;
+  font-size: 1.2rem;
+}
+
 #order-headings p{
   margin-bottom:0.3rem;
 }
@@ -224,12 +272,16 @@ div.orders {
 }
 
 hr {
-  margin:30px 0px;
-  height:30px;
+  margin: 1.3rem 0;
 }
 
-h4 {
+.step-wrapper h4 {
   margin-bottom: 0;
+}
+
+span#time_countdown {
+  margin-top: .7rem;
+  display: inline-block;
 }
 
 #order-details div.row {
@@ -247,10 +299,52 @@ h4 {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+#payment-form .input {
+  margin-top: .5rem;
+}
+
+#credit-card-payment .form-control {
+  background-color: white;
+}
+
+#wire-payment .form-control {
+  background-color: white;
+}
+
+#credit-card-payment .date {
+  width: 49%;
+  display: inline-block;
+}
+
+#credit-card-payment div.form-group,
+#wire-payment div.form-group {
+  margin-top: .4rem;
+  margin-bottom: .4rem;
+}
+
+#wire-payment button {
+  margin-top: .3rem;
+  background-color: #F2F4F6;
+  border-style: solid;
+  border-width: .1rem;
+  border-color: #88B5E1;
+}
+
+#wire-payment button:hover {
+  background-color: #111111;
+}
+
 /* for my order view */
 .col-sm-13 {
   flex: 0 0 20%;
   max-width: 20%;
+  margin-left:-1rem;
+  text-align: center;
+}
+
+.col-sm-14 {
+  flex: auto
+  max-width: 50%;
   margin-left:-1rem;
   text-align: center;
 }

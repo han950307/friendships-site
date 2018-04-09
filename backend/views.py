@@ -113,8 +113,8 @@ def login_user(request, user):
     login(request, user)
 
     # check if the user is a shipper.
-    user = ShipperInfo.objects.filter(pk=user)
-    if user:
+    user_list = ShipperInfo.objects.filter(user=user)
+    if user_list and user_list[0].verified == True:
         request.session["is_shipper"] = True
     else:
         request.session["is_shipper"] = False
