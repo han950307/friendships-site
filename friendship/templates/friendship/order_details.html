@@ -43,18 +43,27 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-auto">
                 <h4>Finding Match</h4>
-                <p>Time Left:</p>
-                <p id="time_countdown">[TIME LEFT]</p>
-                <p>Current Total:</p>
-                <p>{{ min_bid.get_total }}</p>
-            </div>
-            <div class="col-auto">
-                <span>Accept price and buy now</span>
-            </div>
-
-
-            <div class="col-auto">
-                {# <a href="{% url 'friendship:buy_now' order.id %}"></a> #}
+                <table id="bid-info-table">
+                    <tr class="bid-info-row">
+                        <th class="bid-info-header">Current Total:</th>
+                        <th class="bid-info-header">Time Left:</th>
+                        {% if min_bid.get_total %}
+                        <th class="bid-info-header">Accept current price and buy now</th>
+                        {% endif %}
+                    </tr>
+                    <tr class="bid-info-row">
+                        {% if min_bid.get_total %}
+                        <td class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></td>
+                        {% else %}
+                        <td class="bid-info-content font-weight-bold"><h5>No bids yet</h5></td>
+                        {% endif %}
+                        <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</h5></td>
+                        {% if min_bid.get_total %}
+                        <td class="bid-info-content"><a href="{% url 'friendship:confirm_order_price' order.id True %}" class="btn ui-gradient-positive">Accept price and buy now</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                </table>
             </div>
             {% elif latest_action.action >= MATCH_FOUND %}
             <span class="step-number ui-gradient-blue">&#x2713</span>
@@ -67,7 +76,7 @@
 
     <!-- PAYMENT LOGIC -->
     <div class="step-wrapper">
-        <div class="row" >
+        <div class="row">
             {% if latest_action.action < MATCH_FOUND %}
             <span class="step-number ui-gradient-grey"> </span>
             <div class="col-auto">
@@ -94,92 +103,51 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-auto">
                 <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
-                <h4> Methods of Payment:</h4>
+                <h4>Confirm Price and Pay</h4>
+                <div class="col-auto">
+                    <table id="bid-info-table">
+                        <tr class="bid-info-row">
+                            <th class="bid-info-header">Total:</th>
+                            <th class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></th>
+                        </tr>
+                    </table>
+                </div>
+                <hr>
+                <h6>Choose your Payment Method</h6>
                 <form id="payment-form">
-                    <input type="radio" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br><br>
-                    <input type="radio" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer<br>
+                    <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
+                    <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer
                 </form>
-                   <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
 
                 <div id="credit-card-payment" style="display: none">
-                <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
-                    {% csrf_token %}
-                    <script src="https://cdn.omise.co/omise.js"></script>
-                    <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-                    <script>
-                    Omise.setPublicKey("pkey_test_5bhaufrx5qsyotldxvl");
-
-                    $("#checkout").submit(function () {
-                        var form = $(this);
-                            // Disable the submit button to avoid repeated click.
-                            form.find("input[type=submit]").prop("disabled", true);
-
-                            // Serialize the form fields into a valid card object.
-                            var card = {
-                                "name": form.find("[data-omise=holder_name]").val(),
-                                "number": form.find("[data-omise=number]").val(),
-                                "expiration_month": form.find("[data-omise=expiration_month]").val(),
-                                "expiration_year": form.find("[data-omise=expiration_year]").val(),
-                                "security_code": form.find("[data-omise=security_code]").val()
-                            };
-
-                            // Send a request to create a token then trigger the callback function once
-                            // a response is received from Omise.
-                            //
-                            // Note that the response could be an error and this needs to be handled within
-                            // the callback.
-                            Omise.createToken("card", card, function (statusCode, response) {
-                                if (response.object == "error" || !response.card.security_code_check) {
-                                    // Display an error message.
-                                    var message_text = "SET YOUR SECURITY CODE CHECK FAILED MESSAGE";
-                                    if(response.object == "error") {
-                                        message_text = response.message;
-                                    }
-                                    $("#token_errors").html(message_text);
-
-                                    // Re-enable the submit button.
-                                    form.find("input[type=submit]").prop("disabled", false);
-                                } else {
-                                    // Then fill the omise_token.
-                                    form.find("[name=omise_token]").val(response.id);
-
-                                    // Remove card number from form before submiting to server.
-                                    form.find("[data-omise=number]").val("");
-                                    form.find("[data-omise=security_code]").val("");
-
-                                    // submit token to server.
-                                    form.get(0).submit();
-                                };
-                            });
-
-                            // Prevent the form from being submitted;
-                            return false;
-                        });
-                    </script>
-                    <div id="token_errors"></div>
-
-                    <input type="hidden" name="omise_token">
-
-                    <div>
-                        Name<br>
-                        <input type="text" data-omise="holder_name">
-                    </div>
-                    <div>
-                        Number<br>
-                        <input type="text" data-omise="number">
-                    </div>
-                    <div>
-                        Date<br>
-                        <input type="text" data-omise="expiration_month" size="4"> /
-                        <input type="text" data-omise="expiration_year" size="8">
-                    </div>
-                    <div>
-                        Security Code<br>
-                        <input type="text" data-omise="security_code" size="8">
-                    </div>
-
-                    <input type="submit" id="create_token">
-                </form>
+                    <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
+                        {% csrf_token %}
+                        <script src="https://cdn.omise.co/omise.js"></script>
+                        <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                        <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
+                        <div id="token_errors"></div>
+                        <input type="hidden" name="omise_token">
+                        <table>
+                        <div class="form-group">
+                            <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
+                        </div>
+                        <div class="form-group">
+                            <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
+                        </div>
+                        <div class="form-group">
+                            <tr><td>
+                                <input class="input form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
+                                <input class="input form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
+                            </td></tr>
+                        </div>
+                        <div class="form-group">
+                            <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
+                        </div>
+                        </table>
+                        <input type="submit" id="create_token" value="Pay">
+                    </form>
+                </div>
             </div>
             <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
@@ -284,5 +252,7 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 
 {% endblock main_content %}

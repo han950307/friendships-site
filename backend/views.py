@@ -112,12 +112,8 @@ def create_user(**kwargs):
 def login_user(request, user):
     login(request, user)
 
-    request.session["debug"] = "<p>" + str(request.__dict__) + "</p>"
-    request.session['debug'] += "<p>" + str(ShipperInfo.objects.all().__dict__) + "</p>"
     # check if the user is a shipper.
     user_list = ShipperInfo.objects.filter(user=user)
-    if user_list:
-        print(user_list)
     if user_list and user_list[0].verified == True:
         request.session["is_shipper"] = True
     else:
