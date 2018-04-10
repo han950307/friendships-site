@@ -3,13 +3,38 @@
 {% block content %}
 <!-- Hero -->
 
-<div class="ui-hero hero-lg hero-center hero-bg ui-curve hero-svg-layer-4 bg-dark-gray">
+<div class="ui-hero hero-lg hero-center hero-bg ui-curve bg-blue" style="background-color:#667487;">
 	<div class="container pb-4">
-		<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-			<span>FriendShips</span><br>
-			<span class="text-blue">E-commerce without borders</span>
-		</h2>
-		<div id="homepage-start" class="shadow-xl">
+		<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100">
+			<span style="font-weight:200;">FriendShips</span><br>
+			<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>
+		</h3>
+
+		<!-- <div id="homepage-start" class="shadow-xl section intro-image pt-0">
+			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+			It's simple to get started!
+			</p>
+			<form action="{% url 'friendship:place_order' %}">
+				<div class="input-group">
+					<!-- Email Input 
+					<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
+					<div class="input-group-append">
+						<!-- Submit Button 
+						<button class="btn btn-sm ui-gradient-found">Place Order
+						</button>
+					</div>
+				</div>
+			</form>
+		</div> -->
+		<!-- * Replace data-video with your youtube video id -->
+		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
+			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
+		<!--</a>-->
+	</div><!-- .container -->
+</div><!-- .ui-hero -->
+
+<!-- Intro Image -->
+<div id="homepage-start" class="shadow-xl section intro-image">
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
 			It's simple to get started!
 			</p>
@@ -19,28 +44,61 @@
 					<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
 					<div class="input-group-append">
 						<!-- Submit Button -->
-						<button class="btn btn-sm ui-gradient-found">Start here
+						<button class="btn btn-sm ui-gradient-found">Place Order
 						</button>
 					</div>
 				</div>
 			</form>
 		</div>
-		<!-- * Replace data-video with your youtube video id -->
-		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
-			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
-		<!--</a>-->
-	</div><!-- .container -->
-</div><!-- .ui-hero -->
-
-<!-- Intro Image -->
 <!--<div class="section intro-image pt-0">
 	<img src="{% static 'friendship/img/mockups/applify-browser-mockup.png' %}" data-uhd data-max_width="1000"
 	     class="shadow-xxl responsive-on-lg" alt="Applify - App Landing HTML Template"/>
 </div> -->
 <!-- .intro-image -->
 
+
+<!-- App Features Section -->
+<div id="features" class="section pt-0">
+	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+		<div class="section-heading cente">
+			<h2 class="heading text-dark-gray">
+				How it Works
+			</h2>
+			<p class="paragraph">
+					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+			</p>
+		</div><!-- .section-heading -->
+		<div class="row">
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
+				<p>
+					Paste a link to your desired item, from <span class="text-blue">any</span> online store
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
+				<p>
+					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					Your item is delivered <span class="text-blue">directly</span> to you
+				</p>
+			</div>
+		</div><!-- .row -->
+	</div><!-- .container -->
+</div><!-- .section -->
+
 <!-- Integration Section -->
-<div id="integrate" class="section">
+<div id="integrate" class="section bg-light">
 	<div class="container">
 		<div class="row">
 
@@ -154,46 +212,6 @@
 					</div>
 				</div><!-- .ui-logo-cloud  -->
 
-			</div>
-		</div><!-- .row -->
-	</div><!-- .container -->
-</div><!-- .section -->
-
-<!-- App Features Section -->
-<div id="features" class="section pt-0">
-	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
-			<h2 class="heading text-dark-gray">
-				How it Works
-			</h2>
-			<p class="paragraph">
-					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
-			</p>
-		</div><!-- .section-heading -->
-		<div class="row">
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
-				<p>
-					Paste a link to your desired item, from <span class="text-blue">any</span> online store
-				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
-				<p>
-					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
-				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<p>
-					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
-				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<p>
-					Your item is delivered <span class="text-blue">directly</span> to you
-				</p>
 			</div>
 		</div><!-- .row -->
 	</div><!-- .container -->
