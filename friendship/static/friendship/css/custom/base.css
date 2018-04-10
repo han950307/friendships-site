@@ -91,36 +91,42 @@ div#right-pane{
 
 #homepage-start {
   background-color: white;
-  border-radius: 25px;
+  border-radius: 0.5rem;
   padding: 1rem 1rem;
-  margin: 2rem 4rem;
+  margin: -10rem 20rem;
+  text-align: center;
+}
+
+#homepage-start p{
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
 }
 
 @media (min-width: 768px) {
   #homepage-start {
     background-color: white;
     padding: 1.5rem 1rem;
-    margin: 2rem 8rem;
+    /*margin: 2rem 8rem;*/
   }  
 }
 
 @media (min-width: 1200px) {
   #homepage-start {
     background-color: white;
-    padding: 3rem 2rem;
-    margin: 4rem 12rem;
+    padding: 3.5rem 4rem;
+    /*margin: 4rem 12rem;*/
   }
 }
 
 .ui-hero {
-  height: 55vh;
-  background-color: #111111;
+  /*height: 55vh;*/
+  /*background-color: #111111;*/
 }
 
 .pb-4 {
-  height: 55vh;
-  padding: 10% 0 !important;
-  /* box-sizing: border-box !important; */
+  /*height: 55vh;
+  /*padding: 10% 0 !important;*/
+  box-sizing: border-box !important;
 }
 
 .ui-hero .btn {
@@ -135,10 +141,14 @@ div#right-pane{
   position: relative !important;
 }
 
-.ui-hero h2 {
+.ui-hero h3 {
   margin-bottom: 8% !important;
   position: relative !important;
 }
+
+.ui-hero.ui-curve.hero-center {
+    padding: 7rem 0 7rem 0;
+  }
 
 /* for slideshow to make img proportional */
 .fill {
@@ -164,13 +174,19 @@ div#right-pane{
 }
 
 @media (min-width: 1200px) {
-  .ui-hero.hero-lg {
-    padding: 0 !important;
-    width: 100%;
+  /*.ui-hero.hero-lg {
+    /*padding: 0 !important;*/
+    /*width: 100%;
     height: 100%;
+  }*/
+  .ui-hero.ui-curve.hero-center {
+    padding: 7rem 0 7rem 0;
   }
 }
 
+#features {
+  margin-top:15rem;
+}
 /**
 * 2. Login
 * ----------------------------------------------------------------------- *

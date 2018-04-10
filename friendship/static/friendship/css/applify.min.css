@@ -5419,7 +5419,7 @@ a.bg-dark:focus, a.bg-dark:hover {
 
 .pb-4,
 .py-4 {
-  /* padding-bottom: 1.5rem !important; */
+  padding-bottom: 1.5rem !important;
 }
 
 .pl-4,
@@ -14704,13 +14704,16 @@ body[data-fade_in="on-load"],
 
 .ui-hero.hero-bg::before {
   content: '';
+  background: url("../img/backgrounds/bgimg4.jpg");
+  background-size: 100%;
+  overflow:hidden;
   position: absolute;
-  top: 0;
+  top: -200px;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
-  opacity: 0.75;
+  opacity: 0.15;
 }
 
 .ui-hero[class^="hero-svg-layer-"]::before, .ui-hero[class*=" hero-svg-layer-"]::before {
@@ -14761,20 +14764,20 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.hero-svg-layer-4::before {
-  /*left: 10%;*/
-  /*right: 10%;*/
-  /*background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");*/
-  background-image: url("../img/backgrounds/bgimg.jpg");
+  left: 10%;
+  right: 10%;
+  background-image: url("../img/svg-layers/svg-layer-4.svg?v-10");
+  /*background-image: url("../img/backgrounds/bgimg2.jpg");*/
   background-position: center center;
-  overflow: hidden;
-  background-size: cover;
+  /*overflow: hidden;*/
+  background-size: contain;
   background-position: center;
 }
 
 @media (min-width: 992px) {
   .ui-hero.hero-svg-layer-4::before {
-    /*background-size: 1200px;*/
-    background-size: cover;
+    background-size: 1200px;
+    /*background-size: cover;*/
   }
 }
 
@@ -14975,18 +14978,18 @@ body[data-fade_in="on-load"],
 }
 
 .ui-hero.ui-curve.hero-center {
-  padding: 7rem 0 0rem 0;
+  padding: 3rem 0 6rem 0;
 }
 
 @media (min-width: 768px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 7rem 0 0rem 0;
+    padding: 3rem 0 10rem 0;
   }
 }
 
 @media (min-width: 1200px) {
   .ui-hero.ui-curve.hero-center {
-    padding: 12rem 0 2rem 0;
+    padding: 7rem 0 14rem 0;
   }
 }
 
