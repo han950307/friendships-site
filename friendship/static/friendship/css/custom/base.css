@@ -27,6 +27,10 @@ nav > .container {
 .navbar .ui-navigation.navbar-center {
   justify-content: right;
 }
+.navbar .navbar-brand img{
+  height:30px;
+  margin-top:-15px;
+}
 
 .footer-copyright .container {
   max-width: 100%;
