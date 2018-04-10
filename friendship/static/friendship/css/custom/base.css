@@ -16,7 +16,7 @@ h1 {
   margin-bottom: 3rem;
 }
 
-.container {
+.main-content {
   min-width: 700px;
 }
 
@@ -89,14 +89,36 @@ div#right-pane{
 * ----------------------------------------------------------------------- *
 */
 
+#homepage-start {
+  background-color: white;
+  border-radius: 25px;
+  padding: 1rem 1rem;
+  margin: 2rem 4rem;
+}
+
+@media (min-width: 768px) {
+  #homepage-start {
+    background-color: white;
+    padding: 1.5rem 1rem;
+    margin: 2rem 8rem;
+  }  
+}
+
+@media (min-width: 1200px) {
+  #homepage-start {
+    background-color: white;
+    padding: 3rem 2rem;
+    margin: 4rem 12rem;
+  }
+}
+
 .ui-hero {
-  height: 100vh;
-  overflow: hidden;
+  height: 55vh;
+  background-color: #111111;
 }
 
 .pb-4 {
-  height: 100vh;
-  overflow: hidden;
+  height: 55vh;
   padding: 10% 0 !important;
   /* box-sizing: border-box !important; */
 }

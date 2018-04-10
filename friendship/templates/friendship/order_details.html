@@ -157,18 +157,12 @@
 
                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
                 <div id="wire-payment" style="display: none">
+                    <span class="account-number">We display our account number here.</span>
                     <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ manual_wire_transfer_form.account_number.errors }}
-                            {{ manual_wire_transfer_form.account_number }}
-                            <div class="upload-btn-wrapper">
-                                <div class="upload-btn-wrapper">
-                                    <button class="btn btn-sm">Upload Banknote</button>
-                                    {{ manual_wire_transfer_form.banknote_image.errors }}
-                                    {{ manual_wire_transfer_form.banknote_image }}
-                                </div>
-                            </div>
+                            {{ manual_wire_transfer_form.banknote_image.errors }}
+                            {{ manual_wire_transfer_form.banknote_image }}
                         </div>
                         <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
                     </form>

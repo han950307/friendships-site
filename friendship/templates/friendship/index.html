@@ -3,25 +3,28 @@
 {% block content %}
 <!-- Hero -->
 
-<div class="ui-hero hero-lg hero-center hero-bg hero-svg-layer-4 bg-dark-gray">
+<div class="ui-hero hero-lg hero-center hero-bg ui-curve hero-svg-layer-4 bg-dark-gray">
 	<div class="container pb-4">
 		<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-			<span class="text-blue">The world is tied together by</span> FriendShips
+			<span>FriendShips</span><br>
+			<span class="text-blue">E-commerce without borders</span>
 		</h2>
-		<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-			It's simple to get started
-		</p>
-		<form action="{% url 'friendship:place_order' %}">
-			<div class="input-group">
-				<!-- Email Input -->
-				<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
-				<div class="input-group-append">
-					<!-- Submit Button -->
-					<button class="btn btn-sm ui-gradient-found">Start here
-					</button>
+		<div id="homepage-start" class="shadow-xl">
+			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+			It's simple to get started!
+			</p>
+			<form action="{% url 'friendship:place_order' %}">
+				<div class="input-group">
+					<!-- Email Input -->
+					<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
+					<div class="input-group-append">
+						<!-- Submit Button -->
+						<button class="btn btn-sm ui-gradient-found">Start here
+						</button>
+					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 		<!-- * Replace data-video with your youtube video id -->
 		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
 			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
@@ -36,42 +39,8 @@
 </div> -->
 <!-- .intro-image -->
 
-<!-- App Features Section -->
-<div id="features" class="section pt-0">
-	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
-			<h2 class="heading text-dark-gray">
-				How it Works
-			</h2>
-			<p class="paragraph">
-					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
-			</p>
-		</div><!-- .section-heading -->
-		<div class="row">
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
-				<p>
-					Shop at any US website and order any item by pasting a link
-				</p>
-			</div>
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
-				<p>
-					We match you with the best shipping price from a pool of secure senders
-				</p>
-			</div>
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<p>
-					Receive your item in about 7-12 days!
-				</p>
-			</div>
-		</div><!-- .row -->
-	</div><!-- .container -->
-</div><!-- .section -->
-
 <!-- Integration Section -->
-<div id="integrate" class="section ui-gradient-blue">
+<div id="integrate" class="section">
 	<div class="container">
 		<div class="row">
 
@@ -90,22 +59,25 @@
 					<li class="ui-icon-block">
 						<span class="icon icon-diamond"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Availability:</span> No more Preorders! Buy any item you want, any time you want it
 						</p>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-pie-chart"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
 						</p>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-layers"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Convenience:</span> Just three simple steps and your item is delivered to your door
+						</p>
+					</li>
+					<li class="ui-icon-block">
+						<span class="icon icon-layers"></span>
+						<p class="">
+							<span class="text-blue">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
 						</p>
 					</li>
 				</ul>
@@ -182,6 +154,46 @@ from any online retailer.
 					</div>
 				</div><!-- .ui-logo-cloud  -->
 
+			</div>
+		</div><!-- .row -->
+	</div><!-- .container -->
+</div><!-- .section -->
+
+<!-- App Features Section -->
+<div id="features" class="section pt-0">
+	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+		<div class="section-heading cente">
+			<h2 class="heading text-dark-gray">
+				How it Works
+			</h2>
+			<p class="paragraph">
+					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+			</p>
+		</div><!-- .section-heading -->
+		<div class="row">
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
+				<p>
+					Paste a link to your desired item, from <span class="text-blue">any</span> online store
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
+				<p>
+					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					Your item is delivered <span class="text-blue">directly</span> to you
+				</p>
 			</div>
 		</div><!-- .row -->
 	</div><!-- .container -->
