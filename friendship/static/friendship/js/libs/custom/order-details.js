@@ -4,14 +4,20 @@
   setInterval(function() {
     var now = new Date().getTime();
     var distance = deadline-now;
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var hours = Math.floor(distance/ (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  	document.getElementById('time_countdown').innerHTML = "<h5>"+hours+":"+minutes+":"+seconds+"</h5>";
+  	document.getElementById('time_countdown').innerHTML = "<h5>"+twoDigit(hours)+":"+twoDigit(minutes)+":"+twoDigit(seconds)+"</h5>";
   	}, 1000);
 
-
+//convert the time to 2 digits (ex. 5 -> 05)
+function twoDigit(num) {
+  var n = num.toString();
+  if(n.length == 1){
+    return "0"+n;
+  }
+  return n;
+}
 
 //payment radio button listeners
   var creditCardRadio = document.getElementById('credit-card-radio');
