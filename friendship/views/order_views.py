@@ -14,6 +14,7 @@ from ..models import (
 )
 
 import datetime
+import pytz
 
 from ..forms import (
     ManualWireTransferForm,
@@ -43,7 +44,7 @@ def match_with_shipper(order):
         if order.bid_end_datetime < datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
             action = OrderAction.objects.create(
                 order=order,
-                action=OrderAction.Action.MATCH_FOUND
+                action=OrderAction.Action.MATCH_NOT_FOUND
             )
 
     else:
