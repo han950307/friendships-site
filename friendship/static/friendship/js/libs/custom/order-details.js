@@ -8,7 +8,7 @@
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  	document.getElementById('time_countdown').innerHTML = hours+":"+minutes+":"+seconds;
+  	document.getElementById('time_countdown').innerHTML = "<h5>"+hours+":"+minutes+":"+seconds+"</h5>";
   	}, 1000);
 
 
