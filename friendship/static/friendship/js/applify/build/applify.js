@@ -16,7 +16,7 @@
                 if (true || scroll_top >= 24) {
                     navbar.removeClass("transparent");
                 } else {
-                    // navbar.addClass("transparent");
+                    navbar.addClass("transparent");
                 }
             }
         });
