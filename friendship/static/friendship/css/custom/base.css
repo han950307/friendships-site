@@ -16,7 +16,7 @@ h1 {
   margin-bottom: 3rem;
 }
 
-.container {
+.main-content {
   min-width: 700px;
 }
 
@@ -90,10 +90,26 @@ div#right-pane{
 */
 
 #homepage-start {
-  padding: 3rem 2rem;
-  margin: 4rem 12rem;
   background-color: white;
   border-radius: 25px;
+  padding: 1rem 1rem;
+  margin: 2rem 4rem;
+}
+
+@media (min-width: 768px) {
+  #homepage-start {
+    background-color: white;
+    padding: 1.5rem 1rem;
+    margin: 2rem 8rem;
+  }  
+}
+
+@media (min-width: 1200px) {
+  #homepage-start {
+    background-color: white;
+    padding: 3rem 2rem;
+    margin: 4rem 12rem;
+  }
 }
 
 .ui-hero {
