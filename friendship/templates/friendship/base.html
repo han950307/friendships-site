@@ -9,8 +9,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/slick/slick.css' %}"/>
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'friendship/css/slick/slick-theme.css' %}"/> -->
 	<link rel="stylesheet" href="{% static 'friendship/css/custom/base.css' %}"/>
-	
+
 	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 	<!-- Scripts -->
 	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
@@ -87,7 +89,7 @@
 		{% else %}
 			<a href="{% url 'friendship:login' %}"
 			   class="btn btn-sm ui-gradient-found pull-right">Login</a>
-		{% endif %}   
+		{% endif %}
 
 		<!-- Navbar Toggle -->
 		<a href="#" class="ui-mobile-nav-toggle pull-right"></a>
@@ -240,5 +242,6 @@
 	<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
 	<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
 	<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
+	<script type="text/javascript" src="{% static 'friendship/js/libs/slick/slick.min.js' %}"></script>
 </body>
 </html>

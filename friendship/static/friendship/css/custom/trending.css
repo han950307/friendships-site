@@ -1,20 +1,4 @@
-.dot {
- height: 5px;
- width: 5px;
- margin: 0 2px;
- background-color: #bbb;
- border-radius: 50%;
- display: inline-block;
-}
-
-.dot-section {
-  text-align:center;
-}
-
-.active {
- background-color: black;
-}
-
+/*
 .slides-container {
  display: inline-block;
  width: 100%;
@@ -23,64 +7,51 @@
  background-color: white;
  border-radius: 10px;
  margin-bottom: 50px;
-}
+} */
+
+/* #trending-item-section {
+  max-width: 3000px;
+} */
 
 .trending-image {
- height: 200px;
- width: 200px;
-
+ height: 80%;
+ width: 100%;
+ border-top-right-radius: 5%;
+ border-top-left-radius: 5%;
+ max-width: 100%;
 }
 
 .slide {
  margin: 10px;
- display: inline-block;
- border-radius: 1%;
- box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ height: 300px;
+ width: 100%;240px;
+ display: block;
+ border-radius: 5%;
+ max-width: 100%;
+ background-size: cover;
+ /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
-.slideshow {
- width: 4500px;
+.next, .prev {
+  position: absolute;
+  top: 50%;
+  width: auto;
+  color: black;
+	outline: none;
+	border: none;
+	background-color: Transparent;
 }
 
-.slide  {
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   -ms-transition: all 0.5s ease;
-   transition: all 0.5s ease;
+/* .prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+} */
+
+.next {
+	right: 0;
+	/* border-radius: 3px 0 0 3px; */
 }
 
-/* below here are animation for slideshow 10s each round*/
-#slide1 {
-   -webkit-animation: bannermove 10s linear infinite;
-      -moz-animation: bannermove 10s linear infinite;
-       -ms-animation: bannermove 10s linear infinite;
-        -o-animation: bannermove 10s linear infinite;
-           animation: bannermove 10s linear infinite;
-}
-
-/* animation frames from position -1000px to -3230px */
-@keyframes "bannermove" {
-0% {margin-left: -1000px;}
-100% {margin-left: -3230px;}
-}
-
-@-moz-keyframes bannermove {
- 0% {margin-left: -1000px;}
- 100% {margin-left: -3230px;}
-}
-
-@-webkit-keyframes "bannermove" {
- 0% {margin-left: -1000px;}
- 100% {margin-left: -3230px;}
-}
-
-@-ms-keyframes "bannermove" {
- 0% {margin-left: -1000px;}
- 100% {margin-left: -3230px;}
-}
-
-@-o-keyframes "bannermove" {
- 0% {margin-left: -1000px;}
- 100% {margin-left: -3230px;}
+.prev {
+	left:0;
+	/* border-radius: 3px 0 0 3px; */
 }
