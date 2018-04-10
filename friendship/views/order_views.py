@@ -91,6 +91,22 @@ def order_details(request, order_id, **kwargs):
 
 
 @login_required
+def end_bid(request, order_id, **kwargs):
+    order = Order.objects.get(pk=order_id)
+
+    # If the order is not the receiver, then don't do it.
+    if order.receiver != request.user:
+        messages.error(request, 'You\'ve got the wrong user')
+        return redirect('friendship:index')
+
+    # match with lowest shipper and end it.
+    match_with_shipper(order)
+
+    # reload the page.
+    return redirect('friendship:order_details', order_id=order_id)
+
+
+@login_required
 def confirm_order_price(request, order_id, choice):
     order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:

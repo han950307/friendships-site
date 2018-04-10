@@ -59,7 +59,7 @@
                         {% endif %}
                         <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</h5></td>
                         {% if min_bid.get_total %}
-                        <td class="bid-info-content"><a href="{% url 'friendship:confirm_order_price' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
                         </td>
                         {% endif %}
                     </tr>
