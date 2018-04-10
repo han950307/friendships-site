@@ -97,14 +97,12 @@ div#right-pane{
 }
 
 .ui-hero {
-  height: 60vh;
-  overflow: hidden;
+  height: 55vh;
   background-color: #111111;
 }
 
 .pb-4 {
-  height: 60vh;
-  overflow: hidden;
+  height: 55vh;
   padding: 10% 0 !important;
   /* box-sizing: border-box !important; */
 }
