@@ -40,17 +40,22 @@ def match_with_shipper(order):
     min_bid = get_min_bid(order)
     if not min_bid:
         # pair with one of friendship accounts.
-        pass
+        if order.bid_end_datetime < datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
+            action = OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.MATCH_FOUND
+            )
+
     else:
         order.shipper = min_bid.shipper
         # make shipper choose a shipping address when they're matched.
+        action = OrderAction.objects.create(
+            order=order,
+            action=OrderAction.Action.MATCH_FOUND
+        )
+        order.final_bid = min_bid
         order.save()
 
-    order.final_bid = min_bid
-    action = OrderAction.objects.create(
-        order=order,
-        action=OrderAction.Action.MATCH_FOUND
-    )
     order.latest_action = action
     order.save()
 
