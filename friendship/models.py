@@ -54,9 +54,9 @@ class ShipperInfo(models.Model):
         blank=True,
     )
 
-    name = models.CharField(max_length=200, null=True)
-    phone_number = models.CharField(max_length=50, null=True)
-    email = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True,)
+    phone_number = models.CharField(max_length=50, null=True, blank=True,)
+    email = models.CharField(max_length=200, null=True, blank=True)
     verified = models.BooleanField(default=False)
 
 
@@ -82,7 +82,7 @@ class ShippingAddress(models.Model):
         related_name='shipping_addresses'
     )
     # name field associated for each shipping address. doesn't really matter.
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
     address_line_1 = models.CharField(max_length=300)
     address_line_2 = models.CharField(max_length=300, null=True, blank=True)
     address_line_3 = models.CharField(max_length=300, null=True, blank=True)
@@ -92,7 +92,7 @@ class ShippingAddress(models.Model):
     country = models.CharField(max_length=120)
     
     # Each shipping address should have an associated phone number.
-    phone = models.CharField(max_length=50, null=True)
+    phone = models.CharField(max_length=50, null=True, blank=True)
 
     @enum.unique
     class AddressType(enum.IntEnum):
@@ -120,14 +120,50 @@ class Order(models.Model):
     """
     @enum.unique
     class MerchandiseType(enum.IntEnum):
-        OTHER = -1
-        SHOES = 0
+        PLEASE_CHOOSE = 0
+        SHOES = 13
+        COLLECTIBLES = 1
+        FOOD_AND_DRINKS = 3
+        TOYS_AND_HOBBY = 2
+        ELECTRONICS_AND_ACCESSORIES = 4
+        LADIES_FASHION_AND_ACCESSORIES = 5
+        MENS_FASHION_AND_ACCESSORIES = 6
+        SPORTS = 7
+        BEAUTY_PRODUCTS = 8
+        HOUSEHOLD_PRODUCTS = 9
+        PET_PRODUCTS = 10
+        GAMES = 11
+        OTHER = 12
 
         def __str__(self):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
                 return "other"
+            elif self == self.COLLECTIBLES:
+                return "collectibles"
+            elif self == self.FOOD_AND_DRINKS:
+                return "food & drinks"
+            elif self == self.TOYS_AND_HOBBY:
+                return "toys & hobby"
+            elif self == self.ELECTRONICS_AND_ACCESSORIES:
+                return "electronics & accessories"
+            elif self == self.LADIES_FASHION_AND_ACCESSORIES:
+                return "ladies fashion & accessories"
+            elif self == self.MENS_FASHION_AND_ACCESSORIES:
+                return "mens fashion & accessories"
+            elif self == self.SPORTS:
+                return "sports"
+            elif self == self.BEAUTY_PRODUCTS:
+                return "beauty products"
+            elif self == self.HOUSEHOLD_PRODUCTS:
+                return "household products"
+            elif self == self.PET_PRODUCTS:
+                return "pet products"
+            elif self == self.GAMES:
+                return "games"
+            elif self == self.PLEASE_CHOOSE:
+                return "choose one*"
             else:
                 return "other"
 
@@ -143,7 +179,10 @@ class Order(models.Model):
     date_placed = models.DateTimeField(auto_now_add=True)
     bid_end_datetime = models.DateTimeField()
 
-    description = models.TextField()
+    description = models.TextField(
+        null=True,
+        blank=True,
+    )
     quantity = models.IntegerField()
     size = models.CharField(max_length=120, null=True, blank=True,)
     color = models.CharField(max_length=120, null=True, blank=True,)
@@ -185,14 +224,14 @@ class Order(models.Model):
     final_bid = models.ForeignKey(
         'Bid',
         related_name="my_order",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
     latest_action = models.ForeignKey(
         'OrderAction',
         related_name="my_order_action",
-        on_delete="SET_NULL",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )
@@ -223,9 +262,10 @@ class TrackingNumber(models.Model):
         on_delete=models.SET_NULL,
         related_name="tracking_number",
         null=True,
+        blank=True,
     )
 
-    provider = models.CharField(max_length=100, null=True)
+    provider = models.CharField(max_length=100, null=True, blank=True)
     tracking_number = models.CharField(max_length=140)
     shipping_stage = models.IntegerField(
         choices = ((x.value, x.name.title()) for x in ShippingStage)
@@ -257,10 +297,16 @@ class PaymentAction(models.Model):
         Order,
         on_delete=models.SET_NULL,
         related_name="payment_actions",
-        null=True
+        null=True,
+        blank=True,
+    )
+
+    payment_type = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in PaymentType)
     )
 
     account_number = models.CharField(max_length=100)
+
 
 class OrderAction(models.Model):
     """
@@ -270,18 +316,21 @@ class OrderAction(models.Model):
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1
-        ORDER_PLACED = 0
-        MATCH_FOUND = 1
-        PRICE_ACCEPTED = 2
-        BANKNOTE_UPLOADED = 3
-        PAYMENT_RECEIVED = 4
-        ITEM_SHIPPED_BY_MERCHANT = 5
-        ITEM_RECEIVED_BY_SHIPPER = 6
-        ITEM_IN_TRANSIT_BY_SHIPPER = 7
-        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 8
-        ORDER_FULFILLED = 9
-        ORDER_DECLINED = 10
-        ORDER_CLOSED = 11
+        MATCH_NOT_FOUND = 50
+        ORDER_PLACED = 100
+        MATCH_FOUND = 200
+        PRICE_ACCEPTED = 300
+        BANKNOTE_UPLOADED = 400
+        PAYMENT_RECEIVED = 500
+        ITEM_ORDERED_BY_FRIENDSHIPS = 600
+        ITEM_SHIPPED_BY_MERCHANT = 700
+        ITEM_RECEIVED_BY_SHIPPER = 800
+        ITEM_IN_TRANSIT_BY_SHIPPER = 900
+        ITEM_ARRIVED_IN_THAILAND = 950
+        ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER = 1000
+        ORDER_FULFILLED = 1100
+        ORDER_DECLINED = 1200
+        ORDER_CLOSED = 1300
 
         def __str__(self):
             if self == self.OTHER_ACTION:
@@ -289,7 +338,9 @@ class OrderAction(models.Model):
             elif self == self.ORDER_PLACED:
                 return "order placed"
             elif self == self.MATCH_FOUND:
-                return "match_found"
+                return "match found"
+            elif self == self.MATCH_NOT_FOUND:
+                return "match not found"
             elif self == self.PRICE_ACCEPTED:
                 return "price accepted"
             elif self == self.BANKNOTE_UPLOADED:
@@ -324,7 +375,7 @@ class OrderAction(models.Model):
         choices = ((x.value, x.name.title()) for x in Action)
     )
     date_placed = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length=1000, null=True)
+    text = models.CharField(max_length=1000, null=True, blank=True)
 
 
 class Bid(models.Model):
@@ -359,6 +410,7 @@ class Message(models.Model):
         User,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
     )
     transaction = models.ForeignKey(
         Order,

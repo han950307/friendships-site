@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>FriendShip - Optimized Thai-US Shipping Solutions</title>
+	<title>FriendShips - Optimized Thai-US Shipping Solutions</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
@@ -17,14 +17,27 @@
 	<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>
 	<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
 
+	{% block head %}
+	{% endblock head %}
+
 </head>
 <body class="ui-transparent-nav" data-fade_in="on-load">
 <!-- Navbar Fixed + Default -->
 <nav class="navbar navbar-fixed-top transparent navbar-dark bg-dark-gray">
 	<div class="container">
 
+		{% if not request.user.is_authenticated %}
+
 		<!-- Navbar Logo -->
-		<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+
+		{% elif request.session.is_shipper %}
+			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:sender_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+
+		{% else %}
+			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:receiver_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+
+		{% endif %}
 			<!-- Default Logo -->
 			<img class="logo-default" src="{% static 'friendship/img/logo/friendship.png' %}"
 			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
@@ -33,39 +46,47 @@
 			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
 		</a><!-- .navbar-brand -->
 
+
 		<!-- Navbar Navigation -->
 		<div class="ui-navigation navbar-center">
 			<ul class="nav navbar-nav">
 				<!-- Nav Item -->
 				<li>
-					<a href="#" data-scrollto="how-it-works">How It Works</a>
+					<a href="{% url 'friendship:how_it_works' %}">How It Works</a>
 				</li>
+
 				{% if request.user.is_authenticated %}
+					{% if request.session.is_shipper %}
+						<li>
+							<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
+						</li>
+						<li>
+							<a href="{% url 'friendship:user_open_bids' %}">Your Bids</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{% url 'friendship:place_order' %}">Place Order</a>
+						</li>
+						<li>
+							<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
+						</li>
+					{% endif %}
 					<li>
 						<a href="{% url 'friendship:messages' %}">Messages</a>
 					</li>
-					<li>
-						<a href="{% url 'friendship:receiver_landing' %}">Place Order</a>
-					</li>
-					<li>
-						<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
-					</li>
-				{% endif %}
-				{% if request.session.is_shipper %}
-					<li>
-						<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
-					</li>
-				{% endif %}
+				{% endif%}
+
+
 			</ul><!--.navbar-nav -->
 		</div><!--.ui-navigation -->
 
 		<!-- Navbar Button -->
 		{% if request.user.is_authenticated %}
 			<a href="{% url 'friendship:logout' %}"
-			   class="btn btn-sm ui-gradient-peach pull-right">Logout</a>
+			   class="btn btn-sm ui-gradient-negative pull-right">Logout</a>
 		{% else %}
 			<a href="{% url 'friendship:login' %}"
-			   class="btn btn-sm ui-gradient-peach pull-right">Login</a>
+			   class="btn btn-sm ui-gradient-found pull-right">Login</a>
 		{% endif %}   
 
 		<!-- Navbar Toggle -->
@@ -86,11 +107,10 @@
 		<div class="container pt-6 pb-6">
 			<div class="row">
 				<div class="col-md-4 col-sm-6 footer-about footer-col center-on-sm">
-					<img src="{% static 'friendship/img/logo/applify-logo-white.png' %}" data-uhd
-					     alt="Applif - App Landing HTML Template"/>
+					<img src="{% static 'friendship/img/logo/friendship.png' %}" data-uhd
+					     alt="FriendShips"/>
 					<p class="mt-1">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-						labore et dolore magna aliqua. Donec elementum ligula eu sapien consequat eleifend.
+						Find us everywhere else!
 					</p>
 				</div>
 				<div class="col-md-2 col-6 footer-col">
@@ -179,7 +199,7 @@
 					<!-- Copyright -->
 					<div class="col-sm-6 center-on-sm">
 						<p>
-							&copy; 2017 <a href="http://codeytech.com" target="_blank" title="Codeytech">Codeytech</a>
+							&copy; 2018 <a href="http://codeytech.com" target="_blank" title="Codeytech">Friendships, Inc.</a>
 						</p>
 					</div>
 					<!-- Social Icons -->

@@ -2,154 +2,45 @@
 {% load static %}
 {% block content %}
 <!-- Hero -->
+
 <div class="ui-hero hero-lg hero-center hero-bg ui-curve hero-svg-layer-4 bg-dark-gray">
 	<div class="container pb-4">
-		<div class="row pt-2 pb-8">
-			<div class="col-sm-12" data-vertical_center="true" data-vertical_offset="16">
-				<h1 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-					The <span class="text-red">easiest</span> &amp; most <span class="text-red">secure</span> international shipping solution
-				</h1>
-				<a href="{% url 'friendship:register' %}"><button class="btn ui-gradient-peach">Register</button></a>
-				<!-- * Replace data-video with your youtube video id -->
-				<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
-					<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
-				<!--</a>-->
-			</div>
-		</div><!-- .row -->
+		<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
+			<span>FriendShips</span><br>
+			<span class="text-blue">E-commerce without borders</span>
+		</h2>
+		<div id="homepage-start" class="shadow-xl">
+			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+			It's simple to get started!
+			</p>
+			<form action="{% url 'friendship:place_order' %}">
+				<div class="input-group">
+					<!-- Email Input -->
+					<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
+					<div class="input-group-append">
+						<!-- Submit Button -->
+						<button class="btn btn-sm ui-gradient-found">Start here
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- * Replace data-video with your youtube video id -->
+		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
+			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
+		<!--</a>-->
 	</div><!-- .container -->
 </div><!-- .ui-hero -->
 
 <!-- Intro Image -->
-<div class="section intro-image pt-0">
+<!--<div class="section intro-image pt-0">
 	<img src="{% static 'friendship/img/mockups/applify-browser-mockup.png' %}" data-uhd data-max_width="1000"
 	     class="shadow-xxl responsive-on-lg" alt="Applify - App Landing HTML Template"/>
-</div><!-- .intro-image -->
-
-<!-- App Features Section -->
-<div id="features" class="section pt-0">
-	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
-			<h2 class="heading text-dark-gray">
-				Awesome Features
-			</h2>
-			<p class="paragraph">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-				labore.
-			</p>
-		</div><!-- .section-heading -->
-		<div class="row">
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
-				<h4 class="text-dark-gray">Clean Design</h4>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Ut enim ad minim veniam.
-				</p>
-			</div>
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
-				<h4 class="text-dark-gray">Bright Colors</h4>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Ut enim ad minim veniam.
-				</p>
-			</div>
-			<div class="col-sm-4 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<h4 class="text-dark-gray">Multiple Demos</h4>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Ut enim ad minim veniam.
-				</p>
-			</div>
-		</div><!-- .row -->
-	</div><!-- .container -->
-</div><!-- .section -->
-
-<!-- Steps Section -->
-<div id="how-it-works" class="section bg-light">
-	<div class="container">
-		<!-- Section Heading -->
-		<div class="section-heading center">
-			<h2 class="heading text-dark-gray">
-				All in 3 Easy Steps
-			</h2>
-			<p class="paragraph">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-			</p>
-		</div><!-- .section-heading -->
-
-		<!-- UI Steps -->
-		<div class="ui-showcase-blocks ui-steps">
-			<!-- Step 1 -->
-			<div class="step-wrapper">
-				<span class="step-number ui-gradient-blue">1</span>
-				<div class="row">
-					<div class="col-md-6" data-vertical_center="true">
-						<h4 class="heading text-dark-gray">
-							Modern UI Design
-						</h4>
-						<p class="paragraph">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-							incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-							exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-						</p>
-						<a href="#" class="btn-link btn-arrow">Explore</a>
-					</div>
-					<div class="col-md-6">
-						<img class="responsive-on-xs" src="{% static 'friendship/img/mockups/applify-mockup-7.png' %}" data-uhd
-						     alt="Applify - App Landing HTML Template" data-max_width="464"/>
-					</div>
-				</div>
-			</div>
-			<!-- Step 2 -->
-			<div class="step-wrapper">
-				<span class="step-number ui-gradient-blue">2</span>
-				<div class="row">
-					<div class="col-md-6" data-vertical_center="true">
-						<h4 class="heading text-dark-gray">
-							Photoshop Mockups included Free!
-						</h4>
-						<p class="paragraph">
-							Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-							nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-							officia deserunt mollit anim id est laborum.
-						</p>
-						<a href="#" class="btn-link btn-arrow">Explore</a>
-					</div>
-					<div class="col-md-6">
-						<img class="responsive-on-xs" src="{% static 'friendship/img/mockups/applify-mockup-8.png' %}" data-uhd
-						     alt="Applify - App Landing HTML Template" data-max_width="445"/>
-					</div>
-				</div>
-			</div>
-			<!-- Step 2 -->
-			<div class="step-wrapper">
-				<span class="step-number ui-gradient-blue">3</span>
-				<div class="row">
-					<div class="col-md-6" data-vertical_center="true">
-						<h4 class="heading text-dark-gray">
-							Built on Bootstrap 4
-						</h4>
-						<p class="paragraph">
-							Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-							nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-							officia deserunt mollit anim id est laborum.
-						</p>
-						<a href="#" class="btn-link btn-arrow">Explore</a>
-					</div>
-					<div class="col-sm-6">
-						<img class="responsive-on-xs" src="{% static 'friendship/img/mockups/applify-mockup-10.png' %}" data-uhd
-						     alt="Applify - App Landing HTML Template" data-max_width="451"/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div><!-- .container -->
-</div><!-- .section -->
+</div> -->
+<!-- .intro-image -->
 
 <!-- Integration Section -->
-<div id="integrate" class="section ui-gradient-blue">
+<div id="integrate" class="section">
 	<div class="container">
 		<div class="row">
 
@@ -159,12 +50,8 @@
 				<!-- Section Heading -->
 				<div class="section-heading mb-2">
 					<h2 class="heading">
-						Applify Integrations
+						Why FriendShips?
 					</h2>
-					<p class="paragraph">
-						Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit Sed Do Eiusmod Tempor Incididunt Ut
-						Labore Et Dolore Magna Ali
-					</p>
 				</div><!-- .section-heading -->
 
 				<!-- Left blocks -->
@@ -172,30 +59,26 @@
 					<li class="ui-icon-block">
 						<span class="icon icon-diamond"></span>
 						<p class="">
-							Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit Sed Do Eiusmod Tempor Incididunt
-							Ut Labore Et Dolore
+							<span class="text-blue">Availability:</span> No more Preorders! Buy any item you want, any time you want it
 						</p>
-						<a class="btn-link btn-arrow">
-							Learn More
-						</a>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-pie-chart"></span>
 						<p class="">
-							Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit
+							<span class="text-blue">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
 						</p>
-						<a class="btn-link btn-arrow">
-							Learn More
-						</a>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-layers"></span>
 						<p class="">
-							Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit Sed Do Eiusmod
+							<span class="text-blue">Convenience:</span> Just three simple steps and your item is delivered to your door
 						</p>
-						<a class="btn-link btn-arrow">
-							Learn More
-						</a>
+					</li>
+					<li class="ui-icon-block">
+						<span class="icon icon-layers"></span>
+						<p class="">
+							<span class="text-blue">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition. 
+						</p>
 					</li>
 				</ul>
 			</div>
@@ -276,351 +159,255 @@
 	</div><!-- .container -->
 </div><!-- .section -->
 
-<!-- Showcase Section -->
-<div class="section laptop-showcase">
-	<div class="container">
+<!-- App Features Section -->
+<div id="features" class="section pt-0">
+	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+		<div class="section-heading cente">
+			<h2 class="heading text-dark-gray">
+				How it Works
+			</h2>
+			<p class="paragraph">
+					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+			</p>
+		</div><!-- .section-heading -->
 		<div class="row">
-			<div class="col-md-5 col-lg-4" data-vertical_center="true">
-				<div>
-					<h2 class="heading text-dark-gray">
-						Designed For All Apps
-					</h2>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-						ut labore et dolore magna aliqua.
-					</p>
-					<ul class="ui-checklist mt-2">
-						<li>
-							<h6 class="heading text-dark-gray">Consectetur adipisicing</h6>
-						</li>
-						<li>
-							<h6 class="heading text-dark-gray">Eiusmod tempor incididunt</h6>
-						</li>
-						<li>
-							<h6 class="heading text-dark-gray">Ut enim ad minim</h6>
-						</li>
-					</ul>
-					<a href="#" class="btn ui-gradient-peach">Download</a>
-				</div>
-			</div>
-			<div class="col-md-7 col-lg-8">
-				<img class="responsive-on-sm laptop" src="{% static 'friendship/img/mockups/applify-mockup-11.png' %}" data-uhd
-				     alt="Applify - App Landing HTML Template" data-max_width="1000"/>
-			</div>
-		</div>
-
-	</div><!-- .container -->
-</div><!-- .section -->
-
-<!-- Showcase Section -->
-<div class="section bg-light pb-6">
-	<div class="container">
-		<div class="row text-center">
-			<div class="col-md-6 pb-5">
-				<img class="img-responsive" src="{% static 'friendship/img/mockups/applify-widget-mockup-2.png' %}" data-uhd
-				     alt="Applify - App Landing HTML Template"/>
-				<h5 class="text-dark-gray">Lorem Ipsum Dolor Sit</h5>
-				<p class="mb-0">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua.
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
+				<p>
+					Paste a link to your desired item, from <span class="text-blue">any</span> online store
 				</p>
 			</div>
-			<div class="col-md-6 pb-5">
-				<img class="img-responsive" src="{% static 'friendship/img/mockups/applify-widget-mockup-1.png' %}" data-uhd
-				     alt="Applify - App Landing HTML Template"/>
-				<h5 class="text-dark-gray">Lorem Ipsum Dolor Sit</h5>
-				<p class="mb-0">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua.
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
+				<p>
+					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
 				</p>
 			</div>
-		</div>
-	</div><!-- .container -->
-</div>
-
-<!-- Support Section -->
-<div id="support" class="section bg-dark-gray">
-	<div class="container">
-		<div class="row">
-			<!-- Text Column -->
-			<div class="col-lg-6 col-md-5" data-vertical_center="true">
-				<!-- Section Heading -->
-				<div class="section-heading mb-0 center-on-md">
-					<h2 class="heading">
-						Award-Winning Support
-					</h2>
-					<p class="paragraph">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-						ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					</p>
-					<div class="row ui-icon-blocks ui-blocks-h icons-md mt-2">
-						<div class="col-4 ui-icon-block animate text-left mb-0 center-on-md" data-show="fade-in-up">
-							<div class="icon icon-phone"></div>
-							<h4 class="heading mb-1">200k</h4>
-							<p>
-								Calls a day
-							</p>
-						</div>
-						<div class="col-4 ui-icon-block animate text-left mb-0 center-on-md" data-show="fade-in-up">
-							<div class="icon icon-trophy"></div>
-							<h4 class="heading mb-1">4.5</h4>
-							<p>
-								Star Rating
-							</p>
-						</div>
-						<div class="col-4 ui-icon-block animate text-left mb-0 center-on-md" data-show="fade-in-up">
-							<div class="icon icon-support"></div>
-							<h4 class="heading mb-1">500k</h4>
-							<p>
-								Experts working 24/7
-							</p>
-						</div>
-					</div><!-- .row -->
-				</div><!-- .section-heading -->
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
+				</p>
 			</div>
-			<!-- Image Column -->
-			<div class="col-lg-6 col-md-7 img-block animate" data-show="fade-in-left" data-vertical_center="true">
-				<img src="{% static 'friendship/img/support/applify-support.png' %}" alt="Applify - App Landing HTML Template" data-uhd
-				     class="img-fluid" data-max_width="460"/>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					Your item is delivered <span class="text-blue">directly</span> to you
+				</p>
 			</div>
 		</div><!-- .row -->
 	</div><!-- .container -->
 </div><!-- .section -->
 
-<!-- Pricing Cards Section -->
-<div id="pricing" class="section bg-light">
-	<div class="container">
-		<!-- Section Heading -->
-		<div class="section-heading center">
+<!--Scrolling Trending Items Section -->
+<div id="trending" class="slideshow-container">
+	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+		<div class="section-heading cente">
 			<h2 class="heading text-dark-gray">
-				Pricing Cards
+				Trending Items
 			</h2>
-			<p class="paragraph">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-			</p>
+			<p>See what people are buying now</p>
 		</div><!-- .section-heading -->
-
-		<!-- UI Pricing Cards / Owl Carousel On Mobile -->
-		<div class="ui-pricing-cards owl-carousel owl-theme">
-			<!-- Card 1 -->
-			<div class="ui-pricing-card animate" data-show="fade-in-left">
-				<div class="ui-card ui-curve shadow-lg">
-					<div class="card-header bg-dark-gray">
-						<!-- Heading -->
-						<h4 class="heading">Freelancer</h4>
-						<!-- Price -->
-						<div class="price text-red">
-							<span class="curency">&pound;</span>
-							<span class="price">23</span>
-							<span class="period">/mo</span>
-						</div>
-						<h6 class="sub-heading">24/7 Support</h6>
-					</div>
-					<!-- Features -->
-					<div class="card-body">
-						<ul>
-							<li>
-								10 GB SSD Disk Space
-							</li>
-							<li>
-								10 SDD Databases
-							</li>
-							<li>
-								2 Subdomains
-							</li>
-							<li>
-								25 Email Accounts
-							</li>
-						</ul>
-						<a href="page-pricing.html" class="btn shadow-md ui-gradient-peach">Get Started</a>
+		<!-- Wrapper for slides -->
+		<div class="slides-container">
+			<div class="slideshow">
+				<div id="slide1" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Nike Shoes</p>
 					</div>
 				</div>
-			</div>
-			<!-- Card 2 -->
-			<div class="ui-pricing-card active animate" data-show="fade-in">
-				<div class="ui-card ui-curve color-card shadow-xl">
-					<div class="card-header ui-gradient-peach">
-						<!-- Heading -->
-						<h4 class="heading">Start-up</h4>
-						<!-- Price -->
-						<div class="price">
-							<span class="curency">&pound;</span>
-							<span class="price">57</span>
-							<span class="period">/mo</span>
-						</div>
-						<h6 class="sub-heading">24/7 Support</h6>
-					</div>
-					<!-- Features -->
-					<div class="card-body">
-						<ul>
-							<li>
-								20 GB SSD Disk Space
-							</li>
-							<li>
-								20 SDD Databases
-							</li>
-							<li>
-								4 Subdomains
-							</li>
-							<li>
-								50 Email Accounts
-							</li>
-						</ul>
-						<a href="page-pricing.html" class="btn bg-dark-gray shadow-md">Get Started</a>
+				<div id="slide2" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Starbucks Mug</p>
 					</div>
 				</div>
-			</div>
-			<!-- Card 3 -->
-			<div class="ui-pricing-card animate" data-show="fade-in-right">
-				<div class="ui-card ui-curve shadow-lg">
-					<div class="card-header bg-dark-gray">
-						<!-- Heading -->
-						<h4 class="heading">Enterprise</h4>
-						<!-- Price -->
-						<div class="price text-red">
-							<span class="curency">&pound;</span>
-							<span class="price">89</span>
-							<span class="period">/mo</span>
-						</div>
-						<h6 class="sub-heading">24/7 Support</h6>
-					</div>
-					<!-- Features -->
-					<div class="card-body">
-						<ul>
-							<li>
-								60 GB SSD Disk Space
-							</li>
-							<li>
-								30 SDD Databases
-							</li>
-							<li>
-								12 Subdomains
-							</li>
-							<li>
-								200 Email Accounts
-							</li>
-						</ul>
-						<a href="page-pricing.html" class="btn ui-gradient-peach shadow-md">Get Started</a>
+				<div id="slide3" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Chanel Purse</p>
 					</div>
 				</div>
+				<div id="slide4" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide5" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide6" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide7" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide8" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide9" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide10" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide11" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide12" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide13" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide14" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide15" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div id="slide16" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div id="slide17" class="slide">
+					<a href="https://www.starbucks.com">
+						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div id="slide18" class="slide">
+					<a href="https://www.chanel.com">
+						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div id="slide19" class="slide">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div id="slide20" class="slide">
+					<a href="https://www.nike.com">
+						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+			</div><!--.slideshow -->
+			<!-- <div>
+				<a id="prev">&#10094;</a>
+				<a id="next">&#10095;</a>
+			</div> -->
+			<div class="dot-section">
+	  		<span id="dot1" class="dot"></span>
+	  		<span id="dot2" class="dot"></span>
+	  		<span id="dot3" class="dot"></span>
+				<span id="dot4" class="dot"></span>
+				<span id="dot5" class="dot"></span>
 			</div>
-		</div><!-- .ui-pricing-cards -->
-
-		<!-- Pricing Footer -->
-		<div class="ui-pricing-footer">
-			<p class="paragraph">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-				et dolore magna aliqua. Ut enim ad minim veniam, quis.
-			</p>
-			<div class="actions">
-				<a class="btn">Learn More</a>
-			</div>
-		</div><!-- .ui-pricing-footer -->
-
+		</div><!--.slide-container-->
 	</div><!-- .container -->
-</div><!-- .section -->
 
-<!--  Testimonial Section -->
-<div class="section">
-	<div class="container">
-		<!-- Card Heading -->
-		<div class="section-heading center">
-			<h2 class="heading text-dark-gray">
-				What People Say
-			</h2>
-			<p class="paragraph">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-			</p>
-		</div><!-- .section-heading -->
-
-		<!-- Slider  -->
-		<div class="ui-testimonials slider owl-carousel owl-theme">
-			<!-- Testimonials Item 1 -->
-			<div class="item">
-				<!-- Card -->
-				<div class="ui-card shadow-md">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-						labore et dolore.</p>
-				</div>
-				<!-- User -->
-				<div class="user">
-					<div class="avatar"><img alt="Applify App Landing Page" src="{% static 'friendship/img/avatars/avatar1-sm.png' %}">
-					</div>
-					<div class="info">
-						<h6 class="heading text-dark-gray">Vicky Stout</h6>
-						<p class="sub-heading">Founder at Smith &amp; Co</p>
-					</div>
-				</div>
-			</div>
-			<!-- Testimonials Item 2 -->
-			<div class="item">
-				<!-- Card -->
-				<div class="ui-card shadow-md">
-					<p> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-						commodo.</p>
-				</div>
-				<!-- User -->
-				<div class="user">
-					<div class="avatar"><img alt="Applify App Landing Page" src="{% static 'friendship/img/avatars/avatar2-sm.png' %}">
-					</div>
-					<div class="info">
-						<h6 class="heading text-dark-gray">Jack Smith</h6>
-						<p class="sub-heading">Founder at Smith &amp; Co</p>
-					</div>
-				</div>
-			</div>
-			<!-- Testimonials Item 3 -->
-			<div class="item">
-				<!-- Card -->
-				<div class="ui-card shadow-md">
-					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariaturin.</p>
-				</div>
-				<!-- User -->
-				<div class="user">
-					<div class="avatar"><img alt="Applify App Landing Page" src="{% static 'friendship/img/avatars/avatar3-sm.png' %}">
-					</div>
-					<div class="info">
-						<h6 class="heading text-dark-gray">Chérel Doe</h6>
-						<p class="sub-heading">Founder at Smith &amp; Co</p>
-					</div>
-				</div>
-			</div>
-			<!-- Testimonials Item 4 -->
-			<div class="item">
-				<!-- Card -->
-				<div class="ui-card shadow-md">
-					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-						pariatur ac nisi.</p>
-				</div>
-				<!-- User -->
-				<div class="user">
-					<div class="avatar"><img alt="Applify App Landing Page" src="{% static 'friendship/img/avatars/avatar4-sm.png' %}">
-					</div>
-					<div class="info">
-						<h6 class="heading text-dark-gray">Derick Watts</h6>
-						<p class="sub-heading">Founder at Smith &amp; Co</p>
-					</div>
-				</div>
-			</div>
-			<!-- Testimonials Item 5-->
-			<div class="item">
-				<!-- Card -->
-				<div class="ui-card shadow-md">
-					<p>Donec elementum ligula eu sapien consequat eleifend. Donec nec dolor erat, condimentum
-						sagittis.</p>
-				</div>
-				<!-- User -->
-				<div class="user">
-					<div class="avatar"><img alt="Applify App Landing Page" src="{% static 'friendship/img/avatars/avatar5-sm.png' %}">
-					</div>
-					<div class="info">
-						<h6 class="heading text-dark-gray">Jane Austin</h6>
-						<p class="sub-heading">Founder at Smith &amp; Co</p>
-					</div>
-				</div>
-			</div>
-		</div><!-- .ui-testimonials  -->
-	</div><!-- .container -->
 </div><!-- .section -->
+<script src="{% static 'friendship/js/libs/custom/trending.js' %}"></script>
+<link rel="stylesheet" href="{% static 'friendship/css/custom/trending.css' %}"/>
+
 {% endblock content %}

@@ -22,26 +22,31 @@ app_name = 'friendship'
 urlpatterns = [
     path('', views.index, name='index'),
     path('register/', views.register, name='register'),
-    path('register_process/', views.register_process, name='register_process'),
     path('login/', views.login_view, name='login'),
     path('login_process/', views.login_process, name='login_process'),
     path('logout/', views.logout_view, name='logout'),
     path('messages/', views.messages, name='messages'),
     path('account/', views.account, name='account'),
-
+    path('become_sender/', views.become_sender, name='become_sender'),
 
     # Receiver views
-    path('receiver_landing/', views.receiver_landing_view, name='receiver_landing'),
+    path('receiver_landing/', views.index, name='receiver_landing'),
+    path('place_order/', views.place_order, name='place_order'),
     path('order_details/<int:order_id>', views.send_message, name='send_message'),
     path('testing/<int:order_id>', views.sync_message, name='sync_message'),
-    path('order_details/<int:pk>', views.order_details, name='order_details'),
+    path('order_details/<int:order_id>', views.order_details, name='order_details'),
     path('upload_picture/<int:order_id>', views.upload_picture_view, name='upload_picture_view'),
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
     path('make_payment/<int:order_id>', views.make_payment, name='make_payment'),
     path('process_payment/<int:order_id>', views.process_payment, name='process_payment'),
+    path('end_bid/<int:order_id>', views.end_bid, name='end_bid'),
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
+    path('submit_wire_transfer/<int:order_id>', views.submit_wire_transfer, name='submit_wire_transfer'),
+    path('confirm_order_price/<int:order_id>/<str:choice>', views.confirm_order_price, name='confirm_order_price'),
+
 
     # Sender views
+    path('sender_landing/', views.sender_landing, name='sender_landing'),
     path('open_orders/<str:filter>', views.open_orders, name='open_orders'),
     path('make_bid/<int:order_id>', views.make_bid, name='make_bid'),
     path('make_bid_process/<int:order_id>', views.make_bid_process, name='make_bid_process'),
@@ -54,6 +59,7 @@ urlpatterns = [
 
     # Other views
     path('testing/', views.testing, name='testing'),
+    path('how_it_works/', views.how_it_works, name='how_it_works'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
