@@ -316,6 +316,7 @@ class OrderAction(models.Model):
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1
+        MATCH_NOT_FOUND = 50
         ORDER_PLACED = 100
         MATCH_FOUND = 200
         PRICE_ACCEPTED = 300

@@ -16,6 +16,10 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.container {
+  min-width: 700px;
+}
+
 nav > .container {
   max-width: 100%;
 }
@@ -272,6 +276,7 @@ div.orders {
 
 hr {
   margin: 1.3rem 0;
+  height: 2rem;
 }
 
 .step-wrapper h4 {
