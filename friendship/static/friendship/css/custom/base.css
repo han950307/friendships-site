@@ -30,6 +30,7 @@ nav > .container {
 .navbar .navbar-brand img{
   height:30px;
   margin-top:-15px;
+  left:10px;
 }
 
 .footer-copyright .container {
@@ -117,8 +118,17 @@ div#right-pane{
 @media (min-width: 1200px) {
   #homepage-start {
     background-color: white;
-    padding: 3.5rem 4rem;
-    /*margin: 4rem 12rem;*/
+    padding: 3rem 4rem;
+    text-align: center;
+    max-width: 100%;
+    /*margin: 4rem 12rem; */
+  }
+}
+
+@media (min-width: 1200px) {
+  .homepage-container {
+    max-width: 90%;
+    min-width: 1000px;
   }
 }
 
@@ -153,6 +163,29 @@ div#right-pane{
 .ui-hero.ui-curve.hero-center {
     padding: 7rem 0 7rem 0;
   }
+
+/* for slideshow to make img proportional */
+.fill {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+
+.fill img {
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+}
+
+@media (min-width: 1500px){
+  #trending-item-section .col-10 {
+    max-width: 100%;
+    width: 1280px;
+  }
+}
 
 @media (min-width: 1200px) {
   /*.ui-hero.hero-lg {

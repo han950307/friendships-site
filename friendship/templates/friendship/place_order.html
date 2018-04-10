@@ -46,13 +46,7 @@
         </div>
         <div class="form-group">
             {# {{ form.item_image.errors }} #}
-
-            <div class="upload-btn-wrapper">
-                <div class="upload-btn-wrapper">
-                    <button class="btn">Upload an image for the item (optional)</button>
-                    {{ form.item_image }}
-                </div>
-            </div>
+            {{ form.item_image }}
         </div>
         <div class="form-group">
             <span class="desc">Choose a bidding deadline for this item.*</span>
