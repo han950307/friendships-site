@@ -89,13 +89,21 @@ div#right-pane{
 * ----------------------------------------------------------------------- *
 */
 
+#homepage-start {
+  padding: 3rem 2rem;
+  margin: 4rem 12rem;
+  background-color: white;
+  border-radius: 25px;
+}
+
 .ui-hero {
-  height: 100vh;
+  height: 60vh;
   overflow: hidden;
+  background-color: #111111;
 }
 
 .pb-4 {
-  height: 100vh;
+  height: 60vh;
   overflow: hidden;
   padding: 10% 0 !important;
   /* box-sizing: border-box !important; */
