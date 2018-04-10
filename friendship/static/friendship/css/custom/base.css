@@ -16,6 +16,10 @@ h1 {
   margin-bottom: 3rem;
 }
 
+.container {
+  min-width: 700px;
+}
+
 nav > .container {
   max-width: 100%;
 }
