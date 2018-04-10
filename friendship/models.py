@@ -338,7 +338,9 @@ class OrderAction(models.Model):
             elif self == self.ORDER_PLACED:
                 return "order placed"
             elif self == self.MATCH_FOUND:
-                return "match_found"
+                return "match found"
+            elif self == self.MATCH_NOT_FOUND:
+                return "match not found"
             elif self == self.PRICE_ACCEPTED:
                 return "price accepted"
             elif self == self.BANKNOTE_UPLOADED:
