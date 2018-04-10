@@ -36,7 +36,9 @@
 
 			<!-- Order Status -->
 			<div class="col-sm-13">
-				{% if order.latest_action.action < MATCH_FOUND %}
+				{% if order.latest_action.action == MATCH_NOT_FOUND %}
+				<span class="btn btn-sm ui-gradient-negative">Match not found</span>
+				{% elif order.latest_action.action < MATCH_FOUND %}
 				<span class="btn btn-sm ui-gradient-inprogress">Matching</span>
 				{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
 				<span class="btn btn-sm ui-gradient-found">Matched</span>
