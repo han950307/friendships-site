@@ -398,23 +398,24 @@ class Money(models.Model):
             else:
                 return "other"
 
-        def get_currency(currency_str):
+        @classmethod
+        def get_currency(cls, currency_str):
             if currency_str.lower() == "usd":
-                return self.USD
+                return cls.USD
             elif currency_str.lower() == "tbt":
-                return self.TBT
+                return cls.TBT
             else:
-                return self.OTHER
+                return cls.OTHER
 
     # probably should implement helper functions convert_to_usd
     # and convert_from_usd
 
     def get_value_in(self, currency):
-        if self.currency == Currency.TBT:
-            if currency == Currency.USD:
+        if self.currency == self.Currency.TBT:
+            if currency == self.Currency.USD:
                 return self.value / ExchangeRates.USD_TBT
-        elif self.currency == Currency.USD:
-            if currency == Currency.TBT:
+        elif self.currency == self.Currency.USD:
+            if currency == self.Currency.TBT:
                 return self.value * ExchangeRates.USD_TBT
         
         return self.value
@@ -431,12 +432,15 @@ class Bid(models.Model):
     """
 
     def get_total(self, currency=Money.Currency.USD):
+        """
+        Computes the total sum in a very cool way.
+        """
         return sum(
             [
-                self.__dict__[x].get_value_in(currency)
+                Money.objects.get(pk=self.__dict__[x]).get_value_in(currency)
                 for x
                 in self.__dict__.keys()
-                if type(self.__dict__[x]) == Money
+                if self.__dict__[x] and x in self.money_values
             ]
         )
 
@@ -454,56 +458,80 @@ class Bid(models.Model):
     )
     wages = models.ForeignKey(
         Money,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="wages",
     )
     retail_price = models.ForeignKey(
         Money,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         related_name="retail_price",
     )
     import_tax = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="import_tax",
     )
     dest_domestic_shipping = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="destination_domestic_shipping",
     )
     origin_domestic_shipping = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="origin_domestic_shipping",
     )
     international_shipping = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="international_shipping",
     )
     service_fee = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="service_fee",
     )
     origin_sales_tax = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="origin_sales_tax",
     )
     other_fees = models.ForeignKey(
         Money,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name="other_fees",
     )
+
+    # when you add a new field that should be added to the sum, add here with +"_id"
+    money_values = [
+        "wages_id",
+        "retail_price_id",
+        "import_tax_id",
+        "dest_domestic_shipping_id",
+        "origin_domestic_shipping_id",
+        "international_shipping_id",
+        "service_fee_id",
+        "origin_sales_tax_id",
+        "other_fees_id",
+    ]
 
 
 class Message(models.Model):
