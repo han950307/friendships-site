@@ -4,7 +4,11 @@ from django.contrib.messages import error
 from django.contrib.auth.models import User
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import (
+	api_view,
+	permission_classes,
+	authentication_classes,
+)
 from rest_framework.throttling import (
 	AnonRateThrottle,
 	UserRateThrottle,
@@ -57,43 +61,40 @@ import time
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Order.objects.all()
 	serializer_class = OrderSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 
 
 class ShippingAddressDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = ShippingAddress.objects.all()
 	serializer_class = ShippingAddressSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 
 
 class OrderActionDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = OrderAction.objects.all()
 	serializer_class = OrderActionSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 
 
 class BidDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Bid.objects.all()
 	serializer_class = BidSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 
 
 class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Message.objects.all()
 	serializer_class = MessageSerializer
-	authentication_classes = (authentication.TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
+
+
+@api_view(['GET'])
+def test(request):
+	if request.method == 'GET':
+		return Response (
+			UserSerializer(request.user).data,
+			status=status.HTTP_200_OK,
+		)
 
 
 @api_view(['GET'])
@@ -173,8 +174,4 @@ class CreateUser(generics.CreateAPIView):
 class CreateOrder(generics.CreateAPIView):
 	model = Order
 	serializer_class = OrderSerializer
-	authentication_classes = (TokenAuthentication,)
-	permission_classes = (permissions.IsAuthenticated,)
 	throttle_classes = (UserRateThrottle,)
-
-	
