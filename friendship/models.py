@@ -380,12 +380,13 @@ class OrderAction(models.Model):
 
 class Money(models.Model):
     class ExchangeRates(object):
+        # XXX to YYY exchange rate.
         USD_TBT = 32.49
 
     @forDjango
     @enum.unique
     class Currency(enum.IntEnum):
-        OTHER_ACTION = -1
+        OTHER = -1
         USD = 50
         TBT = 100
 
@@ -397,7 +398,18 @@ class Money(models.Model):
             else:
                 return "other"
 
-    def convert_to(self, currency):
+        def get_currency(currency_str):
+            if currency_str.lower() == "usd":
+                return self.USD
+            elif currency_str.lower() == "tbt":
+                return self.TBT
+            else:
+                return self.OTHER
+
+    # probably should implement helper functions convert_to_usd
+    # and convert_from_usd
+
+    def get_value_in(self, currency):
         if self.currency == Currency.TBT:
             if currency == Currency.USD:
                 return self.value / ExchangeRates.USD_TBT
@@ -418,8 +430,15 @@ class Bid(models.Model):
     When a potential shipper places a bid, it goes in this database.
     """
 
-    def get_total(self):
-        return self.wages + self.retail_price + self.import_tax + self.domestic_shipping
+    def get_total(self, currency=Money.Currency.USD):
+        return sum(
+            [
+                self.__dict__[x].get_value_in(currency)
+                for x
+                in self.__dict__.keys()
+                if type(self.__dict__[x]) == Money
+            ]
+        )
 
     shipper = models.ForeignKey(
         User,
@@ -435,14 +454,12 @@ class Bid(models.Model):
     )
     wages = models.ForeignKey(
         Money,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
         related_name="wages",
     )
     retail_price = models.ForeignKey(
         Money,
-        on_delete=models.SET_NULL,
-        null=True,
+        on_delete=models.CASCADE,
         related_name="retail_price",
     )
     import_tax = models.ForeignKey(

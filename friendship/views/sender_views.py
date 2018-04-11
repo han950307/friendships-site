@@ -33,6 +33,14 @@ def make_bid(request, order_id):
         return render(request, 'friendship/make_bid.html', {'order' : order})
 
 
+def create_money_object(data_dict, key, currency):
+    if key in data_dict:
+        val = float(data_dict[key])
+        return Money.objects.create(value=val, currency=currency)
+    else:
+        return None
+
+
 @login_required
 def make_bid_process(request, order_id):
     """
@@ -42,12 +50,22 @@ def make_bid_process(request, order_id):
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
-        wages = float(request.POST["wages"])
+        data_dict = {x: v for x, v in request.POST.items()}
+        currency = Money.Currency.get_currency(data_dict["currency"])
+
         order = Order.objects.get(pk=order_id)
         bid = Bid.objects.create(
-            shipper_id=request.user.id,
-            wages=wages,
             order=order,
+            shipper=request.user,
+            wages=create_money_object(data_dict, "wages", currency),
+            retail_price=create_money_object(data_dict, "retail_price", currency),
+            import_tax=create_money_object(data_dict, "import_tax", currency),
+            dest_domestic_shipping=create_money_object(data_dict, "dest_domestic_shipping", currency),
+            origin_domestic_shipping=create_money_object(data_dict, "origin_domestic_shipping", currency),
+            international_shipping=create_money_object(data_dict, "international_shipping", currency),
+            service_fee=create_money_object(data_dict, "service_fee", currency),
+            origin_sales_tax=create_money_object(data_dict, "origin_sales_tax", currency),
+            other_fees=create_money_object(data_dict, "other_fees", currency),
         )
 
         # Just return another view after processing it.
