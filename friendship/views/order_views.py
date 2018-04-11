@@ -14,6 +14,7 @@ from ..models import (
 )
 
 import datetime
+import pytz
 
 from ..forms import (
     ManualWireTransferForm,
@@ -40,17 +41,22 @@ def match_with_shipper(order):
     min_bid = get_min_bid(order)
     if not min_bid:
         # pair with one of friendship accounts.
-        pass
+        if order.bid_end_datetime < datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
+            action = OrderAction.objects.create(
+                order=order,
+                action=OrderAction.Action.MATCH_NOT_FOUND
+            )
+
     else:
         order.shipper = min_bid.shipper
         # make shipper choose a shipping address when they're matched.
+        action = OrderAction.objects.create(
+            order=order,
+            action=OrderAction.Action.MATCH_FOUND
+        )
+        order.final_bid = min_bid
         order.save()
 
-    order.final_bid = min_bid
-    action = OrderAction.objects.create(
-        order=order,
-        action=OrderAction.Action.MATCH_FOUND
-    )
     order.latest_action = action
     order.save()
 
@@ -88,6 +94,22 @@ def order_details(request, order_id, **kwargs):
     })
 
     return render(request, 'friendship/order_details.html', data_dict)
+
+
+@login_required
+def end_bid(request, order_id, **kwargs):
+    order = Order.objects.get(pk=order_id)
+
+    # If the order is not the receiver, then don't do it.
+    if order.receiver != request.user:
+        messages.error(request, 'You\'ve got the wrong user')
+        return redirect('friendship:index')
+
+    # match with lowest shipper and end it.
+    match_with_shipper(order)
+
+    # reload the page.
+    return redirect('friendship:order_details', order_id=order_id)
 
 
 @login_required

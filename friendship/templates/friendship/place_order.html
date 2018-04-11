@@ -46,17 +46,11 @@
         </div>
         <div class="form-group">
             {# {{ form.item_image.errors }} #}
-
-            <div class="upload-btn-wrapper">
-                <div class="upload-btn-wrapper">
-                    <button class="btn">Upload an image for the item (optional)</button>
-                    {{ form.item_image }}
-                </div>
-            </div>
+            {{ form.item_image }}
         </div>
         <div class="form-group">
             <span class="desc">Choose a bidding deadline for this item.*</span>
-            {# {{ form.num_hours.errors }} #}
+            {{ form.num_hours.errors }}
             <div class="btn-group" data-toggle="buttons">
                 {% for field in form.num_hours %}
                 <label class="btn btn-primary btn-block">

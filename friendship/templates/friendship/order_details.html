@@ -57,9 +57,9 @@
                         {% else %}
                         <td class="bid-info-content font-weight-bold"><h5>No bids yet</h5></td>
                         {% endif %}
-                        <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</h5></td>
+                        <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</td>
                         {% if min_bid.get_total %}
-                        <td class="bid-info-content"><a href="{% url 'friendship:confirm_order_price' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
                         </td>
                         {% endif %}
                     </tr>
@@ -69,6 +69,11 @@
             <span class="step-number ui-gradient-blue">&#x2713</span>
             <div class="col-auto">
                 <h4>Found Match</h4>
+            </div>
+            {% elif latest_action.action == MATCH_NOT_FOUND %}
+            <span class="step-number ui-gradient-peach">&#x2713</span>
+            <div class="col-auto">
+                <h4>Match Not Found</h4>
             </div>
             {% endif %}
         </div>
@@ -152,18 +157,12 @@
 
                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
                 <div id="wire-payment" style="display: none">
+                    <span class="account-number">We display our account number here.</span>
                     <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
                         {% csrf_token %}
                         <div class="form-group">
-                            {{ manual_wire_transfer_form.account_number.errors }}
-                            {{ manual_wire_transfer_form.account_number }}
-                            <div class="upload-btn-wrapper">
-                                <div class="upload-btn-wrapper">
-                                    <button class="btn btn-sm">Upload Banknote</button>
-                                    {{ manual_wire_transfer_form.banknote_image.errors }}
-                                    {{ manual_wire_transfer_form.banknote_image }}
-                                </div>
-                            </div>
+                            {{ manual_wire_transfer_form.banknote_image.errors }}
+                            {{ manual_wire_transfer_form.banknote_image }}
                         </div>
                         <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
                     </form>

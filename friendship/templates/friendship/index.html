@@ -3,13 +3,20 @@
 {% block content %}
 <!-- Hero -->
 
-<div class="ui-hero hero-lg hero-center hero-bg hero-svg-layer-4 bg-dark-gray">
+<div class="ui-hero hero-lg hero-center hero-bg ui-curve bg-blue" style="background-color:#667487;">
 	<div class="container pb-4">
-		<h2 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-			<span class="text-blue">The world is tied together by</span> FriendShips
-		</h2>
-		<p class="paragraph sp-layer" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-			It's simple to get started
+		<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100">
+			<span style="font-weight:200;">FriendShips</span><br>
+			<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>
+		</h3>
+	</div><!-- .container -->
+</div><!-- .ui-hero -->
+
+<!-- Intro Image -->
+<div class="container homepage-container">
+	<div id="homepage-start" class="shadow-xl section intro-image">
+		<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+			It's simple to get started!
 		</p>
 		<form action="{% url 'friendship:place_order' %}">
 			<div class="input-group">
@@ -17,24 +24,15 @@
 				<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
 				<div class="input-group-append">
 					<!-- Submit Button -->
-					<button class="btn btn-sm ui-gradient-found">Start here
+					<button class="btn btn-sm ui-gradient-found">Place Order
 					</button>
 				</div>
 			</div>
 		</form>
-		<!-- * Replace data-video with your youtube video id -->
-		<!--<a href="#" class="ui-video-toggle mt-4" data-video="1C75bKax4Eg">-->
-			<!--<span class="icon fa fa-play bg-red"></span> <span>How Applify Works</span>-->
-		<!--</a>-->
-	</div><!-- .container -->
-</div><!-- .ui-hero -->
-
-<!-- Intro Image -->
-<!--<div class="section intro-image pt-0">
-	<img src="{% static 'friendship/img/mockups/applify-browser-mockup.png' %}" data-uhd data-max_width="1000"
-	     class="shadow-xxl responsive-on-lg" alt="Applify - App Landing HTML Template"/>
-</div> -->
+	</div>
+</div>
 <!-- .intro-image -->
+
 
 <!-- App Features Section -->
 <div id="features" class="section pt-0">
@@ -44,26 +42,32 @@
 				How it Works
 			</h2>
 			<p class="paragraph">
-					We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+				We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
 			</p>
 		</div><!-- .section-heading -->
 		<div class="row">
-			<div class="col-sm-4 ui-icon-block">
+			<div class="col-sm-3 ui-icon-block">
 				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
 				<p>
-					Shop at any US website and order any item by pasting a link
+					Paste a link to your desired item, from <span class="text-blue">any</span> online store
 				</p>
 			</div>
-			<div class="col-sm-4 ui-icon-block">
+			<div class="col-sm-3 ui-icon-block">
 				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
 				<p>
-					We match you with the best shipping price from a pool of secure senders
+					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
 				</p>
 			</div>
-			<div class="col-sm-4 ui-icon-block">
+			<div class="col-sm-3 ui-icon-block">
 				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
 				<p>
-					Receive your item in about 7-12 days!
+					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
+				</p>
+			</div>
+			<div class="col-sm-3 ui-icon-block">
+				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<p>
+					Your item is delivered <span class="text-blue">directly</span> to you
 				</p>
 			</div>
 		</div><!-- .row -->
@@ -71,7 +75,7 @@
 </div><!-- .section -->
 
 <!-- Integration Section -->
-<div id="integrate" class="section ui-gradient-blue">
+<div id="integrate" class="section bg-light">
 	<div class="container">
 		<div class="row">
 
@@ -90,22 +94,25 @@
 					<li class="ui-icon-block">
 						<span class="icon icon-diamond"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Availability:</span> No more Preorders! Buy any item you want, any time you want it
 						</p>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-pie-chart"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
 						</p>
 					</li>
 					<li class="ui-icon-block">
 						<span class="icon icon-layers"></span>
 						<p class="">
-							Tell us what you want to buy
-from any online retailer.
+							<span class="text-blue">Convenience:</span> Just three simple steps and your item is delivered to your door
+						</p>
+					</li>
+					<li class="ui-icon-block">
+						<span class="icon icon-layers"></span>
+						<p class="">
+							<span class="text-blue">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
 						</p>
 					</li>
 				</ul>
@@ -186,6 +193,7 @@ from any online retailer.
 		</div><!-- .row -->
 	</div><!-- .container -->
 </div><!-- .section -->
+
 <!--Scrolling Trending Items Section -->
 <div id="trending" class="slideshow-container">
 	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
@@ -195,205 +203,108 @@ from any online retailer.
 			</h2>
 			<p>See what people are buying now</p>
 		</div><!-- .section-heading -->
-		<!-- Wrapper for slides -->
-		<div class="slides-container">
-			<div class="slideshow">
-				<div id="slide1" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Nike Shoes</p>
-					</div>
-				</div>
-				<div id="slide2" class="slide">
-					<a href="https://www.starbucks.com">
-						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Starbucks Mug</p>
-					</div>
-				</div>
-				<div id="slide3" class="slide">
-					<a href="https://www.chanel.com">
-						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Chanel Purse</p>
-					</div>
-				</div>
-				<div id="slide4" class="slide">
-					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
-						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>AAPE Longsleeve</p>
-					</div>
-				</div>
-				<div id="slide5" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Glossier Boy Brow</p>
-					</div>
-				</div>
-				<div id="slide6" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Nike Shoes</p>
-					</div>
-				</div>
-				<div id="slide7" class="slide">
-					<a href="https://www.starbucks.com">
-						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Starbucks Mug</p>
-					</div>
-				</div>
-				<div id="slide8" class="slide">
-					<a href="https://www.chanel.com">
-						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Chanel Purse</p>
-					</div>
-				</div>
-				<div id="slide9" class="slide">
-					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
-						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>AAPE Longsleeve</p>
-					</div>
-				</div>
-				<div id="slide10" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Glossier Boy Brow</p>
-					</div>
-				</div>
-				<div id="slide11" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Nike Shoes</p>
-					</div>
-				</div>
-				<div id="slide12" class="slide">
-					<a href="https://www.starbucks.com">
-						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Starbucks Mug</p>
-					</div>
-				</div>
-				<div id="slide13" class="slide">
-					<a href="https://www.chanel.com">
-						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Chanel Purse</p>
-					</div>
-				</div>
-				<div id="slide14" class="slide">
-					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
-						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>AAPE Longsleeve</p>
-					</div>
-				</div>
-				<div id="slide15" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Glossier Boy Brow</p>
-					</div>
-				</div>
-				<div id="slide16" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img1" class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Nike Shoes</p>
-					</div>
-				</div>
-				<div id="slide17" class="slide">
-					<a href="https://www.starbucks.com">
-						<img id="slideshow-img2" class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Starbucks Mug</p>
-					</div>
-				</div>
-				<div id="slide18" class="slide">
-					<a href="https://www.chanel.com">
-						<img id="slideshow-img3" class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Chanel Purse</p>
-					</div>
-				</div>
-				<div id="slide19" class="slide">
-					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
-						<img id="slideshow-img4" class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>AAPE Longsleeve</p>
-					</div>
-				</div>
-				<div id="slide20" class="slide">
-					<a href="https://www.nike.com">
-						<img id="slideshow-img5" class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
-					</a>
-					<div class="container">
-						<br>
-						<p>Glossier Boy Brow</p>
-					</div>
-				</div>
-			</div><!--.slideshow -->
-			<!-- <div>
-				<a id="prev">&#10094;</a>
-				<a id="next">&#10095;</a>
-			</div> -->
-			<div class="dot-section">
-	  		<span id="dot1" class="dot"></span>
-	  		<span id="dot2" class="dot"></span>
-	  		<span id="dot3" class="dot"></span>
-				<span id="dot4" class="dot"></span>
-				<span id="dot5" class="dot"></span>
-			</div>
-		</div><!--.slide-container-->
-	</div><!-- .container -->
 
+		<!--Slides including buttons section -->
+		<div class="row" id="trending-item-section">
+			<div class="col-1"></div>
+			<!-- Wrapper for slides -->
+			<div class="slide-container col-10">
+				<div class="slide shadow-lg">
+					<a href="https://www.glossier.com/products/boy-brow">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Glossier Boy Brow</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>AAPE Longsleeve</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.chanel.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Chanel Purse</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.nike.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Nike Shoes</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.starbucks.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Starbucks Mug</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.timberland.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/timberland-mockup.jpg' %}" alt="Timberland Boots"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Timberland Boots</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.hydroflask.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/hydroflask-mockup.jpg' %}" alt="Hydro Flask Bottles"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Hydro Flask Bottles</p>
+					</div>
+				</div>
+				<div class="slide shadow-lg">
+					<a href="https://www.victoriassecret.com">
+						<div class="fill">
+							<img class="trending-image" src="{% static 'friendship/img/mockups/victoriasecret-mockup.jpg' %}" alt="Victoria's Secret Bras"/>
+						</div>
+					</a>
+					<div class="img-container">
+						<br>
+						<p>Victoria's Secret Bras</p>
+					</div>
+				</div>
+			</div><!--.slide-container -->
+			<div class="col-1"> </div>
+		</div><!--.row -->
+	</div><!-- .container -->
 </div><!-- .section -->
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="{% static 'friendship/js/libs/custom/trending.js' %}"></script>
 <link rel="stylesheet" href="{% static 'friendship/css/custom/trending.css' %}"/>
 

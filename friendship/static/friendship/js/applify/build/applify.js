@@ -13,10 +13,10 @@
         win.scroll(function() {
             var scroll_top = $(this).scrollTop();
             if (body.hasClass("ui-transparent-nav") && !body.hasClass("mobile-nav-active")) {
-                if (true || scroll_top >= 24) {
+                if (scroll_top >= 24) {
                     navbar.removeClass("transparent");
                 } else {
-                    // navbar.addClass("transparent");
+                    navbar.addClass("transparent");
                 }
             }
         });

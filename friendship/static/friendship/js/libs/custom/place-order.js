@@ -106,7 +106,7 @@ $('.btn-group .btn').click( function() {
 
 $(document).ready(function() {
     $('.num-hours').each( function(index) {
-        $(this).attr('checked', true);
+        $(this).attr('checked', false);
         $(this).parent().parent('.btn').removeClass('ui-gradient-message-selected');
         $(this).parent().parent('.btn').addClass('ui-gradient-messages');
     } );
@@ -114,7 +114,6 @@ $(document).ready(function() {
 
 var edit = false;
 
-//payment radio button listeners
 var editAddressForm = document.getElementById('edit-address-form');
 var currentAddressForm = document.getElementById('current-address');
 var editAddressLink = document.getElementById('edit-address');

@@ -316,6 +316,7 @@ class OrderAction(models.Model):
     @enum.unique
     class Action(enum.IntEnum):
         OTHER_ACTION = -1
+        MATCH_NOT_FOUND = 50
         ORDER_PLACED = 100
         MATCH_FOUND = 200
         PRICE_ACCEPTED = 300
@@ -337,7 +338,9 @@ class OrderAction(models.Model):
             elif self == self.ORDER_PLACED:
                 return "order placed"
             elif self == self.MATCH_FOUND:
-                return "match_found"
+                return "match found"
+            elif self == self.MATCH_NOT_FOUND:
+                return "match not found"
             elif self == self.PRICE_ACCEPTED:
                 return "price accepted"
             elif self == self.BANKNOTE_UPLOADED:
