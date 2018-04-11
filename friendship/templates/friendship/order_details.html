@@ -5,7 +5,7 @@
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
 {% block main_content %}
-<div class="container" id="order-headings">
+<!--<div class="container" id="order-headings">
     <div class="row">
         <div class="col-left">
             <p><span class="bold">URL:</span> <a href="{{ order.url }}">{{ order_url }}</a></p>
@@ -20,15 +20,274 @@
             <p>{{ order.receiver_address.country }}</p>
         </div>
     </div>
-</div>
-
+</div>-->
 <hr />
-<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
+<div class="container" id="order-headings">
+    <div class="row">
+        <div class="col-xl-3">
+            <h3>Order Details</h3>
+            <span class="bold"><h6>URL:</h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
+            <p><span class="black"><h6>Quantity:</h6></span> {{ order.quantity }}</p>
+            <p><span class="black"><h6>Description:</h6></span> {{ order.description }}</p>
+            <p><span class="black"><h6>Shipping Address:</h6></span></p>
+            <p>{{ order.receiver_address.name }}</p>
+            <p>{{ order.receiver_address.address_line_1 }}</p>
+            <p>{{ order.receiver_address.city }}, {{ order.receiver_address.region }}, {{ order.receiver_address.postal_code }}</p>
+            <p>{{ order.receiver_address.country }}</p>
+            <br>
+            <br>
+        </div>
+        <div class="col-xl-8">
+            <h3>Order Progress</h3>
+            <div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
+
+            <div class="ui-steps" id="order-details">
+                <!-- Item Ordered is always blue -->
+                <div class="step-wrapper">
+                    <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                    <div class="row">
+                        <div class="col-auto">
+                            <h4>Item Ordered on {{ order.date_placed }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FINDING MATCH LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action == ORDER_PLACED %}
+                        <span class="step-number ui-gradient-green">2</span>
+                        <div class="col-auto">
+                            <h4>Finding Match</h4>
+                            <table id="bid-info-table">
+                                <tr class="bid-info-row">
+                                    <th class="bid-info-header">Current Total:</th>
+                                    <th class="bid-info-header">Time Left:</th>
+                                    {% if min_bid.get_total %}
+                                    <th class="bid-info-header">Accept current price and buy now</th>
+                                    {% endif %}
+                                </tr>
+                                <tr class="bid-info-row">
+                                    {% if min_bid.get_total %}
+                                    <td class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></td>
+                                    {% else %}
+                                    <td class="bid-info-content font-weight-bold"><h5>No bids yet</h5></td>
+                                    {% endif %}
+                                    <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</td>
+                                    {% if min_bid.get_total %}
+                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                            </table>
+                        </div>
+                        {% elif latest_action.action >= MATCH_FOUND %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Found Match</h4>
+                        </div>
+                        {% elif latest_action.action == MATCH_NOT_FOUND %}
+                        <span class="step-number ui-gradient-peach">&#x2713</span>
+                        <div class="col-auto">
+                            <h4>Match Not Found</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- PAYMENT LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action < MATCH_FOUND %}
+                        <span class="step-number ui-gradient-grey">3</span>
+                        <div class="col-auto">
+                            <h4>Confirm Price and Pay</h4>
+                        </div>
+                        {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Payment Received</h4>
+                        </div>
+                        {% elif latest_action.action == MATCH_FOUND %}
+                        <span class="step-number ui-gradient-green">3</span>
+                        <div class="col-auto">
+                            <h4>Confirm Price and Pay</h4>
+                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
+                            <a class="btn btn-block ui-gradient-peach shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
+                        </div>
+                        {% elif latest_action.action == ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-peach"> </span>
+                        <div class="col-auto">
+                            <h4>Order Declined</h4>
+                        </div>
+                        {% elif latest_action.action == PRICE_ACCEPTED %}
+                        <span class="step-number ui-gradient-green">3</span>
+                        <div class="col-auto">
+                            <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
+                            <h4>Confirm Price and Pay</h4>
+                            <div class="col-auto">
+                                <table id="bid-info-table">
+                                    <tr class="bid-info-row">
+                                        <th class="bid-info-header">Total:</th>
+                                        <th class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <hr>
+                            <h6>Choose your Payment Method</h6>
+                            <form id="payment-form">
+                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
+                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer
+                            </form>
+                            <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+
+                            <div id="credit-card-payment" style="display: none">
+                                <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
+                                    {% csrf_token %}
+                                    <script src="https://cdn.omise.co/omise.js"></script>
+                                    <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                                    <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
+                                    <div id="token_errors"></div>
+                                    <input type="hidden" name="omise_token">
+                                    <table>
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td>
+                                            <input class="input form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
+                                            <input class="input form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
+                                        </td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
+                                    </div>
+                                    </table>
+                                    <input type="submit" class="btn btn-sm ui-gradient-positive" id="create_token" value="Submit Payment">
+                                </form>
+                            </div>
+                            <!-- END OF WHAT SHOULD BE DISPLAYED -->
+
+                            <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                            <div id="wire-payment" style="display: none">
+                                <span class="account-number">We display our account number here.</span>
+                                <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        {{ manual_wire_transfer_form.banknote_image.errors }}
+                                        {{ manual_wire_transfer_form.banknote_image }}
+                                    </div>
+                                    <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
+                                </form>
+                            </div>
+                            <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-grey">4</span>
+                        <div class="col-auto">
+                            <h4>Item Ordered By FriendShips</h4>
+                        </div>
+                        {% elif latest_action.action == PAYMENT_RECEIVED %}
+                        <span class="step-number ui-gradient-green">4</span>
+                        <div class="col-auto">
+                            <h4>Item Ordered By FriendShips</h4>
+                        </div>
+                        {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Item Ordered By FriendShips</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- SENDER RECEIVED ITEM LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-grey">5</span>
+                        <div class="col-auto">
+                            <h4>Sender Received Item</h4>
+                        </div>
+                        {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+                        <span class="step-number ui-gradient-green">5</span>
+                        <div class="col-auto">
+                            <h4>Sender Received Item</h4>
+                        </div>
+                        {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Sender Received Item</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-grey">6</span>
+                        <div class="col-auto">
+                            <h4>Arrived in Thailand</h4>
+                        </div>
+                        {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Arrived in Thailand</h4>
+                        </div>
+                        {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+                        <span class="step-number ui-gradient-green">6</span>
+                        <div class="col-auto">
+                            <h4>Arrived in Thailand</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- ITEM DELIVERED LOGIC -->
+                <div class="step-wrapper">
+                    <div class="row">
+                        {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+                        <span class="step-number ui-gradient-grey">7</span>
+                        <div class="col-auto">
+                            <h4>Item Delivered</h4>
+                        </div>
+                        {% elif latest_action.action >= ORDER_FULFILLED %}
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <div class="col-auto">
+                            <h4>Item Delivered</h4>
+                        </div>
+                        {% else %}
+                        <span class="step-number ui-gradient-green">7</span>
+                        <div class="col-auto">
+                            <h4>Item Delivered</h4>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+                    </div>
+                </div>
+            </div>
+
+
+<!--<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
 
 <div class="ui-steps" id="order-details">
-    <!-- Item Ordered is always blue -->
+    <!-- Item Ordered is always blue 
     <div class="step-wrapper">
-        <span class="step-number ui-gradient-blue">&#x2713</span>
+        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
         <div class="row">
             <div class="col-auto">
                 <h4>Item Ordered on {{ order.date_placed }}</h4>
@@ -36,11 +295,11 @@
         </div>
     </div>
 
-    <!-- FINDING MATCH LOGIC -->
+    <!-- FINDING MATCH LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action == ORDER_PLACED %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">2</span>
             <div class="col-auto">
                 <h4>Finding Match</h4>
                 <table id="bid-info-table">
@@ -66,7 +325,7 @@
                 </table>
             </div>
             {% elif latest_action.action >= MATCH_FOUND %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Found Match</h4>
             </div>
@@ -79,21 +338,21 @@
         </div>
     </div>
 
-    <!-- PAYMENT LOGIC -->
+    <!-- PAYMENT LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < MATCH_FOUND %}
-            <span class="step-number ui-gradient-grey"> </span>
+            <span class="step-number ui-gradient-grey">3</span>
             <div class="col-auto">
                 <h4>Confirm Price and Pay</h4>
             </div>
             {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Payment Received</h4>
             </div>
             {% elif latest_action.action == MATCH_FOUND %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">3</span>
             <div class="col-auto">
                 <h4>Confirm Price and Pay</h4>
                 <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
@@ -105,9 +364,9 @@
                 <h4>Order Declined</h4>
             </div>
             {% elif latest_action.action == PRICE_ACCEPTED %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">3</span>
             <div class="col-auto">
-                <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
+                <!-- 2 radio buttons, credit card and wire transfer (Manual) 
                 <h4>Confirm Price and Pay</h4>
                 <div class="col-auto">
                     <table id="bid-info-table">
@@ -123,7 +382,7 @@
                     <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
                     <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer
                 </form>
-                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED 
 
                 <div id="credit-card-payment" style="display: none">
                     <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
@@ -155,7 +414,7 @@
                 </div>
                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
 
-                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed 
                 <div id="wire-payment" style="display: none">
                     <span class="account-number">We display our account number here.</span>
                     <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
@@ -167,27 +426,27 @@
                         <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
                     </form>
                 </div>
-                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                <!-- END OF WHAT SHOULD BE DISPLAYED 
             </div>
             {% endif %}
         </div>
     </div>
 
-    <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+    <!-- ITEM ORDERED FROM MERCHANT LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
+            <span class="step-number ui-gradient-grey">4</span>
             <div class="col-auto">
                 <h4>Item Ordered By FriendShips</h4>
             </div>
             {% elif latest_action.action == PAYMENT_RECEIVED %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">4</span>
             <div class="col-auto">
                 <h4>Item Ordered By FriendShips</h4>
             </div>
             {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Item Ordered By FriendShips</h4>
             </div>
@@ -195,21 +454,21 @@
         </div>
     </div>
 
-    <!-- SENDER RECEIVED ITEM LOGIC -->
+    <!-- SENDER RECEIVED ITEM LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
+            <span class="step-number ui-gradient-grey">5</span>
             <div class="col-auto">
                 <h4>Sender Received Item</h4>
             </div>
             {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">5</span>
             <div class="col-auto">
                 <h4>Sender Received Item</h4>
             </div>
             {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Sender Received Item</h4>
             </div>
@@ -217,21 +476,21 @@
         </div>
     </div>
 
-    <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+    <!-- ITEM ARRIVED IN THAILAND LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
+            <span class="step-number ui-gradient-grey">6</span>
             <div class="col-auto">
                 <h4>Arrived in Thailand</h4>
             </div>
             {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Arrived in Thailand</h4>
             </div>
             {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">6</span>
             <div class="col-auto">
                 <h4>Arrived in Thailand</h4>
             </div>
@@ -239,28 +498,28 @@
         </div>
     </div>
 
-    <!-- ITEM DELIVERED LOGIC -->
+    <!-- ITEM DELIVERED LOGIC 
     <div class="step-wrapper">
         <div class="row">
             {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
-            <span class="step-number ui-gradient-grey"> </span>
+            <span class="step-number ui-gradient-grey">7</span>
             <div class="col-auto">
                 <h4>Item Delivered</h4>
             </div>
             {% elif latest_action.action >= ORDER_FULFILLED %}
-            <span class="step-number ui-gradient-blue">&#x2713</span>
+            <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
             <div class="col-auto">
                 <h4>Item Delivered</h4>
             </div>
             {% else %}
-            <span class="step-number ui-gradient-green"> </span>
+            <span class="step-number ui-gradient-green">7</span>
             <div class="col-auto">
                 <h4>Item Delivered</h4>
             </div>
             {% endif %}
         </div>
     </div>
-</div>
+</div>-->
 
 <script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
 

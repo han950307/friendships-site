@@ -21,6 +21,11 @@ h3 {
     margin: 10px;
 }
 
+#id_merchandise_type {
+    height:34px;
+    line-height:34px;
+}
+
 select {
     font: inherit;
 }

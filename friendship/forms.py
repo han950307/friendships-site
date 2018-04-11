@@ -93,7 +93,7 @@ class OrderForm(forms.ModelForm):
             attrs={
                 'placeholder': 'Category*',
                 'required': 'required',
-                'class': 'input form-control',
+                'class': 'input input-group form-control',
             }
         ),
     )
@@ -130,7 +130,11 @@ class OrderForm(forms.ModelForm):
                     'class': 'input form-control',
                 }
             ),
-            'item_image': forms.FileInput(),
+            'item_image': forms.FileInput(
+                attrs={
+                    'type': 'file',
+                }
+            ),
             'quantity': forms.NumberInput(
                 attrs={
                     'placeholder': 'Quantity*',
@@ -154,7 +158,7 @@ class OrderForm(forms.ModelForm):
             'description': forms.TextInput(
                 attrs={
                     'placeholder': 'Any other details about the item',
-                    'class': 'input form-control',
+                    'class': 'form-control'
                 }
             ),
         }

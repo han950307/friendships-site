@@ -97,17 +97,21 @@ div#right-pane{
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
-
 .homepage-container #paste-url {
   padding:11px 1rem 11px 1.5rem;
 }
+
 
 #homepage-start {
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem 1rem;
-  margin: -10rem 20rem;
+  margin: -10rem auto;
   text-align: center;
+}
+
+#homepage-start .input-group-append .btn {
+  display:block;
 }
 
 #homepage-start p{
@@ -115,11 +119,19 @@ div#right-pane{
   font-size: 1.2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 500px){
+  #homepage-start{
+    width:67%;
+    padding:2rem 2rem;
+  }
+}
+
+@media (min-width: 668px) {
   #homepage-start {
     background-color: white;
-    padding: 1.5rem 1rem;
+    padding: 2rem 2rem;
     /*margin: 2rem 8rem;*/
+    min-width:600px;
   }  
 }
 
@@ -213,7 +225,7 @@ div#right-pane{
     height: 100%;
   }*/
   .ui-hero.ui-curve.hero-center {
-    padding: 7rem 0 7rem 0;
+    padding: 9rem 0 7rem 0;
   }
 }
 
@@ -363,9 +375,23 @@ div.orders {
 
 #order-headings p{
   margin-bottom:0.3rem;
+  width:100%;
+  overflow:hidden;
 }
+
+#order-headings h6{
+  margin-top:1rem;
+}
+
 #order-headings h1{
   margin-bottom:1rem;
+}
+#order-headings h3{
+  margin-bottom:1rem;
+  padding-bottom:1rem;
+}
+#order-headings .col-xl-8{
+  padding-left: 4rem;
 }
 
 hr {
@@ -463,7 +489,12 @@ span#time_countdown {
 }
 
 .ui-steps .col-auto h4 {
-  font-weight: 600;
+  font-weight: lighter;
+  font-size:1.3rem;
+}
+
+.ui-steps h5{
+  font-weight:lighter;
 }
 
 #confirm-button {
@@ -498,7 +529,7 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps {
-    margin-top: 0;
+    margin-top: 4rem;
   }
 
   #order-details div.row {
@@ -536,8 +567,8 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::before, .ui-steps .step-wrapper::after {
-    left: 1.75%;
-    margin-left: -2px;
+    left: 2.5%;
+    margin-left:0px;
   }
 
 
@@ -545,8 +576,8 @@ span#time_countdown {
 
 .ui-steps .step-wrapper::before {
   top: -1rem;
-  bottom: calc(50% + (25px + 1rem));
-  display: none;
+  bottom: calc(50% + (0px + 1rem));
+  /*display: none;*/
 }
 
 @media (min-width: 740px) {
@@ -562,7 +593,7 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::after {
-    top: calc(50% + (25px + 1rem));
+    top: calc(50% + (0px + 1rem));
     bottom: -1rem;
   }
 }
