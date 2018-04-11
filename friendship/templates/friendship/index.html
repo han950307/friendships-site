@@ -22,7 +22,7 @@
 		<form action="{% url 'friendship:place_order' %}">
 			<div class="input-group">
 				<!-- Email Input -->
-				<input autocomplete="email" name="url" class="input form-control" placeholder="Paste Item's URL">
+				<input autocomplete="email" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
 				<div class="input-group-append">
 					<!-- Submit Button -->
 					<button class="btn btn-sm ui-gradient-found">Place Order
@@ -38,7 +38,7 @@
 <!-- App Features Section -->
 <div id="features" class="section pt-0">
 	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
+		<div class="section-heading center">
 			<h2 class="heading text-dark-gray">
 				How it Works
 			</h2>
@@ -48,25 +48,29 @@
 		</div><!-- .section-heading -->
 		<div class="row">
 			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
+				<img src="{% static 'friendship/img/graphics/step1.svg' %}">
+				<h4 class="text-dark-gray">Step 1</h4>
 				<p>
 					Paste a link to your desired item, from <span class="text-blue">any</span> online store
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
+				<img src="{% static 'friendship/img/graphics/step2.svg' %}">
+				<h4 class="text-dark-gray">Step 2</h4>
 				<p>
 					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<img src="{% static 'friendship/img/graphics/step3.svg' %}">
+				<h4 class="text-dark-gray">Step 3</h4>
 				<p>
 					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
+				<img src="{% static 'friendship/img/graphics/step4.svg' %}">
+				<h4 class="text-dark-gray">Step 4</h4>
 				<p>
 					Your item is delivered <span class="text-blue">directly</span> to you
 				</p>
@@ -93,36 +97,38 @@
 				<!-- Left blocks -->
 				<ul class="ui-icon-blocks ui-blocks-v icons-sm">
 					<li class="ui-icon-block">
-						<span class="icon icon-diamond"></span>
+						<span class="icon icon-calendar"></span>
 						<p class="">
-							<span class="text-blue">Availability:</span> No more Preorders! Buy any item you want, any time you want it
+							<span class="text-black">Availability:</span> No more Preorders! Buy any item you want, any time you want it
 						</p>
 					</li>
 					<li class="ui-icon-block">
-						<span class="icon icon-pie-chart"></span>
+						<span class="icon icon-wallet"></span>
 						<p class="">
-							<span class="text-blue">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
+							<span class="text-black">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
 						</p>
 					</li>
 					<li class="ui-icon-block">
-						<span class="icon icon-layers"></span>
+						<span class="icon icon-globe"></span>
 						<p class="">
-							<span class="text-blue">Convenience:</span> Just three simple steps and your item is delivered to your door
+							<span class="text-black">Convenience:</span> Just three simple steps and your item is delivered to your door
 						</p>
 					</li>
 					<li class="ui-icon-block">
-						<span class="icon icon-layers"></span>
+						<span class="icon icon-shield"></span>
 						<p class="">
-							<span class="text-blue">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
+							<span class="text-black">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
 						</p>
 					</li>
 				</ul>
+				<a href="{% url 'friendship:login' %}" class="btn-link btn-arrow">Get Started</a>
 			</div>
 
 			<!-- Right Column -->
-			<div class="col-lg-7 col-xl-6">
+			<div class="col-lg-7 col-xl-6 animate animated fade-in-left" data-show="fade-in-left" data-delay="200">
+				<img src="{% static 'friendship/img/graphics/features-truck.svg' %}" alt="FriendShips" id="truck-graphic" class="responsive-on-sm">
 
-				<!-- Logo Cloud -->
+				<!-- Logo Cloud 
 				<div class="ui-logos-cloud">
 					<div data-size="4" class="mt-0 animate" data-show="fade-in">
 						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
@@ -134,7 +140,7 @@
 						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
 					</div>
 
-					<!-- Flex Break -->
+					<!-- Flex Break 
 					<span class="flex-break"></span>
 
 					<div data-size="4" class="animate" data-show="fade-in">
@@ -153,7 +159,7 @@
 						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
 					</div>
 
-					<!-- Flex Break -->
+					<!-- Flex Break 
 					<span class="flex-break"></span>
 
 					<div data-size="8" class="animate" data-show="fade-in">
@@ -169,7 +175,7 @@
 						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
 					</div>
 
-					<!-- Flex Break -->
+					<!-- Flex Break 
 					<span class="flex-break"></span>
 
 					<div data-size="3" class="animate" data-show="fade-in">
@@ -182,7 +188,7 @@
 						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
 					</div>
 
-					<!-- Flex Break -->
+					<!-- Flex Break 
 					<span class="flex-break"></span>
 
 					<div data-size="4" class="mb-0 animate" data-show="fade-in">
@@ -196,20 +202,20 @@
 </div><!-- .section -->
 
 <!--Scrolling Trending Items Section -->
-<div id="trending" class="slideshow-container">
+<div id="trending" class="section slideshow-container">
 	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
 		<div class="section-heading cente">
 			<h2 class="heading text-dark-gray">
 				Trending Items
 			</h2>
-			<p>See what people are buying now</p>
+			<p>See popular items that people are buying now</p>
 		</div><!-- .section-heading -->
 
 		<!--Slides including buttons section -->
 		<div class="row" id="trending-item-section">
 			<div class="col-1"></div>
 			<!-- Wrapper for slides -->
-			<div class="slide-container col-10">
+			<div class="slide-container col-12">
 				<div class="slide shadow-lg">
 					<a href="https://www.glossier.com/products/boy-brow">
 						<div class="fill">
@@ -303,6 +309,7 @@
 		</div><!--.row -->
 	</div><!-- .container -->
 </div><!-- .section -->
+
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>

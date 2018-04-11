@@ -41,6 +41,10 @@ h2 {
   padding-top: 2rem;
 }
 
+.text-black {
+  color:#414c5a;
+}
+
 /**
 MESSAGES
 ------------------------------------*
@@ -93,6 +97,10 @@ div#right-pane{
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
+
+.homepage-container #paste-url {
+  padding:11px 1rem 11px 1.5rem;
+}
 
 #homepage-start {
   background-color: white;
@@ -163,6 +171,17 @@ div#right-pane{
 .ui-hero.ui-curve.hero-center {
     padding: 7rem 0 7rem 0;
   }
+
+.ui-icon-block img {
+  max-width: 153px;
+  padding-bottom:20px;
+}
+
+#truck-graphic {
+  width:100%;
+  max-width: 600px;
+  padding: 3rem 3rem;
+}
 
 /* for slideshow to make img proportional */
 .fill {
@@ -250,7 +269,7 @@ input.num-hours {
   margin-bottom: 1rem;
 }
 
-h4 {
+.form-container h4 {
   margin-bottom: 1em;
 }
 
