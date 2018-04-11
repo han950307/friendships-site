@@ -158,7 +158,7 @@ class OrderForm(forms.ModelForm):
             'description': forms.TextInput(
                 attrs={
                     'placeholder': 'Any other details about the item',
-                    'class': 'form-control'
+                    'class': 'input form-control'
                 }
             ),
         }
