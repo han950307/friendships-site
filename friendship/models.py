@@ -375,13 +375,49 @@ class OrderAction(models.Model):
         choices = ((x.value, x.name.title()) for x in Action)
     )
     date_placed = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length=1000, null=True, blank=True)
+    text = models.CharField(max_length=1000, null=True, blank=True)  
+
+
+class Money(models.Model):
+    class ExchangeRates(object):
+        USD_TBT = 32.49
+
+    @forDjango
+    @enum.unique
+    class Currency(enum.IntEnum):
+        OTHER_ACTION = -1
+        USD = 50
+        TBT = 100
+
+        def __str__(self):
+            if self == self.USD:
+                return "usd"
+            elif self == self.TBT:
+                return "tbt"
+            else:
+                return "other"
+
+    def convert_to(self, currency):
+        if self.currency == Currency.TBT:
+            if currency == Currency.USD:
+                return self.value / ExchangeRates.USD_TBT
+        elif self.currency == Currency.USD:
+            if currency == Currency.TBT:
+                return self.value * ExchangeRates.USD_TBT
+        
+        return self.value
+
+    value = models.DecimalField(max_digits=60, decimal_places=6, default=0)
+    currency = models.IntegerField(
+        choices = ((x.value, x.name.title()) for x in Currency)
+    )
 
 
 class Bid(models.Model):
     """
     When a potential shipper places a bid, it goes in this database.
     """
+
     def get_total(self):
         return self.wages + self.retail_price + self.import_tax + self.domestic_shipping
 
@@ -397,11 +433,60 @@ class Bid(models.Model):
     date_placed = models.DateTimeField(
         auto_now_add=True,
     )
-    wages = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    retail_price = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    import_tax = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    domestic_shipping = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    currency = models.CharField(max_length=15)
+    wages = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="wages",
+    )
+    retail_price = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="retail_price",
+    )
+    import_tax = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="import_tax",
+    )
+    dest_domestic_shipping = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="destination_domestic_shipping",
+    )
+    origin_domestic_shipping = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="origin_domestic_shipping",
+    )
+    international_shipping = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="international_shipping",
+    )
+    service_fee = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="service_fee",
+    )
+    origin_sales_tax = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="origin_sales_tax",
+    )
+    other_fees = models.ForeignKey(
+        Money,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="other_fees",
+    )
 
 
 class Message(models.Model):

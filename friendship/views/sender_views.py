@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from formtools.wizard.views import SessionWizardView
 
-from friendship.models import Order, Bid, ShipperInfo
+from friendship.models import Order, Bid, ShipperInfo, Money
 from friendship.views import open_orders
 from friendship.forms import (
     SenderRegistrationForm,
@@ -45,9 +45,9 @@ def make_bid_process(request, order_id):
         wages = float(request.POST["wages"])
         order = Order.objects.get(pk=order_id)
         bid = Bid.objects.create(
+            shipper_id=request.user.id,
             wages=wages,
             order=order,
-            shipper_id=request.user.id,
         )
 
         # Just return another view after processing it.

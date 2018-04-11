@@ -59,7 +59,7 @@
                         {% endif %}
                         <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</td>
                         {% if min_bid.get_total %}
-                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-positive">buy now</a>
                         </td>
                         {% endif %}
                     </tr>
@@ -96,6 +96,16 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-auto">
                 <h4>Confirm Price and Pay</h4>
+                <table id="bid-info-table">
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Retail Price:</td>
+                        <td class="bid-info-content font-weight-bold">min_bid.retail_price</td>
+                    </tr>
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Subtotal:</td>
+                        <td class="bid-info-content font-weight-bold">min_bid.retail_price</td>
+                    </tr>
+                </table>
                 <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
                 <a class="btn btn-block ui-gradient-peach shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
             </div>

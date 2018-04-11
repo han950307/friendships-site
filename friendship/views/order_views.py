@@ -185,12 +185,13 @@ def open_orders(request, filter):
             bid_end_datetime__gte=right_now
         ).order_by(
             '-bid_end_datetime'
+        ).filter(
+            shipper=None
         )
 
         # Get minimum bid.
         for order in qset:
             min_bid = get_min_bid(order)
-            print(order, min_bid)
             if not min_bid:
                 order.min_bid = "No current bids"
             else:
