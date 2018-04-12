@@ -69,7 +69,7 @@ def match_with_shipper(order):
     else:
         shipper_name = order.shipper.first_name
 
-    body.format(
+    body_str = body.format(
         first_name=order.receiver.first_name,
         shipper_name=shipper_name,
         url="https://www.friendships.us/order_details/{}".format(order.id),
@@ -77,12 +77,12 @@ def match_with_shipper(order):
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
 
-    mail.send_mail(
-        "Your Order #{} Match Found!".format(order.id),
-        body,
-        "no-reply@friendships.us",
-        [order.receiver.email],
-    )
+    # mail.send_mail(
+    #     "Your Order #{} Match Found!".format(order.id),
+    #     body_str,
+    #     "no-reply@friendships.us",
+    #     [order.receiver.email],
+    # )
 
     order.latest_action = action
     order.save()
