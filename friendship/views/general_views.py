@@ -14,6 +14,8 @@ def testing(request):
 
 
 def how_it_works(request):
-    return render(request, 'friendship/how_it_works.html', {
-		'data': [request, ],
-	})
+    return render(request, 'friendship/how_it_works.html', {})
+
+
+def about_us(request):
+	return render(request, 'friendship/about_us.html', {})
