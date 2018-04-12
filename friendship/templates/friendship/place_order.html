@@ -53,7 +53,7 @@
         </div>
         <div class="form-group" style="margin-top:2rem;">
             <span class="desc">Choose a bidding deadline for this item.*</span>
-            {# {{ form.num_hours.errors }} #}
+            {{ form.num_hours.errors }}
             <div class="btn-group" data-toggle="buttons">
                 {% for field in form.num_hours %}
                 <label class="btn btn-primary btn-block">
