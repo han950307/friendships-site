@@ -99,6 +99,9 @@
 	</div><!-- .container -->
 </nav> <!-- nav -->
 
+{% block breadcrumb %}
+{% endblock breadcrumb %}
+
 {% block banner %}
 {% endblock banner %}
 
@@ -121,13 +124,13 @@
 					<h6 class="heading footer-heading">Quick Nav</h6>
 					<ul class="footer-nav">
 						<li>
-							<a href="{% static 'friendship/index.html' %}">Home</a>
+							<a href="{% url 'friendship:index' %}">Home</a>
 						</li>
 						<li>
-							<a href="{% static 'friendship/place_order.html' %}">Place an Order</a>
+							<a href="{% url 'friendship:place_order' %}">Place an Order</a>
 						</li>
 						<li>
-							<a href="{% static 'friendship/user_open_orders.html' %}">Your Orders</a>
+							<a href="{% static 'friendship:user_open_orders' %}">Your Orders</a>
 						</li>
 					</ul>
 				</div>
@@ -135,7 +138,7 @@
 					<h6 class="heading footer-heading">Other Pages</h6>
 					<ul class="footer-nav">
 						<li>
-							<a href="page-contact.html">About Us</a>
+							<a href="{% url 'friendship:about_us' %}">About Us</a>
 						</li>
 						<li>
 							<a href="page-coming-soon.html">Contact Us</a>
@@ -164,14 +167,8 @@
 						<a class="btn ui-gradient-blue btn-circle shadow-md">
 							<span class="fa fa-facebook"></span>
 						</a>
-						<a class="btn ui-gradient-peach btn-circle shadow-md">
-							<span class="fa fa-instagram"></span>
-						</a>
 						<a class="btn ui-gradient-green btn-circle shadow-md">
 							<span class="fa fa-twitter"></span>
-						</a>
-						<a class="btn ui-gradient-purple btn-circle shadow-md">
-							<span class="fa fa-pinterest"></span>
 						</a>
 					</div>
 				</div>

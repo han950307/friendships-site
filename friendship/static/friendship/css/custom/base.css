@@ -363,6 +363,25 @@ div.orders {
 * ----------------------------------------------------------------------- *
 */
 /* order details step view. */
+
+.breadcrumb {
+  padding-top:8rem;
+}
+.breadcrumb li {
+  display:inline;
+}
+.breadcrumb li+li:before {
+    padding: 8px;
+    color: gray;
+    content: "/\00a0";
+}
+
+.order-number-heading {
+  margin-top:-10rem;
+  text-align:left;
+}
+
+
 #bid-info-table {
   width: 100%;
   margin-top: 1rem;
@@ -390,8 +409,10 @@ div.orders {
   margin-bottom:1rem;
   padding-bottom:1rem;
 }
+@media (min-width:740px){
 #order-headings .col-xl-8{
   padding-left: 4rem;
+}
 }
 
 hr {
@@ -410,7 +431,7 @@ span#time_countdown {
 
 #order-details div.row {
   display: block;
-  width: 93%;
+  width: 70%;
   padding: 2rem 0.2rem;
   margin-left: -1rem;
   font-size: 1rem;
@@ -493,6 +514,10 @@ span#time_countdown {
   font-size:1.3rem;
 }
 
+.step-number .fas {
+font-size: 18px;
+}
+
 .ui-steps h5{
   font-weight:lighter;
 }
@@ -520,10 +545,31 @@ span#time_countdown {
   margin-bottom: 2rem;
 }
 
+  #order-details div.row {
+    width: 48%;
+  }
+
+@media(min-width:500px){
+    #order-details div.row {
+    width: 70%;
+  }
+}
+@media(min-width:570px){
+    #order-details div.row {
+    width: 80%;
+  }
+}
+
 @media (min-width: 740px) {
   .ui-steps div[class^="col-"]:nth-child(1),
   .ui-steps div[class*=" col-"]:nth-child(1) {
     margin-bottom: 0;
+  }
+  .step-number .fas {
+    font-size: 20px;
+  }
+  #order-details div.row {
+    width: 93%;
   }
 }
 
@@ -653,12 +699,30 @@ span#time_countdown {
 .ui-steps .step-wrapper .step-number::before {
   border-radius: 100%;
 }
-
-.ui-steps .step-wrapper .step-number {
-	left: 0%;
+@media(min-width: 740px){
+  .ui-steps .step-wrapper .step-number {
+  left: 0%;
 }
+}
+
 
 .ui-steps .row {
   padding-left: 6%;
 }
 
+/**
+* 29. About Us
+* ----------------------------------------------------------------------- *
+*/
+.first-row {
+  margin-bottom:3rem;
+  margin-top: 2rem;
+}
+
+#features2 .ui-icon-block{
+  text-align:center;
+}
+
+#features2 {
+  margin-top:5rem;
+}

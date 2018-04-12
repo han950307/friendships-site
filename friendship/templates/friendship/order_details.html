@@ -2,7 +2,14 @@
 
 {% load static %}
 
-{% block title %} Order # {{ order.id }} {% endblock title %}
+{% block breadcrumb %}
+<ul class="breadcrumb container">
+  <li><a href="{% url 'friendship:user_open_orders' %}">Your Orders</a></li>
+  <li>Order # {{ order.id }}</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block title %} <div class="order-number-heading">Order # {{ order.id }} </div>{% endblock title %}
 
 {% block main_content %}
 <!--<div class="container" id="order-headings">
@@ -44,7 +51,7 @@
             <div class="ui-steps" id="order-details">
                 <!-- Item Ordered is always blue -->
                 <div class="step-wrapper">
-                    <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                    <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                     <div class="row">
                         <div class="col-auto">
                             <h4>Item Ordered on {{ order.date_placed }}</h4>
@@ -82,7 +89,7 @@
                             </table>
                         </div>
                         {% elif latest_action.action >= MATCH_FOUND %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                         <div class="col-auto">
                             <h4>Found Match</h4>
                         </div>
@@ -104,7 +111,7 @@
                             <h4>Confirm Price and Pay</h4>
                         </div>
                         {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                         <div class="col-auto">
                             <h4>Payment Received</h4>
                         </div>
@@ -203,7 +210,7 @@
                             <h4>Item Ordered By FriendShips</h4>
                         </div>
                         {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                         <div class="col-auto">
                             <h4>Item Ordered By FriendShips</h4>
                         </div>
@@ -225,7 +232,7 @@
                             <h4>Sender Received Item</h4>
                         </div>
                         {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
                         <div class="col-auto">
                             <h4>Sender Received Item</h4>
                         </div>
@@ -242,7 +249,7 @@
                             <h4>Arrived in Thailand</h4>
                         </div>
                         {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
                         <div class="col-auto">
                             <h4>Arrived in Thailand</h4>
                         </div>
@@ -264,7 +271,7 @@
                             <h4>Item Delivered</h4>
                         </div>
                         {% elif latest_action.action >= ORDER_FULFILLED %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" style="font-size:22px"></i></span>
+                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
                         <div class="col-auto">
                             <h4>Item Delivered</h4>
                         </div>
