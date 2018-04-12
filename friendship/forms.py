@@ -10,7 +10,7 @@ from django.forms import (
     FileField,
 )
 from django import forms
-from friendship.models import Order, ShipperInfo, ShippingAddress
+from friendship.models import Order, ShipperInfo, ShippingAddress, Money
 
 
 """ACCOUNTS"""
@@ -81,6 +81,47 @@ class ShippingCompanyRegistrationForm(forms.Form):
     name = forms.CharField(max_length=200)
 
 
+class BidForm(forms.Form):
+    currency = forms.ChoiceField(
+        choices=[
+            (x.value, str(x).upper())
+            for x
+            in Money.Currency
+            if x == Money.Currency.USD
+        ],
+        widget=forms.Select(
+            attrs={
+                'placeholder': 'Currency',
+                'required': 'required',
+                'class': 'input form-control',
+                'data-validation': 'required',
+            }
+        ),
+    )
+
+    wages = forms.DecimalField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Shipping Bid (12.00)',
+                'required': 'required',
+                'class': 'input form-control',
+                'data-validation': 'required',
+            }
+        )
+    )
+
+    retail_price = forms.DecimalField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Retail Price (125.00)',
+                'required': 'required',
+                'class': 'input form-control',
+                'data-validation': 'required',
+            }
+        )
+    )
+
+
 """ORDER RELATED FORMS"""
 class OrderForm(forms.ModelForm):
     merchandise_type = forms.ChoiceField(
@@ -128,6 +169,7 @@ class OrderForm(forms.ModelForm):
                     'placeholder': 'URL*',
                     'required': 'required',
                     'class': 'input form-control',
+                    'data-validation': 'required',
                 }
             ),
             'item_image': forms.FileInput(),

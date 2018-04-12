@@ -4,11 +4,15 @@
   setInterval(function() {
     var now = new Date().getTime();
     var distance = deadline-now;
-    var hours = Math.floor(distance/ (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  	document.getElementById('time_countdown').innerHTML = "<h5>"+twoDigit(hours)+":"+twoDigit(minutes)+":"+twoDigit(seconds)+"</h5>";
-  	}, 1000);
+    if (distance > 0){
+      var hours = Math.floor(distance/ (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    	document.getElementById('time_countdown').innerHTML = "<h5>"+twoDigit(hours)+":"+twoDigit(minutes)+":"+twoDigit(seconds)+"</h5>";
+    } else {
+      document.getElementById('time_countdown').innerHTML = "<h5>finding match now...</h5>";
+    }
+  }, 1000);
 
 //convert the time to 2 digits (ex. 5 -> 05)
 function twoDigit(num) {

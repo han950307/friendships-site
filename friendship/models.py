@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 import enum
 import functools
 import datetime
+import math
+import decimal
 
 
 def forDjango(cls):
@@ -40,13 +42,13 @@ class ShipperInfo(models.Model):
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name="is_shipper",
+        related_name="shipper_info",
     )
 
     url = models.URLField(null=True, blank=True)
 
     shipper_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in ShipperType)
+        choices = ((x.value, str(x)) for x in ShipperType)
     )
     
     id_image = models.ImageField(
@@ -108,7 +110,7 @@ class ShippingAddress(models.Model):
                 return "other"
 
     address_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in AddressType)
+        choices = ((x.value, str(x)) for x in AddressType)
     )
 
     primary = models.BooleanField()
@@ -167,7 +169,7 @@ class Order(models.Model):
             else:
                 return "other"
 
-    choices = [(x.value, x.name.title()) for x in MerchandiseType]
+    choices = [(x.value, str(x)) for x in MerchandiseType]
     choices.insert(0, (-1, "Category - please choose one"))
 
     url = models.URLField()
@@ -268,7 +270,7 @@ class TrackingNumber(models.Model):
     provider = models.CharField(max_length=100, null=True, blank=True)
     tracking_number = models.CharField(max_length=140)
     shipping_stage = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in ShippingStage)
+        choices = ((x.value, str(x)) for x in ShippingStage)
     )
     url = models.URLField(null=True, blank=True)
 
@@ -302,7 +304,7 @@ class PaymentAction(models.Model):
     )
 
     payment_type = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in PaymentType)
+        choices = ((x.value, str(x)) for x in PaymentType)
     )
 
     account_number = models.CharField(max_length=100)
@@ -361,7 +363,7 @@ class OrderAction(models.Model):
                 return "order declined"
             elif self == self.ORDER_CLOSED:
                 return "order closed"
-            elif self == self.OTHER:
+            elif self == self.OTHER_ACTION:
                 return "other"
             else:
                 return "other"
@@ -372,18 +374,116 @@ class OrderAction(models.Model):
         related_name="actions",
     )
     action = models.IntegerField(
-        choices = ((x.value, x.name.title()) for x in Action)
+        choices = ((x.value, str(x)) for x in Action)
     )
     date_placed = models.DateTimeField(auto_now_add=True)
-    text = models.CharField(max_length=1000, null=True, blank=True)
+    text = models.CharField(max_length=1000, null=True, blank=True)  
+
+
+class Money(models.Model):
+    class ExchangeRates(object):
+        # XXX to YYY exchange rate.
+        USD_THB = decimal.Decimal(32.49)
+        THB_USD = decimal.Decimal(1 / 32)
+
+    @forDjango
+    @enum.unique
+    class Currency(enum.IntEnum):
+        OTHER = -1
+        USD = 50
+        THB = 100
+
+        def __str__(self):
+            if self == self.USD:
+                return "usd"
+            elif self == self.THB:
+                return "thb"
+            else:
+                return "other"
+
+        @classmethod
+        def get_currency(cls, currency_str):
+            if currency_str.lower() == "usd":
+                return cls.USD
+            elif currency_str.lower() == "thb":
+                return cls.THB
+            else:
+                return cls.OTHER
+
+    @classmethod
+    def format_value(cls, value, currency):
+        """
+        Only use this when you want to format
+        """
+        if currency == Money.Currency.THB:
+            val = math.ceil(value)
+            return "\u0E3F{}".format(val)
+        elif currency == Money.Currency.USD:
+            val = math.ceil(value * 100) / 100
+            return "\u0024{0:.2f}".format(val)
+        # Default to USD
+        else:
+            val = math.ceil(value * 100) / 100
+            return "\u0024{0:.2f}".format(val)
+
+    def get_value(self, currency):
+        orig = self.currency
+        dest = currency
+
+        if orig == self.Currency.THB:
+            if dest == self.Currency.USD:
+                return self.value * self.ExchangeRates.THB_USD
+
+        elif orig == self.Currency.USD:
+            if dest == self.Currency.THB:
+                return self.value * self.ExchangeRates.USD_THB
+        
+        return self.value
+
+    def get_value_str(self, currency):
+        """
+        Formats the string correctly.
+        """
+        return Money.format_value(self.get_value(currency), currency)
+
+    value = models.DecimalField(max_digits=60, decimal_places=6, default=0)
+    currency = models.IntegerField(
+        choices = ((x.value, str(x)) for x in Currency)
+    )
 
 
 class Bid(models.Model):
     """
     When a potential shipper places a bid, it goes in this database.
     """
-    def get_total(self):
-        return self.wages + self.retail_price + self.import_tax + self.domestic_shipping
+    def __lt__(self, other):
+        if (self.get_total() < other.get_total()):
+            return True
+        if (self.get_total() > other.get_total()):
+            return False
+        if (self.date_placed < other.date_placed):
+            return True
+        if (self.date_placed > other.date_placed):
+            return False
+        return False
+
+    def get_total(self, currency=Money.Currency.USD):
+        """
+        Computes the total sum in a very cool way.
+        """
+        return sum(
+            [
+                Money.objects.get(pk=self.__dict__[x]).get_value(currency)
+                for x
+                in self.__dict__.keys()
+                if self.__dict__[x] and x in self.money_values
+            ]
+        )
+
+    def get_total_str(self, currency=Money.Currency.USD):
+        val = self.get_total(currency)
+        return Money.format_value(val, currency)
+
 
     shipper = models.ForeignKey(
         User,
@@ -397,11 +497,29 @@ class Bid(models.Model):
     date_placed = models.DateTimeField(
         auto_now_add=True,
     )
-    wages = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    retail_price = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    import_tax = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    domestic_shipping = models.DecimalField(max_digits=50, decimal_places=4, default=0)
-    currency = models.CharField(max_length=15)
+    # This is the total shipping fee
+    wages = models.ForeignKey(
+        Money,
+        on_delete=models.CASCADE,
+        related_name="wages",
+    )
+    retail_price = models.ForeignKey(
+        Money,
+        on_delete=models.CASCADE,
+        related_name="retail_price",
+    )
+    service_fee = models.ForeignKey(
+        Money,
+        on_delete=models.CASCADE,
+        related_name="service_fee",
+    )
+
+    # when you add a new field that should be added to the sum, add here with +"_id"
+    money_values = [
+        "wages_id",
+        "retail_price_id",
+        "service_fee_id",
+    ]
 
 
 class Message(models.Model):

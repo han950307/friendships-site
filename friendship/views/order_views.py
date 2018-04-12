@@ -11,10 +11,13 @@ from ..models import (
     ShippingAddress,
     PaymentAction,
     Message,
+    Money,
 )
 
 import datetime
 import pytz
+from django.core import mail
+from friendsite import settings
 
 from ..forms import (
     ManualWireTransferForm,
@@ -27,9 +30,8 @@ def get_min_bid(order):
     Given an order, returns the min bid object.
     """
     bids = Bid.objects.filter(order=order)
-    bid_list = [(x.get_total(), x) for x in bids]
     if bids:
-        return min(bid_list)[1]
+        return min(bids)
     else:
         return None
 
@@ -40,22 +42,47 @@ def match_with_shipper(order):
     """
     min_bid = get_min_bid(order)
     if not min_bid:
-        # pair with one of friendship accounts.
         if order.bid_end_datetime < datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
             action = OrderAction.objects.create(
                 order=order,
                 action=OrderAction.Action.MATCH_NOT_FOUND
             )
+        return
 
     else:
         order.shipper = min_bid.shipper
         # make shipper choose a shipping address when they're matched.
         action = OrderAction.objects.create(
             order=order,
-            action=OrderAction.Action.MATCH_FOUND
+            action=OrderAction.Action.MATCH_FOUND,
         )
         order.final_bid = min_bid
         order.save()
+
+    body = "Dear {first_name},\n\nWe have found a match for you with {shipper_name}" + \
+            "! Please visit {url}, confirm the final price, and send in the payment" + \
+            "within 24 hours to receive your item.\n\n" + \
+            "Your final price is {total_price_usd} ({total_price_thb}).\n"
+
+    if order.shipper.shipper_info.name:
+        shipper_name = order.shipper.shipper_info.name
+    else:
+        shipper_name = order.shipper.first_name
+
+    body_str = body.format(
+        first_name=order.receiver.first_name,
+        shipper_name=shipper_name,
+        url="https://www.friendships.us/order_details/{}".format(order.id),
+        total_price_usd=order.final_bid.get_total_str(),
+        total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
+    )
+
+    mail.send_mail(
+        "Your Order #{} Match Found!".format(order.id),
+        body_str,
+        "no-reply@friendships.us",
+        [order.receiver.email],
+    )
 
     order.latest_action = action
     order.save()
@@ -73,17 +100,38 @@ def order_details(request, order_id, **kwargs):
 
     actions = OrderAction.objects.filter(order=order)
 
+    # default currency to USD
+    if "currency" not in request.session:
+        request.session["currency"] = Money.Currency.USD
+
+    # calculate subtotal
+    currency = request.session["currency"]
+
+    subtotal = 0
+    min_bid = get_min_bid(order)
+    
+    if min_bid:
+        if min_bid.retail_price:
+            subtotal += min_bid.retail_price.get_value(currency)
+        if min_bid.service_fee:
+            subtotal += min_bid.service_fee.get_value(currency)
+
     data_dict = {}
     if len(order.url) > 50:
         order_url = order.url[0:47] + "..."
     else:
         order_url = order.url
+
     data_dict.update({
         'order': order,
         'order_url': order_url,
         'actions': reversed(actions),
         'latest_action': order.latest_action,
-        'min_bid': get_min_bid(order),
+        'min_bid': min_bid,
+        'subtotal': Money.format_value(subtotal, currency),
+        'usd': Money.Currency.USD,
+        'thb': Money.Currency.THB,
+        'currency': currency,
         'manual_wire_transfer_form': ManualWireTransferForm(),
     })
     data_dict.update(kwargs)
@@ -185,12 +233,13 @@ def open_orders(request, filter):
             bid_end_datetime__gte=right_now
         ).order_by(
             '-bid_end_datetime'
+        ).filter(
+            shipper=None
         )
 
         # Get minimum bid.
         for order in qset:
             min_bid = get_min_bid(order)
-            print(order, min_bid)
             if not min_bid:
                 order.min_bid = "No current bids"
             else:
