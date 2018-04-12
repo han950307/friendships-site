@@ -11,6 +11,7 @@ from friendship.models import (
     Order,
     ShippingAddress,
     OrderAction,
+    Money,
 )
 
 from friendship.forms import (
@@ -91,10 +92,9 @@ def make_payment(request, order_id):
 
 
 @login_required
-def process_payment(request, order_id):
+def process_payment(request, order_id, currency):
     order = Order.objects.get(pk=order_id)
-    total_amount = order.final_bid.get_total()
-    currency = order.final_bid.currency
+    total_amount = order.final_bid.get_total(currency)
     description = "Order-{}".format(order_id)
     if settings.DEBUG and settings.LOCAL:
         return_uri = "http://127.0.0.1:8000/"
@@ -112,12 +112,12 @@ def process_payment(request, order_id):
 
     charge = omise.Charge.create(
         amount=int(total_amount * 100),
-        currency="usd",
+        currency=str(Money.Currency(currency)).lower(),
         card=omise_token,
         description=description,
     )
 
-    if charge.authorized == True:
+    if charge.authorized == True and charge.paid == True:
         action = OrderAction.objects.create(
             order=order,
             action=OrderAction.Action.PAYMENT_RECEIVED,
