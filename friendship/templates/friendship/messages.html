@@ -1,0 +1,53 @@
+{% extends "friendship/base_generic_content.html" %}
+{% load static %}
+
+{% block title %} Messages {% endblock title %}
+
+{% block main_content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/custom/messages.css' %}" />
+
+<div class="container" id="main-group">
+    <div class="row" id="main-row">
+        <div class="col col-4" >
+            <div class="btn-group-vertical">
+                {% for order in orders %}
+                    <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
+                        <p> Order # {{ order.id }}</p>
+                        <p style="font-size: 75%"> {{ order.url }} </p>
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col col-" id="right-pane">
+
+            {% for order in orders %}
+            <div id="messages-{{ order.id }}"
+                 class="message_dummy"
+                 data-sync="{% url 'friendship:sync_message' order.id %}"
+                 data-method="post" data-first="0"
+                 data-send="{% url 'friendship:send_message' order.id %}">
+            </div>
+            {% endfor %}
+
+            <br />
+            <div id="message-input-area">
+                <form id="message_form">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static 'friendship/js/libs/custom/message.js' %}"></script>
+
+{% endblock main_content %}

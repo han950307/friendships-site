@@ -1,10 +1,18 @@
 from django.contrib import admin
-from .models import Image
-from .models import UserInfo
-from .models import Order
+from .models import (
+	ShipperInfo,
+	ShippingAddress,
+	Order,
+	Bid,
+	Message,
+	OrderAction
+)
 
 
 # Register your models here.
-admin.site.register(Image)
+admin.site.register(ShippingAddress)
+admin.site.register(ShipperInfo)
 admin.site.register(Order)
-admin.site.register(UserInfo)
+admin.site.register(Bid)
+admin.site.register(Message)
+admin.site.register(OrderAction)

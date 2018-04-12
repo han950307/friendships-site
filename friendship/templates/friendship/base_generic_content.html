@@ -3,19 +3,6 @@
 
 
 {% block banner %}
-	<!-- Hero -->
-	<div class="ui-hero hero-sm bg-dark-gray hero-svg-layer-4">
-		<div class="container">
-			<h1 class="heading">
-				{% block title %}
-				{% endblock title %}
-			</h1>
-			<p class="paragraph">
-				{% block title_desc %}
-				{% endblock title_desc %}
-			</p>
-		</div><!-- .container -->
-	</div><!-- .hero -->
 {% endblock banner %}
 
 
@@ -23,17 +10,18 @@
 	<!--  Section -->
 	<div class="section contact-section">
 		<div class="container">
+			<h1 class="heading" align="center">
+				{% block title %}
+				{% endblock title %}
+			</h1>
 			<p class="paragraph">
 				{% block content_desc %}
 				{% endblock content_desc %}
 			</p>
-			
-			{% for message in messages %}
-				<p><strong>{{ message }}</strong></p>
-			{% endfor %}
-
-			{% block main_content %}
-			{% endblock main_content %}
+			<div class="main-content">
+				{% block main_content %}
+				{% endblock main_content %}
+			</div>
 		</div><!-- .container -->
 	</div><!-- .section -->
 

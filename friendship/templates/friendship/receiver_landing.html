@@ -1,38 +1,12 @@
-{% extends "friendship/base_forms.html" %}
+{% extends "friendship/base_generic_content.html" %}
 {% load static %}
 
+{% block title %} Welcome to FriendShip! {% endblock title %}
 
-{% block title %} Place Order {% endblock title %}
-{% block title_desc %} It's easy as ship {% endblock title_desc %}
+{% block main_content %}
+{{ data }}
 
-{% block form %}
-	<form action="{% url 'friendship:place_order_process' %}" method="post" name="order_form">
-		{% csrf_token %}
-		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-6">
-					<label for="url">URL</label>
-					<input type="url" name="url" class="input form-control" id="form_url">
-				</div>
-				<div class="col-sm-6">
-					<label for="merchandise_type">Type</label>
-					<input type="text" name="merchandise_type">
-				</div>
-				<div class="col-sm-6">
-					<label for="quantity">Quantity</label>
-					<input type="text" name="quantity">
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-6">
-					<label for="desc">Description</label>
-					<input type="textarea" name="desc" class="input form-control" id="form_desc" placeholder="I.e., shoe-size and color, etc">
-				</div>
-			</div>
-		</div>
-		<br />
-		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Requiest Order" />
-	</form>
-{% endblock form %}
+<a href="{% url 'friendship:become_sender' %}"
+			   class="btn ui-gradient-green">Become a Sender</a>
+
+{% endblock main_content %}

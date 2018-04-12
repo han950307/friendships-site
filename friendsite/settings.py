@@ -9,31 +9,33 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
+from friendsite.production_secrets import *
 
 import os
 import friendsite
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRIENDSHIP_VERSION = "0.0.2"
+FRIENDSHIP_VERSION = "0.0.3"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7@r-lqamj-2=za3b1lp+#d#fr)u4705e!)2azohsg=q1#@+7#_'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
 # WSGI_APPLICATION = "friendsite.wsgi.application"
-ALLOWED_HOSTS = ["52.14.220.60", "friendships.us", "www.friendships.us"]
-
+ALLOWED_HOSTS = [
+    "18.188.123.79",
+    "127.0.0.1",
+    "dev.friendships.us"
+]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
+    'formtools',
+    'backend.apps.BackendConfig',
     'friendship.apps.FriendshipConfig',
+    'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_crontab',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +63,7 @@ ROOT_URLCONF = 'friendsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['friendship/templates/friendship', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,21 +78,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'friendsite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'friendships',
-        'USER': 'root',
-        'PASSWORD': 'wehavepowerfulfriends',
-        'HOST': '172.31.1.244',
-        'PORT': '5432',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -107,21 +99,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRONJOBS = [
+    ('*/1 * * * *', 'friendship.cron.order_bid_update'),
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'America/New_York'
-
+TIME_ZONE = 'UTC'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
+# HTTPS Stuff.
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
-STATIC_URL = '/static/'
+if DEBUG:
+    SECURE_REDIRECT_EXEMPT = [r'.*']
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/receiver_landing/'

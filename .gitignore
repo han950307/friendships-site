@@ -1,6 +1,14 @@
 .sqlite3
 vendor/*
-*/migrations/*
-!*/migrations/__init__.py
 */__pycache__/*
 *.pyc
+*/migrations/*
+!*/migrations/__init__.py
+friendship/.Python
+friendship/bin/*
+friendship/include/*
+.idea/*
+friendship/lib/*
+friendship/pip-selfcheck.json
+friendship/share/*
+.DS_Store
