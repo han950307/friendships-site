@@ -1,6 +1,7 @@
 {% extends "friendship/base_generic_content.html" %}
 
 {% load static %}
+{% load friendship_extras %}
 
 {% block title %} Order # {{ order.id }} {% endblock title %}
 
@@ -47,19 +48,19 @@
                     <tr class="bid-info-row">
                         <th class="bid-info-header">Current Total:</th>
                         <th class="bid-info-header">Time Left:</th>
-                        {% if min_bid.get_total %}
+                        {% if min_bid %}
                         <th class="bid-info-header">Accept current price and buy now</th>
                         {% endif %}
                     </tr>
                     <tr class="bid-info-row">
-                        {% if min_bid.get_total %}
-                        <td class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></td>
+                        {% if min_bid %}
+                        <td class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid currency %} ({% get_bid_total_str min_bid thb %})</td>
                         {% else %}
                         <td class="bid-info-content font-weight-bold"><h5>No bids yet</h5></td>
                         {% endif %}
                         <td id="time_countdown" class="bid-info-content font-weight-bold"><h5>[TIME LEFT]</td>
-                        {% if min_bid.get_total %}
-                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id True %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                        {% if min_bid %}
+                        <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-positive">buy now</a>
                         </td>
                         {% endif %}
                     </tr>
@@ -96,6 +97,28 @@
             <span class="step-number ui-gradient-green"> </span>
             <div class="col-auto">
                 <h4>Confirm Price and Pay</h4>
+                <table id="bid-info-table">
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Retail Price:</td>
+                        <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.retail_price usd %}</td>
+                    </tr>
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Subtotal (includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee):</td>
+                        <td class="bid-info-content font-weight-bold">{{ subtotal }}</td>
+                    </tr>
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Shipping (includes import tax and domestic shipping):</td>
+                        <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.wages usd %}</td>
+                    </tr>
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Total:</td>
+                        <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid usd %}</td>
+                    </tr>
+                    <tr class="bid-info-row">
+                        <td class="bid-info-content">Total:</td>
+                        <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
+                    </tr>
+                </table>
                 <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
                 <a class="btn btn-block ui-gradient-peach shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
             </div>
@@ -113,7 +136,7 @@
                     <table id="bid-info-table">
                         <tr class="bid-info-row">
                             <th class="bid-info-header">Total:</th>
-                            <th class="bid-info-content font-weight-bold"><h5>{{ min_bid.get_total }}</h5></th>
+                            <th class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid thb %}</h5></th>
                         </tr>
                     </table>
                 </div>
@@ -126,7 +149,7 @@
                 <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
 
                 <div id="credit-card-payment" style="display: none">
-                    <form action="{% url 'friendship:process_payment' order.id %}" method="post" id="checkout">
+                    <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
                         {% csrf_token %}
                         <script src="https://cdn.omise.co/omise.js"></script>
                         <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>

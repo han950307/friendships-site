@@ -9,16 +9,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from formtools.wizard.views import SessionWizardView
 
-from friendship.models import Order, Bid, ShipperInfo, OrderAction
+from friendship.models import Order, Bid, ShipperInfo, Money
 from friendship.views import open_orders
 from friendship.forms import (
     SenderRegistrationForm,
     TravelerRegistrationForm,
-    ShippingCompanyRegistrationForm
+    ShippingCompanyRegistrationForm,
+    BidForm,
+
 )
 from friendsite import settings
 
 import os
+import decimal
+
+
+
+def create_money_object(data_dict, key, currency):
+    if key in data_dict:
+        val = decimal.Decimal(data_dict[key])
+        return Money.objects.create(value=val, currency=currency)
+    else:
+        return None
+
 
 @login_required
 def make_bid(request, order_id):
@@ -28,9 +41,27 @@ def make_bid(request, order_id):
     if not request.session["is_shipper"]:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
+
+    order = Order.objects.get(pk=order_id)
+    if request.method == 'POST':
+        form = BidForm(request.POST)
+        if form.is_valid():
+            data_dict = {x: v for x, v in form.cleaned_data.items()}
+            currency = int(data_dict["currency"])
+            data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
+            bid = Bid.objects.create(
+                order=order,
+                shipper=request.user,
+                wages=create_money_object(data_dict, "wages", currency),
+                retail_price=create_money_object(data_dict, "retail_price", currency),
+                service_fee=create_money_object(data_dict, "service_fee", currency),
+            )
+            return redirect('friendship:open_orders', "all")
     else:
-        order = Order.objects.get(pk=order_id)
-        return render(request, 'friendship/make_bid.html', {'order' : order})
+        form = BidForm()
+
+    return render(request, 'friendship/make_bid.html', {'order' : order, 'form': form})
+
 
 
 @login_required
@@ -42,12 +73,16 @@ def make_bid_process(request, order_id):
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
-        wages = float(request.POST["wages"])
+        data_dict = {x: v for x, v in request.POST.items()}
+        currency = Money.Currency.get_currency(data_dict["currency"])
+
         order = Order.objects.get(pk=order_id)
         bid = Bid.objects.create(
-            wages=wages,
             order=order,
-            shipper_id=request.user.id,
+            shipper=request.user,
+            wages=create_money_object(data_dict, "wages", currency),
+            retail_price=create_money_object(data_dict, "retail_price", currency),
+            service_fee=create_money_object(data_dict, "service_fee", currency),
         )
 
         # Just return another view after processing it.
