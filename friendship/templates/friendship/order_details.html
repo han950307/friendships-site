@@ -125,11 +125,11 @@
                                     <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.retail_price usd %}</td>
                                 </tr>
                                 <tr class="bid-info-row">
-                                    <td class="bid-info-content">Subtotal (includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee):</td>
+                                    <td class="bid-info-content">Subtotal: <p>(includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee)</p></td>
                                     <td class="bid-info-content font-weight-bold">{{ subtotal }}</td>
                                 </tr>
-                                <tr class="bid-info-row">
-                                    <td class="bid-info-content">Shipping (includes import tax and domestic shipping):</td>
+                                <tr class="bid-info-row" id="bid-info-shipping">
+                                    <td class="bid-info-content">Shipping:<p>(includes import tax and domestic shipping)</p></td>
                                     <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.wages usd %}</td>
                                 </tr>
                                 <tr class="bid-info-row">
@@ -141,8 +141,8 @@
                                     <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
                                 </tr>
                             </table>
-                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" style="margin-top:0.5rem;">Confirm</a>
-                            <a class="btn btn-block ui-gradient-peach shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
+                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept Price</a>
+                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline Price</a>
                         </div>
                         {% elif latest_action.action == ORDER_DECLINED %}
                         <span class="step-number ui-gradient-peach">3</span>
@@ -166,53 +166,55 @@
                             <h6>Choose your Payment Method</h6>
                             <form id="payment-form">
                                 <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
-                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire Transfer
-                            </form>
+                            
+                                
                             <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
 
-                            <div id="credit-card-payment" style="display: none">
-                                <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
-                                    {% csrf_token %}
-                                    <script src="https://cdn.omise.co/omise.js"></script>
-                                    <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-                                    <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
-                                    <div id="token_errors"></div>
-                                    <input type="hidden" name="omise_token">
-                                    <table>
-                                        <div class="form-group">
-                                            <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
-                                        </div>
-                                        <div class="form-group">
-                                            <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
-                                        </div>
-                                        <div class="form-group">
-                                            <tr><td>
-                                                <input class="input form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
-                                                <input class="input form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
-                                            </td></tr>
-                                        </div>
-                                        <div class="form-group">
-                                            <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
-                                        </div>
-                                    </table>
-                                    <input type="submit" class="btn btn-sm ui-gradient-positive" id="create_token" value="Submit Payment">
-                                </form>
-                            </div>
+                                <div id="credit-card-payment" style="display: none">
+                                    <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
+                                        {% csrf_token %}
+                                        <script src="https://cdn.omise.co/omise.js"></script>
+                                        <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                                        <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
+                                        <div id="token_errors"></div>
+                                        <input type="hidden" name="omise_token">
+                                        <table style="width:100%;">
+                                            <div class="form-group">
+                                                <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
+                                            </div>
+                                            <div class="form-group">
+                                                <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
+                                            </div>
+                                            <div class="form-group">
+                                                <tr><td>
+                                                    <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
+                                                    <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
+                                                </td></tr>
+                                            </div>
+                                            <div class="form-group">
+                                                <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
+                                            </div>
+                                        </table>
+                                        <input type="submit" class="btn btn-block ui-gradient-positive" id="create_token" value="Submit Payment" style="margin:10px 0px">
+                                    </form>
+                                </div>
                             <!-- END OF WHAT SHOULD BE DISPLAYED -->
-
-                            <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                            <div id="wire-payment" style="display: none">
-                                <span class="account-number">We display our account number here.</span>
-                                <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                                    {% csrf_token %}
-                                    <div class="form-group">
-                                        {{ manual_wire_transfer_form.banknote_image.errors }}
-                                        {{ manual_wire_transfer_form.banknote_image }}
-                                    </div>
-                                    <input type="submit" class="btn btn-sm ui-gradient-positive" value="Submit Payment">
-                                </form>
-                            </div>
-                            <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                            <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire transfer
+                            
+                                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                                <div id="wire-payment" style="display: none">
+                                    <span class="account-number">We display our account number here.</span>
+                                    <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            {{ manual_wire_transfer_form.banknote_image.errors }}
+                                            {{ manual_wire_transfer_form.banknote_image }}
+                                        </div>
+                                        <input type="submit" class="btn btn-block ui-gradient-positive" value="Submit Payment" style="margin:10px 0px;">
+                                    </form>
+                                </div>
+                                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                            </form>
                         </div>
                         {% endif %}
                     </div>

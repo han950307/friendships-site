@@ -5,6 +5,7 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
+<div class="container" id="registration-form">
 	<form action="{% url 'friendship:register' %}" method="post">
 		{% csrf_token %}
 		{{ form.non_field_errors }}
@@ -30,4 +31,5 @@
 		</div>
 		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Register" />
 	</form>
+</div>
 {% endblock form %}

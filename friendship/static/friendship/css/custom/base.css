@@ -45,6 +45,20 @@ h2 {
   color:#414c5a;
 }
 
+#registration-form{
+  max-width:100%;
+}
+@media (min-width: 576px){
+  #registration-form{
+    max-width:90%;
+  }
+}
+@media (min-width: 768px){
+  #registration-form{
+    max-width:70%;
+  }
+}
+
 /**
 MESSAGES
 ------------------------------------*
@@ -389,7 +403,13 @@ div.orders {
 
 .bid-info-content {
   vertical-align: top;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  padding-bottom:0.5rem;
+  padding-top:0.5rem;
+}
+
+#order-headings {
+  margin-top:3rem;
 }
 
 #order-headings p{
@@ -415,9 +435,14 @@ div.orders {
 }
 }
 
-hr {
+/*hr {
   margin: 1.3rem 0;
   height: 2rem;
+}*/
+
+#hr2{
+  margin:0px;
+  height:0px;
 }
 
 .step-wrapper h4 {
@@ -450,6 +475,11 @@ span#time_countdown {
 
 #credit-card-payment .form-control {
   background-color: white;
+  margin-bottom:10px;
+}
+
+#credit-card-payment {
+  width:80%;
 }
 
 #wire-payment .form-control {
@@ -500,6 +530,10 @@ span#time_countdown {
   background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
 }
 
+#bid-info-shipping {
+  border-bottom:1px solid rgba(0, 0, 0, 0.1);
+}
+
 /**
 * 29. Steps
 * ----------------------------------------------------------------------- *
@@ -524,10 +558,13 @@ font-size: 18px;
 
 #confirm-button {
   display:inline-block;
+  margin-top:1rem;
 }
 
 #decline-button {
   display:inline-block;
+  color:#EF7888;
+  margin-top:1rem;
 }
 .ui-steps .row {
   margin-left: -6rem;
@@ -613,7 +650,7 @@ font-size: 18px;
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::before, .ui-steps .step-wrapper::after {
-    left: 2.5%;
+    left: 2.6%;
     margin-left:0px;
   }
 
@@ -639,7 +676,7 @@ font-size: 18px;
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::after {
-    top: calc(50% + (0px + 1rem));
+    top: calc(50% + (0px));
     bottom: -1rem;
   }
 }
@@ -680,12 +717,12 @@ font-size: 18px;
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper .step-number {
-    top: calc(50% - 20px);
+    top: calc(50% - 25px);
     left: calc(50% - 20px);
     width: 40px;
     height: 40px;
     line-height: 40px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
   .ui-steps .step-wrapper .step-number::before {
     width: 60px;
@@ -708,6 +745,10 @@ font-size: 18px;
 
 .ui-steps .row {
   padding-left: 6%;
+}
+
+.bid-info-content p{
+  font-size:0.8rem;
 }
 
 /**
