@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	$('.slide-container').slick({
     speed: 500,
     slidesToShow: 5,
