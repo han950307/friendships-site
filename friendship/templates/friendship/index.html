@@ -1,5 +1,8 @@
 {% extends "friendship/base.html" %}
 {% load static %}
+{% block altnav %}
+<body class="ui-transparent-nav" data-fade_in="on-load">
+{% endblock altnav %}
 {% block content %}
 <!-- Hero -->
 
@@ -8,7 +11,7 @@
 		<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100">
 			<!--<span style="">FriendShips</span><br>-->
 			<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
-			<span >E-commerce <span class="text-pink">without </span>borders</span>
+			<span >E-commerce <span class="">without </span>borders</span>
 		</h3>
 	</div><!-- .container -->
 </div><!-- .ui-hero -->
