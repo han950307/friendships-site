@@ -197,10 +197,11 @@ class OrderForm(forms.ModelForm):
                     'class': 'input form-control',
                 }
             ),
-            'description': forms.TextInput(
+            'description': forms.Textarea(
                 attrs={
                     'placeholder': 'Any other details about the item',
-                    'class': 'input form-control'
+                    'class': 'input form-control',
+                    'rows': 3,
                 }
             ),
         }

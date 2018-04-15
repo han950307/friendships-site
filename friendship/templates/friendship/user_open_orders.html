@@ -1,5 +1,6 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
+{% load friendship_extras %}
 
 {% block title %} Your Orders {{ order.id }} {% endblock title %}
 <!-- This page displays all the orders for the receiver. -->
@@ -27,7 +28,7 @@
 
 			<!-- Payment Status -->
 			<div class="col-sm-13">
-				{% if order.latest_action.action < PAYMENT_RECEIVED %}
+				{% if order.latest_action.action < PAYMENT_RECEIVED or order.latest_action.action == ORDER_DECLINED %}
 				<span class="btn btn-sm ui-gradient-negative">Unfulfilled</span>
 				{% else %}
 				<span class="btn btn-sm ui-gradient-positive">Fulfilled</span>
@@ -56,8 +57,8 @@
 			<!-- Amount -->
 			<div class="col-sm-13">
 				{% if order.final_bid != None %}
-				<span>{{ order.final_bid.get_total }}</span>
-				<!-- does not show if matching is in progress -->
+				<span>{% get_bid_total_str order.final_bid 100 %}</span>
+				<!-- does not show if matching is in progre ss -->
 				{% else %}
 				<span>--</span>
 				{% endif %}

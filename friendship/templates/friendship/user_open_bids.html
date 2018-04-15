@@ -42,7 +42,7 @@
 				<span class="btn btn-sm ui-gradient-green">Order Fulfilled</span>
 			{% endif %}
 			<!-- YOUR BID -->
-			<div class="col-sm-13">{{ item.wages|add:item.retail_price|add:item.import_tax|add:item.domestic_shipping}}</div>
+			<div class="col-sm-13">{{ item.wages.get_value|add:item.retail_price.get_value }}</div>
 		</div>
 		{%endif%}
 	</div>

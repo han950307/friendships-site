@@ -514,13 +514,16 @@ span#time_countdown {
   flex: 0 0 20%;
   max-width: 20%;
   margin-left:-1rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .col-sm-14 {
   flex: auto
   max-width: 50%;
   margin-left:-1rem;
+  position: relative;
   text-align: center;
 }
 

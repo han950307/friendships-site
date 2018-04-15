@@ -426,7 +426,7 @@ class Money(models.Model):
             val = math.ceil(value * 100) / 100
             return "\u0024{0:.2f}".format(val)
 
-    def get_value(self, currency):
+    def get_value(self, currency=Currency.USD):
         orig = self.currency
         dest = currency
 

@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from formtools.wizard.views import SessionWizardView
 
-from friendship.models import Order, Bid, ShipperInfo, Money
+from friendship.models import Order, Bid, ShipperInfo, Money, OrderAction
 from friendship.views import open_orders
 from friendship.forms import (
     SenderRegistrationForm,
