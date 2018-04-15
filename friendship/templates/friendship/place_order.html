@@ -4,7 +4,7 @@
 {% block head %}
 {% endblock head %}
 
-{% block title %} Place Order {% endblock title %}
+{% block title %} Place a New Order {% endblock title %}
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
@@ -45,10 +45,13 @@
             {{ form.description }}
         </div>
         <div class="form-group">
-            {# {{ form.item_image.errors }} #}
-            {{ form.item_image }}
+            <div class="upload-btn-wrapper">
+                <button class='btn btn-primary btn-block'><span class='icon icon-picture' style="padding-right:10px; vertical-align:middle;"></span>Upload Image</button>
+                {# {{ form.item_image.errors }} #}
+                {{ form.item_image }}
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-top:2rem;">
             <span class="desc">Choose a bidding deadline for this item.*</span>
             {{ form.num_hours.errors }}
             <div class="btn-group" data-toggle="buttons">
@@ -98,20 +101,28 @@
                     {{ shipping_address_form.address_line_1 }}
                 </div>
                 <div class="form-group">
-                    {# {{ shipping_address_form.city.errors }} #}
-                    {{ shipping_address_form.city }}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {# {{ shipping_address_form.city.errors }} #}
+                            {{ shipping_address_form.city }}
+                        </div>
+                        <div class="col-sm-6">
+                            {# {{ shipping_address_form.region.errors }} #}
+                            {{ shipping_address_form.region }}
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
-                    {# {{ shipping_address_form.region.errors }} #}
-                    {{ shipping_address_form.region }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.postal_code.errors }} #}
-                    {{ shipping_address_form.postal_code }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.country.errors }} #}
-                    {{ shipping_address_form.country }}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {# {{ shipping_address_form.postal_code.errors }} #}
+                            {{ shipping_address_form.postal_code }}
+                        </div>
+                        <div class="col-sm-6">
+                            {# {{ shipping_address_form.country.errors }} #}
+                            {{ shipping_address_form.country }}
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     {# {{ shipping_address_form.phone.errors }} #}
@@ -129,20 +140,28 @@
             {{ shipping_address_form.address_line_1 }}
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.city.errors }} #}
-            {{ shipping_address_form.city }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.city.errors }} #}
+                    {{ shipping_address_form.city }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.region.errors }} #}
+                    {{ shipping_address_form.region }}
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.region.errors }} #}
-            {{ shipping_address_form.region }}
-        </div>
-        <div class="form-group">
-            {# {{ shipping_address_form.postal_code.errors }} #}
-            {{ shipping_address_form.postal_code }}
-        </div>
-        <div class="form-group">
-            {# {{ shipping_address_form.country.errors }} #}
-            {{ shipping_address_form.country }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.postal_code.errors }} #}
+                    {{ shipping_address_form.postal_code }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.country.errors }} #}
+                    {{ shipping_address_form.country }}
+                </div>
+            </div>
         </div>
         <div class="form-group">
             {# {{ shipping_address_form.phone.errors }} #}

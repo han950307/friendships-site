@@ -4,6 +4,46 @@
 {% block title %} How It Works! {% endblock title %}
 
 {% block main_content %}
-{{ data }}
+
+<!-- App Features Section -->
+<div id="features2" class="section pt-0">
+  <div class="container ui-icon-blocks ui-blocks-h icons-lg">
+    <div class="section-heading center">
+      <p class="paragraph">
+        We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+      </p>
+    </div><!-- .section-heading -->
+    <div class="row">
+      <div class="col-sm-3 ui-icon-block">
+        <img src="{% static 'friendship/img/graphics/step1.svg' %}">
+        <h4 class="text-dark-gray">Step 1</h4>
+        <p>
+          Paste a link to your desired item, from <span class="text-blue">any</span> online store
+        </p>
+      </div>
+      <div class="col-sm-3 ui-icon-block">
+        <img src="{% static 'friendship/img/graphics/step2.svg' %}">
+        <h4 class="text-dark-gray">Step 2</h4>
+        <p>
+          Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
+        </p>
+      </div>
+      <div class="col-sm-3 ui-icon-block">
+        <img src="{% static 'friendship/img/graphics/step3.svg' %}">
+        <h4 class="text-dark-gray">Step 3</h4>
+        <p>
+          <span class="text-blue">Pay</span> for your item through credit card or bank transfer
+        </p>
+      </div>
+      <div class="col-sm-3 ui-icon-block">
+        <img src="{% static 'friendship/img/graphics/step4.svg' %}">
+        <h4 class="text-dark-gray">Step 4</h4>
+        <p>
+          Your item is delivered <span class="text-blue">directly</span> to you
+        </p>
+      </div>
+    </div><!-- .row -->
+  </div><!-- .container -->
+</div><!-- .section -->
 
 {% endblock main_content %}

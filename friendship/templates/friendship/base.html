@@ -12,18 +12,23 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/slick/slick.css' %}"/>
 	<link rel="stylesheet" href="{% static 'friendship/css/custom/base.css' %}"/>
 
+
 	<!-- Scripts -->
 	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>
 	<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+
 
 	{% block head %}
 	{% endblock head %}
-
 </head>
-<body class="ui-transparent-nav" data-fade_in="on-load">
+	{% block altnav %}
+	{% endblock altnav %}
+
+<body class="" data-fade_in="on-load">
 <!-- Navbar Fixed + Default -->
-<nav class="navbar navbar-fixed-top transparent navbar-light bg-white">
+<nav class="navbar navbar-fixed-top navbar-dark bg-dark-gray" >
 	<div class="container">
 
 		{% if not request.user.is_authenticated %}
@@ -39,21 +44,24 @@
 
 		{% endif %}
 			<!-- Default Logo -->
-			<img class="logo-default" src="{% static 'friendship/img/logo/friendship.png' %}"
+			<img class="logo-default" src="{% static 'friendship/img/logo/friendships.svg' %}"
 			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
 			<!-- Transparent Logo -->
-			<img class="logo-transparent" src="{% static 'friendship/img/logo/friendship.png' %}"
+			<img class="logo-transparent" src="{% static 'friendship/img/logo/friendships.svg' %}"
 			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
 		</a><!-- .navbar-brand -->
 
 
 		<!-- Navbar Navigation -->
-		<div class="ui-navigation navbar-center">
+		<div class="ui-navigation navbar-right">
 			<ul class="nav navbar-nav">
 				<!-- Nav Item -->
 				<li>
 					<a href="{% url 'friendship:how_it_works' %}">How It Works</a>
 				</li>
+				<li>
+							<a href="{% url 'friendship:place_order' %}">Place Order</a>
+						</li>
 
 				{% if request.user.is_authenticated %}
 					{% if request.session.is_shipper %}
@@ -64,9 +72,7 @@
 							<a href="{% url 'friendship:user_open_bids' %}">Your Bids</a>
 						</li>
 					{% else %}
-						<li>
-							<a href="{% url 'friendship:place_order' %}">Place Order</a>
-						</li>
+						
 						<li>
 							<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
 						</li>
@@ -95,6 +101,9 @@
 	</div><!-- .container -->
 </nav> <!-- nav -->
 
+{% block breadcrumb %}
+{% endblock breadcrumb %}
+
 {% block banner %}
 {% endblock banner %}
 
@@ -107,7 +116,7 @@
 		<div class="container pt-6 pb-6">
 			<div class="row">
 				<div class="col-md-4 col-sm-6 footer-about footer-col center-on-sm">
-					<img src="{% static 'friendship/img/logo/friendship.png' %}" data-uhd
+					<img src="{% static 'friendship/img/logo/friendships.svg' %}" data-uhd
 					     alt="FriendShips"/>
 					<p class="mt-1">
 						Find us everywhere else!
@@ -117,19 +126,13 @@
 					<h6 class="heading footer-heading">Quick Nav</h6>
 					<ul class="footer-nav">
 						<li>
-							<a href="demo-mobile-app-1.html">Mobile App 1</a>
+							<a href="{% url 'friendship:index' %}">Home</a>
 						</li>
 						<li>
-							<a href="demo-mobile-app-2.html">Mobile App 2</a>
+							<a href="{% url 'friendship:place_order' %}">Place an Order</a>
 						</li>
 						<li>
-							<a href="demo-saas.html">Mobile Saas</a>
-						</li>
-						<li>
-							<a href="demo-web-app.html">Web App</a>
-						</li>
-						<li>
-							<a href="index.html#demos">More Demos</a>
+							<a href="{% static 'friendship:user_open_orders' %}">Your Orders</a>
 						</li>
 					</ul>
 				</div>
@@ -137,22 +140,10 @@
 					<h6 class="heading footer-heading">Other Pages</h6>
 					<ul class="footer-nav">
 						<li>
-							<a href="page-api-docs.html">API Docs</a>
+							<a href="{% url 'friendship:about_us' %}">About Us</a>
 						</li>
 						<li>
-							<a href="page-pricing.html">Pricing Page</a>
-						</li>
-						<li>
-							<a href="page-contact.html">Contact page</a>
-						</li>
-						<li>
-							<a href="page-blog-grid.html">Blog Grid</a>
-						</li>
-						<li>
-							<a href="page-coming-soon.html">Comig Soon</a>
-						</li>
-						<li>
-							<a href="page-404.html">404 Error</a>
+							<a href="page-coming-soon.html">Contact Us</a>
 						</li>
 					</ul>
 				</div>
@@ -178,14 +169,8 @@
 						<a class="btn ui-gradient-blue btn-circle shadow-md">
 							<span class="fa fa-facebook"></span>
 						</a>
-						<a class="btn ui-gradient-peach btn-circle shadow-md">
-							<span class="fa fa-instagram"></span>
-						</a>
 						<a class="btn ui-gradient-green btn-circle shadow-md">
 							<span class="fa fa-twitter"></span>
-						</a>
-						<a class="btn ui-gradient-purple btn-circle shadow-md">
-							<span class="fa fa-pinterest"></span>
 						</a>
 					</div>
 				</div>
