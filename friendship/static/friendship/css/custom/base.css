@@ -269,7 +269,7 @@ div#right-pane{
 
 
 /**
-* place order 
+* place order
 * ------------------------------------------------------
 */
 
@@ -335,7 +335,7 @@ span.bold {
 * 3. Order List
 * ----------------------------------------------------------------------- *
 */
-#orders-header {
+#orders-header, #matched-order-header, #bids-header {
   margin-bottom: 15px;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -345,7 +345,7 @@ div.orders {
   margin-bottom: 15px;
 }
 
-#orders-table .row{
+#orders-table .row, #matched-order-table .row, #bids-table .row{
   background-color: rgb(246,247,248);
   border-radius:0.5rem;
   padding:20px 0px;
@@ -373,7 +373,7 @@ div.orders {
   color: #FFF;
 }
 /**
-* 3. Order Details 
+* 3. Order Details
 * ----------------------------------------------------------------------- *
 */
 /* order details step view. */
@@ -746,6 +746,47 @@ font-size: 18px;
 .ui-steps .row {
   padding-left: 6%;
 }
+
+/**
+* 5. Your Bids
+* ----------------------------------------------------------------------- *
+*/
+#matched-order-header, #bids-header {
+  margin-bottom: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#matched-order-table .row, #bids-table .row{
+  background-color: rgb(246,247,248);
+  border-radius:0.5rem;
+  padding:20px 0px;
+  margin-bottom:10px;
+}
+
+.ui-gradient-red {
+  background-color: black;
+}
+
+.ui-gradient-red,
+.ui-gradient-red:hover{
+  background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  color: #FFF;
+}
+
+.ui-gradient-positive,
+.ui-gradient-positive:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-inprogress,
+.ui-gradient-inprogress:hover {
+  background: -moz-linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  background: linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  color: #FFF;
 
 .bid-info-content p{
   font-size:0.8rem;

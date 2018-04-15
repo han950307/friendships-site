@@ -135,9 +135,13 @@ def user_open_bids(request):
     This displays all the orders for the receiver.
     """
     qset = Bid.objects.filter(shipper=request.user)
-    return render(request, 'friendship/user_open_bids.html', {
-        'data': qset,
+    data_dict = {}
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
     })
+    data_dict['orders'] = qset
+    return render(request, 'friendship/user_open_bids.html', data_dict)
 
 
 @login_required

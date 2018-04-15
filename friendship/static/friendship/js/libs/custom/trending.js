@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	$('.slide-container').slick({
     speed: 500,
     slidesToShow: 5,
@@ -31,7 +32,7 @@ $(document).ready(function(){
 	      }
 	    },
 	    {
-	      breakpoint: 300,
+	      breakpoint: 420,
 	      settings: {
 	        slidesToShow: 1,
 	        slidesToScroll: 1
