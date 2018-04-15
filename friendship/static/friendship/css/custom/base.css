@@ -59,6 +59,10 @@ h2 {
   }
 }
 
+.navbar.navbar-dark .nav > li > a:hover {
+  color: #d9d9d9;
+}
+
 /**
 MESSAGES
 ------------------------------------*
@@ -90,6 +94,7 @@ MESSAGES
 }
 
 .ui-gradient-found,
+.ui-gradient-blue,
 .ui-gradient-found:hover {
   background: -moz-linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
   background: linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
@@ -103,8 +108,34 @@ MESSAGES
   color: #FFF;
 }
 
+.btn.ui-gradient-green:hover{
+  background: -moz-linear-gradient(45deg, #7ebd6c 0%, #7ebd6c 100%);
+  background: linear-gradient(45deg, #7ebd6c 0%, #7ebd6c 100%);
+  color: #FFF;
+  color: #d9d9d9;
+}
+
+.btn.ui-gradient-blue:hover {
+  background: -moz-linear-gradient(45deg, #68a2e4 0%, #68a2e4 100%);
+  background: linear-gradient(45deg, #68a2e4 0%, #68a2e4 100%);
+  color: #FFF;
+  color: #d9d9d9;
+}
+
+.btn.ui-gradient-red:hover{
+  background: -moz-linear-gradient(45deg, #d76c7a 0%, #d76c7a 100%);
+  background: linear-gradient(45deg, #d76c7a 0%, #d76c7a 100%);
+  color: #FFF;
+  color: #d9d9d9;
+}
+
 div#right-pane{
   height: 400px;
+}
+
+.btn-group-vertical {
+  max-height: 100%;
+  overflow-y: scroll;
 }
 
 /**
@@ -353,6 +384,7 @@ div.orders {
 }
 
 .ui-gradient-negative,
+.ui-gradient-red,
 .ui-gradient-negative:hover{
   background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
   background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
@@ -567,6 +599,11 @@ font-size: 18px;
 #decline-button {
   display:inline-block;
   color:#EF7888;
+  margin-top:1rem;
+}
+#decline-button:hover {
+  display:inline-block;
+  color:#bf606c;
   margin-top:1rem;
 }
 .ui-steps .row {

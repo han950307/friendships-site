@@ -83,7 +83,7 @@
                                     {% endif %}
                                     <td id="time_countdown" class="bid-info-content font-weight-bold">[TIME LEFT]</td>
                                     {% if min_bid %}
-                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-green">buy now</a>
                                     </td>
                                     {% endif %}
                                 </tr>
@@ -137,12 +137,12 @@
                                     <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid usd %}</td>
                                 </tr>
                                 <tr class="bid-info-row">
-                                    <td class="bid-info-content">Total:</td>
+                                    <td class="bid-info-content">Total (Currency conversion: 1 USD = 32.49 THB):</td>
                                     <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
                                 </tr>
                             </table>
-                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept Price</a>
-                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline Price</a>
+                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept</a>
+                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
                         </div>
                         {% elif latest_action.action == ORDER_DECLINED %}
                         <span class="step-number ui-gradient-peach">3</span>
@@ -195,7 +195,7 @@
                                                 <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
                                             </div>
                                         </table>
-                                        <input type="submit" class="btn btn-block ui-gradient-positive" id="create_token" value="Submit Payment" style="margin:10px 0px">
+                                        <input type="submit" class="btn btn-block ui-gradient-green" id="create_token" value="Submit Payment" style="margin:10px 0px">
                                     </form>
                                 </div>
                                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
@@ -210,7 +210,7 @@
                                             {{ manual_wire_transfer_form.banknote_image.errors }}
                                             {{ manual_wire_transfer_form.banknote_image }}
                                         </div>
-                                        <input type="submit" class="btn btn-block ui-gradient-positive" value="Submit Payment" style="margin:10px 0px;">
+                                        <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
                                     </form>
                                 </div>
                                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
