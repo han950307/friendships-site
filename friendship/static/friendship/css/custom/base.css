@@ -488,6 +488,7 @@ div.orders {
 #order-headings img {
   height: 245px;
   width: 245px;
+  border-radius: 0.5rem;
 }
 
 @media (min-width:740px){
@@ -592,6 +593,7 @@ span#time_countdown {
   margin-top: -2.8rem;
   margin-bottom: -2.8rem;
   max-height: 60px;
+  border-radius: 0.5rem;
 }
 
 .col-sm-14 {
