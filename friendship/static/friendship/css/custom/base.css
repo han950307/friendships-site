@@ -434,6 +434,19 @@ div.orders {
   text-align:left;
 }
 
+#order-headings .item-image {
+  height: 245px;
+  width: 245px;
+}
+
+.item-image img {
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
 #bid-info-table {
   width: 100%;
   margin-top: 1rem;
@@ -485,11 +498,6 @@ div.orders {
   padding-bottom:1rem;
 }
 
-#order-headings img {
-  height: 245px;
-  width: 245px;
-  border-radius: 0.5rem;
-}
 
 @media (min-width:740px){
   #order-headings .col-xl-8{
@@ -588,12 +596,16 @@ span#time_countdown {
   justify-content: center;
 }
 
-#orders-table a,
+#orders-table a{
+  margin-bottom: -2.4rem;
+  margin-top: -2.4rem;
+}
+
 #orders-table a img {
-  margin-top: -2.8rem;
-  margin-bottom: -2.8rem;
-  max-height: 60px;
+  height: 60px;
+  width: 60px;
   border-radius: 0.5rem;
+  object-fit: cover;
 }
 
 .col-sm-14 {
