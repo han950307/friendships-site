@@ -36,6 +36,15 @@ def get_min_bid(order):
         return None
 
 
+def create_action_for_order(order, action_enum):
+    action = OrderAction.objects.create(
+        order=order,
+        action=action_enum
+    )
+    order.latest_action = action
+    order.save()
+
+
 def match_with_shipper(order):
     """
     Pick the lowest bidder and update the database.
@@ -43,19 +52,13 @@ def match_with_shipper(order):
     min_bid = get_min_bid(order)
     if not min_bid:
         if order.bid_end_datetime < datetime.datetime.utcnow().replace(tzinfo=pytz.utc):
-            action = OrderAction.objects.create(
-                order=order,
-                action=OrderAction.Action.MATCH_NOT_FOUND
-            )
+            create_action_for_order(order, OrderAction.Action.MATCH_NOT_FOUND)
         return
 
     else:
         order.shipper = min_bid.shipper
         # make shipper choose a shipping address when they're matched.
-        action = OrderAction.objects.create(
-            order=order,
-            action=OrderAction.Action.MATCH_FOUND,
-        )
+        create_action_for_order(order, OrderAction.Action.MATCH_FOUND)
         order.final_bid = min_bid
         order.save()
 
@@ -77,16 +80,13 @@ def match_with_shipper(order):
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
 
-    if settings.LOCAL:
+    if not settings.LOCAL:
         mail.send_mail(
             "Your Order #{} Match Found!".format(order.id),
             body_str,
             "no-reply@friendships.us",
             [order.receiver.email],
         )
-
-    order.latest_action = action
-    order.save()
 
 
 @login_required
@@ -170,28 +170,22 @@ def confirm_order_price(request, order_id, choice):
     if order.latest_action == OrderAction.Action.ORDER_DECLINED:
         messages.error(request, 'Sorry, but you already declined this order.')
         return redirect('friendship:index')
+    # When order price is confirmed
     if choice == "True":
-        action = OrderAction.objects.create(
-            order=order,
-            action=OrderAction.Action.PRICE_ACCEPTED,
-            #action=OrderAction.Action.PAYMENT_RECEIVED,
-        )
-        order.latest_action = action
-        order.save()
+        create_action_for_order(order, OrderAction.Action.PRICE_ACCEPTED)
         form = ManualWireTransferForm()
         return order_details(request, order_id, **{'manual_wire_transfer_form': form})
+    # When order is declined
     else:
-        action = OrderAction.objects.create(
-            order=order,
-            action=OrderAction.Action.ORDER_DECLINED,
-        )
-        order.latest_action = action
-        order.save()
+        create_action_for_order(order, OrderAction.Action.ORDER_DECLINED)
         return redirect('friendship:order_details', order_id=order_id)
 
 
 @login_required
 def submit_wire_transfer(request, order_id):
+    """
+    Wire transfer logic
+    """
     order = Order.objects.get(pk=order_id)
     if order.receiver != request.user and order.shipper != request.user:
         messages.error(request, 'You\'ve got the wrong user')
@@ -203,14 +197,8 @@ def submit_wire_transfer(request, order_id):
             PaymentAction.objects.create(
                 order=order,
                 payment_type=PaymentAction.PaymentType.MANUAL_WIRE_TRANSFER,
-                account_number = form.cleaned_data["account_number"]
             )
-            action = OrderAction.objects.create(
-                order=order,
-                action=OrderAction.Action.BANKNOTE_UPLOADED,
-                # action=OrderAction.Action.PAYMENT_RECEIVED,
-            )
-            order.latest_action = action
+            create_action_for_order(order, OrderAction.Action.BANKNOTE_UPLOADED)
             order.save()
             return redirect('friendship:order_details', order_id=order_id)
     else:
