@@ -16,6 +16,7 @@ from friendship.forms import (
     TravelerRegistrationForm,
     ShippingCompanyRegistrationForm,
     BidForm,
+    FlightAttendantRegistrationForm,
 
 )
 from friendsite import settings
@@ -115,13 +116,15 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
             shipper_info.name = name
         shipper_info.save()
 
+        return redirect('friendship:index')
+
     def process_step(self, form):
         if "shipper_type" in form.cleaned_data:
             shipper_type = int(form.cleaned_data["shipper_type"])
             if shipper_type == ShipperInfo.ShipperType.TRAVELER:
                 self.form_list.update({'1': TravelerRegistrationForm})
             elif shipper_type == ShipperInfo.ShipperType.FLIGHT_ATTENDANT:
-                self.form_list.update({'1': ShippingCompanyRegistrationForm})
+                self.form_list.update({'1': FlightAttendantRegistrationForm})
             elif shipper_type == ShipperInfo.ShipperType.SHIPPING_COMPANY:
                 self.form_list.update({'1': ShippingCompanyRegistrationForm})
             else:

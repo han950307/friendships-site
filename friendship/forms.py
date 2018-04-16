@@ -67,6 +67,8 @@ class SenderRegistrationForm(forms.Form):
             (x.value, x)
             for x
             in ShipperInfo.ShipperType
+            if x != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER and
+            x != ShipperInfo.ShipperType.FLIGHT_ATTENDANT
         ]
     )
 
@@ -77,6 +79,11 @@ class TravelerRegistrationForm(forms.Form):
 
 
 class ShippingCompanyRegistrationForm(forms.Form):
+    phone_number = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=200)
+
+
+class FlightAttendantRegistrationForm(forms.Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
 

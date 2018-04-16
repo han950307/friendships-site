@@ -5,7 +5,13 @@
 	<meta charset="utf-8">
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>FriendShips - Optimized Thai-US Shipping Solutions</title>
+	<title>
+	{% if request.session.locale == 'th-TH' %}
+	FriendShips - โซลูชั่นการจัดส่งสินค้าไทย - สหรัฐฯ
+	{% else %}
+	FriendShips - Optimized Thai-US Shipping Solutions
+	{% endif %}
+	</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
@@ -82,9 +88,18 @@
 					</li>
 				{% endif%}
 
+				<!-- locale change -->
+				<li>
+				{% if request.session.locale == 'th-TH' %}
+					<a href="{% url 'friendship:change_locale' 'us-EN' %}">English</a>
+				{% else %}
+					<a href="{% url 'friendship:change_locale' 'th-TH' %}">ภาษาไทย</a>
+				{% endif %}
+				</li>
 
 			</ul><!--.navbar-nav -->
 		</div><!--.ui-navigation -->
+
 
 		<!-- Navbar Button -->
 		{% if request.user.is_authenticated %}
@@ -94,6 +109,7 @@
 			<a href="{% url 'friendship:login' %}"
 			   class="btn btn-sm ui-gradient-blue pull-right">Login</a>
 		{% endif %}
+
 
 		<!-- Navbar Toggle -->
 		<a href="#" class="ui-mobile-nav-toggle pull-right"></a>

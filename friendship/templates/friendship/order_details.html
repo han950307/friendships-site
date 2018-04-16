@@ -165,12 +165,22 @@
                             <hr id="hr2">
                             <h6>Choose your Payment Method</h6>
                             <form id="payment-form">
-                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
+                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">Credit Card<br>
+                                <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">Online Bank Transfer<br>
+                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">Manuanl Bank Transfer<br>
                                 
-                                
-                                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                                <br>
+                                <div id="online-wire-transfer" style="display: none">
+                                    Coming soon
+                                </div>
 
                                 <div id="credit-card-payment" style="display: none">
+                                    Coming soon
+                                </div>
+
+                                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                                <!-- when omise approves, change this to above -->
+                                <div id="credit-card-payment-omise" style="display: none">
                                     <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
                                         {% csrf_token %}
                                         <script src="https://cdn.omise.co/omise.js"></script>
@@ -199,7 +209,6 @@
                                     </form>
                                 </div>
                                 <!-- END OF WHAT SHOULD BE DISPLAYED -->
-                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire transfer
                                 
                                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
                                 <div id="wire-payment" style="display: none">
