@@ -387,6 +387,7 @@ div.orders {
   background-color: rgb(246,247,248);
   border-radius:0.5rem;
   padding:20px 0px;
+  margin-bottom: 20px;
 }
 
 .ui-gradient-negative,
