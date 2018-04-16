@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
 ]
 
 MIDDLEWARE = [

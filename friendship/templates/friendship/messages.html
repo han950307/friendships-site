@@ -10,7 +10,7 @@
 <div class="container" id="main-group">
     <div class="row" id="main-row">
         <div class="col col-4" id="messages-col">
-            <div class="btn-group-vertical">
+            <div class="btn-group-vertical" style="align-items: flex-start, justify-content: top;">
                 {% for order in orders %}
                     <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
                         <p> Order # {{ order.id }}</p>

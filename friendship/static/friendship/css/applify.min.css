@@ -2668,7 +2668,7 @@ tbody.collapse.show {
 .btn-group-vertical {
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  /*justify-content: center;*/
 }
 
 .btn-group-vertical .btn,

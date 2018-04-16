@@ -23,7 +23,7 @@
 			<!-- ORDER IMAGE -->
 			<div class="col-sm-13"><a href="{% url 'friendship:order_details' order.id %}">
 			{% if order.item_image %}
-				<img src="{{ order.item_image.url }}">
+				<img src="{{ order.item_image.url }}" title="Order #{{ order.id }}">
 			{% else %}
 				<a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a>
 			{% endif %}
