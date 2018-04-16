@@ -222,8 +222,7 @@ div#right-pane{
   }
 
 .ui-icon-block img {
-  /*max-width: 153px;*/ /*dorothy settings */
-  max-width: 240px;
+  max-width: 153px; /*dorothy settings */
   padding-bottom:20px;
 }
 
@@ -355,6 +354,21 @@ span.bold {
   text-align: right;
 }
 
+@media (min-width:570px) and (max-width:992px){
+  .form-group .row{
+    margin-bottom: -1rem;
+  }
+}
+
+@media (min-width:570px){
+  .col-sm-6.left {
+    padding-right: .5rem;
+  }
+
+  .col-sm-6.right {
+    padding-left: .5rem;
+  }
+}
 /**
 * 3. Order List
 * ----------------------------------------------------------------------- *
@@ -373,7 +387,6 @@ div.orders {
   background-color: rgb(246,247,248);
   border-radius:0.5rem;
   padding:20px 0px;
-  margin-bottom:10px;
 }
 
 .ui-gradient-negative,
