@@ -77,12 +77,13 @@ def match_with_shipper(order):
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
 
-    # mail.send_mail(
-    #     "Your Order #{} Match Found!".format(order.id),
-    #     body_str,
-    #     "no-reply@friendships.us",
-    #     [order.receiver.email],
-    # )
+    if settings.LOCAL:
+        mail.send_mail(
+            "Your Order #{} Match Found!".format(order.id),
+            body_str,
+            "no-reply@friendships.us",
+            [order.receiver.email],
+        )
 
     order.latest_action = action
     order.save()
