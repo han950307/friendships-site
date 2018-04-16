@@ -27,7 +27,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('messages/', views.messages, name='messages'),
     path('account/', views.account, name='account'),
-    path('become_sender/', views.become_sender, name='become_sender'),
 
     # Receiver views
     path('receiver_landing/', views.index, name='receiver_landing'),

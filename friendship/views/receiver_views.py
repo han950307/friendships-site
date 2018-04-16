@@ -137,13 +137,6 @@ def process_payment(request, order_id, currency):
 
 
 @login_required
-def receiver_landing(request):
-    return render(request, 'friendship/receiver_landing.html', {
-        'data': [request, ],
-    })
-
-
-@login_required
 def place_order(request):
     """
     This is a page for a form for making an order.
