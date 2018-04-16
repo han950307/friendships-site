@@ -24,6 +24,12 @@ nav > .container {
   max-width: 100%;
 }
 
+.img-responsive {
+  max-height: 240px;
+  margin-top: 5rem;
+  margin-bottom: 1.7rem;
+}
+
 .navbar .ui-navigation.navbar-center {
   justify-content: right;
 }
