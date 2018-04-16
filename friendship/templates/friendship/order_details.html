@@ -34,6 +34,11 @@
     <div class="row">
         <div class="col-xl-3">
             <h3>Order Details</h3>
+            {% if order.item_image %}
+            <div class="item-image">
+                <a href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
+            </div>
+            {% endif %}
             <span class="bold"><h6>URL:</h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
             <p><span class="black"><h6>Quantity:</h6></span> {{ order.quantity }}</p>
             <p><span class="black"><h6>Description:</h6></span> {{ order.description }}</p>
@@ -212,7 +217,23 @@
                                 
                                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
                                 <div id="wire-payment" style="display: none">
-                                    <span class="account-number">We display our account number here.</span>
+                                    <p>Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.</p>
+                                    <div class="col-auto">
+                                        <table class="bid-info-table">
+                                            <tr class="bid-info-row">
+                                                <td>Bank:</td>
+                                                <td><h5>K bank</h5></td>
+                                            </tr>
+                                            <tr class="bid-info-row">
+                                                <td>Name:</td>
+                                                <td><h5>Patcharin Desit</h5></td>
+                                            </tr>
+                                            <tr class="bid-info-row">
+                                                <td>Account Number:</td>
+                                                <td><h5>0388832908</h5></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
                                         {% csrf_token %}
                                         <div class="form-group">

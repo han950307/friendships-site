@@ -9,7 +9,7 @@
 <hr>
 	<div id="orders-header">
 		<div class="row" id="orders-row">
-			<div class="col-sm-13">Order #</div>
+			<div class="col-sm-13">Order</div>
 			<div class="col-sm-13">Date</div>
 			<div class="col-sm-13">Payment Status</div>
 			<div class="col-sm-13">Order Status</div>
@@ -20,8 +20,14 @@
 	<div class="orders">
 		{% for order in orders %}
 		<div class="row">
-			<!-- ORDER ID -->
-			<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a></span></div>
+			<!-- ORDER IMAGE -->
+			<div class="col-sm-13"><a href="{% url 'friendship:order_details' order.id %}">
+			{% if order.item_image %}
+				<img src="{{ order.item_image.url }}">
+			{% else %}
+				<a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a>
+			{% endif %}
+			</a></div>
 
 			<!-- DATE -->
 			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
