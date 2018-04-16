@@ -1,5 +1,6 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
+{% load friendship_extras %}
 
 {% block title %} Your Orders {{ order.id }} {% endblock title %}
 <!-- This page displays all the orders for the receiver. -->
@@ -8,7 +9,7 @@
 <hr>
 	<div id="orders-header">
 		<div class="row" id="orders-row">
-			<div class="col-sm-13">Order #</div>
+			<div class="col-sm-13">Order</div>
 			<div class="col-sm-13">Date</div>
 			<div class="col-sm-13">Payment Status</div>
 			<div class="col-sm-13">Order Status</div>
@@ -19,15 +20,21 @@
 	<div class="orders">
 		{% for order in orders %}
 		<div class="row">
-			<!-- ORDER ID -->
-			<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a></span></div>
+			<!-- ORDER IMAGE -->
+			<div class="col-sm-13"><a href="{% url 'friendship:order_details' order.id %}">
+			{% if order.item_image %}
+				<img src="{{ order.item_image.url }}" title="Order #{{ order.id }}">
+			{% else %}
+				<a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a>
+			{% endif %}
+			</a></div>
 
 			<!-- DATE -->
 			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
 
 			<!-- Payment Status -->
 			<div class="col-sm-13">
-				{% if order.latest_action.action < PAYMENT_RECEIVED %}
+				{% if order.latest_action.action < PAYMENT_RECEIVED or order.latest_action.action == ORDER_DECLINED %}
 				<span class="btn btn-sm ui-gradient-negative">Unfulfilled</span>
 				{% else %}
 				<span class="btn btn-sm ui-gradient-positive">Fulfilled</span>
@@ -56,8 +63,8 @@
 			<!-- Amount -->
 			<div class="col-sm-13">
 				{% if order.final_bid != None %}
-				<span>{{ order.final_bid.get_total }}</span>
-				<!-- does not show if matching is in progress -->
+				<span>{% get_bid_total_str order.final_bid 100 %}</span>
+				<!-- does not show if matching is in progre ss -->
 				{% else %}
 				<span>--</span>
 				{% endif %}

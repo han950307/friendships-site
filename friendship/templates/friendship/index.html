@@ -11,7 +11,13 @@
 		<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
 			<!--<span style="">FriendShips</span><br>-->
 			<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
-			<span >E-commerce <span class="">without </span>borders</span>
+			<span>
+				{% if request.session.locale == 'th-TH' %}
+					อีคอมเมิร์ซไม่มีพรมแดน
+				{% else %}
+					E-commerce without borders
+				{% endif %}
+			</span>
 		</h3>
 	</div><!-- .container -->
 </div><!-- .ui-hero -->
@@ -28,7 +34,7 @@
 				<input autocomplete="email" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
 				<div class="input-group-append">
 					<!-- Submit Button -->
-					<button class="btn btn-sm ui-gradient-found">Place Order
+					<button class="btn btn-sm ui-gradient-blue">Place Order
 					</button>
 				</div>
 			</div>
@@ -54,28 +60,28 @@
 				<img src="{% static 'friendship/img/graphics/step1.svg' %}">
 				<h4 class="text-dark-gray">Step 1</h4>
 				<p>
-					Paste a link to your desired item, from <span class="text-blue">any</span> online store
+					Paste a link to your desired item, from <span class="">any</span> online store
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
 				<img src="{% static 'friendship/img/graphics/step2.svg' %}">
 				<h4 class="text-dark-gray">Step 2</h4>
 				<p>
-					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
+					Shippers compete to deliver your item for the <span class="">lowest</span> price
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
 				<img src="{% static 'friendship/img/graphics/step3.svg' %}">
 				<h4 class="text-dark-gray">Step 3</h4>
 				<p>
-					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
+					<span class="">Pay</span> for your item through credit card or bank transfer
 				</p>
 			</div>
 			<div class="col-sm-3 ui-icon-block">
 				<img src="{% static 'friendship/img/graphics/step4.svg' %}">
 				<h4 class="text-dark-gray">Step 4</h4>
 				<p>
-					Your item is delivered <span class="text-blue">directly</span> to you
+					Your item is delivered <span class="">directly</span> to you
 				</p>
 			</div>
 		</div><!-- .row -->
@@ -130,74 +136,6 @@
 			<!-- Right Column -->
 			<div class="col-lg-7 col-xl-6 animate animated fade-in-left" data-show="fade-in-left" data-delay="200">
 				<img src="{% static 'friendship/img/graphics/features-truck.svg' %}" alt="FriendShips" id="truck-graphic" class="responsive-on-sm">
-
-				<!-- Logo Cloud 
-				<div class="ui-logos-cloud">
-					<div data-size="4" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="7" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break 
-					<span class="flex-break"></span>
-
-					<div data-size="4" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="4" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="6" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break 
-					<span class="flex-break"></span>
-
-					<div data-size="8" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="5" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break 
-					<span class="flex-break"></span>
-
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="7" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break 
-					<span class="flex-break"></span>
-
-					<div data-size="4" class="mb-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-				</div><!-- .ui-logo-cloud  -->
 
 			</div>
 		</div><!-- .row -->

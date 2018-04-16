@@ -77,12 +77,12 @@ def match_with_shipper(order):
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
 
-    mail.send_mail(
-        "Your Order #{} Match Found!".format(order.id),
-        body_str,
-        "no-reply@friendships.us",
-        [order.receiver.email],
-    )
+    # mail.send_mail(
+    #     "Your Order #{} Match Found!".format(order.id),
+    #     body_str,
+    #     "no-reply@friendships.us",
+    #     [order.receiver.email],
+    # )
 
     order.latest_action = action
     order.save()
@@ -255,7 +255,15 @@ def user_open_orders(request):
     """
     This displays all the orders for the receiver.
     """
-    qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
+    qset = Order.objects.filter(
+        receiver=request.user
+    ).union(
+        Order.objects.filter(
+            shipper=request.user
+        )
+    ).order_by(
+        '-date_placed'
+    )
     for order in qset:
         min_bid = get_min_bid(order)
         if not min_bid:

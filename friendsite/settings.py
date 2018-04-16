@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -100,7 +101,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CRONJOBS = [
-    ('*/1 * * * *', 'friendship.cron.order_bid_update'),
+    ('* * * * *', 'friendship.cron.order_bid_update'),
+    ('* * * * *', 'friendship.cron.order_bid_clean'),
 ]
 
 # Internationalization

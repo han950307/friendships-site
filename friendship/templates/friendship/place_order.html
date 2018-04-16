@@ -18,11 +18,11 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 left">
                     {# {{ form.quantity.errors }} #}
                     {{ form.quantity }}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 right">
                     {# {{ form.merchandise_type.errors }} #}
                     {{ form.merchandise_type }}
                 </div>
@@ -30,11 +30,11 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 left">
                     {# {{ form.size.errors }} #}
                     {{ form.size }}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 right">
                     {# {{ form.color.errors }} #}
                     {{ form.color }}
                 </div>
@@ -44,16 +44,16 @@
             {# {{ form.description.errors }} #}
             {{ form.description }}
         </div>
-        <div class="form-group">
-            <div class="upload-btn-wrapper">
+        <div class="form-group" style="margin-top:2rem;">
+            <!-- <div class="upload-btn-wrapper">
                 <button class='btn btn-primary btn-block'><span class='icon icon-picture' style="padding-right:10px; vertical-align:middle;"></span>Upload Image</button>
-                {# {{ form.item_image.errors }} #}
-                {{ form.item_image }}
-            </div>
+            </div> -->
+            Upload an image for the item. (optional)
+            {{ form.item_image.errors }}
+            {{ form.item_image }}
         </div>
         <div class="form-group" style="margin-top:2rem;">
             <span class="desc">Choose a bidding deadline for this item.*</span>
-            {{ form.num_hours.errors }}
             <div class="btn-group" data-toggle="buttons">
                 {% for field in form.num_hours %}
                 <label class="btn btn-primary btn-block">

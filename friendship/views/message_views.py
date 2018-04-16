@@ -13,6 +13,7 @@ from .order_views import order_details
 
 from ..models import (
     Message,
+    OrderAction,
     Order,
 )
 
@@ -48,7 +49,15 @@ def sync_message(request, order_id):
 
 @login_required
 def messages(request):
-    qset = Order.objects.filter(receiver=request.user).union(Order.objects.filter(shipper=request.user))
+    qset = Order.objects.filter(
+        receiver=request.user
+    ).filter(
+        latest_action__action__gte=OrderAction.Action.MATCH_FOUND
+    ).union(
+        Order.objects.filter(shipper=request.user)
+    ).order_by(
+        '-date_placed'
+    )
     return render(request, 'friendship/messages.html', {
         'orders': qset,
     })

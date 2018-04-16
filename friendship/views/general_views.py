@@ -1,5 +1,5 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def index(request, **kwargs):
@@ -19,3 +19,8 @@ def how_it_works(request):
 
 def about_us(request):
 	return render(request, 'friendship/about_us.html', {})
+
+
+def change_locale(request, locale):
+	request.session['locale'] = locale
+	return redirect('friendship:index')

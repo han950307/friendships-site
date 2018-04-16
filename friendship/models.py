@@ -6,11 +6,23 @@ import functools
 import datetime
 import math
 import decimal
+import uuid
+import os
 
 
 def forDjango(cls):
     cls.do_not_call_in_templates = True
     return cls
+
+
+class RandomFileName(object):
+    def __init__(self, path):
+        self.path = os.path.join(path, "%s%s")
+
+    def __call__(self, _, filename):
+        # @note It's up to the validators to check if it's the correct file type in name or if one even exist.
+        extension = os.path.splitext(filename)[1]
+        return self.path % (uuid.uuid4(), extension)
 
 
 # Create your models here.
@@ -213,10 +225,12 @@ class Order(models.Model):
         on_delete=models.CASCADE,
     )
     item_image = models.ImageField(
+        upload_to=RandomFileName(''),
         null=True,
         blank=True,
     )
     banknote_image = models.ImageField(
+        upload_to=RandomFileName(''),
         null=True,
         blank=True,
     )
@@ -426,7 +440,7 @@ class Money(models.Model):
             val = math.ceil(value * 100) / 100
             return "\u0024{0:.2f}".format(val)
 
-    def get_value(self, currency):
+    def get_value(self, currency=Currency.USD):
         orig = self.currency
         dest = currency
 

@@ -67,6 +67,8 @@ class SenderRegistrationForm(forms.Form):
             (x.value, x)
             for x
             in ShipperInfo.ShipperType
+            if x != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER and
+            x != ShipperInfo.ShipperType.FLIGHT_ATTENDANT
         ]
     )
 
@@ -77,6 +79,11 @@ class TravelerRegistrationForm(forms.Form):
 
 
 class ShippingCompanyRegistrationForm(forms.Form):
+    phone_number = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=200)
+
+
+class FlightAttendantRegistrationForm(forms.Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
 
@@ -197,10 +204,11 @@ class OrderForm(forms.ModelForm):
                     'class': 'input form-control',
                 }
             ),
-            'description': forms.TextInput(
+            'description': forms.Textarea(
                 attrs={
                     'placeholder': 'Any other details about the item',
-                    'class': 'input form-control'
+                    'class': 'input form-control',
+                    'rows': 3,
                 }
             ),
         }

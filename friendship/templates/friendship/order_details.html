@@ -34,6 +34,11 @@
     <div class="row">
         <div class="col-xl-3">
             <h3>Order Details</h3>
+            {% if order.item_image %}
+            <div class="item-image">
+                <a href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
+            </div>
+            {% endif %}
             <span class="bold"><h6>URL:</h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
             <p><span class="black"><h6>Quantity:</h6></span> {{ order.quantity }}</p>
             <p><span class="black"><h6>Description:</h6></span> {{ order.description }}</p>
@@ -83,7 +88,7 @@
                                     {% endif %}
                                     <td id="time_countdown" class="bid-info-content font-weight-bold">[TIME LEFT]</td>
                                     {% if min_bid %}
-                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-positive">buy now</a>
+                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-green">buy now</a>
                                     </td>
                                     {% endif %}
                                 </tr>
@@ -137,12 +142,12 @@
                                     <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid usd %}</td>
                                 </tr>
                                 <tr class="bid-info-row">
-                                    <td class="bid-info-content">Total:</td>
+                                    <td class="bid-info-content">Total (Currency conversion: 1 USD = 32.49 THB):</td>
                                     <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
                                 </tr>
                             </table>
-                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept Price</a>
-                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline Price</a>
+                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept</a>
+                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
                         </div>
                         {% elif latest_action.action == ORDER_DECLINED %}
                         <span class="step-number ui-gradient-peach">3</span>
@@ -165,12 +170,22 @@
                             <hr id="hr2">
                             <h6>Choose your Payment Method</h6>
                             <form id="payment-form">
-                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio"> Credit Card<br>
-                            
+                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">Credit Card<br>
+                                <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">Online Bank Transfer<br>
+                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">Manuanl Bank Transfer<br>
                                 
-                            <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                                <br>
+                                <div id="online-wire-transfer" style="display: none">
+                                    Coming soon
+                                </div>
 
                                 <div id="credit-card-payment" style="display: none">
+                                    Coming soon
+                                </div>
+
+                                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                                <!-- when omise approves, change this to above -->
+                                <div id="credit-card-payment-omise" style="display: none">
                                     <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
                                         {% csrf_token %}
                                         <script src="https://cdn.omise.co/omise.js"></script>
@@ -195,22 +210,37 @@
                                                 <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
                                             </div>
                                         </table>
-                                        <input type="submit" class="btn btn-block ui-gradient-positive" id="create_token" value="Submit Payment" style="margin:10px 0px">
+                                        <input type="submit" class="btn btn-block ui-gradient-green" id="create_token" value="Submit Payment" style="margin:10px 0px">
                                     </form>
                                 </div>
-                            <!-- END OF WHAT SHOULD BE DISPLAYED -->
-                            <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio"> Wire transfer
-                            
+                                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                                
                                 <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
                                 <div id="wire-payment" style="display: none">
-                                    <span class="account-number">We display our account number here.</span>
+                                    <p>Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.</p>
+                                    <div class="col-auto">
+                                        <table class="bid-info-table">
+                                            <tr class="bid-info-row">
+                                                <td>Bank:</td>
+                                                <td><h5>K bank</h5></td>
+                                            </tr>
+                                            <tr class="bid-info-row">
+                                                <td>Name:</td>
+                                                <td><h5>Patcharin Desit</h5></td>
+                                            </tr>
+                                            <tr class="bid-info-row">
+                                                <td>Account Number:</td>
+                                                <td><h5>0388832908</h5></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                     <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
                                         {% csrf_token %}
                                         <div class="form-group">
                                             {{ manual_wire_transfer_form.banknote_image.errors }}
                                             {{ manual_wire_transfer_form.banknote_image }}
                                         </div>
-                                        <input type="submit" class="btn btn-block ui-gradient-positive" value="Submit Payment" style="margin:10px 0px;">
+                                        <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
                                     </form>
                                 </div>
                                 <!-- END OF WHAT SHOULD BE DISPLAYED -->

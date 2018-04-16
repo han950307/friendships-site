@@ -9,8 +9,8 @@
 
 <div class="container" id="main-group">
     <div class="row" id="main-row">
-        <div class="col col-4" >
-            <div class="btn-group-vertical">
+        <div class="col col-4" id="messages-col">
+            <div class="btn-group-vertical" style="align-items: flex-start, justify-content: top;">
                 {% for order in orders %}
                     <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
                         <p> Order # {{ order.id }}</p>
@@ -28,6 +28,7 @@
                  data-sync="{% url 'friendship:sync_message' order.id %}"
                  data-method="post" data-first="0"
                  data-send="{% url 'friendship:send_message' order.id %}">
+                 traveller squad is...... we won't be replying here, please add us on Line:@travelllersquad...
             </div>
             {% endfor %}
 
