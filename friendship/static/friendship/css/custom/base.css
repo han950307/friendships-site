@@ -70,6 +70,54 @@ h2 {
 }
 
 /**
+* 29. About Us
+* ----------------------------------------------------------------------- *
+*/
+
+#features2 .first-row{
+  margin-top: 3rem;
+}
+#features2 .ui-icon-block {
+  text-align:center;
+}
+
+#features2 {
+  margin-top: 5rem;
+}
+
+#features2 .ui-icon-block img {
+  max-width: 195px; /*dorothy settings */
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 320px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 576px) {
+  #features2 .ui-icon-block img {
+    max-width: 140px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 768px) {
+  #features2 .ui-icon-block img {
+    max-width: 170px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 1200px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
+
+/**
 MESSAGES
 ------------------------------------*
 */
@@ -229,7 +277,7 @@ div#right-pane{
 
 .ui-icon-block img {
   max-width: 153px; /*dorothy settings */
-  padding-bottom:20px;
+  margin-bottom:20px;
 }
 
 #truck-graphic {
@@ -893,21 +941,4 @@ font-size: 18px;
 
 .bid-info-content p{
   font-size:0.8rem;
-}
-
-/**
-* 29. About Us
-* ----------------------------------------------------------------------- *
-*/
-.first-row {
-  margin-bottom:3rem;
-  margin-top: 2rem;
-}
-
-#features2 .ui-icon-block{
-  text-align:center;
-}
-
-#features2 {
-  margin-top:5rem;
 }
