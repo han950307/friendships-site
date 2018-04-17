@@ -5,7 +5,7 @@
 {% block title %} 
 
 {% if request.session.locale == 'th-TH' %}
-เข้าสู่ระบบ
+เข้าสู่ระบบ (ผู้ซื้อ)
 {% else %}
 Receiver Login
 {% endif %}
@@ -35,8 +35,13 @@ Authenticate yourself
 		{% endif %}
 	</a>
 	<hr>
-
-	<h1 style="text-align: center">Sender Login</h1>
+	<h1 style="text-align: center">
+		{% if request.session.locale == 'th-TH' %}
+		เข้าสู่ระบบ (ผู้ส่ง)
+		{% else %}
+		Sender Login
+		{% endif %}
+	</h1>
 	<form action="{% url 'friendship:login_process' %}" method="post">
 		{% csrf_token %}
 		<div class="form-group">
