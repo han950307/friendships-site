@@ -77,15 +77,16 @@
 					<img src="{% static 'friendship/img/graphics/step1.svg' %}">
 					<h4 class="text-dark-gray">
 						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 1
 						{% else %}
 						Step 1
 						{% endif %}
 					</h4>
 					<p>
 						{% if request.session.locale == 'th-TH' %}
-						คุณสามารถเลือกช็อปสินค้าจากเว็บใดก็ได้ เราจะส่งสินค้าของคุณด้วยราคาจัดส่งที่ดีที่สุด
+						<span class="bold">วาง</span>ลิ้งค์สินค้าที่คุณต้องการ
 						{% else %}
-						Paste a link to your desired item, from any online store
+						<span class="bold">Paste</span> a link to your desired item, from any online store
 						{% endif %}
 					</p>
 				</div>
@@ -93,14 +94,16 @@
 					<img src="{% static 'friendship/img/graphics/step2.svg' %}">
 					<h4 class="text-dark-gray">
 						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 2
 						{% else %}
 						Step 2
 						{% endif %}
 					</h4>
 					<p>
 						{% if request.session.locale == 'th-TH' %}
+						รอผู้ส่งในระแบบแข่งขันกันประมูลราคาส่งและ<span class="bold">ยืนยัน</span>ราคารวมเมื่อคุณพอใจ
 						{% else %}
-						Shippers compete to deliver your item for the lowest price
+						<span class="bold">Wait</span> while shippers compete to deliver your item, then <span class="bold">confirm</span> the lowest price we find.
 						{% endif %}
 					</p>
 				</div>
@@ -108,14 +111,16 @@
 					<img src="{% static 'friendship/img/graphics/step3.svg' %}">
 					<h4 class="text-dark-gray">
 						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 3
 						{% else %}
 						Step 3
 						{% endif %}
 					</h4>
 					<p>
 						{% if request.session.locale == 'th-TH' %}
+						<span class="bold">ชำจะเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
 						{% else %}
-						Pay for your item through credit card or bank transfer
+						<span class="bold">Pay</span> for your item through credit card or bank transfer
 						{% endif %}
 					</p>
 				</div>
@@ -123,14 +128,16 @@
 					<img src="{% static 'friendship/img/graphics/step4.svg' %}">
 					<h4 class="text-dark-gray">
 						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 4
 						{% else %}
 						Step 4
 						{% endif %}
 					</h4>
 					<p>
 						{% if request.session.locale == 'th-TH' %}
+						<span class="bold">รอรับของ</span>ได้เลย!
 						{% else %}
-						Your item is delivered directly to you
+						Your item is <span class="bold">delivered</span> directly to you
 						{% endif %}
 					</p>
 				</div>
@@ -252,7 +259,7 @@
 		<div class="container ui-icon-blocks ui-blocks-h icons-lg">
 			<div class="section-heading cente">
 				<h2 class="heading text-dark-gray">
-					
+
 					{% if request.session.locale == 'th-TH' %}
 					สินค้ายอดนิยม
 					{% else %}

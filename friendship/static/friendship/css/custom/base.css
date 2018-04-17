@@ -10,6 +10,11 @@ form p {
   src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Medium.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "ThaiBold";
+  src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Bold.ttf) format("truetype");
+}
+
 body {
   font-family: Thai !important;
 }
@@ -27,7 +32,6 @@ body .navbar, .btn, .ui-footer, a {
     max-width: 50%
   }
 }
-
 h1 {
   margin-top: 3rem;
   margin-bottom: 3rem;
