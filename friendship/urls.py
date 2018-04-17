@@ -60,6 +60,7 @@ urlpatterns = [
     path('how_it_works/', views.how_it_works, name='how_it_works'),
     path('about_us/', views.about_us, name='about_us'),
     path('change_locale/<str:locale>', views.change_locale, name='change_locale'),
-    path('become_a_sender/', views.become_a_sender, name='become_a_sender')
+    path('contact_us/', views.contact_us, name='contact_us'),
+    path('become_a_sender/', views.become_a_sender, name='become_a_sender'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

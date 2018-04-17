@@ -5,44 +5,74 @@
 
 {% block breadcrumb %}
 <ul class="breadcrumb container">
-  <li><a href="{% url 'friendship:user_open_orders' %}">Your Orders</a></li>
-  <li>Order # {{ order.id }}</li>
+  <li><a href="{% url 'friendship:user_open_orders' %}">
+    {% if request.session.locale == 'th-TH' %}
+    การสั่งซื้อของคุณ
+    {% else %}
+    Your Orders
+    {% endif %}
+</a></li>
+<li>
+    {% if request.session.locale == 'th-TH' %}
+    สินเค้าเลขที่ {{ order.id }}
+    {% else %}
+    Order # {{ order.id }}
+    {% endif %}
+</li>
 </ul>
 {% endblock breadcrumb %}
 
-{% block title %} <div class="order-number-heading">Order # {{ order.id }} </div>{% endblock title %}
+{% block title %}
+<div class="order-number-heading">
+    {% if request.session.locale == 'th-TH' %}
+    สินเค้าเลขที่ {{ order.id }}
+    {% else %}
+    Order # {{ order.id }}
+    {% endif %}
+</div>
+{% endblock title %}
 
 {% block main_content %}
-<!--<div class="container" id="order-headings">
-    <div class="row">
-        <div class="col-left">
-            <p><span class="bold">URL:</span> <a href="{{ order.url }}">{{ order_url }}</a></p>
-            <p><span class="bold">Quantity:</span> {{ order.quantity }}</p>
-            <p><span class="bold">Description:</span> {{ order.description }}</p>
-        </div>
-        <div class="col-right">
-            <p><span class="bold">Shipping Address:</span></p>
-            <p>{{ order.receiver_address.name }}</p>
-            <p>{{ order.receiver_address.address_line_1 }}</p>
-            <p>{{ order.receiver_address.city }}, {{ order.receiver_address.region }}, {{ order.receiver_address.postal_code }}</p>
-            <p>{{ order.receiver_address.country }}</p>
-        </div>
-    </div>
-</div>-->
 <hr />
 <div class="container" id="order-headings">
     <div class="row">
         <div class="col-xl-3">
-            <h3>Order Details</h3>
+            <h3>
+                {% if request.session.locale == 'th-TH' %}
+                รายละเอียดสินค้า
+                {% else %}
+                Order Details
+                {% endif %}
+            </h3>
             {% if order.item_image %}
             <div class="item-image">
                 <a href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
             </div>
             {% endif %}
-            <span class="bold"><h6>URL:</h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
-            <p><span class="black"><h6>Quantity:</h6></span> {{ order.quantity }}</p>
-            <p><span class="black"><h6>Description:</h6></span> {{ order.description }}</p>
-            <p><span class="black"><h6>Shipping Address:</h6></span></p>
+            <span class="bold"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                {% else %}
+                URL:
+                {% endif %}
+            </h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                {% else %}
+                Quantity:
+                {% endif %}
+            </h6></span> {{ order.quantity }}</p>
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                {% else %}
+                Description:
+                {% endif %}
+            </h6></span> {{ order.description }}</p>
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                {% else %}
+                Shipping Address:
+                {% endif %}
+            </h6></span></p>
             <p>{{ order.receiver_address.name }}</p>
             <p>{{ order.receiver_address.address_line_1 }}</p>
             <p>{{ order.receiver_address.city }}, {{ order.receiver_address.region }}, {{ order.receiver_address.postal_code }}</p>
@@ -51,7 +81,12 @@
             <br>
         </div>
         <div class="col-xl-8">
-            <h3>Order Progress</h3>
+            <h3>
+                {% if request.session.locale == 'th-TH' %}
+                {% else %}
+                Order Progress
+                {% endif %}
+            </h3>
             <div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
 
             <div class="ui-steps" id="order-details">
@@ -60,7 +95,13 @@
                     <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                     <div class="row">
                         <div class="col-auto">
-                            <h4>Item Ordered on {{ order.date_placed }}</h4>
+                            <h4>
+                                {% if request.session.locale == 'th-TH' %}
+                                Item Ordered on {% get_date_str order.date_placed 'datetime' 'th_TH' %}
+                                {% else %}
+                                Item Ordered on {% get_date_str order.date_placed %}
+                                {% endif %}
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -71,280 +112,509 @@
                         {% if latest_action.action == ORDER_PLACED %}
                         <span class="step-number ui-gradient-green">2</span>
                         <div class="col-auto">
-                            <h4>Finding Match</h4>
+                            <h4>
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Finding Match
+                                {% endif %}
+                            </h4>
                             <table id="bid-info-table">
                                 <tr class="bid-info-row">
-                                    <th class="bid-info-header">Current Total:</th>
-                                    <th class="bid-info-header">Time Left:</th>
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th-TH' %}
+                                        {% else %}
+                                        Current Total:
+                                        {% endif %}
+                                    </th>
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th-TH' %}
+                                        {% else %}
+                                        Time Left:
+                                        {% endif %}
+                                    </th>
                                     {% if min_bid %}
-                                    <th class="bid-info-header">Accept current price and buy now</th>
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th-TH' %}
+                                        {% else %}
+                                        Accept current price and buy now
+                                        {% endif %}
+                                    </th>
                                     {% endif %}
                                 </tr>
                                 <tr class="bid-info-row">
                                     {% if min_bid %}
                                     <td class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid currency %} ({% get_bid_total_str min_bid thb %})</h5></td>
                                     {% else %}
-                                    <td class="bid-info-content font-weight-bold"><h5>No bids yet</h5></td>
+                                    <td class="bid-info-content font-weight-bold"><h5>
+                                        {% if request.session.locale == 'th-TH' %}
+                                        {% else %}
+                                        No bids yet
+                                        {% endif %}
+                                    </h5>
+                                </td>
+                                {% endif %}
+                                <td id="time_countdown" class="bid-info-content font-weight-bold"></td>
+                                {% if min_bid %}
+                                <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-green">
+                                    {% if request.session.locale == 'th-TH' %}
+                                    {% else %}
+                                    buy now
                                     {% endif %}
-                                    <td id="time_countdown" class="bid-info-content font-weight-bold">[TIME LEFT]</td>
-                                    {% if min_bid %}
-                                    <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-green">buy now</a>
-                                    </td>
-                                    {% endif %}
-                                </tr>
-                            </table>
-                        </div>
-                        {% elif latest_action.action >= MATCH_FOUND %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
-                        <div class="col-auto">
-                            <h4>Found Match</h4>
-                        </div>
-                        {% elif latest_action.action == MATCH_NOT_FOUND %}
-                        <span class="step-number ui-gradient-peach">&#x2713</span>
-                        <div class="col-auto">
-                            <h4>Match Not Found</h4>
-                        </div>
-                        {% endif %}
-                    </div>
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                    </table>
                 </div>
-                <!-- PAYMENT LOGIC -->
-                <div class="step-wrapper">
-                    <div class="row">
-                        {% if latest_action.action < MATCH_FOUND %}
-                        <span class="step-number ui-gradient-grey">3</span>
-                        <div class="col-auto">
-                            <h4>Confirm Price and Pay</h4>
+                {% elif latest_action.action >= MATCH_FOUND %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Found Match
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == MATCH_NOT_FOUND %}
+                <span class="step-number ui-gradient-peach"></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Match Not Found
+                        {% endif %}
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- PAYMENT LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < MATCH_FOUND %}
+                <span class="step-number ui-gradient-grey">3</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Confirm Price and Pay
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Payment Received
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == BANKNOTE_UPLOADED and latest_action.action != ORDER_DECLINED %}
+                <span class="step-number ui-gradient-green"></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Verifying Wire Transfer
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == MATCH_FOUND %}
+                <span class="step-number ui-gradient-green">3</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Confirm Price and Pay
+                        {% endif %}
+                    </h4>
+                    <table id="bid-info-table">
+                        <tr class="bid-info-row">
+                            <td class="bid-info-content">
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Retail Price:
+                                {% endif %}
+                            </td>
+                            <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.retail_price usd %}</td>
+                        </tr>
+                        <tr class="bid-info-row">
+                            <td class="bid-info-content">
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Subtotal: <p>(includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee)</p>
+                                {% endif %}
+                            </td>
+                            <td class="bid-info-content font-weight-bold">{{ subtotal }}</td>
+                        </tr>
+                        <tr class="bid-info-row" id="bid-info-shipping">
+                            <td class="bid-info-content">
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Shipping:<p>(includes import tax and domestic shipping)</p>
+                                {% endif %}
+                            </td>
+                            <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.wages usd %}</td>
+                        </tr>
+                        <tr class="bid-info-row">
+                            <td class="bid-info-content">
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Total:
+                                {% endif %}
+                            </td>
+                            <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid usd %}</td>
+                        </tr>
+                        <tr class="bid-info-row">
+                            <td class="bid-info-content">
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Total (Currency conversion: 1 USD = 32.49 THB):
+                                {% endif %}
+                            </td>
+                            <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
+                        </tr>
+                    </table>
+                    <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Accept
+                        {% endif %}
+                    </a>
+                    <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Decline
+                        {% endif %}
+                    </a>
+                </div>
+                {% elif latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-peach">3</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Order Declined
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == PRICE_ACCEPTED %}
+                <span class="step-number ui-gradient-green">3</span>
+                <div class="col-auto">
+                    <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Confirm Price and Pay
+                        {% endif %}
+                    </h4>
+                    <div class="col-auto">
+                        <table id="bid-info-table">
+                            <tr class="bid-info-row">
+                                <th class="bid-info-header">
+                                    {% if request.session.locale == 'th-TH' %}
+                                    {% else %}
+                                    Total:
+                                    {% endif %}
+                                </th>
+                                <th class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid thb %}</h5></th>
+                            </tr>
+                        </table>
+                    </div>
+                    <hr id="hr2">
+                    <h6>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Choose your Payment Method
+                        {% endif %}
+                    </h6>
+                    <form id="payment-form">
+                        <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Credit Card
+                        {% endif %}
+                        <br>
+                        <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Online Bank Transfer
+                        {% endif %}
+                        <br>
+                        <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Manuanl Bank Transfer
+                        {% endif %}
+                        <br>
+
+                        <br>
+                        <div id="online-wire-transfer" style="display: none">
+
+                            {% if request.session.locale == 'th-TH' %}
+                            {% else %}
+                            Coming soon
+                            {% endif %}
                         </div>
-                        {% elif latest_action.action >= PAYMENT_RECEIVED and latest_action.action != ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
-                        <div class="col-auto">
-                            <h4>Payment Received</h4>
+
+                        <div id="credit-card-payment" style="display: none">
+
+                            {% if request.session.locale == 'th-TH' %}
+                            {% else %}
+                            Coming soon
+                            {% endif %}
                         </div>
-                        {% elif latest_action.action == BANKNOTE_UPLOADED and latest_action.action != ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-green"></span>
-                        <div class="col-auto">
-                            <h4>Verifying Wire Transfer</h4>
+
+                        <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                        <!-- when omise approves, change this to above -->
+                        <div id="credit-card-payment-omise" style="display: none">
+                            <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
+                                {% csrf_token %}
+                                <script src="https://cdn.omise.co/omise.js"></script>
+                                <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+                                <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
+                                <div id="token_errors"></div>
+                                <input type="hidden" name="omise_token">
+                                <table style="width:100%;">
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td>
+                                            <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
+                                            <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
+                                        </td></tr>
+                                    </div>
+                                    <div class="form-group">
+                                        <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
+                                    </div>
+                                </table>
+                                <input type="submit" class="btn btn-block ui-gradient-green" id="create_token" value="Submit Payment" style="margin:10px 0px">
+                            </form>
                         </div>
-                        {% elif latest_action.action == MATCH_FOUND %}
-                        <span class="step-number ui-gradient-green">3</span>
-                        <div class="col-auto">
-                            <h4>Confirm Price and Pay</h4>
-                            <table id="bid-info-table">
-                                <tr class="bid-info-row">
-                                    <td class="bid-info-content">Retail Price:</td>
-                                    <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.retail_price usd %}</td>
-                                </tr>
-                                <tr class="bid-info-row">
-                                    <td class="bid-info-content">Subtotal: <p>(includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee)</p></td>
-                                    <td class="bid-info-content font-weight-bold">{{ subtotal }}</td>
-                                </tr>
-                                <tr class="bid-info-row" id="bid-info-shipping">
-                                    <td class="bid-info-content">Shipping:<p>(includes import tax and domestic shipping)</p></td>
-                                    <td class="bid-info-content font-weight-bold">{% get_money_str min_bid.wages usd %}</td>
-                                </tr>
-                                <tr class="bid-info-row">
-                                    <td class="bid-info-content">Total:</td>
-                                    <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid usd %}</td>
-                                </tr>
-                                <tr class="bid-info-row">
-                                    <td class="bid-info-content">Total (Currency conversion: 1 USD = 32.49 THB):</td>
-                                    <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
-                                </tr>
-                            </table>
-                            <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >Accept</a>
-                            <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">Decline</a>
-                        </div>
-                        {% elif latest_action.action == ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-peach">3</span>
-                        <div class="col-auto">
-                            <h4>Order Declined</h4>
-                        </div>
-                        {% elif latest_action.action == PRICE_ACCEPTED %}
-                        <span class="step-number ui-gradient-green">3</span>
-                        <div class="col-auto">
-                            <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
-                            <h4>Confirm Price and Pay</h4>
+                        <!-- END OF WHAT SHOULD BE DISPLAYED -->
+
+                        <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                        <div id="wire-payment" style="display: none">
+                            <p>
+                                {% if request.session.locale == 'th-TH' %}
+                                {% else %}
+                                Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.
+                                {% endif %}
+                            </p>
                             <div class="col-auto">
-                                <table id="bid-info-table">
+                                <table class="bid-info-table">
                                     <tr class="bid-info-row">
-                                        <th class="bid-info-header">Total:</th>
-                                        <th class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid thb %}</h5></th>
+                                        <td>
+                                            {% if request.session.locale == 'th-TH' %}
+                                            {% else %}
+                                            Bank:
+                                            {% endif %}
+                                        </td>
+                                        <td><h5>
+                                            {% if request.session.locale == 'th-TH' %}
+                                            {% else %}
+                                            K bank
+                                            {% endif %}
+                                        </h5></td>
+                                    </tr>
+                                    <tr class="bid-info-row">
+                                        <td>
+                                            {% if request.session.locale == 'th-TH' %}
+                                            {% else %}
+                                            Name:
+                                            {% endif %}
+                                        </td>
+                                        <td><h5>
+                                            {% if request.session.locale == 'th-TH' %}
+                                            {% else %}
+                                            Patcharin Desit
+                                            {% endif %}
+                                        </h5></td>
+                                    </tr>
+                                    <tr class="bid-info-row">
+                                        <td>
+                                            {% if request.session.locale == 'th-TH' %}
+                                            {% else %}
+                                            Account Number:
+                                            {% endif %}
+                                        </td>
+                                        <td><h5>0388832908</h5></td>
                                     </tr>
                                 </table>
                             </div>
-                            <hr id="hr2">
-                            <h6>Choose your Payment Method</h6>
-                            <form id="payment-form">
-                                <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">Credit Card<br>
-                                <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">Online Bank Transfer<br>
-                                <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">Manuanl Bank Transfer<br>
-                                
-                                <br>
-                                <div id="online-wire-transfer" style="display: none">
-                                    Coming soon
+                            <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ manual_wire_transfer_form.banknote_image.errors }}
+                                    {{ manual_wire_transfer_form.banknote_image }}
                                 </div>
-
-                                <div id="credit-card-payment" style="display: none">
-                                    Coming soon
-                                </div>
-
-                                <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
-                                <!-- when omise approves, change this to above -->
-                                <div id="credit-card-payment-omise" style="display: none">
-                                    <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
-                                        {% csrf_token %}
-                                        <script src="https://cdn.omise.co/omise.js"></script>
-                                        <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-                                        <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
-                                        <div id="token_errors"></div>
-                                        <input type="hidden" name="omise_token">
-                                        <table style="width:100%;">
-                                            <div class="form-group">
-                                                <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
-                                            </div>
-                                            <div class="form-group">
-                                                <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
-                                            </div>
-                                            <div class="form-group">
-                                                <tr><td>
-                                                    <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
-                                                    <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
-                                                </td></tr>
-                                            </div>
-                                            <div class="form-group">
-                                                <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
-                                            </div>
-                                        </table>
-                                        <input type="submit" class="btn btn-block ui-gradient-green" id="create_token" value="Submit Payment" style="margin:10px 0px">
-                                    </form>
-                                </div>
-                                <!-- END OF WHAT SHOULD BE DISPLAYED -->
-                                
-                                <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                                <div id="wire-payment" style="display: none">
-                                    <p>Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.</p>
-                                    <div class="col-auto">
-                                        <table class="bid-info-table">
-                                            <tr class="bid-info-row">
-                                                <td>Bank:</td>
-                                                <td><h5>K bank</h5></td>
-                                            </tr>
-                                            <tr class="bid-info-row">
-                                                <td>Name:</td>
-                                                <td><h5>Patcharin Desit</h5></td>
-                                            </tr>
-                                            <tr class="bid-info-row">
-                                                <td>Account Number:</td>
-                                                <td><h5>0388832908</h5></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            {{ manual_wire_transfer_form.banknote_image.errors }}
-                                            {{ manual_wire_transfer_form.banknote_image }}
-                                        </div>
-                                        <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
-                                    </form>
-                                </div>
-                                <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                                <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
                             </form>
                         </div>
-                        {% endif %}
-                    </div>
+                        <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                    </form>
                 </div>
+                {% endif %}
+            </div>
+        </div>
 
-                <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
-                <div class="step-wrapper">
-                    <div class="row">
-                        {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-grey">4</span>
-                        <div class="col-auto">
-                            <h4>Item Ordered By FriendShips</h4>
-                        </div>
-                        {% elif latest_action.action == PAYMENT_RECEIVED %}
-                        <span class="step-number ui-gradient-green">4</span>
-                        <div class="col-auto">
-                            <h4>Item Ordered By FriendShips</h4>
-                        </div>
-                        {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
-                        <div class="col-auto">
-                            <h4>Item Ordered By FriendShips</h4>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- SENDER RECEIVED ITEM LOGIC -->
-                <div class="step-wrapper">
-                    <div class="row">
-                        {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-grey">5</span>
-                        <div class="col-auto">
-                            <h4>Sender Received Item</h4>
-                        </div>
-                        {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
-                        <span class="step-number ui-gradient-green">5</span> 
-                        <div class="col-auto">
-                            <h4>Sender Received Item</h4>
-                        </div>
-                        {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
-                        <div class="col-auto">
-                            <h4>Sender Received Item</h4>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- ITEM ARRIVED IN THAILAND LOGIC -->
-                <div class="step-wrapper">
-                    <div class="row">
-                        {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-grey">6</span>
-                        <div class="col-auto">
-                            <h4>Arrived in Thailand</h4>
-                        </div>
-                        {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
-                        <div class="col-auto">
-                            <h4>Arrived in Thailand</h4>
-                        </div>
-                        {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
-                        <span class="step-number ui-gradient-green">6</span>
-                        <div class="col-auto">
-                            <h4>Arrived in Thailand</h4>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- ITEM DELIVERED LOGIC -->
-                <div class="step-wrapper">
-                    <div class="row">
-                        {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
-                        <span class="step-number ui-gradient-grey">7</span>
-                        <div class="col-auto">
-                            <h4>Item Delivered</h4>
-                        </div>
-                        {% elif latest_action.action >= ORDER_FULFILLED %}
-                        <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
-                        <div class="col-auto">
-                            <h4>Item Delivered</h4>
-                        </div>
+        <!-- ITEM ORDERED FROM MERCHANT LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < PAYMENT_RECEIVED or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey">4</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
                         {% else %}
-                        <span class="step-number ui-gradient-green">7</span>
-                        <div class="col-auto">
-                            <h4>Item Delivered</h4>
-                        </div>
+                        Item Ordered By FriendShips
                         {% endif %}
-                    </div>
+                    </h4>
                 </div>
+                {% elif latest_action.action == PAYMENT_RECEIVED %}
+                <span class="step-number ui-gradient-green">4</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Item Ordered By FriendShips
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Item Ordered By FriendShips
+                        {% endif %}
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- SENDER RECEIVED ITEM LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey">5</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Sender Received Item
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
+                <span class="step-number ui-gradient-green">5</span> 
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Sender Received Item
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Sender Received Item
+                        {% endif %}
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ITEM ARRIVED IN THAILAND LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey">6</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Arrived in Thailand
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= ITEM_ARRIVED_IN_THAILAND %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Arrived in Thailand
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+                <span class="step-number ui-gradient-green">6</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Arrived in Thailand
+                        {% endif %}
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ITEM DELIVERED LOGIC -->
+        <div class="step-wrapper">
+            <div class="row">
+                {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
+                <span class="step-number ui-gradient-grey">7</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Item Delivered
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= ORDER_FULFILLED %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Item Delivered
+                        {% endif %}
+                    </h4>
+                </div>
+                {% else %}
+                <span class="step-number ui-gradient-green">7</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        {% else %}
+                        Item Delivered
+                        {% endif %}
+                    </h4>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>

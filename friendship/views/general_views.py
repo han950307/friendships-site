@@ -28,3 +28,7 @@ def change_locale(request, locale):
 
 def become_a_sender(request):
 	return render(request, 'friendship/become_a_sender.html', {})
+
+
+def contact_us(request):
+    return render(request, 'friendship/contact_us.html', {})

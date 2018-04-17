@@ -130,7 +130,7 @@ class BidForm(forms.Form):
 
 
 """ORDER RELATED FORMS"""
-class OrderForm(forms.ModelForm):
+class OrderForm(forms.ModelForm):  
     merchandise_type = forms.ChoiceField(
         choices=[
             (x.value, str(x).title())
@@ -218,6 +218,22 @@ class OrderForm(forms.ModelForm):
                and int(self.cleaned_data['merchandise_type']) != -1\
                and int(self.cleaned_data['quantity']) > 0
 
+    def __init__(self, *args, locale):
+        super().__init__(*args)
+        self.locale = locale
+        if locale == "th-TH":
+            self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
+            self.fields["quantity"].widget.attrs['placeholder'] = "จำนวน*"
+            self.fields["merchandise_type"].widget.attrs['placeholder'] = "เลือก*"
+            self.fields["size"].widget.attrs['placeholder'] = "ขนาด"
+            self.fields["color"].widget.attrs['placeholder'] = "สี"
+            self.fields["num_hours"].choices = [
+                (8, "8 ชั่วโมง"),
+                (24, "24 ชั่วโมง"),
+                (72, "72 ชั่วโมง"),
+            ]
+            self.fields["description"].widget.attrs['placeholder'] = "รายละเอียดเพิ่มเติม"
+
 
 class ManualWireTransferForm(forms.Form):
     banknote_image = forms.ImageField(
@@ -240,6 +256,7 @@ class ShippingAddressForm(forms.ModelForm):
         fields = [
             'name',
             'address_line_1',
+            'address_line_2',
             'city',
             'region',
             'postal_code',
@@ -255,7 +272,13 @@ class ShippingAddressForm(forms.ModelForm):
             ),
             'address_line_1': forms.TextInput(
                 attrs={
-                    'placeholder': 'Address*',
+                    'placeholder': 'Address Line 1*',
+                    'class': 'input form-control',
+                }
+            ),
+            'address_line_2': forms.TextInput(
+                attrs={
+                    'placeholder': 'Address Line 2',
                     'class': 'input form-control',
                 }
             ),
@@ -290,3 +313,20 @@ class ShippingAddressForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        if "instance" in kwargs:
+            instance = kwargs["instance"]
+        else:
+            instance = None
+        super().__init__(*args, instance=instance)
+        self.locale = kwargs["locale"]
+        if self.locale == "th-TH":
+            self.fields["name"].widget.attrs['placeholder'] = "ชื่อ นามสกุล*"
+            self.fields["address_line_1"].widget.attrs['placeholder'] = "บ้านเลขที่ หมู่*"
+            self.fields["address_line_2"].widget.attrs['placeholder'] = "แขวง / ตำบล*"
+            self.fields["city"].widget.attrs['placeholder'] = "เขต / อำเภอ*"
+            self.fields["region"].widget.attrs['placeholder'] = "จังหวัด*"
+            self.fields["postal_code"].widget.attrs['placeholder'] = "รหัสไปรษณีย์*"
+            self.fields["country"].widget.attrs['placeholder'] = "ประเทศ*"
+            self.fields["phone"].widget.attrs['placeholder'] = "เบอร์โทร*"
