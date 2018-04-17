@@ -5,6 +5,23 @@ form p {
   }
 }
 
+@font-face {
+  font-family: "Thai";
+  src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Medium.ttf) format("truetype");
+}
+
+body {
+  font-family: Thai !important;
+}
+
+body h1, h2, h3, h4, h5, h6 {
+  font-family: Thai !important;
+}
+
+body .navbar, .btn, .ui-footer, a {
+  font-family: Thai !important;
+}
+
 @media (min-width: 1200px){
   #form-container {
     max-width: 50%
@@ -22,6 +39,12 @@ h1 {
 
 nav > .container {
   max-width: 100%;
+}
+
+.img-responsive {
+  max-height: 240px;
+  margin-top: 5rem;
+  margin-bottom: 1.7rem;
 }
 
 .navbar .ui-navigation.navbar-center {
@@ -62,6 +85,54 @@ h2 {
 .navbar.navbar-dark .nav > li > a:hover {
   color: #d9d9d9;
 }
+
+/**
+* 29. About Us
+* ----------------------------------------------------------------------- *
+*/
+
+#features2 .first-row{
+  margin-top: 3rem;
+}
+#features2 .ui-icon-block {
+  text-align:center;
+}
+
+#features2 {
+  margin-top: 5rem;
+}
+
+#features2 .ui-icon-block img {
+  max-width: 195px; /*dorothy settings */
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 320px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 576px) {
+  #features2 .ui-icon-block img {
+    max-width: 140px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 768px) {
+  #features2 .ui-icon-block img {
+    max-width: 170px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 1200px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
 
 /**
 MESSAGES
@@ -223,7 +294,8 @@ div#right-pane{
 
 .ui-icon-block img {
   max-width: 153px; /*dorothy settings */
-  padding-bottom:20px;
+  height: 152px;
+  margin-bottom:20px;
 }
 
 #truck-graphic {
@@ -319,7 +391,7 @@ input.num-hours {
 }
 
 .form-container h4 {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 span.bold {
@@ -345,6 +417,15 @@ span.bold {
   opacity: 0;
 }
 
+input[type=file] {
+  display:block;
+  margin-top: .4rem;
+}
+
+#edit-address-form {
+  margin
+}
+
 .col-left {
   width: 50%;
 }
@@ -368,6 +449,10 @@ span.bold {
   .col-sm-6.right {
     padding-left: .5rem;
   }
+}
+
+input[type=submit] {
+  margin-top: 1.5rem;
 }
 /**
 * 3. Order List
@@ -498,6 +583,9 @@ div.orders {
   padding-bottom:1rem;
 }
 
+#edit-address-form h4{
+  margin-bottom: .8rem;
+}
 
 @media (min-width:740px){
   #order-headings .col-xl-8{
@@ -573,7 +661,7 @@ span#time_countdown {
   border-style: solid;
   border-width: .1rem;
   border-color: #88B5E1;
-}
+}f
 
 #wire-payment button:hover {
   background-color: #111111;
@@ -581,8 +669,8 @@ span#time_countdown {
 
 /* for my order view */
 .col-sm-13 {
-  flex: 0 0 20%;
-  max-width: 20%;
+  flex: 0 0 21%;
+  max-width: 21%;
   margin-left:-1rem;
   display: flex;
   align-items: center;
@@ -887,21 +975,4 @@ font-size: 18px;
 
 .bid-info-content p{
   font-size:0.8rem;
-}
-
-/**
-* 29. About Us
-* ----------------------------------------------------------------------- *
-*/
-.first-row {
-  margin-bottom:3rem;
-  margin-top: 2rem;
-}
-
-#features2 .ui-icon-block{
-  text-align:center;
-}
-
-#features2 {
-  margin-top:5rem;
 }

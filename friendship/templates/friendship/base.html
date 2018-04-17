@@ -2,22 +2,23 @@
 {% load static %}
 <html lang="zxx">
 <head>
+
 	<meta charset="utf-8">
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-	{% if request.session.locale == 'th-TH' %}
-	FriendShips - โซลูชั่นการจัดส่งสินค้าไทย - สหรัฐฯ
-	{% else %}
-	FriendShips - Optimized Thai-US Shipping Solutions
-	{% endif %}
+		{% if request.session.locale == 'th-TH' %}
+		FriendShips
+		{% else %}
+		FriendShips
+		{% endif %}
 	</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/slick/slick.css' %}"/>
 	<link rel="stylesheet" href="{% static 'friendship/css/custom/base.css' %}"/>
-
+	<link rel="shortcut icon" type="image/svg" href="{% static 'friendship/img/logo/friendships-favicon.svg' %}"/>
 
 	<!-- Scripts -->
 	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
@@ -25,216 +26,323 @@
 	<script src="{% static 'friendship/js/libs/owl.carousel/owl.carousel.min.js' %}"></script>
 	<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
 
-
 	{% block head %}
 	{% endblock head %}
 </head>
-	{% block altnav %}
-	{% endblock altnav %}
+{% block altnav %}
+{% endblock altnav %}
 
-<body class="" data-fade_in="on-load">
-<!-- Navbar Fixed + Default -->
-<nav class="navbar navbar-fixed-top navbar-dark bg-dark-gray" >
-	<div class="container">
+{% if request.session.locale == 'th-TH' %}
+	<body id="thai" data-fade_in="on-load">
+{% else %}
+	<body class="" data-fade_in="on-load">
+{% endif %}
+	<!-- Navbar Fixed + Default -->
+	<nav class="navbar navbar-fixed-top navbar-dark bg-dark-gray" >
+		<div class="container">
 
-		{% if not request.user.is_authenticated %}
+			{% if not request.user.is_authenticated %}
 
-		<!-- Navbar Logo -->
+			<!-- Navbar Logo -->
 			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:index' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
 
-		{% elif request.session.is_shipper %}
-			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:sender_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+				{% elif request.session.is_shipper %}
+				<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:sender_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
 
-		{% else %}
-			<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:receiver_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
-
-		{% endif %}
-			<!-- Default Logo -->
-			<img class="logo-default" src="{% static 'friendship/img/logo/friendships.svg' %}"
-			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
-			<!-- Transparent Logo -->
-			<img class="logo-transparent" src="{% static 'friendship/img/logo/friendships.svg' %}"
-			     alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
-		</a><!-- .navbar-brand -->
-
-
-		<!-- Navbar Navigation -->
-		<div class="ui-navigation navbar-right">
-			<ul class="nav navbar-nav">
-				<!-- Nav Item -->
-				<li>
-					<a href="{% url 'friendship:how_it_works' %}">How It Works</a>
-				</li>
-				<li>
-							<a href="{% url 'friendship:place_order' %}">Place Order</a>
-						</li>
-
-				{% if request.user.is_authenticated %}
-					{% if request.session.is_shipper %}
-						<li>
-							<a href="{% url 'friendship:open_orders' 'all' %}">Make a Bid</a>
-						</li>
-						<li>
-							<a href="{% url 'friendship:user_open_bids' %}">Your Bids</a>
-						</li>
 					{% else %}
-						
-						<li>
-							<a href="{% url 'friendship:user_open_orders' %}">Your Orders</a>
-						</li>
+					<a class="ui-variable-logo navbar-brand" href="{% url 'friendship:receiver_landing' %}" title="FriendShip - Optimized Thai-US Shipping Solutions">
+
+						{% endif %}
+						<!-- Default Logo -->
+						<img class="logo-default" src="{% static 'friendship/img/logo/friendships.svg' %}"
+						alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
+						<!-- Transparent Logo -->
+						<img class="logo-transparent" src="{% static 'friendship/img/logo/friendships.svg' %}"
+						alt="FriendShip - Optimized Thai-US Shipping Solutions Logo" data-uhd>
+					</a><!-- .navbar-brand -->
+
+
+					<!-- Navbar Navigation -->
+					<div class="ui-navigation navbar-right">
+						<ul class="nav navbar-nav">
+							<!-- Nav Item -->
+							<li>
+								<a href="{% url 'friendship:how_it_works' %}">
+									{% if request.session.locale == 'th-TH' %}
+									วิธีการใช้งาน
+									{% else %}
+									How It Works
+									{% endif %}
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'friendship:place_order' %}">
+									{% if request.session.locale == 'th-TH' %}
+									สั่งสินค้า
+									{% else %}
+									Place Order
+									{% endif %}
+								</a>
+							</li>
+
+							{% if request.user.is_authenticated %}
+							{% if request.session.is_shipper %}
+							<li>
+								<a href="{% url 'friendship:open_orders' 'all' %}">
+									{% if request.session.locale == 'th-TH' %}
+									ลงประมูล
+									{% else %}
+									Make a Bid
+									{% endif %}
+								</a>
+							</li>
+							<li>
+								<a href="{% url 'friendship:user_open_bids' %}">
+									{% if request.session.locale == 'th-TH' %}
+									ลงประมูล
+									{% else %}
+									Your Bids
+									{% endif %}
+								</a>
+							</li>
+							{% else %}
+
+							<li>
+								<a href="{% url 'friendship:user_open_orders' %}">
+									{% if request.session.locale == 'th-TH' %}
+									การสั่งซื้อของคุณ
+									{% else %}
+									Your Orders
+									{% endif %}
+								</a>
+							</li>
+							{% endif %}
+							<li>
+								<a href="{% url 'friendship:messages' %}">
+									{% if request.session.locale == 'th-TH' %}
+									ข้อความ
+									{% else %}
+									Messages
+									{% endif %}
+								</a>
+							</li>
+							{% endif%}
+
+							<!-- locale change -->
+							<li>
+								{% if request.session.locale == 'th-TH' %}
+								<a href="{% url 'friendship:change_locale' 'us-EN' %}">English</a>
+								{% else %}
+								<a href="{% url 'friendship:change_locale' 'th-TH' %}">ภาษาไทย</a>
+								{% endif %}
+							</li>
+
+						</ul><!--.navbar-nav -->
+					</div><!--.ui-navigation -->
+
+
+					<!-- Navbar Button -->
+					{% if request.user.is_authenticated %}
+					<a href="{% url 'friendship:logout' %}" class="btn btn-sm ui-gradient-red pull-right">
+						{% if request.session.locale == 'th-TH' %}
+						ออกจากระบบ
+						{% else %}
+						Logout
+						{% endif %}
+					</a>
+					{% else %}
+					<a href="{% url 'friendship:login' %}" class="btn btn-sm ui-gradient-blue pull-right">
+						{% if request.session.locale == 'th-TH' %}
+						เข้าสู่ระบบ
+						{% else %}
+						Login
+						{% endif %}
+					</a>
 					{% endif %}
-					<li>
-						<a href="{% url 'friendship:messages' %}">Messages</a>
-					</li>
-				{% endif%}
 
-				<!-- locale change -->
-				<li>
-				{% if request.session.locale == 'th-TH' %}
-					<a href="{% url 'friendship:change_locale' 'us-EN' %}">English</a>
-				{% else %}
-					<a href="{% url 'friendship:change_locale' 'th-TH' %}">ภาษาไทย</a>
-				{% endif %}
-				</li>
+					<!-- Navbar Toggle -->
+					<a href="#" class="ui-mobile-nav-toggle pull-right"></a>
 
-			</ul><!--.navbar-nav -->
-		</div><!--.ui-navigation -->
+				</div><!-- .container -->
+			</nav> <!-- nav -->
 
+			{% block breadcrumb %}
+			{% endblock breadcrumb %}
 
-		<!-- Navbar Button -->
-		{% if request.user.is_authenticated %}
-			<a href="{% url 'friendship:logout' %}"
-			   class="btn btn-sm ui-gradient-red pull-right">Logout</a>
-		{% else %}
-			<a href="{% url 'friendship:login' %}"
-			   class="btn btn-sm ui-gradient-blue pull-right">Login</a>
-		{% endif %}
+			{% block banner %}
+			{% endblock banner %}
 
-
-		<!-- Navbar Toggle -->
-		<a href="#" class="ui-mobile-nav-toggle pull-right"></a>
-
-	</div><!-- .container -->
-</nav> <!-- nav -->
-
-{% block breadcrumb %}
-{% endblock breadcrumb %}
-
-{% block banner %}
-{% endblock banner %}
-
-<!-- Main Wrapper -->
-<div class="main" role="main">
-	{% block content %}
-	{% endblock content %}
-	<!-- Footer -->
-	<footer class="ui-footer bg-gray">
-		<div class="container pt-6 pb-6">
-			<div class="row">
-				<div class="col-md-4 col-sm-6 footer-about footer-col center-on-sm">
-					<img src="{% static 'friendship/img/logo/friendships.svg' %}" data-uhd
-					     alt="FriendShips"/>
-					<p class="mt-1">
-						Find us everywhere else!
-					</p>
-				</div>
-				<div class="col-md-2 col-6 footer-col">
-					<h6 class="heading footer-heading">Quick Nav</h6>
-					<ul class="footer-nav">
-						<li>
-							<a href="{% url 'friendship:index' %}">Home</a>
-						</li>
-						<li>
-							<a href="{% url 'friendship:place_order' %}">Place an Order</a>
-						</li>
-						<li>
-							<a href="{% static 'friendship:user_open_orders' %}">Your Orders</a>
-						</li>
-					</ul>
-				</div>
-				<div class="col-md-2 col-6 footer-col">
-					<h6 class="heading footer-heading">Other Pages</h6>
-					<ul class="footer-nav">
-						<li>
-							<a href="{% url 'friendship:about_us' %}">About Us</a>
-						</li>
-						<li>
-							<a href="page-coming-soon.html">Contact Us</a>
-						</li>
-					</ul>
-				</div>
-				<div class="col-md-4 col-sm-6 footer-col center-on-sm">
-					<h6 class="heading footer-heading">Newsletter</h6>
-					<!-- Form -->
-					<form autocomplete="on" id="sign-up-form" name="sign-up-form">
-						<div class="form-group">
-							<div class="input-group">
-								<!-- Email Input -->
-								<input autocomplete="email" class="input form-control" data-validation="required"
-								       data-validation-error-msg="Please enter your email" name="email"
-								       placeholder="Email">
-								<div class="input-group-append">
-									<!-- Submit Button -->
-									<button class="btn ui-gradient-peach">Subscribe <span class="fa fa-send"></span>
-									</button>
+			<!-- Main Wrapper -->
+			<div class="main" role="main">
+				{% block content %}
+				{% endblock content %}
+				<!-- Footer -->
+				<footer class="ui-footer bg-gray">
+					<div class="container pt-6 pb-6">
+						<div class="row">
+							<div class="col-md-4 col-sm-6 footer-about footer-col center-on-sm">
+								<img src="{% static 'friendship/img/logo/friendships.svg' %}" data-uhd
+								alt="FriendShips"/>
+								<p class="mt-1">
+									{% if request.session.locale == 'th-TH' %}
+									พบกับเราได้ในช่องทางอื่นๆ
+									{% else %}
+									Find us everywhere else!
+									{% endif %}
+								</p>
+							</div>
+							<div class="col-md-2 col-6 footer-col">
+								<h6 class="heading footer-heading">
+									{% if request.session.locale == 'th-TH' %}
+									ไปที่
+									{% else %}
+									Quick Nav
+									{% endif %}
+								</h6>
+								<ul class="footer-nav">
+									<li>
+										<a href="{% url 'friendship:index' %}">
+											{% if request.session.locale == 'th-TH' %}
+											{% else %}
+											Home
+											{% endif %}
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'friendship:place_order' %}">
+											{% if request.session.locale == 'th-TH' %}
+											สั่งสินค้า
+											{% else %}
+											Place Order
+											{% endif %}
+										</a>
+									</li>
+									<li>
+										<a href="{% static 'friendship:user_open_orders' %}">
+											{% if request.session.locale == 'th-TH' %}
+											การสั่งซื้อของคุณ
+											{% else %}
+											Your Orders
+											{% endif %}
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-2 col-6 footer-col">
+								<h6 class="heading footer-heading">
+									{% if request.session.locale == 'th-TH' %}
+									หน้าอื่นๆ
+									{% else %}
+									Other Pages
+									{% endif %}
+								</h6>
+								<ul class="footer-nav">
+									<li>
+										<a href="{% url 'friendship:about_us' %}">
+											{% if request.session.locale == 'th-TH' %}
+											เกี่ยวกับเรา
+											{% else %}
+											About Us
+											{% endif %}
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'friendship:contact_us' %}">
+											{% if request.session.locale == 'th-TH' %}
+											ติดต่อเรา
+											{% else %}
+											Contact Us
+											{% endif %}
+										</a>
+									</li>
+									<li>
+										<a href="{% url 'friendship:become_a_sender' %}">
+											{% if request.session.locale == 'th-TH' %}
+											มาเป็น sender กับเรา
+											{% else %}
+											Become a Sender
+											{% endif %}
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-4 col-sm-6 footer-col center-on-sm">
+								<h6 class="heading footer-heading">
+									{% if request.session.locale == 'th-TH' %}
+									Social Media
+									{% else %}
+									Social Media
+									{% endif %}
+								</h6>
+								<div>
+									<a class="btn ui-gradient-blue btn-circle shadow-md">
+										<span class="fa fa-facebook"></span>
+									</a>
+									<a class="btn ui-gradient-green btn-circle shadow-md">
+										<span class="fa fa-twitter"></span>
+									</a>
 								</div>
 							</div>
-						</div>
-					</form>
-					<div>
-						<a class="btn ui-gradient-blue btn-circle shadow-md">
-							<span class="fa fa-facebook"></span>
-						</a>
-						<a class="btn ui-gradient-green btn-circle shadow-md">
-							<span class="fa fa-twitter"></span>
-						</a>
-					</div>
-				</div>
-			</div><!-- .row -->
-		</div><!-- .container -->
+						</div><!-- .row -->
+					</div><!-- .container -->
 
-		<!-- Footer Copyright -->
-		<div class="footer-copyright bg-dark-gray">
-			<div class="container">
-				<div class="row">
-					<!-- Copyright -->
-					<div class="col-sm-6 center-on-sm">
-						<p>
-							&copy; 2018 <a href="http://codeytech.com" target="_blank" title="Codeytech">Friendships, Inc.</a>
-						</p>
-					</div>
-					<!-- Social Icons -->
-					<div class="col-sm-6 text-right">
-						<ul class="footer-nav">
-							<li>
-								<a href="#">
-									Privacy Policy
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									Terms &amp; Conditions
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									FAQ
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div><!-- .container -->
-		</div><!-- .footer-copyright -->
+					<!-- Footer Copyright -->
+					<div class="footer-copyright bg-dark-gray">
+						<div class="container">
+							<div class="row">
+								<!-- Copyright -->
+								<div class="col-sm-6 center-on-sm">
+									<p>
+										&copy; 2018 <a href="http://codeytech.com" target="_blank" title="Codeytech">Friendships, Inc.</a>
+									</p>
+								</div>
+								<!-- Social Icons -->
+								<div class="col-sm-6 text-right">
+									<ul class="footer-nav">
+										<li>
+											<a href="#">
+												{% if request.session.locale == 'th-TH' %}
+												นโยบายความเป็นส่วนตัว
+												{% else %}
+												Privacy Policy
+												{% endif %}
 
-	</footer><!-- .ui-footer -->
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												
+												{% if request.session.locale == 'th-TH' %}
+												เงื่อนไขและข้อกำหนด
+												{% else %}
+												Terms &amp; Conditions
+												{% endif %}
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												
+												{% if request.session.locale == 'th-TH' %}
+												คำถามที่พบบ่อย
+												{% else %}
+												FAQ
+												{% endif %}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div><!-- .container -->
+					</div><!-- .footer-copyright -->
 
-</div><!-- .main -->
+				</footer><!-- .ui-footer -->
 
-	<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>
-	<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
-	<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
-	<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
-	<script type="text/javascript" src="{% static 'friendship/js/libs/slick/slick.min.js' %}"></script>
-</body>
-</html>
+			</div><!-- .main -->
+
+			<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>
+			<script src="{% static 'friendship/js/libs/form-validator/form-validator.min.js' %}"></script>
+			<script src="{% static 'friendship/js/libs/bootstrap.js' %}"></script>
+			<script src="{% static 'friendship/js/applify/build/applify.js' %}"></script>
+			<script type="text/javascript" src="{% static 'friendship/js/libs/slick/slick.min.js' %}"></script>
+		</body>
+		</html>

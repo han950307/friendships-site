@@ -137,23 +137,17 @@ def process_payment(request, order_id, currency):
 
 
 @login_required
-def receiver_landing(request):
-    return render(request, 'friendship/receiver_landing.html', {
-        'data': [request, ],
-    })
-
-
-@login_required
 def place_order(request):
     """
     This is a page for a form for making an order.
     """
     # CURRENTLY ONLY GET PRIMARY ADDRESS.
+    locale = request.session["locale"]
     user_addresses = request.user.shipping_addresses.filter(primary=True)
 
     if request.method == 'POST':
-        form = OrderForm(request.POST, request.FILES)
-        shipping_address_form = ShippingAddressForm(request.POST)
+        form = OrderForm(request.POST, request.FILES, locale=locale)
+        shipping_address_form = ShippingAddressForm(request.POST, locale=locale)
         if form.is_valid() and (shipping_address_form.is_valid() or len(user_addresses) > 0):
             # First create a shipping address if user has none
             if not user_addresses or shipping_address_form.is_valid():
@@ -207,11 +201,11 @@ def place_order(request):
         else:
             print(form.cleaned_data)
     else:
-        form = OrderForm(request.GET)
+        form = OrderForm(request.GET, locale=locale)
         if not user_addresses:
-            shipping_address_form = ShippingAddressForm()
+            shipping_address_form = ShippingAddressForm(locale=locale)
         else:
-            shipping_address_form = ShippingAddressForm(instance=user_addresses[0])
+            shipping_address_form = ShippingAddressForm(instance=user_addresses[0], locale=locale)
     return render(
         request,
         'friendship/place_order.html',

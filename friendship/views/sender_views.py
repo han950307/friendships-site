@@ -64,7 +64,6 @@ def make_bid(request, order_id):
     return render(request, 'friendship/make_bid.html', {'order' : order, 'form': form})
 
 
-
 @login_required
 def make_bid_process(request, order_id):
     """
@@ -137,7 +136,13 @@ def user_open_bids(request):
     """
     This displays all the orders for the receiver.
     """
-    qset = Bid.objects.filter(shipper=request.user)
+    qset = Bid.objects.filter(
+        shipper=request.user
+    ).filter(
+        order__latest_action__action__lt=OrderAction.Action.MATCH_FOUND
+    ).order_by(
+        '-order__date_placed'
+    )
     data_dict = {}
     data_dict.update({ k : v.value
                         for (k,v)
