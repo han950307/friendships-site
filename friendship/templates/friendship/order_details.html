@@ -51,31 +51,42 @@
             {% endif %}
             <span class="bold"><h6>
                 {% if request.session.locale == 'th-TH' %}
+                ลิ้งค์ URL
                 {% else %}
                 URL:
                 {% endif %}
             </h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
             <p><span class="black"><h6>
                 {% if request.session.locale == 'th-TH' %}
+                จำนวน
                 {% else %}
                 Quantity:
                 {% endif %}
             </h6></span> {{ order.quantity }}</p>
             <p><span class="black"><h6>
                 {% if request.session.locale == 'th-TH' %}
+                รายละเอียดเพิ่มเติม
                 {% else %}
                 Description:
                 {% endif %}
             </h6></span> {{ order.description }}</p>
-            <p><span class="black"><h6>
-                {% if request.session.locale == 'th-TH' %}
-                {% else %}
-                Shipping Address:
-                {% endif %}
-            </h6></span></p>
+            <p>
+                <span class="black">
+                    <h6>
+                        {% if request.session.locale == 'th-TH' %}
+                        Ship
+                        {% else %}
+                        Shipping Address:
+                        {% endif %}
+                    </h6>
+                </span>
+            </p>
             <p>{{ order.receiver_address.name }}</p>
             <p>{{ order.receiver_address.address_line_1 }}</p>
-            <p>{{ order.receiver_address.city }}, {{ order.receiver_address.region }}, {{ order.receiver_address.postal_code }}</p>
+            {% if order.receiver_address.address_line_2 %}
+            <p>{{ order.receiver_address.address_line_2 }}</p>
+            {% endif %}
+            <p>{{ order.receiver_address.city }} {{ order.receiver_address.region }} {{ order.receiver_address.postal_code }}</p>
             <p>{{ order.receiver_address.country }}</p>
             <br>
             <br>
