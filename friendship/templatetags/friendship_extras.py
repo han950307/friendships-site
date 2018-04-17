@@ -3,6 +3,7 @@ from friendship.models import Money, Bid
 
 import math
 from babel import dates
+import pytz
 
 register = template.Library()
 
@@ -38,10 +39,13 @@ def get_lowest_bid_str(order, currency):
 
 
 @register.simple_tag
-def get_date_str(datetime, str_format="datetime", locale="en_US"):
+def get_date_str(datetime, str_format="datetime", locale="en_US", tz="America/New_York"):
 	"""
 	returns a formatted datetime given a datetime object.
 	"""
+	timezone = pytz.timezone(tz)
+	datetime = datetime.astimezone(timezone)
+
 	if str_format == "date":
 		return dates.format_date(datetime, locale=locale)
 	elif str_format == "time":

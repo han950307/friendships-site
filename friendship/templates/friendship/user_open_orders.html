@@ -66,7 +66,7 @@ Your Orders
 
 			<!-- DATE -->
 {% if request.session.locale == 'th-TH' %}
-			<div class="col-sm-13 .font-weight-light">{% get_date_str order.date_placed 'date' 'th_TH' %}</div>
+			<div class="col-sm-13 .font-weight-light">{% get_date_str order.date_placed 'date' 'th_TH' 'Asia/Bangkok' %}</div>
 {% else %}
 			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
 {% endif %}

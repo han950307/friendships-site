@@ -97,7 +97,7 @@
                         <div class="col-auto">
                             <h4>
                                 {% if request.session.locale == 'th-TH' %}
-                                Item Ordered on {% get_date_str order.date_placed 'datetime' 'th_TH' %}
+                                Item Ordered on {% get_date_str order.date_placed 'datetime' 'th_TH' 'Asia/Bangkok' %}
                                 {% else %}
                                 Item Ordered on {% get_date_str order.date_placed %}
                                 {% endif %}
@@ -347,7 +347,7 @@
                         <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">
                         {% if request.session.locale == 'th-TH' %}
                         {% else %}
-                        Manuanl Bank Transfer
+                        Manual Bank Transfer
                         {% endif %}
                         <br>
 

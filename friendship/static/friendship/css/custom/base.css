@@ -294,6 +294,7 @@ div#right-pane{
 
 .ui-icon-block img {
   max-width: 153px; /*dorothy settings */
+  height: 152px;
   margin-bottom:20px;
 }
 
