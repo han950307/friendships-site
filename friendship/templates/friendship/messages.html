@@ -1,7 +1,13 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
 
-{% block title %} Messages {% endblock title %}
+{% block title %} 
+{% if request.session.locale == 'th-TH' %}
+ข้อความ
+{% else %}
+Messages
+{% endif %}
+{% endblock title %}
 
 {% block main_content %}
 
@@ -12,10 +18,16 @@
         <div class="col col-4" id="messages-col">
             <div class="btn-group-vertical" style="align-items: flex-start, justify-content: top;">
                 {% for order in orders %}
-                    <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
-                        <p> Order # {{ order.id }}</p>
-                        <p style="font-size: 75%"> {{ order.url }} </p>
-                    </button>
+                <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
+                    <p> 
+                        {% if request.session.locale == 'th-TH' %}
+                        สินค้าเลขที่ {{ order.id }}
+                        {% else %}
+                        Order # {{ order.id }}
+                        {% endif %}
+                    </p>
+                    <p style="font-size: 75%"> {{ order.url }} </p>
+                </button>
                 {% endfor %}
             </div>
         </div>
@@ -24,29 +36,33 @@
 
             {% for order in orders %}
             <div id="messages-{{ order.id }}"
-                 class="message_dummy"
-                 data-sync="{% url 'friendship:sync_message' order.id %}"
-                 data-method="post" data-first="0"
-                 data-send="{% url 'friendship:send_message' order.id %}">
-                 Team The Sender is...... We won't be replying here, please add us on Line:@teamthesender...
-            </div>
-            {% endfor %}
-
-            <br />
-            <div id="message-input-area">
-                <form id="message_form">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
-                        <div class="input-group-append">
-                            <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            class="message_dummy"
+            data-sync="{% url 'friendship:sync_message' order.id %}"
+            data-method="post" data-first="0"
+            data-send="{% url 'friendship:send_message' order.id %}">
+            {% if request.session.locale == 'th-TH' %}
+            Team Senders เป็นกลุ่มผู้ส่งที่ทำงานโดยตรงให้กับ FriendShips เราจะไม่ตอบข้อความทางนี้ ติดต่อพวกเราได้ที่ Line:  @teamsenders
+            {% else %}
+            Team Senders is a group of shippers working directly for FriendShips. We won't be replying here, so please add us on line: @teamsenders
+            {% endif %}
         </div>
+        {% endfor %}
 
+        <br />
+        <div id="message-input-area">
+            <form id="message_form">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
+                    <div class="input-group-append">
+                        <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
+</div>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/message.js' %}"></script>

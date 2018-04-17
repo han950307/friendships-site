@@ -14,7 +14,7 @@
 </a></li>
 <li>
     {% if request.session.locale == 'th-TH' %}
-    สินเค้าเลขที่ {{ order.id }}
+    สินค้าเลขที่ {{ order.id }}
     {% else %}
     Order # {{ order.id }}
     {% endif %}
@@ -25,7 +25,7 @@
 {% block title %}
 <div class="order-number-heading">
     {% if request.session.locale == 'th-TH' %}
-    สินเค้าเลขที่ {{ order.id }}
+    สินค้าเลขที่ {{ order.id }}
     {% else %}
     Order # {{ order.id }}
     {% endif %}
@@ -63,6 +63,16 @@
                 Quantity:
                 {% endif %}
             </h6></span> {{ order.quantity }}</p>
+            {% if order.color %}
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                สี
+                {% else %}
+                Color:
+                {% endif %}
+            </h6></span> {{ order.color }}</p>
+            {% endif %}
+            {% if order.description %}
             <p><span class="black"><h6>
                 {% if request.session.locale == 'th-TH' %}
                 รายละเอียดเพิ่มเติม
@@ -70,11 +80,12 @@
                 Description:
                 {% endif %}
             </h6></span> {{ order.description }}</p>
+            {% endif %}
             <p>
                 <span class="black">
                     <h6>
                         {% if request.session.locale == 'th-TH' %}
-                        Ship
+                        ที่อยู่จัดส่ง
                         {% else %}
                         Shipping Address:
                         {% endif %}
@@ -94,6 +105,7 @@
         <div class="col-xl-8">
             <h3>
                 {% if request.session.locale == 'th-TH' %}
+                สถานะสินค้า
                 {% else %}
                 Order Progress
                 {% endif %}
@@ -108,7 +120,7 @@
                         <div class="col-auto">
                             <h4>
                                 {% if request.session.locale == 'th-TH' %}
-                                Item Ordered on {% get_date_str order.date_placed 'datetime' 'th_TH' 'Asia/Bangkok' %}
+                                วันที่สั่งสินค้า {% get_date_str order.date_placed 'datetime' 'th_TH' 'Asia/Bangkok' %}
                                 {% else %}
                                 Item Ordered on {% get_date_str order.date_placed %}
                                 {% endif %}
@@ -125,6 +137,7 @@
                         <div class="col-auto">
                             <h4>
                                 {% if request.session.locale == 'th-TH' %}
+                                กำลังค้นหาผู้ส่ง
                                 {% else %}
                                 Finding Match
                                 {% endif %}
@@ -133,12 +146,14 @@
                                 <tr class="bid-info-row">
                                     <th class="bid-info-header">
                                         {% if request.session.locale == 'th-TH' %}
+                                        ราคาต่ำสุด
                                         {% else %}
                                         Current Total:
                                         {% endif %}
                                     </th>
                                     <th class="bid-info-header">
                                         {% if request.session.locale == 'th-TH' %}
+                                        หมดเวลาประมูลใน:
                                         {% else %}
                                         Time Left:
                                         {% endif %}
@@ -146,6 +161,7 @@
                                     {% if min_bid %}
                                     <th class="bid-info-header">
                                         {% if request.session.locale == 'th-TH' %}
+                                        ยอมรับราคานี้
                                         {% else %}
                                         Accept current price and buy now
                                         {% endif %}
@@ -158,6 +174,7 @@
                                     {% else %}
                                     <td class="bid-info-content font-weight-bold"><h5>
                                         {% if request.session.locale == 'th-TH' %}
+                                        ยังไม่มีการประมูล
                                         {% else %}
                                         No bids yet
                                         {% endif %}
@@ -168,6 +185,7 @@
                                 {% if min_bid %}
                                 <td class="bid-info-content"><a href="{% url 'friendship:end_bid' order.id %}" class="btn btn-sm ui-gradient-green">
                                     {% if request.session.locale == 'th-TH' %}
+                                    สั่งซื้อเลย!
                                     {% else %}
                                     buy now
                                     {% endif %}
@@ -182,6 +200,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        จับคู่สำเร็จ
                         {% else %}
                         Found Match
                         {% endif %}
@@ -192,6 +211,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        จับคู่ไม่สำเร็จ
                         {% else %}
                         Match Not Found
                         {% endif %}
@@ -208,6 +228,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ยืนยันการทำรายการ
                         {% else %}
                         Confirm Price and Pay
                         {% endif %}
@@ -218,6 +239,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ชำระแล้ว
                         {% else %}
                         Payment Received
                         {% endif %}
@@ -228,6 +250,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        กำลังตรวจสอบใบชำระเงิน
                         {% else %}
                         Verifying Wire Transfer
                         {% endif %}
@@ -246,6 +269,7 @@
                         <tr class="bid-info-row">
                             <td class="bid-info-content">
                                 {% if request.session.locale == 'th-TH' %}
+                                ราคาสินค้า
                                 {% else %}
                                 Retail Price:
                                 {% endif %}
@@ -255,6 +279,7 @@
                         <tr class="bid-info-row">
                             <td class="bid-info-content">
                                 {% if request.session.locale == 'th-TH' %}
+                                ยอดรวมภาษีมูลค่าเพิ่มและค่าบริการ
                                 {% else %}
                                 Subtotal: <p>(includes US sales tax (varies based on shipper’s location, approximately 8.5%) and service fee)</p>
                                 {% endif %}
@@ -264,6 +289,7 @@
                         <tr class="bid-info-row" id="bid-info-shipping">
                             <td class="bid-info-content">
                                 {% if request.session.locale == 'th-TH' %}
+                                ค่าจัดส่งสินค้า
                                 {% else %}
                                 Shipping:<p>(includes import tax and domestic shipping)</p>
                                 {% endif %}
@@ -273,6 +299,7 @@
                         <tr class="bid-info-row">
                             <td class="bid-info-content">
                                 {% if request.session.locale == 'th-TH' %}
+                                ยอดชำระเงินสุทธิ
                                 {% else %}
                                 Total:
                                 {% endif %}
@@ -282,6 +309,7 @@
                         <tr class="bid-info-row">
                             <td class="bid-info-content">
                                 {% if request.session.locale == 'th-TH' %}
+                                ยอดชำระเงินสุทธิ (อัตรแลกเปลี่ยนคิดเป็น 1USD = 32.49 THB)
                                 {% else %}
                                 Total (Currency conversion: 1 USD = 32.49 THB):
                                 {% endif %}
@@ -291,12 +319,14 @@
                     </table>
                     <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >
                         {% if request.session.locale == 'th-TH' %}
+                        ยอมรับ
                         {% else %}
                         Accept
                         {% endif %}
                     </a>
                     <a class="btn btn-link btn-block col-4" href="{% url 'friendship:confirm_order_price' order.id False %}" id="decline-button">
                         {% if request.session.locale == 'th-TH' %}
+                        ยกเลิก
                         {% else %}
                         Decline
                         {% endif %}
@@ -307,6 +337,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถูกยกเลิก
                         {% else %}
                         Order Declined
                         {% endif %}
@@ -318,6 +349,7 @@
                     <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ยืนยันการทำรายการ
                         {% else %}
                         Confirm Price and Pay
                         {% endif %}
@@ -327,6 +359,7 @@
                             <tr class="bid-info-row">
                                 <th class="bid-info-header">
                                     {% if request.session.locale == 'th-TH' %}
+                                    ยอดชำระเงินสุทธิ
                                     {% else %}
                                     Total:
                                     {% endif %}
@@ -338,6 +371,7 @@
                     <hr id="hr2">
                     <h6>
                         {% if request.session.locale == 'th-TH' %}
+                        เลือกช่องทางการชำระเงิน
                         {% else %}
                         Choose your Payment Method
                         {% endif %}
@@ -345,18 +379,21 @@
                     <form id="payment-form">
                         <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">
                         {% if request.session.locale == 'th-TH' %}
+                        บัตรเครดิต
                         {% else %}
                         Credit Card
                         {% endif %}
                         <br>
                         <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">
                         {% if request.session.locale == 'th-TH' %}
+                        ผ่านระบบออนไลน์
                         {% else %}
                         Online Bank Transfer
                         {% endif %}
                         <br>
                         <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">
                         {% if request.session.locale == 'th-TH' %}
+                        ผ่านเคาน์เตอร์ธนาคาร
                         {% else %}
                         Manual Bank Transfer
                         {% endif %}
@@ -366,6 +403,7 @@
                         <div id="online-wire-transfer" style="display: none">
 
                             {% if request.session.locale == 'th-TH' %}
+                            Coming soon
                             {% else %}
                             Coming soon
                             {% endif %}
@@ -374,6 +412,7 @@
                         <div id="credit-card-payment" style="display: none">
 
                             {% if request.session.locale == 'th-TH' %}
+                            Coming soon
                             {% else %}
                             Coming soon
                             {% endif %}
@@ -415,6 +454,7 @@
                         <div id="wire-payment" style="display: none">
                             <p>
                                 {% if request.session.locale == 'th-TH' %}
+                                กรุณาโอนเงินเข้าบัญชีที่แสดงด้านล่างนี้ พร้อมแนบหลักฐานการชำระเงิน เพื่อยืนยันการทำรายการ
                                 {% else %}
                                 Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.
                                 {% endif %}
@@ -424,12 +464,14 @@
                                     <tr class="bid-info-row">
                                         <td>
                                             {% if request.session.locale == 'th-TH' %}
+                                            ธนาคาร
                                             {% else %}
                                             Bank:
                                             {% endif %}
                                         </td>
                                         <td><h5>
                                             {% if request.session.locale == 'th-TH' %}
+                                            K bank
                                             {% else %}
                                             K bank
                                             {% endif %}
@@ -438,12 +480,14 @@
                                     <tr class="bid-info-row">
                                         <td>
                                             {% if request.session.locale == 'th-TH' %}
+                                            ชื่อบัญชี
                                             {% else %}
                                             Name:
                                             {% endif %}
                                         </td>
                                         <td><h5>
                                             {% if request.session.locale == 'th-TH' %}
+                                            Patcharin Desit
                                             {% else %}
                                             Patcharin Desit
                                             {% endif %}
@@ -452,6 +496,7 @@
                                     <tr class="bid-info-row">
                                         <td>
                                             {% if request.session.locale == 'th-TH' %}
+                                            เลขที่บัญชี
                                             {% else %}
                                             Account Number:
                                             {% endif %}
@@ -466,7 +511,12 @@
                                     {{ manual_wire_transfer_form.banknote_image.errors }}
                                     {{ manual_wire_transfer_form.banknote_image }}
                                 </div>
+                                {% if request.session.locale == 'th-TH' %}
+                                <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
+                                {% else %}
                                 <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
+                                {% endif %}
+
                             </form>
                         </div>
                         <!-- END OF WHAT SHOULD BE DISPLAYED -->
@@ -484,6 +534,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        สั่งซื้อโดย FriendShips สำเร็จแล้ว
                         {% else %}
                         Item Ordered By FriendShips
                         {% endif %}
@@ -494,6 +545,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        สั่งซื้อโดย FriendShips สำเร็จแล้ว
                         {% else %}
                         Item Ordered By FriendShips
                         {% endif %}
@@ -504,6 +556,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        สั่งซื้อโดย FriendShips สำเร็จแล้ว
                         {% else %}
                         Item Ordered By FriendShips
                         {% endif %}
@@ -521,6 +574,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงผู้ส่งแล้ว
                         {% else %}
                         Sender Received Item
                         {% endif %}
@@ -531,6 +585,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงผู้ส่งแล้ว
                         {% else %}
                         Sender Received Item
                         {% endif %}
@@ -541,6 +596,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงผู้ส่งแล้ว
                         {% else %}
                         Sender Received Item
                         {% endif %}
@@ -558,6 +614,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงไทยแล้ว
                         {% else %}
                         Arrived in Thailand
                         {% endif %}
@@ -568,6 +625,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงไทยแล้ว
                         {% else %}
                         Arrived in Thailand
                         {% endif %}
@@ -578,6 +636,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงไทยแล้ว
                         {% else %}
                         Arrived in Thailand
                         {% endif %}
@@ -595,6 +654,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงคุณแล้ว
                         {% else %}
                         Item Delivered
                         {% endif %}
@@ -605,6 +665,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงคุณแล้ว
                         {% else %}
                         Item Delivered
                         {% endif %}
@@ -615,6 +676,7 @@
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
+                        ถึงคุณแล้ว
                         {% else %}
                         Item Delivered
                         {% endif %}

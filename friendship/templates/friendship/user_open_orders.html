@@ -107,7 +107,7 @@ Your Orders
 				{% if order.latest_action.action == MATCH_NOT_FOUND %}
 				<span class="btn btn-sm ui-gradient-negative">
 					{% if request.session.locale == 'th-TH' %}
-					ไร้คู่
+					จับคู่ไม่สำเร็จ
 					{% else %}
 					No Match
 					{% endif %}
@@ -123,7 +123,7 @@ Your Orders
 				{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
 				<span class="btn btn-sm ui-gradient-found">
 					{% if request.session.locale == 'th-TH' %}
-					คู่กันแล้ว
+					จับคู่สำเร็จ
 					{% else %}
 					Matched
 					{% endif %}

@@ -1,16 +1,26 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
 
-{% block title %} How It Works {% endblock title %}
+{% block title %} 
+{% if request.session.locale == 'th-TH' %}
+การใช้งาน/วิธีใช้
+{% else %}
+How It Works
+{% endif %}
+{% endblock title %}
 
 {% block main_content %}
 
 <!-- App Features Section -->
-<div id="features2" class="section pt-0">
+<div id="how-it-works" class="section pt-0 how-it-works">
   <div class="container ui-icon-blocks ui-blocks-h icons-lg">
     <div class="section-heading center">
       <p class="paragraph">
+        {% if request.session.locale == 'th-TH' %}
+        คุณสามารถเลือกช็อปสินค้าจากเว็บใดก็ได้ เราจะส่งสินค้าของคุณด้วยราคาจัดส่งที่ดีที่สุด
+        {% else %}
         Shop on any website, and we'll deliver your items at the lowest prices, right to your door
+        {% endif %}
       </p>
       <hr>
     </div><!-- .section-heading -->
@@ -19,28 +29,28 @@
         <img src="{% static 'friendship/img/graphics/step1.jpg' %}">
         <h4 class="text-dark-gray" style="text-align: left">Step 1</h4>
         <p style="text-align: left">
-          Paste a link to your desired item, from any online store. We will handle it from there.
+          Paste a link to your desired item, from any online store. That’s all you need to do. We handle the rest.
         </p>
       </div>
       <div class="col-sm-3 ui-icon-block">
         <img src="{% static 'friendship/img/graphics/step2.jpg' %}">
         <h4 class="text-dark-gray" style="text-align: left">Step 2</h4>
         <p style="text-align: left">
-          Wait while shippers compete to deliver your item, then confirm the lowest price we find.
+          Shippers compete to deliver your item for the lowest price. Our shippers are carefully screened to ensure reliable and rapid delivery, and we demand perfection, every time. Each shipper quotes a price including shipping costs and all associated taxes and fees, and we match you with the lowest one.
         </p>
       </div>
       <div class="col-sm-3 ui-icon-block">
         <img src="{% static 'friendship/img/graphics/step3.jpg' %}">
         <h4 class="text-dark-gray" style="text-align: left">Step 3</h4>
         <p style="text-align: left">
-          Shippers compete to deliver your item. Each shipper quotes a price including shipping costs and all associated taxes and fees, and we match you with the lowest one.
+          Once the time runs out or you’re happy with the price, pay for your item through credit card or bank transfer. The price you see before deciding to buy is the final quote, including the cost of the item, lowest shipping cost, and all taxes and fees.
         </p>
       </div>
       <div class="col-sm-3 ui-icon-block">
         <img src="{% static 'friendship/img/graphics/step4.jpg' %}">
         <h4 class="text-dark-gray" style="text-align: left">Step 4</h4>
         <p style="text-align: left">
-          The price you see before deciding to buy is the final quote, including all associated fees. Once we receive the payment, we directly deliver the item to you, right to your doorstep.
+          Your item is delivered directly to you. We offer door-to-door delivery on all items, with no extra charge.
         </p>
       </div>
     </div><!-- .row -->

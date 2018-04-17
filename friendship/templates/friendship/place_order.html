@@ -108,9 +108,7 @@ It's easy as ship
             {% else %}
             Shipping Details
             {% endif %}
-        </h4>
         {% for user_address in user_addresses %}
-        <h4>
             <a href="#" id="edit-address">
                 {% if request.session.locale == 'th-TH' %}
                 แก้ไข
@@ -170,6 +168,7 @@ It's easy as ship
             </div>
         </div>
         {% empty %}
+        </h4>
         <div class="form-group">
             {# {{ shipping_address_form.name.errors }} #}
             {{ shipping_address_form.name }}
