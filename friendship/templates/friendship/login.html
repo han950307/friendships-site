@@ -2,31 +2,85 @@
 {% load static %}
 
 
-{% block title %} Login {% endblock title %}
-{% block title_desc %} Authenticate yourself {% endblock title_desc %}
+{% block title %} 
+
+{% if request.session.locale == 'th-TH' %}
+เข้าสู่ระบบ
+{% else %}
+Receiver Login
+{% endif %}
+{% endblock title %}
+{% block title_desc %} 
+
+{% if request.session.locale == 'th-TH' %}
+{% else %}
+Authenticate yourself
+{% endif %}
+{% endblock title_desc %}
 
 {% block form %}
 <div class="container" id="login-container">
-	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-found shadow-md" id="Facebook-login">Log in with Facebook</a><br>
-	<a href="{% url 'friendsite_social_auth:line_login' %}" class="btn btn-block ui-gradient-positive shadow-md" id="Line-login">Log in with LINE</a>
+	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-blue shadow-md" id="Facebook-login">
+		{% if request.session.locale == 'th-TH' %}
+		เข้าสู่ระบบผ่าน Facebook
+		{% else %}
+		Log in with Facebook
+		{% endif %}
+	</a><br>
+	<a href="{% url 'friendsite_social_auth:line_login' %}" class="btn btn-block ui-gradient-green shadow-md" id="Line-login">
+		{% if request.session.locale == 'th-TH' %}
+		เข้าสู่ระบบผ่าน Line
+		{% else %}
+		Log in with LINE
+		{% endif %}
+	</a>
 	<hr>
 
-		<form action="{% url 'friendship:login_process' %}" method="post">
-			{% csrf_token %}
-			<div class="form-group">
-				<label for="form_email">Email</label>
-				<input type="email" name="email" class="input form-control" id="form_email">
-			</div>
-			<div class="form-group">
-				<label for="form_password">Password</label>
-				<input type="password" name="password" class="input form-control" id="form_password">
-			</div>
-			<br />
-			<input type="submit" class="btn btn-block ui-gradient-negative shadow-md" value="Login" />
-		</form>
+	<h1 style="text-align: center">Sender Login</h1>
+	<form action="{% url 'friendship:login_process' %}" method="post">
+		{% csrf_token %}
+		<div class="form-group">
+			<label for="form_email">
+				{% if request.session.locale == 'th-TH' %}
+				อีเมลล์
+				{% else %}
+				Email
+				{% endif %}
+			</label>
+			<input type="email" name="email" class="input form-control" id="form_email">
+		</div>
+		<div class="form-group">
+			<label for="form_password">
+				{% if request.session.locale == 'th-TH' %}
+				รหัสผ่าน
+				{% else %}
+				Password
+				{% endif %}
+			</label>
+			<input type="password" name="password" class="input form-control" id="form_password">
+		</div>
+		{% if request.session.locale == 'th-TH' %}
+		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="เข้าสู่ระบบ" />
+		{% else %}
+		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="Login" />
+		{% endif %}
+	</form>
 
-	<br />
-	<p>Don't have an account? <a href="{% url 'friendship:register' %}">Register here!</a></p>
+	<!-- {# <br />
+	<p>
+		{% if request.session.locale == 'th-TH' %}
+		ยังไม่มีบัญชีผู้ใช้?
+		{% else %}
+		Don't have an account?
+		{% endif %}
+		<a href="{% url 'friendship:register' %}">
+			{% if request.session.locale == 'th-TH' %}
+			สมัครที่นี่!
+			{% else %}
+			Register here!
+			{% endif %}
+		</a>
+	</p> #} -->
 </div>
 {% endblock form %}
 

@@ -1,70 +1,185 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
+{% load friendship_extras %}
 
-{% block title %} Your Orders {{ order.id }} {% endblock title %}
+{% block title %} 
+{% if request.session.locale == 'th-TH' %}
+การสั่งซื้อของคุณ
+{% else %}
+Your Orders
+{% endif %} {{ order.id }} {% endblock title %}
 <!-- This page displays all the orders for the receiver. -->
 
 {% block main_content %}
 <hr>
-	<div id="orders-header">
-		<div class="row" id="orders-row">
-			<div class="col-sm-13">Order #</div>
-			<div class="col-sm-13">Date</div>
-			<div class="col-sm-13">Payment Status</div>
-			<div class="col-sm-13">Order Status</div>
-			<div class="col-sm-13">Amount</div>
+<div id="orders-header">
+	<div class="row" id="orders-row">
+		<div class="col-sm-13">
+			{% if request.session.locale == 'th-TH' %}
+			สินค้า
+			{% else %}
+			Order
+			{% endif %}
+		</div>
+		<div class="col-sm-13">
+			{% if request.session.locale == 'th-TH' %}
+			วันที่
+			{% else %}
+			Date
+			{% endif %}
+		</div>
+		<div class="col-sm-13">
+			{% if request.session.locale == 'th-TH' %}
+			สถานะการชำระเงิน
+			{% else %}
+			Payment Status
+			{% endif %}
+		</div>
+		<div class="col-sm-13">
+			{% if request.session.locale == 'th-TH' %}
+			สถานะสินค้า
+			{% else %}
+			Order Status
+			{% endif %}
+		</div>
+		<div class="col-sm-13">
+			{% if request.session.locale == 'th-TH' %}
+			ราคา
+			{% else %}
+			Amount
+			{% endif %}
 		</div>
 	</div>
+</div>
 <div class="container" id="orders-table">
 	<div class="orders">
 		{% for order in orders %}
 		<div class="row">
-			<!-- ORDER ID -->
-			<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a></span></div>
+			<!-- ORDER IMAGE -->
+			<div class="col-sm-13"><a href="{% url 'friendship:order_details' order.id %}">
+				{% if order.item_image %}
+				<img src="{{ order.item_image.url }}" title="Order #{{ order.id }}">
+				{% else %}
+				<a href="{% url 'friendship:order_details' order.id %}">{{ order.id }}</a>
+				{% endif %}
+			</a></div>
 
 			<!-- DATE -->
+{% if request.session.locale == 'th-TH' %}
+			<div class="col-sm-13 .font-weight-light">{% get_date_str order.date_placed 'date' 'th_TH' 'Asia/Bangkok' %}</div>
+{% else %}
 			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
+{% endif %}
 
 			<!-- Payment Status -->
 			<div class="col-sm-13">
-				{% if order.latest_action.action < PAYMENT_RECEIVED %}
-				<span class="btn btn-sm ui-gradient-negative">Unfulfilled</span>
+				{% if order.latest_action.action < MATCH_FOUND %}
+				<span>--</span>
+				{% elif order.latest_action.action == BANKNOTE_UPLOADED %}
+				<span class="btn btn-sm ui-gradient-inprogress">
+					{% if request.session.locale == 'th-TH' %}
+					ระหว่างการตวรจสอบ
+					{% else %}
+					Verifying
+					{% endif %}
+				</span>
+				{% elif order.latest_action.action < PAYMENT_RECEIVED or order.latest_action.action == ORDER_DECLINED %}
+				<span class="btn btn-sm ui-gradient-negative">
+					{% if request.session.locale == 'th-TH' %}
+					รอการชำระ
+					{% else %}
+					Unfulfilled
+					{% endif %}
+				</span>
 				{% else %}
-				<span class="btn btn-sm ui-gradient-positive">Fulfilled</span>
+				<span class="btn btn-sm ui-gradient-positive">
+					{% if request.session.locale == 'th-TH' %}
+					ชำระเรียบร้อย
+					{% else %}
+					Fulfilled
+					{% endif %}
+				</span>
 				{% endif %}
 			</div>
 
 			<!-- Order Status -->
 			<div class="col-sm-13">
 				{% if order.latest_action.action == MATCH_NOT_FOUND %}
-				<span class="btn btn-sm ui-gradient-negative">Match not found</span>
+				<span class="btn btn-sm ui-gradient-negative">
+					{% if request.session.locale == 'th-TH' %}
+					จับคู่ไม่สำเร็จ
+					{% else %}
+					No Match
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action < MATCH_FOUND %}
-				<span class="btn btn-sm ui-gradient-inprogress">Matching</span>
+				<span class="btn btn-sm ui-gradient-inprogress">
+					{% if request.session.locale == 'th-TH' %}
+					กำลังหาคู่
+					{% else %}
+					Matching
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
-				<span class="btn btn-sm ui-gradient-found">Matched</span>
+				<span class="btn btn-sm ui-gradient-found">
+					{% if request.session.locale == 'th-TH' %}
+					จับคู่สำเร็จ
+					{% else %}
+					Matched
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action == ORDER_FULFILLED %}
-				<span class="btn btn-sm ui-gradient-positive">Delivered</span>
+				<span class="btn btn-sm ui-gradient-positive">
+					{% if request.session.locale == 'th-TH' %}
+					ส่งถึงแล้ว
+					{% else %}
+					Delivered
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action == ORDER_DECLINED %}
-				<span class="btn btn-sm ui-gradient-negative">Declined</span>
+				<span class="btn btn-sm ui-gradient-negative">
+					{% if request.session.locale == 'th-TH' %}
+					ถูกยกเลิก
+					{% else %}
+					Declined
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action < ORDER_CLOSED and order.latest_action.action > PAYMENT_RECEIVED %}
-				<span class="btn btn-sm ui-gradient-purp">On the way</span>
+				<span class="btn btn-sm ui-gradient-purp">
+					{% if request.session.locale == 'th-TH' %}
+					กำลังเดินทาง
+					{% else %}
+					On the way
+					{% endif %}
+				</span>
 				{% elif order.latest_action.action >= ORDER_CLOSED %}
-				<span class="btn btn-sm ui-gradient-negative">Order Closed</span>
+				<span class="btn btn-sm ui-gradient-negative">
+					{% if request.session.locale == 'th-TH' %}
+					ถูกระงับ
+					{% else %}
+					Order Closed
+					{% endif %}
+				</span>
 				{% endif %}
 			</div>
 
 			<!-- Amount -->
 			<div class="col-sm-13">
 				{% if order.final_bid != None %}
-				<span>{{ order.final_bid.get_total }}</span>
-				<!-- does not show if matching is in progress -->
+				<span>{% get_bid_total_str order.final_bid 100 %}</span>
+				<!-- does not show if matching is in progre ss -->
 				{% else %}
 				<span>--</span>
 				{% endif %}
 			</div>
 		</div>
 		{% empty %}
-		<p>No orders yet</p>
+		<p>
+			{% if request.session.locale == 'th-TH' %}
+			{% else %}
+			No orders yet
+			{% endif %}
+		</p>
 		{% endfor %}
 	</div>
 </div>

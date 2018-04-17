@@ -5,12 +5,33 @@ form p {
   }
 }
 
+@font-face {
+  font-family: "Thai";
+  src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "ThaiBold";
+  src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Bold.ttf) format("truetype");
+}
+
+body {
+  font-family: Thai !important;
+}
+
+body h1, h2, h3, h4, h5, h6 {
+  font-family: Thai !important;
+}
+
+body .navbar, .btn, .ui-footer, a {
+  font-family: Thai !important;
+}
+
 @media (min-width: 1200px){
   #form-container {
     max-width: 50%
   }
 }
-
 h1 {
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -24,8 +45,19 @@ nav > .container {
   max-width: 100%;
 }
 
+.img-responsive {
+  max-height: 240px;
+  margin-top: 5rem;
+  margin-bottom: 1.7rem;
+}
+
 .navbar .ui-navigation.navbar-center {
   justify-content: right;
+}
+.navbar .navbar-brand img{
+  height:30px;
+  margin-top:-15px;
+  left:10px;
 }
 
 .footer-copyright .container {
@@ -35,6 +67,76 @@ nav > .container {
 h2 {
   padding-top: 2rem;
 }
+
+.text-black {
+  color:#414c5a;
+}
+
+#registration-form{
+  max-width:100%;
+}
+@media (min-width: 576px){
+  #registration-form{
+    max-width:90%;
+  }
+}
+@media (min-width: 768px){
+  #registration-form{
+    max-width:70%;
+  }
+}
+
+.navbar.navbar-dark .nav > li > a:hover {
+  color: #d9d9d9;
+}
+
+/**
+* 29. About Us
+* ----------------------------------------------------------------------- *
+*/
+
+#features2 .first-row{
+  margin-top: 3rem;
+}
+#features2 .ui-icon-block {
+  text-align:center;
+}
+
+#features2 {
+  margin-top: 5rem;
+}
+
+#features2 .ui-icon-block img {
+  max-width: 195px; /*dorothy settings */
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 320px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 576px) {
+  #features2 .ui-icon-block img {
+    max-width: 140px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 768px) {
+  #features2 .ui-icon-block img {
+    max-width: 170px; /*dorothy settings */
+  }
+}
+
+@media (min-width: 1200px) {
+  #features2 .ui-icon-block img {
+    max-width: 195px; /*dorothy settings */
+  }
+}
+
 
 /**
 MESSAGES
@@ -67,6 +169,7 @@ MESSAGES
 }
 
 .ui-gradient-found,
+.ui-gradient-blue,
 .ui-gradient-found:hover {
   background: -moz-linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
   background: linear-gradient(45deg, #74B4FE 0%, #74B4FE 100%);
@@ -80,6 +183,24 @@ MESSAGES
   color: #FFF;
 }
 
+.btn.ui-gradient-green:hover{
+  background: -moz-linear-gradient(45deg, #7ebd6c 0%, #7ebd6c 100%);
+  background: linear-gradient(45deg, #7ebd6c 0%, #7ebd6c 100%);
+  color: #FFF;
+}
+
+.btn.ui-gradient-blue:hover {
+  background: -moz-linear-gradient(45deg, #68a2e4 0%, #68a2e4 100%);
+  background: linear-gradient(45deg, #68a2e4 0%, #68a2e4 100%);
+  color: #FFF;
+}
+
+.btn.ui-gradient-red:hover{
+  background: -moz-linear-gradient(45deg, #d76c7a 0%, #d76c7a 100%);
+  background: linear-gradient(45deg, #d76c7a 0%, #d76c7a 100%);
+  color: #FFF;
+}
+
 div#right-pane{
   height: 400px;
 }
@@ -88,13 +209,21 @@ div#right-pane{
 * 1. Home Page
 * ----------------------------------------------------------------------- *
 */
+.homepage-container #paste-url {
+  padding:11px 1rem 11px 1.5rem;
+}
+
 
 #homepage-start {
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem 1rem;
-  margin: -10rem 20rem;
+  margin: -10rem auto;
   text-align: center;
+}
+
+#homepage-start .input-group-append .btn {
+  display:block;
 }
 
 #homepage-start p{
@@ -102,18 +231,26 @@ div#right-pane{
   font-size: 1.2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 500px){
+  #homepage-start{
+    width:67%;
+    padding:2rem 2rem;
+  }
+}
+
+@media (min-width: 668px) {
   #homepage-start {
     background-color: white;
-    padding: 1.5rem 1rem;
+    padding: 2rem 2rem;
     /*margin: 2rem 8rem;*/
+    min-width:600px;
   }  
 }
 
 @media (min-width: 1200px) {
   #homepage-start {
     background-color: white;
-    padding: 3.5rem 4rem;
+    padding: 3rem 4rem;
     text-align: center;
     max-width: 100%;
     /*margin: 4rem 12rem; */
@@ -159,13 +296,25 @@ div#right-pane{
     padding: 7rem 0 7rem 0;
   }
 
+.ui-icon-block img {
+  max-width: 153px; /*dorothy settings */
+  height: 152px;
+  margin-bottom:20px;
+}
+
+#truck-graphic {
+  width:100%;
+  max-width: 600px;
+  padding: 3rem 3rem;
+}
+
 /* for slideshow to make img proportional */
 .fill {
     width: 100%;
     height: 80%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     overflow: hidden
 }
 
@@ -189,7 +338,7 @@ div#right-pane{
     height: 100%;
   }*/
   .ui-hero.ui-curve.hero-center {
-    padding: 7rem 0 7rem 0;
+    padding: 9rem 0 7rem 0;
   }
 }
 
@@ -219,7 +368,7 @@ div#right-pane{
 
 
 /**
-* place order 
+* place order
 * ------------------------------------------------------
 */
 
@@ -245,8 +394,8 @@ input.num-hours {
   margin-bottom: 1rem;
 }
 
-h4 {
-  margin-bottom: 1em;
+.form-container h4 {
+  margin-bottom: 1rem;
 }
 
 span.bold {
@@ -272,6 +421,15 @@ span.bold {
   opacity: 0;
 }
 
+input[type=file] {
+  display:block;
+  margin-top: .4rem;
+}
+
+#edit-address-form {
+  margin
+}
+
 .col-left {
   width: 50%;
 }
@@ -281,11 +439,30 @@ span.bold {
   text-align: right;
 }
 
+@media (min-width:570px) and (max-width:992px){
+  .form-group .row{
+    margin-bottom: -1rem;
+  }
+}
+
+@media (min-width:570px){
+  .col-sm-6.left {
+    padding-right: .5rem;
+  }
+
+  .col-sm-6.right {
+    padding-left: .5rem;
+  }
+}
+
+input[type=submit] {
+  margin-top: 1.5rem;
+}
 /**
 * 3. Order List
 * ----------------------------------------------------------------------- *
 */
-#orders-header {
+#orders-header, #matched-order-header, #bids-header {
   margin-bottom: 15px;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -295,14 +472,15 @@ div.orders {
   margin-bottom: 15px;
 }
 
-#orders-table .row{
+#orders-table .row, #matched-order-table .row, #bids-table .row{
   background-color: rgb(246,247,248);
   border-radius:0.5rem;
   padding:20px 0px;
-  margin-bottom:10px;
+  margin-bottom: 20px;
 }
 
 .ui-gradient-negative,
+.ui-gradient-red,
 .ui-gradient-negative:hover{
   background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
   background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
@@ -323,30 +501,110 @@ div.orders {
   color: #FFF;
 }
 /**
-* 3. Order Details 
+* 3. Order Details
 * ----------------------------------------------------------------------- *
 */
 /* order details step view. */
+
+.breadcrumb {
+  padding-top:8rem;
+}
+.breadcrumb li {
+  display:inline;
+}
+.breadcrumb li+li:before {
+    padding: 8px;
+    color: gray;
+    content: "/\00a0";
+}
+
+.order-number-heading {
+  margin-top:-10rem;
+  text-align:left;
+}
+
+#order-headings .item-image {
+  height: 245px;
+  width: 245px;
+}
+
+.item-image img {
+  height: 100%;
+  width: 100%;
+  border-radius: 5%;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
 #bid-info-table {
   width: 100%;
   margin-top: 1rem;
 }
 
+#bid-info-table h5 {
+  margin-bottom: 0;
+}
+
+.bid-info-table h5 {
+  margin-bottom: 0;
+}
+
+.bid-info-table td {
+  padding-right: 1.2rem;
+}
+
+.bid-info-table {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .bid-info-content {
   vertical-align: top;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  padding-bottom:0.5rem;
+  padding-top:0.5rem;
+}
+
+#order-headings {
+  margin-top:3rem;
 }
 
 #order-headings p{
   margin-bottom:0.3rem;
+  width:100%;
+  overflow:hidden;
 }
+
+#order-headings h6{
+  margin-top:1rem;
+}
+
 #order-headings h1{
   margin-bottom:1rem;
 }
+#order-headings h3{
+  margin-bottom:1rem;
+  padding-bottom:1rem;
+}
 
-hr {
+#edit-address-form h4{
+  margin-bottom: .8rem;
+}
+
+@media (min-width:740px){
+  #order-headings .col-xl-8{
+    padding-left: 4rem;
+  }
+}
+
+/*hr {
   margin: 1.3rem 0;
   height: 2rem;
+}*/
+
+#hr2{
+  margin:0px;
+  height:0px;
 }
 
 .step-wrapper h4 {
@@ -360,7 +618,7 @@ span#time_countdown {
 
 #order-details div.row {
   display: block;
-  width: 93%;
+  width: 70%;
   padding: 2rem 0.2rem;
   margin-left: -1rem;
   font-size: 1rem;
@@ -379,6 +637,11 @@ span#time_countdown {
 
 #credit-card-payment .form-control {
   background-color: white;
+  margin-bottom:10px;
+}
+
+#credit-card-payment {
+  width:80%;
 }
 
 #wire-payment .form-control {
@@ -402,7 +665,7 @@ span#time_countdown {
   border-style: solid;
   border-width: .1rem;
   border-color: #88B5E1;
-}
+}f
 
 #wire-payment button:hover {
   background-color: #111111;
@@ -410,16 +673,38 @@ span#time_countdown {
 
 /* for my order view */
 .col-sm-13 {
-  flex: 0 0 20%;
-  max-width: 20%;
+  flex: 0 0 21%;
+  max-width: 21%;
   margin-left:-1rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-sm-2 {
+  margin-left:-1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#orders-table a{
+  margin-bottom: -2.4rem;
+  margin-top: -2.4rem;
+}
+
+#orders-table a img {
+  height: 60px;
+  width: 60px;
+  border-radius: 0.5rem;
+  object-fit: cover;
 }
 
 .col-sm-14 {
   flex: auto
   max-width: 50%;
   margin-left:-1rem;
+  position: relative;
   text-align: center;
 }
 
@@ -427,6 +712,10 @@ span#time_countdown {
 .step-number.ui-gradient-grey::before {
   background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
   background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+}
+
+#bid-info-shipping {
+  border-bottom:1px solid rgba(0, 0, 0, 0.1);
 }
 
 /**
@@ -439,15 +728,32 @@ span#time_countdown {
 }
 
 .ui-steps .col-auto h4 {
-  font-weight: 600;
+  font-weight: lighter;
+  font-size:1.3rem;
+}
+
+.step-number .fas {
+font-size: 18px;
+}
+
+.ui-steps h5{
+  font-weight:lighter;
 }
 
 #confirm-button {
   display:inline-block;
+  margin-top:1rem;
 }
 
 #decline-button {
   display:inline-block;
+  color:#EF7888;
+  margin-top:1rem;
+}
+#decline-button:hover {
+  display:inline-block;
+  color:#bf606c;
+  margin-top:1rem;
 }
 .ui-steps .row {
   margin-left: -6rem;
@@ -465,16 +771,37 @@ span#time_countdown {
   margin-bottom: 2rem;
 }
 
+  #order-details div.row {
+    width: 48%;
+  }
+
+@media(min-width:500px){
+    #order-details div.row {
+    width: 70%;
+  }
+}
+@media(min-width:570px){
+    #order-details div.row {
+    width: 80%;
+  }
+}
+
 @media (min-width: 740px) {
   .ui-steps div[class^="col-"]:nth-child(1),
   .ui-steps div[class*=" col-"]:nth-child(1) {
     margin-bottom: 0;
   }
+  .step-number .fas {
+    font-size: 20px;
+  }
+  #order-details div.row {
+    width: 93%;
+  }
 }
 
 @media (min-width: 740px) {
   .ui-steps {
-    margin-top: 0;
+    margin-top: 4rem;
   }
 
   #order-details div.row {
@@ -512,8 +839,8 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::before, .ui-steps .step-wrapper::after {
-    left: 1.75%;
-    margin-left: -2px;
+    left: 2.6%;
+    margin-left:0px;
   }
 
 
@@ -521,8 +848,8 @@ span#time_countdown {
 
 .ui-steps .step-wrapper::before {
   top: -1rem;
-  bottom: calc(50% + (25px + 1rem));
-  display: none;
+  bottom: calc(50% + (0px + 1rem));
+  /*display: none;*/
 }
 
 @media (min-width: 740px) {
@@ -538,7 +865,7 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper::after {
-    top: calc(50% + (25px + 1rem));
+    top: calc(50% + (0px));
     bottom: -1rem;
   }
 }
@@ -579,12 +906,12 @@ span#time_countdown {
 
 @media (min-width: 740px) {
   .ui-steps .step-wrapper .step-number {
-    top: calc(50% - 20px);
+    top: calc(50% - 25px);
     left: calc(50% - 20px);
     width: 40px;
     height: 40px;
     line-height: 40px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
   .ui-steps .step-wrapper .step-number::before {
     width: 60px;
@@ -598,12 +925,58 @@ span#time_countdown {
 .ui-steps .step-wrapper .step-number::before {
   border-radius: 100%;
 }
-
-.ui-steps .step-wrapper .step-number {
-	left: 0%;
+@media(min-width: 740px){
+  .ui-steps .step-wrapper .step-number {
+  left: 0%;
 }
+}
+
 
 .ui-steps .row {
   padding-left: 6%;
 }
 
+/**
+* 5. Your Bids
+* ----------------------------------------------------------------------- *
+*/
+#matched-order-header, #bids-header {
+  margin-bottom: 15px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#matched-order-table .row, #bids-table .row{
+  background-color: rgb(246,247,248);
+  border-radius:0.5rem;
+  padding:20px 0px;
+  margin-bottom:10px;
+}
+
+.ui-gradient-red {
+  background-color: black;
+}
+
+.ui-gradient-red,
+.ui-gradient-red:hover{
+  background: -moz-linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  background: linear-gradient(45deg, #EF7888 0%, #EF7888 100%);
+  color: #FFF;
+}
+
+.ui-gradient-positive,
+.ui-gradient-positive:hover {
+  background: -moz-linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  background: linear-gradient(45deg, #8CD379 0%, #8CD379 100%);
+  color: #FFF;
+}
+
+.ui-gradient-inprogress,
+.ui-gradient-inprogress:hover {
+  background: -moz-linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  background: linear-gradient(45deg, #FEB66E 0%, #FEB66E 100%);
+  color: #FFF;
+
+.bid-info-content p{
+  font-size:0.8rem;
+}

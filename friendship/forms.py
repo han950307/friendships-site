@@ -67,6 +67,8 @@ class SenderRegistrationForm(forms.Form):
             (x.value, x)
             for x
             in ShipperInfo.ShipperType
+            if x != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER and
+            x != ShipperInfo.ShipperType.FLIGHT_ATTENDANT
         ]
     )
 
@@ -77,6 +79,11 @@ class TravelerRegistrationForm(forms.Form):
 
 
 class ShippingCompanyRegistrationForm(forms.Form):
+    phone_number = forms.CharField(max_length=50)
+    name = forms.CharField(max_length=200)
+
+
+class FlightAttendantRegistrationForm(forms.Form):
     phone_number = forms.CharField(max_length=50)
     name = forms.CharField(max_length=200)
 
@@ -123,7 +130,7 @@ class BidForm(forms.Form):
 
 
 """ORDER RELATED FORMS"""
-class OrderForm(forms.ModelForm):
+class OrderForm(forms.ModelForm):  
     merchandise_type = forms.ChoiceField(
         choices=[
             (x.value, str(x).title())
@@ -134,7 +141,7 @@ class OrderForm(forms.ModelForm):
             attrs={
                 'placeholder': 'Category*',
                 'required': 'required',
-                'class': 'input form-control',
+                'class': 'input input-group form-control',
             }
         ),
     )
@@ -172,7 +179,11 @@ class OrderForm(forms.ModelForm):
                     'data-validation': 'required',
                 }
             ),
-            'item_image': forms.FileInput(),
+            'item_image': forms.FileInput(
+                attrs={
+                    'type': 'file',
+                }
+            ),
             'quantity': forms.NumberInput(
                 attrs={
                     'placeholder': 'Quantity*',
@@ -193,10 +204,11 @@ class OrderForm(forms.ModelForm):
                     'class': 'input form-control',
                 }
             ),
-            'description': forms.TextInput(
+            'description': forms.Textarea(
                 attrs={
                     'placeholder': 'Any other details about the item',
                     'class': 'input form-control',
+                    'rows': 3,
                 }
             ),
         }
@@ -206,19 +218,24 @@ class OrderForm(forms.ModelForm):
                and int(self.cleaned_data['merchandise_type']) != -1\
                and int(self.cleaned_data['quantity']) > 0
 
+    def __init__(self, *args, locale):
+        super().__init__(*args)
+        self.locale = locale
+        if locale == "th-TH":
+            self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
+            self.fields["quantity"].widget.attrs['placeholder'] = "จำนวน*"
+            self.fields["merchandise_type"].widget.attrs['placeholder'] = "เลือก*"
+            self.fields["size"].widget.attrs['placeholder'] = "ขนาด"
+            self.fields["color"].widget.attrs['placeholder'] = "สี"
+            self.fields["num_hours"].choices = [
+                (8, "8 ชั่วโมง"),
+                (24, "24 ชั่วโมง"),
+                (72, "72 ชั่วโมง"),
+            ]
+            self.fields["description"].widget.attrs['placeholder'] = "รายละเอียดเพิ่มเติม"
+
 
 class ManualWireTransferForm(forms.Form):
-    account_number = forms.CharField(
-        max_length=50,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Account Number: 45674894512456',
-                'data-validation': 'required',
-                'class': 'input form-control',
-                'data-validation-error-msg': 'Please enter your account number.',
-            }
-        ),
-    )
     banknote_image = forms.ImageField(
         widget=forms.FileInput(
             attrs={
@@ -239,6 +256,7 @@ class ShippingAddressForm(forms.ModelForm):
         fields = [
             'name',
             'address_line_1',
+            'address_line_2',
             'city',
             'region',
             'postal_code',
@@ -254,7 +272,13 @@ class ShippingAddressForm(forms.ModelForm):
             ),
             'address_line_1': forms.TextInput(
                 attrs={
-                    'placeholder': 'Address*',
+                    'placeholder': 'Address Line 1*',
+                    'class': 'input form-control',
+                }
+            ),
+            'address_line_2': forms.TextInput(
+                attrs={
+                    'placeholder': 'Address Line 2',
                     'class': 'input form-control',
                 }
             ),
@@ -289,3 +313,20 @@ class ShippingAddressForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        if "instance" in kwargs:
+            instance = kwargs["instance"]
+        else:
+            instance = None
+        super().__init__(*args, instance=instance)
+        self.locale = kwargs["locale"]
+        if self.locale == "th-TH":
+            self.fields["name"].widget.attrs['placeholder'] = "ชื่อ นามสกุล*"
+            self.fields["address_line_1"].widget.attrs['placeholder'] = "บ้านเลขที่ หมู่*"
+            self.fields["address_line_2"].widget.attrs['placeholder'] = "แขวง / ตำบล*"
+            self.fields["city"].widget.attrs['placeholder'] = "เขต / อำเภอ*"
+            self.fields["region"].widget.attrs['placeholder'] = "จังหวัด*"
+            self.fields["postal_code"].widget.attrs['placeholder'] = "รหัสไปรษณีย์*"
+            self.fields["country"].widget.attrs['placeholder'] = "ประเทศ*"
+            self.fields["phone"].widget.attrs['placeholder'] = "เบอร์โทร*"

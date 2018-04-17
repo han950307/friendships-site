@@ -82,13 +82,8 @@ def logout_view(request):
 	logout(request)
 	return redirect('friendship:login')
 
+
 def account(request):
 	return render(request, 'friendship/account.html', {
 		'data': [request, ],
 	})
-
-def become_sender(request):
-	return render(request, 'friendship/become_sender.html', {
-		'data': [request, ],
-	})
-

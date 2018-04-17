@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from friendship.backends import RandomFileName
 
 import enum
 import functools
 import datetime
 import math
 import decimal
+import uuid
+import os
 
 
 def forDjango(cls):
@@ -137,7 +140,7 @@ class Order(models.Model):
         GAMES = 11
         OTHER = 12
 
-        def __str__(self):
+        def __str__(self, locale="us-EN"):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
@@ -165,6 +168,8 @@ class Order(models.Model):
             elif self == self.GAMES:
                 return "games"
             elif self == self.PLEASE_CHOOSE:
+                if locale == "th-TH":
+                    return "เลือก *"
                 return "choose one*"
             else:
                 return "other"
@@ -213,10 +218,12 @@ class Order(models.Model):
         on_delete=models.CASCADE,
     )
     item_image = models.ImageField(
+        upload_to=RandomFileName('item-image'),
         null=True,
         blank=True,
     )
     banknote_image = models.ImageField(
+        upload_to=RandomFileName('banknote-image'),
         null=True,
         blank=True,
     )
@@ -307,7 +314,7 @@ class PaymentAction(models.Model):
         choices = ((x.value, str(x)) for x in PaymentType)
     )
 
-    account_number = models.CharField(max_length=100)
+    account_number = models.CharField(max_length=100, null=True, blank=True)
 
 
 class OrderAction(models.Model):
@@ -426,7 +433,7 @@ class Money(models.Model):
             val = math.ceil(value * 100) / 100
             return "\u0024{0:.2f}".format(val)
 
-    def get_value(self, currency):
+    def get_value(self, currency=Currency.USD):
         orig = self.currency
         dest = currency
 

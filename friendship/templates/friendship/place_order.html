@@ -4,8 +4,20 @@
 {% block head %}
 {% endblock head %}
 
-{% block title %} Place Order {% endblock title %}
-{% block title_desc %} It's easy as ship {% endblock title_desc %}
+{% block title %} 
+{% if request.session.locale == 'th-TH' %}
+สั่งสินค้า
+{% else %}
+Place a New Order
+{% endif %}
+{% endblock title %}
+
+{% block title_desc %}
+{% if request.session.locale == 'th-TH' %}
+{% else %}
+It's easy as ship
+{% endif %}
+{% endblock title_desc %}
 
 {% block form %}
 <div id="form-container" class="container">
@@ -18,11 +30,11 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 left">
                     {# {{ form.quantity.errors }} #}
                     {{ form.quantity }}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 right">
                     {# {{ form.merchandise_type.errors }} #}
                     {{ form.merchandise_type }}
                 </div>
@@ -30,11 +42,11 @@
         </div>
         <div class="form-group">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-6 left">
                     {# {{ form.size.errors }} #}
                     {{ form.size }}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 right">
                     {# {{ form.color.errors }} #}
                     {{ form.color }}
                 </div>
@@ -44,13 +56,26 @@
             {# {{ form.description.errors }} #}
             {{ form.description }}
         </div>
-        <div class="form-group">
-            {# {{ form.item_image.errors }} #}
+        <div class="form-group" style="margin-top:2rem;">
+            <!-- <div class="upload-btn-wrapper">
+                <button class='btn btn-primary btn-block'><span class='icon icon-picture' style="padding-right:10px; vertical-align:middle;"></span>Upload Image</button>
+            </div> -->
+            {% if request.session.locale == 'th-TH' %}
+            อัพโหลดรูปภาพสินค้า (ถ้ามี)
+            {% else %}
+            Upload an image for the item. (optional)
+            {% endif %}
+            {{ form.item_image.errors }}
             {{ form.item_image }}
         </div>
-        <div class="form-group">
-            <span class="desc">Choose a bidding deadline for this item.*</span>
-            {{ form.num_hours.errors }}
+        <div class="form-group" style="margin-top:2rem;">
+            <span class="desc">
+                {% if request.session.locale == 'th-TH' %}
+                เราจะจับคู่คุณกับ sender ที่ให้ราคาดีที่สุดในระยะเวลาของคุณ
+                {% else %}
+                We will match you with the lowest price found within: *
+                {% endif %}
+            </span>
             <div class="btn-group" data-toggle="buttons">
                 {% for field in form.num_hours %}
                 <label class="btn btn-primary btn-block">
@@ -77,48 +102,72 @@
 
         <hr />
         <!-- display shipping information -->
-        <h4>Shipping Details
-            {% for user_address in user_addresses %}
-            <a href="#" id="edit-address"> EDIT</a></h4>
-            <input name="shipping_address" value="{{ user_address.id }}" required="" type="radio" checked="checked" hidden="true" style="">
-            <div id="current-address">
-                {{ user_address.name }}<br>
-                {{ user_address.address_line_1 }} <br>
-                {{ user_address.city }}, {{ user_address.region }}, {{ user_address.postal_code }}<br>
-                {{ user_address.country }}<br>
-                {{ user_address.phone }}
+        <h4 style="margin-bottom:1.5rem;">
+            {% if request.session.locale == 'th-TH' %}
+            ที่อยู่จัดส่ง
+            {% else %}
+            Shipping Details
+            {% endif %}
+        {% for user_address in user_addresses %}
+            <a href="#" id="edit-address">
+                {% if request.session.locale == 'th-TH' %}
+                แก้ไข
+                {% else %}
+                EDIT
+                {% endif %}
+            </a>
+        </h4>
+        <input name="shipping_address" value="{{ user_address.id }}" required="" type="radio" checked="checked" hidden="true" style="">
+        <div id="current-address">
+            {{ user_address.name }}<br>
+            {{ user_address.address_line_1 }} <br>
+            {{ user_address.city }}, {{ user_address.region }}, {{ user_address.postal_code }}<br>
+            {{ user_address.country }}<br>
+            {{ user_address.phone }}
+        </div>
+        <div id="edit-address-form" style="display: none">
+            <div class="form-group">
+                {# {{ shipping_address_form.name.errors }} #}
+                {{ shipping_address_form.name }}
             </div>
-            <div id="edit-address-form" style="display: none">
-                <div class="form-group">
-                    {# {{ shipping_address_form.name.errors }} #}
-                    {{ shipping_address_form.name }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.address_line_1.errors }} #}
-                    {{ shipping_address_form.address_line_1 }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.city.errors }} #}
-                    {{ shipping_address_form.city }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.region.errors }} #}
-                    {{ shipping_address_form.region }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.postal_code.errors }} #}
-                    {{ shipping_address_form.postal_code }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.country.errors }} #}
-                    {{ shipping_address_form.country }}
-                </div>
-                <div class="form-group">
-                    {# {{ shipping_address_form.phone.errors }} #}
-                    {{ shipping_address_form.phone }}
+            <div class="form-group">
+                {# {{ shipping_address_form.address_line_1.errors }} #}
+                {{ shipping_address_form.address_line_1 }}
+            </div>
+            <div class="form-group">
+                {# {{ shipping_address_form.address_line_1.errors }} #}
+                {{ shipping_address_form.address_line_2 }}
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {# {{ shipping_address_form.city.errors }} #}
+                        {{ shipping_address_form.city }}
+                    </div>
+                    <div class="col-sm-6">
+                        {# {{ shipping_address_form.region.errors }} #}
+                        {{ shipping_address_form.region }}
+                    </div>
                 </div>
             </div>
-            {% empty %}
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {# {{ shipping_address_form.postal_code.errors }} #}
+                        {{ shipping_address_form.postal_code }}
+                    </div>
+                    <div class="col-sm-6">
+                        {# {{ shipping_address_form.country.errors }} #}
+                        {{ shipping_address_form.country }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {# {{ shipping_address_form.phone.errors }} #}
+                {{ shipping_address_form.phone }}
+            </div>
+        </div>
+        {% empty %}
         </h4>
         <div class="form-group">
             {# {{ shipping_address_form.name.errors }} #}
@@ -129,28 +178,43 @@
             {{ shipping_address_form.address_line_1 }}
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.city.errors }} #}
-            {{ shipping_address_form.city }}
+            {# {{ shipping_address_form.address_line_2.errors }} #}
+            {{ shipping_address_form.address_line_2 }}
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.region.errors }} #}
-            {{ shipping_address_form.region }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.city.errors }} #}
+                    {{ shipping_address_form.city }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.region.errors }} #}
+                    {{ shipping_address_form.region }}
+                </div>
+            </div>
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.postal_code.errors }} #}
-            {{ shipping_address_form.postal_code }}
-        </div>
-        <div class="form-group">
-            {# {{ shipping_address_form.country.errors }} #}
-            {{ shipping_address_form.country }}
+            <div class="row">
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.postal_code.errors }} #}
+                    {{ shipping_address_form.postal_code }}
+                </div>
+                <div class="col-sm-6">
+                    {# {{ shipping_address_form.country.errors }} #}
+                    {{ shipping_address_form.country }}
+                </div>
+            </div>
         </div>
         <div class="form-group">
             {# {{ shipping_address_form.phone.errors }} #}
             {{ shipping_address_form.phone }}
         </div>
         {% endfor %}
-        <br><br>
+        {% if request.session.locale == 'th-TH' %}
+        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="วางคำสังนี้" />
+        {% else %}
         <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
+        {% endif %}
     </form>
 </div>
 

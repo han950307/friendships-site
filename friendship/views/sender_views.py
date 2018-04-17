@@ -9,13 +9,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from formtools.wizard.views import SessionWizardView
 
-from friendship.models import Order, Bid, ShipperInfo, Money
+from friendship.models import Order, Bid, ShipperInfo, Money, OrderAction
 from friendship.views import open_orders
 from friendship.forms import (
     SenderRegistrationForm,
     TravelerRegistrationForm,
     ShippingCompanyRegistrationForm,
     BidForm,
+    FlightAttendantRegistrationForm,
 
 )
 from friendsite import settings
@@ -61,7 +62,6 @@ def make_bid(request, order_id):
         form = BidForm()
 
     return render(request, 'friendship/make_bid.html', {'order' : order, 'form': form})
-
 
 
 @login_required
@@ -115,13 +115,15 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
             shipper_info.name = name
         shipper_info.save()
 
+        return redirect('friendship:index')
+
     def process_step(self, form):
         if "shipper_type" in form.cleaned_data:
             shipper_type = int(form.cleaned_data["shipper_type"])
             if shipper_type == ShipperInfo.ShipperType.TRAVELER:
                 self.form_list.update({'1': TravelerRegistrationForm})
             elif shipper_type == ShipperInfo.ShipperType.FLIGHT_ATTENDANT:
-                self.form_list.update({'1': ShippingCompanyRegistrationForm})
+                self.form_list.update({'1': FlightAttendantRegistrationForm})
             elif shipper_type == ShipperInfo.ShipperType.SHIPPING_COMPANY:
                 self.form_list.update({'1': ShippingCompanyRegistrationForm})
             else:
@@ -134,10 +136,20 @@ def user_open_bids(request):
     """
     This displays all the orders for the receiver.
     """
-    qset = Bid.objects.filter(shipper=request.user)
-    return render(request, 'friendship/user_open_bids.html', {
-        'data': qset,
+    qset = Bid.objects.filter(
+        shipper=request.user
+    ).filter(
+        order__latest_action__action__lt=OrderAction.Action.MATCH_FOUND
+    ).order_by(
+        '-order__date_placed'
+    )
+    data_dict = {}
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
     })
+    data_dict['orders'] = qset
+    return render(request, 'friendship/user_open_bids.html', data_dict)
 
 
 @login_required

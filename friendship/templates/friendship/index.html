@@ -1,311 +1,406 @@
 {% extends "friendship/base.html" %}
 {% load static %}
-{% block content %}
-<!-- Hero -->
+{% block altnav %}
+<body class="ui-transparent-nav" data-fade_in="on-load">
+	{% endblock altnav %}
+	{% block content %}
+	<!-- Hero -->
 
-<div class="ui-hero hero-lg hero-center hero-bg ui-curve bg-blue" style="background-color:#667487;">
-	<div class="container pb-4">
-		<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-			<span style="font-weight:200;">FriendShips</span><br>
-			<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>
-		</h3>
-	</div><!-- .container -->
-</div><!-- .ui-hero -->
+	<div class="ui-hero hero-lg hero-center ui-curve hero-bg bg-dark-gray" style="">
+		<div class="container pb-4">
+			<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
+				<!--<span style="">FriendShips</span><br>-->
+				<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
+				<span>
+					{% if request.session.locale == 'th-TH' %}
+					ทลายพรมแดนลบกำแพง e-commerce
+					{% else %}
+					E-commerce without borders
+					{% endif %}
+				</span>
+			</h3>
+		</div><!-- .container -->
+	</div><!-- .ui-hero -->
 
-<!-- Intro Image -->
-<div class="container homepage-container">
-	<div id="homepage-start" class="shadow-xl section intro-image">
-		<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-			It's simple to get started!
-		</p>
-		<form action="{% url 'friendship:place_order' %}">
-			<div class="input-group">
-				<!-- Email Input -->
-				<input autocomplete="email" name="url" class="input form-control" placeholder="Desired item's URL">
-				<div class="input-group-append">
-					<!-- Submit Button -->
-					<button class="btn btn-sm ui-gradient-found">Place Order
-					</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<!-- .intro-image -->
-
-
-<!-- App Features Section -->
-<div id="features" class="section pt-0">
-	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
-			<h2 class="heading text-dark-gray">
-				How it Works
-			</h2>
-			<p class="paragraph">
-				We take out the hassle and extra fees from the international shipping process so you can focus on what’s important
+	<!-- Intro Image -->
+	<div class="container homepage-container">
+		<div id="homepage-start" class="shadow-xl section intro-image">
+			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
+				{% if request.session.locale == 'th-TH' %}
+				เริ่มต้นง่ายนิดเดียว!
+				{% else %}
+				It's simple to get started!
+				{% endif %}
 			</p>
-		</div><!-- .section-heading -->
-		<div class="row">
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-rocket text-red"></div>
-				<p>
-					Paste a link to your desired item, from <span class="text-blue">any</span> online store
+			<form action="{% url 'friendship:place_order' %}">
+				<div class="input-group">
+					<!-- Email Input -->
+					<input autocomplete="email" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
+					<div class="input-group-append">
+						<!-- Submit Button -->
+						<button class="btn btn-sm ui-gradient-blue">
+							{% if request.session.locale == 'th-TH' %}
+							สั่งสินค้า
+							{% else %}
+							Place Order
+							{% endif %}
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- .intro-image -->
+
+
+	<!-- App Features Section -->
+	<div id="features" class="section pt-0">
+		<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+			<div class="section-heading center">
+				<h2 class="heading text-dark-gray">
+					{% if request.session.locale == 'th-TH' %}
+					การใช้งาน/วิธีใช้
+					{% else %}
+					How it Works
+					{% endif %}
+				</h2>
+				<p class="paragraph">
+					{% if request.session.locale == 'th-TH' %}
+					คุณสามารถเลือกช็อปสินค้าจากเว็บใดก็ได้ เราจะส่งสินค้าของคุณด้วยราคาจัดส่งที่ดีที่สุด
+					{% else %}
+					Shop on any website, and we'll deliver your items at the lowest prices, right to your door
+					{% endif %}
 				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-ghost text-red"></div>
+			</div><!-- .section-heading -->
+			<div class="row">
+				<div class="col-sm-3 ui-icon-block">
+					<img src="{% static 'friendship/img/graphics/step1.svg' %}">
+					<h4 class="text-dark-gray">
+						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 1
+						{% else %}
+						Step 1
+						{% endif %}
+					</h4>
+					<p>
+						{% if request.session.locale == 'th-TH' %}
+						<span class="bold">วาง</span>ลิ้งค์สินค้าที่คุณต้องการ
+						{% else %}
+						<span class="bold">Paste</span> a link to your desired item, from any online store
+						{% endif %}
+					</p>
+				</div>
+				<div class="col-sm-3 ui-icon-block">
+					<img src="{% static 'friendship/img/graphics/step2.svg' %}">
+					<h4 class="text-dark-gray">
+						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 2
+						{% else %}
+						Step 2
+						{% endif %}
+					</h4>
+					<p>
+						{% if request.session.locale == 'th-TH' %}
+						รอผู้ส่งในระแบบแข่งขันกันประมูลราคาส่งและ<span class="bold">ยืนยัน</span>ราคารวมเมื่อคุณพอใจ
+						{% else %}
+						<span class="bold">Wait</span> while shippers compete to deliver your item, then <span class="bold">confirm</span> the lowest price we find.
+						{% endif %}
+					</p>
+				</div>
+				<div class="col-sm-3 ui-icon-block">
+					<img src="{% static 'friendship/img/graphics/step3.svg' %}">
+					<h4 class="text-dark-gray">
+						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 3
+						{% else %}
+						Step 3
+						{% endif %}
+					</h4>
+					<p>
+						{% if request.session.locale == 'th-TH' %}
+						<span class="bold">ชำจะเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
+						{% else %}
+						<span class="bold">Pay</span> for your item through credit card or bank transfer
+						{% endif %}
+					</p>
+				</div>
+				<div class="col-sm-3 ui-icon-block">
+					<img src="{% static 'friendship/img/graphics/step4.svg' %}">
+					<h4 class="text-dark-gray">
+						{% if request.session.locale == 'th-TH' %}
+						ขั้นตอนที่ 4
+						{% else %}
+						Step 4
+						{% endif %}
+					</h4>
+					<p>
+						{% if request.session.locale == 'th-TH' %}
+						<span class="bold">รอรับของ</span>ได้เลย!
+						{% else %}
+						Your item is <span class="bold">delivered</span> directly to you
+						{% endif %}
+					</p>
+				</div>
+			</div><!-- .row -->
+		</div><!-- .container -->
+	</div><!-- .section -->
+
+	<!-- Integration Section -->
+	<div id="integrate" class="section bg-light">
+		<div class="container">
+			<div class="row">
+
+				<!-- Left Column -->
+				<div class="col-lg-5 col-xl-6" data-vertical_center="true">
+
+					<!-- Section Heading -->
+					<div class="section-heading mb-2">
+						<h2 class="heading">
+							{% if request.session.locale == 'th-TH' %}
+							ทำไมต้อง friendships
+							{% else %}
+							Why FriendShips?
+							{% endif %}
+						</h2>
+					</div><!-- .section-heading -->
+
+					<!-- Left blocks -->
+					<ul class="ui-icon-blocks ui-blocks-v icons-sm">
+						<li class="ui-icon-block">
+							<span class="icon icon-calendar"></span>
+							<p class="">
+								<span class="text-black">
+									{% if request.session.locale == 'th-TH' %}
+									ตอบโจทย์:
+									{% else %}
+									Availability:
+									{% endif %}
+								</span>
+								{% if request.session.locale == 'th-TH' %}
+								เลือกซื้อสินค้าได้ทันที ไม่ต้องรอพรีออเดอร์
+								{% else %}
+								No more Preorders! Buy any item you want, any time you want it
+								{% endif %}
+							</p>
+						</li>
+						<li class="ui-icon-block">
+							<span class="icon icon-wallet"></span>
+							<p class="">
+								<span class="text-black">
+									{% if request.session.locale == 'th-TH' %}
+									สบายกระเป๋า/ราคา:
+									{% else %}
+									Cost:
+									{% endif %}
+								</span>
+								{% if request.session.locale == 'th-TH' %}
+								ด้วยระบบการประมูลค่าจัดส่งของเรา จะทำให้คุณได้รับ ราคา ที่ดีที่สุด
+								{% else %}
+								Our innovative bidding system means shippers compete to give you the lowest price
+								{% endif %}
+							</p>
+						</li>
+						<li class="ui-icon-block">
+							<span class="icon icon-globe"></span>
+							<p class="">
+								<span class="text-black">
+									{% if request.session.locale == 'th-TH' %}
+									สะดวก/ง่ายดาย:
+									{% else %}
+									Convenience:
+									{% endif %}
+								</span>
+								{% if request.session.locale == 'th-TH' %}
+								แค่ 3 ขั้นตอนง่ายๆ สินค้าของคุณก็จะส่งตรงถึงคุณทันที
+								{% else %}
+								Just three simple steps and your item is delivered to your door
+								{% endif %}
+							</p>
+						</li>
+						<li class="ui-icon-block">
+							<span class="icon icon-shield"></span>
+							<p class="">
+								<span class="text-black">
+									{% if request.session.locale == 'th-TH' %}
+									ไว้ใจได้/วางใจได้:
+									{% else %}
+									Peace of Mind:
+									{% endif %}
+								</span>
+								{% if request.session.locale == 'th-TH' %}
+								เราคัดเลือกผู้ส่งทึ่ได้มาตรฐาน ให้คุณสามารถ วางใจได้ ถึงบริการและการดูแลสินค้าของเรา
+								{% else %}
+								We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
+								{% endif %}
+
+							</p>
+						</li>
+					</ul>
+					<a href="{% url 'friendship:login' %}" class="btn-link btn-arrow">
+						{% if request.session.locale == 'th-TH' %}
+						เริ่มกันเลย!
+						{% else %}
+						Get Started
+						{% endif %}
+					</a>
+				</div>
+
+				<!-- Right Column -->
+				<div class="col-lg-7 col-xl-6 animate animated fade-in-left" data-show="fade-in-left" data-delay="200">
+					<img src="{% static 'friendship/img/graphics/features-truck.svg' %}" alt="FriendShips" id="truck-graphic" class="responsive-on-sm">
+
+				</div>
+			</div><!-- .row -->
+		</div><!-- .container -->
+	</div><!-- .section -->
+
+	<!--Scrolling Trending Items Section -->
+	<div id="trending" class="section slideshow-container">
+		<div class="container ui-icon-blocks ui-blocks-h icons-lg">
+			<div class="section-heading cente">
+				<h2 class="heading text-dark-gray">
+
+					{% if request.session.locale == 'th-TH' %}
+					สินค้ายอดนิยม
+					{% else %}
+					Trending Items
+					{% endif %}
+				</h2>
 				<p>
-					Shippers compete to deliver your item for the <span class="text-blue">lowest</span> price
+					{% if request.session.locale == 'th-TH' %}
+					ไม่อยากตกเทรนด์ มาทางนี้! สินค้าที่ได้รับความสนใจจากเหล่านักช็อปบน FriendShips ของเรา
+					{% else %}
+					See popular items that people are buying now
+					{% endif %}
 				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<p>
-					<span class="text-blue">Pay</span> for your item through credit card or bank transfer
-				</p>
-			</div>
-			<div class="col-sm-3 ui-icon-block">
-				<div class="icon icon-lg icon-circle icon-trophy text-red"></div>
-				<p>
-					Your item is delivered <span class="text-blue">directly</span> to you
-				</p>
-			</div>
-		</div><!-- .row -->
-	</div><!-- .container -->
-</div><!-- .section -->
+			</div><!-- .section-heading -->
 
-<!-- Integration Section -->
-<div id="integrate" class="section bg-light">
-	<div class="container">
-		<div class="row">
+			<!--Slides including buttons section -->
+			<div class="row" id="trending-item-section">
+				<div class="col-1"></div>
+				<!-- Wrapper for slides -->
+				<div class="slide-container col-12">
+					<div class="slide shadow-md">
+						<a href="https://www.glossier.com/products/boy-brow">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Glossier Boy Brow</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+							<div class="fill nailthumb-container" >
+								<img class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>AAPE Longsleeve</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.chanel.com">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/chanel-thumbnail.jpg' %}" alt="Chanel Purse"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Chanel Purse</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.nike.com">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/nike-thumbnail.jpg' %}" alt="Nike Shoes"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Nike Shoes</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.starbucks.com">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Starbucks Mug</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.timberland.com">
+							<div class="fill" nailthumb-container>
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/timberland-thumbnail.jpg' %}" alt="Timberland Boots"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Timberland Boots</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.hydroflask.com">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/hydroflask-thumbnail.jpg' %}" alt="Hydro Flask Bottles"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Hydro Flask Bottles</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.victoriassecret.com">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/mockups/victoriasecret-mockup.jpg' %}" alt="Victoria's Secret Bras"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Victoria's Secret Bras</p>
+						</div>
+					</div>
+				</div><!--.slide-container -->
+				<div class="col-1"> </div>
+			</div><!--.row -->
+		</div><!-- .container -->
+	</div><!-- .section -->
 
-			<!-- Left Column -->
-			<div class="col-lg-5 col-xl-6" data-vertical_center="true">
-
-				<!-- Section Heading -->
-				<div class="section-heading mb-2">
-					<h2 class="heading">
-						Why FriendShips?
-					</h2>
-				</div><!-- .section-heading -->
-
-				<!-- Left blocks -->
-				<ul class="ui-icon-blocks ui-blocks-v icons-sm">
-					<li class="ui-icon-block">
-						<span class="icon icon-diamond"></span>
-						<p class="">
-							<span class="text-blue">Availability:</span> No more Preorders! Buy any item you want, any time you want it
-						</p>
-					</li>
-					<li class="ui-icon-block">
-						<span class="icon icon-pie-chart"></span>
-						<p class="">
-							<span class="text-blue">Cost:</span> Our innovative bidding system means shippers compete to give you the lowest price
-						</p>
-					</li>
-					<li class="ui-icon-block">
-						<span class="icon icon-layers"></span>
-						<p class="">
-							<span class="text-blue">Convenience:</span> Just three simple steps and your item is delivered to your door
-						</p>
-					</li>
-					<li class="ui-icon-block">
-						<span class="icon icon-layers"></span>
-						<p class="">
-							<span class="text-blue">Peace of Mind:</span> We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
-						</p>
-					</li>
-				</ul>
-			</div>
-
-			<!-- Right Column -->
-			<div class="col-lg-7 col-xl-6">
-
-				<!-- Logo Cloud -->
-				<div class="ui-logos-cloud">
-					<div data-size="4" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="7" class="mt-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break -->
-					<span class="flex-break"></span>
-
-					<div data-size="4" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="4" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="6" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break -->
-					<span class="flex-break"></span>
-
-					<div data-size="8" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="5" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break -->
-					<span class="flex-break"></span>
-
-					<div data-size="3" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="10" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-					<div data-size="7" class="animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-
-					<!-- Flex Break -->
-					<span class="flex-break"></span>
-
-					<div data-size="4" class="mb-0 animate" data-show="fade-in">
-						<img src="{% static 'friendship/img/3rd-party-logos/logo.png' %}" data-uhd alt="Applif App Landing Page"/>
-					</div>
-				</div><!-- .ui-logo-cloud  -->
-
-			</div>
-		</div><!-- .row -->
-	</div><!-- .container -->
-</div><!-- .section -->
-
-<!--Scrolling Trending Items Section -->
-<div id="trending" class="slideshow-container">
-	<div class="container ui-icon-blocks ui-blocks-h icons-lg">
-		<div class="section-heading cente">
-			<h2 class="heading text-dark-gray">
-				Trending Items
+	<!-- Showcase Section -->
+	<div class="section bg-light pb-6">
+		<div class="container">
+			<h2 class="text-dark-gray" style="text-align: center">
+				{% if request.session.locale == 'th-TH' %}
+				พบกันทางแอปพลิเคชั่นบนมือถือได้ เร็วๆนี้
+				{% else %}
+				Coming Soon to Mobile
+				{% endif %}
 			</h2>
-			<p>See what people are buying now</p>
-		</div><!-- .section-heading -->
+			<div class="row text-center">
+				<div class="col-md-6 pb-5">
+					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/IOS_logo.svg' %}" 
+					alt="Android"/>
+				</div>
+				<div class="col-md-6 pb-5">
+					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/Android_robot.svg' %}" 
+					alt="iOS"/>
+				</div>
+			</div>
+		</div><!-- .container -->
+	</div>
 
-		<!--Slides including buttons section -->
-		<div class="row" id="trending-item-section">
-			<div class="col-1"></div>
-			<!-- Wrapper for slides -->
-			<div class="slide-container col-10">
-				<div class="slide shadow-lg">
-					<a href="https://www.glossier.com/products/boy-brow">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Glossier Boy Brow</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>AAPE Longsleeve</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.chanel.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/chanel-mockup.jpg' %}" alt="Chanel Purse"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Chanel Purse</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.nike.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/nike-mockup.jpg' %}" alt="Nike Shoes"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Nike Shoes</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.starbucks.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Starbucks Mug</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.timberland.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/timberland-mockup.jpg' %}" alt="Timberland Boots"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Timberland Boots</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.hydroflask.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/hydroflask-mockup.jpg' %}" alt="Hydro Flask Bottles"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Hydro Flask Bottles</p>
-					</div>
-				</div>
-				<div class="slide shadow-lg">
-					<a href="https://www.victoriassecret.com">
-						<div class="fill">
-							<img class="trending-image" src="{% static 'friendship/img/mockups/victoriasecret-mockup.jpg' %}" alt="Victoria's Secret Bras"/>
-						</div>
-					</a>
-					<div class="img-container">
-						<br>
-						<p>Victoria's Secret Bras</p>
-					</div>
-				</div>
-			</div><!--.slide-container -->
-			<div class="col-1"> </div>
-		</div><!--.row -->
-	</div><!-- .container -->
-</div><!-- .section -->
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="{% static 'friendship/js/libs/custom/trending.js' %}"></script>
+	<script type="text/javascript" src="{% static 'friendship/css/nailthumb/jquery.nailthumb.1.0.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'friendship/css/custom/trending.css' %}"/>
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="{% static 'friendship/js/libs/custom/trending.js' %}"></script>
-<link rel="stylesheet" href="{% static 'friendship/css/custom/trending.css' %}"/>
-
-{% endblock content %}
+	{% endblock content %}
