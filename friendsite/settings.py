@@ -25,7 +25,8 @@ FRIENDSHIP_VERSION = "0.1.0"
 ALLOWED_HOSTS = [
     "18.188.123.79",
     "127.0.0.1",
-    "dev.friendships.us"
+    "dev.friendships.us",
+    "www.friendships.us",
 ]
 
 # Application definition
