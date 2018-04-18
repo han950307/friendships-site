@@ -222,7 +222,8 @@ def verify_social_auth_token(**kwargs):
         elif social_auth == "facebook":
             if 'email' not in kwargs:
                 user_id = kwargs['facebook_user_id']
-            email = kwargs["email"]
+            else:
+                email = kwargs["email"]
             return facebook_auth_token_is_valid(**kwargs)
         elif social_auth == "none":
             return True, _
