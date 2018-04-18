@@ -116,7 +116,7 @@ def create_user(**kwargs):
     if 'social_auth' in kwargs and social_auth == "line":
         create_line_user(user, **kwargs)
     if 'social_auth' in kwargs and social_auth == "facebook":
-        create_facebook_user(user, **kwargs)
+        create_line_user(user, **kwargs)
 
     return user
 
