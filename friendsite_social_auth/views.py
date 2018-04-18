@@ -141,7 +141,7 @@ def facebook_callback(request):
 
         # Sometimes email doesn't exist, then must verify.
         if 'email' not in data_dict:
-            request.session["line_user_id"] = user_id
+            request.session["facebook_user_id"] = user_id
             return redirect("friendsite_social_auth:line_create_account", social_auth="Facebook")
 
         # if user token exists, that means they authorized with them.
