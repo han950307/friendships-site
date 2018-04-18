@@ -250,7 +250,10 @@ def line_register_process(request):
             except ValueError:
                 user = User.objects.filter(username=data_dict["email"])[0]
                 request.session.update({x: v for x, v in request.POST.items()})
-                return render(request, "friendsite_social_auth/line_create_user.html", {'user': user})
+                return render(request, "friendsite_social_auth/line_create_user.html", {
+                    'user': user,
+                    'social_auth': data_dict['social_auth'].title()
+                })
         for key in list(request.session.keys()):
             del request.session[key]
         login_user(request, user)

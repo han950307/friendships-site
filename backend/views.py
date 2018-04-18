@@ -52,28 +52,25 @@ BAD_DATA_MSG = "Data passed in was bad."
 ### ACCOUNT FUNCTIONS ###
 def create_line_user(user, **kwargs):
     try:
-        user_id = kwargs['line_user_id']
+        if kwargs["social_auth"] == "line":
+            user_id = kwargs['line_user_id']
+        elif kwargs["social_auth"] == "facebook":
+            user_id = kwargs['facebook_user_id']
         if type(user_id) != str:
             user_id = user_id.decode("utf-8")
     except KeyError:
         raise KeyError(INCOMPLETE_DATA_MSG)
-    LineUser.objects.create(
-        user=user,
-        line_user_id=user_id,
-    )
 
-
-def create_facebook_user(user, **kwargs):
-    try:
-        user_id = kwargs['facebook_user_id']
-        if type(user_id) != str:
-            user_id = user_id.decode("utf-8")
-    except KeyError:
-        raise KeyError(INCOMPLETE_DATA_MSG)
-    FacebookUser.objects.create(
-        user=user,
-        facebook_user_id=user_id,
-    )
+    if kwargs["social_auth"] == "line":
+        LineUser.objects.create(
+            user=user,
+            line_user_id=user_id,
+        )
+    elif kwargs["social_auth"] == "facebook":
+        FacebookUser.objects.create(
+            user=user,
+            facebook_user_id=user_id,
+        )
 
 
 def create_user(**kwargs):
