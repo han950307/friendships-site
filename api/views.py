@@ -27,7 +27,7 @@ from friendship.models import (
 	Message,
 )
 
-from api.models import LineUser
+from friendsite_social_auth.models import LineUser
 
 from friendship.serializers import (
 	UserSerializer,
