@@ -21,7 +21,7 @@ from friendsite.settings import (
     LINE_CLIENT_ID,
 )
 
-from friendsite_social_auth.models import LineUser
+from friendsite_social_auth.models import LineUser, FacebookUser
 from friendship.models import (
     ShipperInfo,
     ShippingAddress,
