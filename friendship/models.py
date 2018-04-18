@@ -177,7 +177,7 @@ class Order(models.Model):
     choices = [(x.value, str(x)) for x in MerchandiseType]
     choices.insert(0, (-1, "Category - please choose one"))
 
-    url = models.URLField()
+    url = models.URLField(max_length=3000)
     merchandise_type = models.IntegerField(
         default=-1,
         choices=choices,
