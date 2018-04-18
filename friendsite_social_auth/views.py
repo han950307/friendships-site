@@ -139,15 +139,14 @@ def facebook_callback(request):
         data_dict['social_auth'] = 'facebook'
         data_dict['user_token'] = user_token
 
-        # Sometimes email doesn't exist, then must verify.
-        if 'email' not in data_dict:
-            request.session["facebook_user_id"] = user_id
-            return redirect("friendsite_social_auth:line_create_account", social_auth="Facebook")
-
         # if user token exists, that means they authorized with them.
         try:
             serialized = get_user_auth_token(**data_dict)
         except ValueError:
+            # Sometimes email doesn't exist, then must verify.
+            if 'email' not in data_dict:
+                request.session["facebook_user_id"] = user_id
+                return redirect("friendsite_social_auth:line_create_account", social_auth="Facebook")
             user = create_user(**data_dict)
             serialized = get_user_auth_token(**data_dict)
 

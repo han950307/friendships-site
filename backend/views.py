@@ -220,6 +220,8 @@ def verify_social_auth_token(**kwargs):
             user_id = kwargs["line_user_id"]
             return line_auth_token_is_valid(**kwargs)
         elif social_auth == "facebook":
+            if 'email' not in kwargs:
+                user_id = kwargs['facebook_user_id']
             email = kwargs["email"]
             return facebook_auth_token_is_valid(**kwargs)
         elif social_auth == "none":
