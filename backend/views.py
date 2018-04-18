@@ -269,6 +269,7 @@ def get_user_auth_token(**kwargs):
             user = queryset[0].user
     elif social_auth == "facebook":
         if 'email' not in kwargs:
+            user_id = kwargs["facebook_user_id"]
             queryset = FacebookUser.objects.filter(facebook_user_id=user_id)
         else:
             email = kwargs["email"]
