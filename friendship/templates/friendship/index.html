@@ -30,14 +30,15 @@
 				{% if request.session.locale == 'th-TH' %}
 				ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
 				{% else %}
-				Welcome {{ request.user.first_name }},
+				Welcome {{ request.user.first_name }}, i
 				{% endif %}
+				I
 				{% endif %}
 
 				{% if request.session.locale == 'th-TH' %}
 				เริ่มต้นง่ายนิดเดียว!
 				{% else %}
-				It's simple to get started!
+				t's simple to get started!
 				{% endif %}
 			</p>
 			<form action="{% url 'friendship:place_order' %}">
