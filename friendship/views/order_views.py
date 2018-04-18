@@ -42,6 +42,7 @@ def create_action_for_order(order, action_enum):
         action=action_enum
     )
     order.latest_action = action
+
     order.save()
 
 
@@ -62,10 +63,18 @@ def match_with_shipper(order):
         order.final_bid = min_bid
         order.save()
 
-    body = "Dear {first_name},\n\nWe have found a match for you with {shipper_name}" + \
-            "! Please visit {url}, confirm the final price, and send in the payment" + \
+    body = "Dear {first_name},\n\nWe have found a match for you" + \
+            "! Please visit {url} for details and pay " + \
             "within 24 hours to receive your item.\n\n" + \
             "Your final price is {total_price_usd} ({total_price_thb}).\n"
+    html_message = "Dear {first_name},<br><br>We have found a match for you" + \
+            "! Please confirm or decline the following price " + \
+            "within 24 hours to receive your item.<br><br>" + \
+            "Your final price is {total_price_usd} ({total_price_thb})." + \
+            "To confirm or decline this price, please click one of the buttons below, " + \
+            "or visit the above link to review the details.<br><br>" + \
+            "<a href=\"{order_confirm}/True\"><button>CONFIRM</button></a><br><br>" + \
+            "<a href=\"{order_confirm}/False\"><button>DECLINE</button></a><br><br>"
 
     if order.shipper.shipper_info.name:
         shipper_name = order.shipper.shipper_info.name
@@ -74,18 +83,26 @@ def match_with_shipper(order):
 
     body_str = body.format(
         first_name=order.receiver.first_name,
-        shipper_name=shipper_name,
         url="https://www.friendships.us/order_details/{}".format(order.id),
         total_price_usd=order.final_bid.get_total_str(),
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
+    )
+
+    html_message_str = html_message.format(
+        first_name=order.receiver.first_name,
+        url="https://www.friendships.us/order_details/{}".format(order.id),
+        total_price_usd=order.final_bid.get_total_str(),
+        total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
+        order_confirm="https://www.friendships.us/{}".format(order.id)
     )
 
     if not settings.LOCAL:
         mail.send_mail(
             "Your Order #{} Match Found!".format(order.id),
             body_str,
-            "no-reply@friendships.us",
+            "FriendShips <no-reply@friendships.us>",
             [order.receiver.email],
+            html_message=html_message_str
         )
 
 
@@ -147,12 +164,20 @@ def order_details(request, order_id, **kwargs):
 
 @login_required
 def end_bid(request, order_id, **kwargs):
+    """
+    When the receiver clicks buy now button during the bid period, this logic gets
+    executed.
+    """
     order = Order.objects.get(pk=order_id)
 
-    # If the order is not the receiver, then don't do it.
+    # Check if the request's user actually placed the order.
     if order.receiver != request.user:
         messages.error(request, 'You\'ve got the wrong user')
         return redirect('friendship:index')
+
+    # Replace the bid end datetime with current time because it ended now.
+    order.bid_end_datetime = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    order.save()
 
     # match with lowest shipper and end it.
     match_with_shipper(order)
@@ -217,7 +242,7 @@ def open_orders(request, filter):
         return redirect('friendship:index')
     else:
         # Only display orders that are due later than right now.
-        right_now = datetime.datetime.now()
+        right_now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
         qset = Order.objects.filter(
             bid_end_datetime__gte=right_now
         ).order_by(

@@ -52,7 +52,7 @@ def messages(request):
     qset = Order.objects.filter(
         receiver=request.user
     ).filter(
-        latest_action__action__gte=OrderAction.Action.MATCH_FOUND
+        latest_action__action__gte=OrderAction.Action.PAYMENT_RECEIVED
     ).union(
         Order.objects.filter(shipper=request.user)
     ).order_by(
