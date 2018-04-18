@@ -142,6 +142,8 @@ def place_order(request):
     This is a page for a form for making an order.
     """
     # CURRENTLY ONLY GET PRIMARY ADDRESS.
+    if 'locale' not in request.session:
+        request.session = 'us-EN'
     locale = request.session["locale"]
     user_addresses = request.user.shipping_addresses.filter(primary=True)
 
