@@ -13,7 +13,7 @@
 				<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
 				<span>
 					{% if request.session.locale == 'th-TH' %}
-					ทลายพรมแดนลบกำแพง e-commerce
+					ทลายพรหมแดน ลบกำแพง e-commerce
 					{% else %}
 					E-commerce without borders
 					{% endif %}
@@ -109,7 +109,7 @@
 					</h4>
 					<p>
 						{% if request.session.locale == 'th-TH' %}
-						รอผู้ส่งในระแบบแข่งขันกันประมูลราคาส่งและ<span class="bold">ยืนยัน</span>ราคารวมเมื่อคุณพอใจ
+						รอการประมูลราคาจัดส่งจาก shippers แล้วจึง<span class="bold">ยืนยัน</span>การสั่งซื้อ เมื่อคุณพอใจ
 						{% else %}
 						<span class="bold">Wait</span> while shippers compete to deliver your item, then <span class="bold">confirm</span> the lowest price we find.
 						{% endif %}
