@@ -18,6 +18,7 @@ from backend.views import (
 import json
 import requests
 import hashlib
+import re
 import hmac
 
 from urllib.parse import quote
@@ -30,18 +31,21 @@ class SocialLoginView(View):
     response_type = "code"
     state = "yayimalive"
 
-    def oauth_request_auth_code(self):
+    def oauth_request_auth_code(self, next_page):
         url = self.base_url + "?" + \
                "client_id=" + quote(self.client_id) + \
                "&response_type=" + quote(self.response_type) + \
                "&redirect_uri=" + quote(self.redirect_uri) + \
-               "&state=" + quote(self.state)
+               "&state=" + quote(next_page)
 
-        print(url)
         return redirect(url)
 
     def get(self, request):
-        return self.oauth_request_auth_code()
+        if "next" in request.session:
+            next_page = "nextpageaddress" + request.session["next"]
+        else:
+            next_page = self.state
+        return self.oauth_request_auth_code(next_page)
 
 
 class FacebookSocialLoginView(SocialLoginView):
@@ -80,6 +84,7 @@ def facebook_callback(request):
     """
     try:
         code = request.GET["code"]
+        state = request.GET["state"]
     except KeyError:
         error(request, "You must grant facebook permission." + str(response_dict))
         return redirect("friendship:index")
@@ -157,12 +162,17 @@ def facebook_callback(request):
         error(request, "Failed logging into facebook. Please try again.")
         return redirect("friendship:index")
 
+    print(state)
+    if state.startswith("nextpageaddress"):
+        next_page = re.sub("nextpageaddress", "", state)
+        return redirect(next_page)
     return redirect("friendship:receiver_landing")
 
 
 def line_callback(request):
     try:
         code = request.GET["code"]
+        state = request.GET["state"]
     except KeyError:
         error(request, "You must grant Line permission to access your account." + str(response_dict))
         return redirect("friendship:index")
@@ -215,6 +225,11 @@ def line_callback(request):
     serialized = get_user_auth_token(**data_dict)
     user = User.objects.get(pk=int(serialized.data["user_id"]))
     login_user(request, user)
+
+    print(state)
+    if state.startswith("nextpageaddress"):
+        next_page = re.sub("nextpageaddress", "", state)
+        return redirect(next_page)
     return redirect("friendship:receiver_landing")
 
 
