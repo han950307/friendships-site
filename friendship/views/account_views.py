@@ -51,6 +51,8 @@ def login_view(request):
 	"""
 	load login view.
 	"""
+	if 'locale' not in request.session:
+		request.session["locale"] = "en-US"
 	if "next" in request.GET:
 		request.session["next"] = request.GET["next"]
 	return render(request, 'friendship/login.html', {})

@@ -21,7 +21,7 @@ from friendsite.settings import (
     LINE_CLIENT_ID,
 )
 
-from api.models import LineUser
+from friendsite_social_auth.models import LineUser, FacebookUser
 from friendship.models import (
     ShipperInfo,
     ShippingAddress,
@@ -52,15 +52,25 @@ BAD_DATA_MSG = "Data passed in was bad."
 ### ACCOUNT FUNCTIONS ###
 def create_line_user(user, **kwargs):
     try:
-        user_id = kwargs['line_user_id']
+        if kwargs["social_auth"] == "line":
+            user_id = kwargs['line_user_id']
+        elif kwargs["social_auth"] == "facebook":
+            user_id = kwargs['facebook_user_id']
         if type(user_id) != str:
             user_id = user_id.decode("utf-8")
     except KeyError:
         raise KeyError(INCOMPLETE_DATA_MSG)
-    LineUser.objects.create(
-        user=user,
-        line_user_id=user_id,
-    )
+
+    if kwargs["social_auth"] == "line":
+        LineUser.objects.create(
+            user=user,
+            line_user_id=user_id,
+        )
+    elif kwargs["social_auth"] == "facebook":
+        FacebookUser.objects.create(
+            user=user,
+            facebook_user_id=user_id,
+        )
 
 
 def create_user(**kwargs):
@@ -105,6 +115,8 @@ def create_user(**kwargs):
 
     if 'social_auth' in kwargs and social_auth == "line":
         create_line_user(user, **kwargs)
+    if 'social_auth' in kwargs and social_auth == "facebook":
+        create_facebook_user(user, **kwargs)
 
     return user
 
@@ -208,7 +220,10 @@ def verify_social_auth_token(**kwargs):
             user_id = kwargs["line_user_id"]
             return line_auth_token_is_valid(**kwargs)
         elif social_auth == "facebook":
-            email = kwargs["email"]
+            if 'email' not in kwargs:
+                user_id = kwargs['facebook_user_id']
+            else:
+                email = kwargs["email"]
             return facebook_auth_token_is_valid(**kwargs)
         elif social_auth == "none":
             return True, _
@@ -253,12 +268,16 @@ def get_user_auth_token(**kwargs):
         else:
             user = queryset[0].user
     elif social_auth == "facebook":
-        email = kwargs["email"]
-        queryset = User.objects.filter(email=email)
+        if 'email' not in kwargs:
+            user_id = kwargs["facebook_user_id"]
+            queryset = FacebookUser.objects.filter(facebook_user_id=user_id)
+        else:
+            email = kwargs["email"]
+            queryset = User.objects.filter(email=email)
         if not queryset:
             raise ValueError(USER_NOT_FOUND_MSG)
         else:
-            user = queryset[0]
+            user = queryset[0] if 'email' in kwargs else queryset[0].user
     else:
         raise ValueError(BAD_DATA_MSG)
 

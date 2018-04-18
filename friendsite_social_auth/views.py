@@ -138,11 +138,16 @@ def facebook_callback(request):
         data_dict = {x: v for x, v in response_dict.items()}
         data_dict['social_auth'] = 'facebook'
         data_dict['user_token'] = user_token
+        data_dict['facebook_user_id'] = user_id
 
         # if user token exists, that means they authorized with them.
         try:
             serialized = get_user_auth_token(**data_dict)
         except ValueError:
+            # Sometimes email doesn't exist, then must verify.
+            if 'email' not in data_dict:
+                request.session["facebook_user_id"] = user_id
+                return redirect("friendsite_social_auth:line_create_account", social_auth="Facebook")
             user = create_user(**data_dict)
             serialized = get_user_auth_token(**data_dict)
 
@@ -205,7 +210,7 @@ def line_callback(request):
         serialized = get_user_auth_token(**data_dict)
     except ValueError:
         request.session["line_user_id"] = user_id
-        return redirect("friendsite_social_auth:line_create_account")
+        return redirect("friendsite_social_auth:line_create_account", social_auth="Line")
     
     serialized = get_user_auth_token(**data_dict)
     user = User.objects.get(pk=int(serialized.data["user_id"]))
@@ -213,15 +218,18 @@ def line_callback(request):
     return redirect("friendship:receiver_landing")
 
 
-def line_create_account(request):
-    return render(request, "friendsite_social_auth/line_create_user.html", {'user': None})
+def line_create_account(request, social_auth):
+    return render(request, "friendsite_social_auth/line_create_user.html", {
+        'user': None,
+        'social_auth': social_auth.title(),
+    })
 
 
 def line_register_process(request):
     try:
         data_dict = {x: v for x, v in request.POST.items()}
         data_dict.update({x: v for x, v in request.session.items()})
-        data_dict["social_auth"] = "line"
+        data_dict["social_auth"] = data_dict["social_auth"].lower()
 
         # If email already exists in the database, then this is executed.
         if 'confirm' in data_dict:
@@ -242,7 +250,10 @@ def line_register_process(request):
             except ValueError:
                 user = User.objects.filter(username=data_dict["email"])[0]
                 request.session.update({x: v for x, v in request.POST.items()})
-                return render(request, "friendsite_social_auth/line_create_user.html", {'user': user})
+                return render(request, "friendsite_social_auth/line_create_user.html", {
+                    'user': user,
+                    'social_auth': data_dict['social_auth'].title()
+                })
         for key in list(request.session.keys()):
             del request.session[key]
         login_user(request, user)
