@@ -140,7 +140,7 @@ class Order(models.Model):
         GAMES = 11
         OTHER = 12
 
-        def __str__(self, locale="us-EN"):
+        def __str__(self, locale="en-US"):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
