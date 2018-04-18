@@ -33,36 +33,34 @@ Messages
         </div>
 
         <div class="col col-" id="right-pane">
-
             {% for order in orders %}
-            <div id="messages-{{ order.id }}"
-            class="message_dummy"
-            data-sync="{% url 'friendship:sync_message' order.id %}"
-            data-method="post" data-first="0"
-            data-send="{% url 'friendship:send_message' order.id %}">
-            {% if request.session.locale == 'th-TH' %}
-            Team Senders เป็นกลุ่มผู้ส่งที่ทำงานโดยตรงให้กับ FriendShips เราจะไม่ตอบข้อความทางนี้ ติดต่อพวกเราได้ที่ Line:  @teamsenders
-            {% else %}
-            Team Senders is a group of shippers working directly for FriendShips. We won't be replying here, so please add us on line: @teamsenders
-            {% endif %}
-        </div>
-        {% endfor %}
+            <div id="messages-{{ order.id }}" class="message_dummy" data-sync="{% url 'friendship:sync_message' order.id %}" data-method="post" data-first="0" data-send="{% url 'friendship:send_message' order.id %}">
+                {% if request.session.locale == 'th-TH' %}
+                Team Senders เป็นกลุ่มผู้ส่งที่ทำงานโดยตรงให้กับ FriendShips เราจะไม่ตอบข้อความทางนี้ ติดต่อพวกเราได้ที่ Line:  @teamsenders
+                {% else %}
+                Team Senders is a group of shippers working directly for FriendShips. We won't be replying here, so please add us on line: @teamsenders
+                {% endif %}
+            </div>
+            {% empty %}
+            <div id="no-messages" class="message_dummy">
+                No messages yet.
+            </div>
+            {% endfor %}
 
-        <br />
-        <div id="message-input-area">
-            <form id="message_form">
-                {% csrf_token %}
-                <div class="input-group mb-3">
-                    <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
-                    <div class="input-group-append">
-                        <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+            <br />
+            <div id="message-input-area">
+                <form id="message_form">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" name="message" class="input form-control" id="form_message" placeholder="Message">
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-block ui-gradient-message-selected shadow-md" value="Send" id="form_button"/>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-
-</div>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/message.js' %}"></script>
