@@ -131,7 +131,7 @@
 								<!-- locale change -->
 								<li>
 									{% if request.session.locale == 'th-TH' %}
-									<a href="{% url 'friendship:change_locale' 'us-EN' %}">English</a>
+									<a href="{% url 'friendship:change_locale' 'en-US' %}">English</a>
 									{% else %}
 									<a href="{% url 'friendship:change_locale' 'th-TH' %}">ภาษาไทย</a>
 									{% endif %}

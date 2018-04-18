@@ -140,7 +140,7 @@ class Order(models.Model):
         GAMES = 11
         OTHER = 12
 
-        def __str__(self, locale="us-EN"):
+        def __str__(self, locale="en-US"):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
@@ -177,7 +177,7 @@ class Order(models.Model):
     choices = [(x.value, str(x)) for x in MerchandiseType]
     choices.insert(0, (-1, "Category - please choose one"))
 
-    url = models.URLField()
+    url = models.URLField(max_length=3000)
     merchandise_type = models.IntegerField(
         default=-1,
         choices=choices,

@@ -27,6 +27,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "dev.friendships.us",
     "www.friendships.us",
+    "friendships.us",
 ]
 
 # Application definition
