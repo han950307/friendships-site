@@ -330,6 +330,8 @@
                             <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
                         </tr>
                     </table>
+                </div>
+                <div class="col-auto">
                     <a class="btn btn-block ui-gradient-green shadow-md col-4" href="{% url 'friendship:confirm_order_price' order.id True %}" id="confirm-button" >
                         {% if request.session.locale == 'th-TH' %}
                         ยอมรับ
