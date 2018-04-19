@@ -9,15 +9,25 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from formtools.wizard.views import SessionWizardView
 
-from friendship.models import Order, Bid, ShipperInfo, Money, OrderAction
-from friendship.views import open_orders
+from friendship.models import Order, Bid, ShipperInfo, Money, OrderAction, TrackingNumber
+from friendship.views import (
+    open_orders,
+    create_action_for_order,
+)
 from friendship.forms import (
     SenderRegistrationForm,
     TravelerRegistrationForm,
     ShippingCompanyRegistrationForm,
     BidForm,
+    UploadItemPurchasedReceiptForm,
+    UploadTrackingNumberForm,
+    ConfirmBanknoteForm,
     FlightAttendantRegistrationForm,
 
+)
+from backend.views import (
+    create_money_object,
+    make_bid_backend,
 )
 from friendsite import settings
 
@@ -25,21 +35,12 @@ import os
 import decimal
 
 
-
-def create_money_object(data_dict, key, currency):
-    if key in data_dict:
-        val = decimal.Decimal(data_dict[key])
-        return Money.objects.create(value=val, currency=currency)
-    else:
-        return None
-
-
 @login_required
 def make_bid(request, order_id):
     """
     Make bid view. Allows sender to make a bid for the order.
     """
-    if not request.session["is_shipper"]:
+    if request.session["is_shipper"] != True:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
 
@@ -48,15 +49,9 @@ def make_bid(request, order_id):
         form = BidForm(request.POST)
         if form.is_valid():
             data_dict = {x: v for x, v in form.cleaned_data.items()}
-            currency = int(data_dict["currency"])
+            data_dict["currency"] = int(data_dict["currency"])
             data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
-            bid = Bid.objects.create(
-                order=order,
-                shipper=request.user,
-                wages=create_money_object(data_dict, "wages", currency),
-                retail_price=create_money_object(data_dict, "retail_price", currency),
-                service_fee=create_money_object(data_dict, "service_fee", currency),
-            )
+            make_bid_backend(request, order, **data_dict)
             return redirect('friendship:open_orders', "all")
     else:
         form = BidForm()
@@ -69,7 +64,7 @@ def make_bid_process(request, order_id):
     """
     Processes make bid
     """
-    if not request.session["is_shipper"]:
+    if request.session["is_shipper"] != True:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
     else:
@@ -136,6 +131,9 @@ def user_open_bids(request):
     """
     This displays all the orders for the receiver.
     """
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
     qset = Bid.objects.filter(
         shipper=request.user
     ).filter(
@@ -148,12 +146,163 @@ def user_open_bids(request):
                         for (k,v)
                         in OrderAction.Action._member_map_.items()
     })
-    data_dict['orders'] = qset
+    data_dict['active_orders'] = qset
+
+    qset = Bid.objects.filter(
+        shipper=request.user
+    ).filter(
+        order__latest_action__action__gte=OrderAction.Action.MATCH_FOUND
+    ).filter(
+        order__latest_action__action__lt=OrderAction.Action.ORDER_FULFILLED
+    ).order_by(
+        '-order__date_placed'
+    )
+    data_dict['matched_orders'] = qset
     return render(request, 'friendship/user_open_bids.html', data_dict)
 
 
 @login_required
+def confirm_banknote(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+
+    if request.method == 'POST':
+        form = ConfirmBanknoteForm(request.POST)
+        if form.is_valid():
+            data_dict = {x: v for x, v in form.cleaned_data.items()}
+            if data_dict["is_ok"] == "True":
+                create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
+            else:
+                create_action_for_order(order, OrderAction.Action.ORDER_DECLINED)
+            return redirect('friendship:user_open_bids')
+    else:
+        form = ConfirmBanknoteForm()
+
+    return render(request, 'friendship/confirm_banknote.html', {'order' : order, 'form': form})
+
+
+@login_required
+def confirm_item_purchased_receipt(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+
+    if request.method == 'POST':
+        form = UploadItemPurchasedReceiptForm(request.POST, request.FILES)
+        if form.is_valid():
+            data_dict = {x: v for x, v in form.cleaned_data.items()}
+            order.item_receipt_image = data_dict["picture"]
+            order.save()
+            create_action_for_order(order, OrderAction.Action.ITEM_ORDERED_BY_FRIENDSHIPS)
+            return redirect('friendship:user_open_bids')
+    else:
+        form = UploadItemPurchasedReceiptForm()
+
+    return render(request, 'friendship/confirm_item_purchased_receipt.html', {'order' : order, 'form': form})
+
+
+@login_required
+def confirm_item_shipped_by_merchant(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+
+    if request.method == 'POST':
+        form = UploadTrackingNumberForm(request.POST, request.FILES)
+        if form.is_valid():
+            data_dict = {x: v for x, v in form.cleaned_data.items()}
+            TrackingNumber.objects.create(
+                order=order,
+                provider=data_dict["provider"],
+                tracking_number=data_dict["tracking_number"],
+                shipping_stage=TrackingNumber.ShippingStage.MERCHANT_TO_SHIPPER,
+            )
+            create_action_for_order(order, OrderAction.Action.ITEM_SHIPPED_BY_MERCHANT)
+            return redirect('friendship:user_open_bids')
+    else:
+        form = UploadTrackingNumberForm()
+
+    return render(request, 'friendship/confirm_item_shipped_by_merchant.html', {'order' : order, 'form': form})
+
+
+@login_required
+def confirm_item_shipped_in_thailand(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+
+    if request.method == 'POST':
+        form = UploadTrackingNumberForm(request.POST, request.FILES)
+        if form.is_valid():
+            data_dict = {x: v for x, v in form.cleaned_data.items()}
+            TrackingNumber.objects.create(
+                order=order,
+                provider=data_dict["provider"],
+                tracking_number=data_dict["tracking_number"],
+                shipping_stage=TrackingNumber.ShippingStage.DOMESTIC_TO_RECEIVER,
+            )
+            create_action_for_order(order, OrderAction.Action.ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER)
+            return redirect('friendship:user_open_bids')
+    else:
+        form = UploadTrackingNumberForm()
+
+    return render(request, 'friendship/confirm_item_shipped_in_thailand.html', {'order' : order, 'form': form})
+
+
+@login_required
+def confirm_item_received(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+    create_action_for_order(order, OrderAction.Action.ITEM_RECEIVED_BY_SHIPPER)
+    return redirect('friendship:user_open_bids')
+
+
+@login_required
+def confirm_item_arrived_in_thailand(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+    create_action_for_order(order, OrderAction.Action.ITEM_ARRIVED_IN_THAILAND)
+    return redirect('friendship:user_open_bids')
+
+
+@login_required
 def sender_landing(request):
-	return render(request, 'friendship/sender_landing.html', {
-		'data': [request, ],
-	})
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    return render(request, 'friendship/sender_landing.html', {
+        'data': [request, ],
+    })

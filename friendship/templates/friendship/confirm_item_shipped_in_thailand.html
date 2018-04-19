@@ -1,0 +1,131 @@
+{% extends "friendship/base_generic_content.html" %}
+
+{% load static %}
+{% load friendship_extras %}
+
+{% block breadcrumb %}
+<ul class="breadcrumb container">
+  <li><a href="{% url 'friendship:user_open_bids' %}">
+    {% if request.session.locale == 'th-TH' %}
+    การสั่งซื้อของคุณ
+    {% else %}
+    Your Matches
+    {% endif %}
+</a></li>
+<li>
+    {% if request.session.locale == 'th-TH' %}
+    สินค้าเลขที่ {{ order.id }}
+    {% else %}
+    Order # {{ order.id }}
+    {% endif %}
+</li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block title %}
+<div class="order-number-heading">
+    {% if request.session.locale == 'th-TH' %}
+    สินค้าเลขที่ {{ order.id }}
+    {% else %}
+    Order # {{ order.id }}
+    {% endif %}
+</div>
+{% endblock title %}
+
+{% block main_content %}
+<hr />
+<div id="overlay"></div>
+<div class="container" id="order-headings">
+    <div class="row">
+        <div class="col-xl-3">
+            <h3>
+                {% if request.session.locale == 'th-TH' %}
+                รายละเอียดสินค้า
+                {% else %}
+                Order Details
+                {% endif %}
+            </h3>
+            {% if order.item_image %}
+            <div class="item-image">
+                <a target="_blank" href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
+            </div>
+            {% endif %}
+            <span class="bold"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                ลิ้งค์ URL
+                {% else %}
+                URL:
+                {% endif %}
+            </h6></span> <p><a target="_blank" href="{{ order.url }}">{{ order_url }}</a></p>
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                จำนวน
+                {% else %}
+                Quantity:
+                {% endif %}
+            </h6></span> {{ order.quantity }}</p>
+            {% if order.color %}
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                สี
+                {% else %}
+                Color:
+                {% endif %}
+            </h6></span> {{ order.color }}</p>
+            {% endif %}
+            {% if order.description %}
+            <p><span class="black"><h6>
+                {% if request.session.locale == 'th-TH' %}
+                รายละเอียดเพิ่มเติม
+                {% else %}
+                Description:
+                {% endif %}
+            </h6></span> {{ order.description }}</p>
+            {% endif %}
+            <p>
+                <span class="black">
+                    <h6>
+                        {% if request.session.locale == 'th-TH' %}
+                        ที่อยู่จัดส่ง
+                        {% else %}
+                        Shipping Address:
+                        {% endif %}
+                    </h6>
+                </span>
+            </p>
+            <p>{{ order.receiver_address.name }}</p>
+            <p>{{ order.receiver_address.address_line_1 }}</p>
+            {% if order.receiver_address.address_line_2 %}
+            <p>{{ order.receiver_address.address_line_2 }}</p>
+            {% endif %}
+            <p>{{ order.receiver_address.city }} {{ order.receiver_address.region }} {{ order.receiver_address.postal_code }}</p>
+            <p>{{ order.receiver_address.country }}</p>
+            <br>
+            <br>
+        </div>
+        <div class="col-xl-8">
+            <h3>
+                {% if request.session.locale == 'th-TH' %}
+                สถานะสินค้า
+                {% else %}
+                Confirm Item Shipped in Thailand
+                {% endif %}
+            </h3>
+            <form action="{% url 'friendship:confirm_item_shipped_in_thailand' order.id %}" method="post" enctype=multipart/form-data>
+                {% csrf_token %}
+                {{ form.as_table }}
+                {% if request.session.locale == 'th-TH' %}
+                <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
+                {% else %}
+                <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>
+
+{% endblock main_content %}

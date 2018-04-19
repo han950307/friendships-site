@@ -1,14 +1,26 @@
   var datetime = document.getElementById('order-bid-end-time').getAttribute('datetime');
   var deadline = new Date(datetime).getTime();
+  var paymentDeadline = new Date(datetime);
+  paymentDeadline.setDate(paymentDeadline.getDate() + 1);
+  var paymentDeadlineTime = paymentDeadline.getTime();
 
   setInterval(function() {
     var now = new Date().getTime();
     var distance = deadline-now;
+    var distance2 = paymentDeadlineTime - now;
     if (distance > 0){
       var hours = Math.floor(distance/ (1000 * 60 * 60));
       var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     	document.getElementById('time_countdown').innerHTML = "<h5>"+twoDigit(hours)+":"+twoDigit(minutes)+":"+twoDigit(seconds)+"</h5>";
+
+      var hours2 = Math.floor(distance2/ (1000 * 60 * 60));
+      var minutes2 = Math.floor((distance2 % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds2 = Math.floor((distance2 % (1000 * 60)) / 1000);
+      var displayTime = twoDigit(hours2)+":"+twoDigit(minutes2)+":"+twoDigit(seconds2);
+    	document.getElementById('payment-timer').innerHTML = "<div style='font-family: ThaiLight'>Please confirm price and pay within "+ displayTime + " or your order will automatically be cancelled.</div>";
+
+
     } else {
       document.getElementById('time_countdown').innerHTML = "<h5>finding match now...</h5>";
     }
@@ -43,14 +55,14 @@ function twoDigit(num) {
     document.getElementById('online-wire-transfer').style.display = "block";
   }
 
-function on() {
-    document.getElementById("overlay").style.display = "block";
-}
+// function on() {
+//     document.getElementById("overlay").style.display = "block";
+// }
 
-function off() {
-    document.getElementById("overlay").style.display = "none";
-}
+// function off() {
+//     document.getElementById("overlay").style.display = "none";
+// }
 
-$( document ).ready(function() {
-    on();
-});
+// $( document ).ready(function() {
+//     on();
+// });
