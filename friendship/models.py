@@ -314,8 +314,6 @@ class PaymentAction(models.Model):
         choices = ((x.value, str(x)) for x in PaymentType)
     )
 
-    account_number = models.CharField(max_length=100, null=True, blank=True)
-
 
 class OrderAction(models.Model):
     """
