@@ -60,6 +60,10 @@ nav > .container {
   left:10px;
 }
 
+.ui-hero.hero-bg::before {
+  background-size: cover;
+}
+
 .footer-copyright .container {
   max-width: 100%;
 }
@@ -75,6 +79,33 @@ h2 {
 #registration-form{
   max-width:100%;
 }
+
+div.main {
+  overflow-x: scroll;
+}
+
+div.orders div.row, div#orders-row {
+  min-width: 638px;
+}
+
+@media (max-width: 325px) {
+  .navbar img {
+    margin-left: -15px;
+  }
+}
+
+@media (min-width: 200px) {
+  div.main-content {
+    min-width: 200px;
+  }
+}
+
+@media (min-width: 576px) {
+  div.main-content {
+    min-width: 576px;
+  }
+}
+
 @media (min-width: 576px){
   #registration-form{
     max-width:90%;

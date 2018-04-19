@@ -111,7 +111,7 @@
                 Confirm Banknote
                 {% endif %}
             </h3>
-            <img src="{{ order.banknote_image.url }}">
+            <a href="{{ order.banknote_image.url }}"><img src="{{ order.banknote_image.url }}" style="width: 500px;"></a>
             <form action="{% url 'friendship:confirm_banknote' order.id %}" method="post" enctype=multipart/form-data>
                 {% csrf_token %}
                 {{ form.as_table }}

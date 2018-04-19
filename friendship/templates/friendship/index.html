@@ -26,7 +26,7 @@
 	<div class="container homepage-container">
 		<div id="homepage-start" class="shadow-xl section intro-image">
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-				<span style="white-space: nowrap">
+				<span>
 					{% if request.user.is_authenticated %}
 					{% if request.session.locale == 'th-TH' %}
 					ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
