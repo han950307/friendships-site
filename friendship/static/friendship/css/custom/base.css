@@ -23,9 +23,14 @@ form p {
 .section {
   overflow-x: scroll;
   padding-right: 17px;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 10px 0 10px 10px;
 }
-
+::-webkit-scrollbar {
+    display: none;
+}
 body {
   font-family: Thai !important;
 }
