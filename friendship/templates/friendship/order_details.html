@@ -111,6 +111,16 @@
                 Order Progress
                 {% endif %}
             </h3>
+
+            <!--24 hr timer between buy now and payment-->
+            <div class="{% if latest_action.action < MATCH_FOUND or latest_action.action >= BANKNOTE_UPLOADED %} {% endif %}" id="payment-timer-div">
+                {% if request.session.locale == 'th-TH' %}
+                <div id="payment-timer"></div>
+                {% else %}
+                <div id="payment-timer"></div>
+                {% endif %}
+            </div>
+
             <div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" id="order-bid-end-time"></div>
 
             <div class="ui-steps" id="order-details">
