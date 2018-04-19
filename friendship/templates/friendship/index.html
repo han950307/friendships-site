@@ -26,20 +26,23 @@
 	<div class="container homepage-container">
 		<div id="homepage-start" class="shadow-xl section intro-image">
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-				{% if request.user.is_authenticated %}
-				{% if request.session.locale == 'th-TH' %}
-				ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
-				{% else %}
-				Welcome {{ request.user.first_name }}, i
-				{% endif %}
-				I
-				{% endif %}
+				<span style="white-space: nowrap">
+					{% if request.user.is_authenticated %}
+					{% if request.session.locale == 'th-TH' %}
+					ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
+					{% else %}
+					Welcome {{ request.user.first_name }}, it's
+					{% endif %}
+					{% else %}
+					It's
+					{% endif %}
 
-				{% if request.session.locale == 'th-TH' %}
-				เริ่มต้นง่ายนิดเดียว!
-				{% else %}
-				t's simple to get started!
-				{% endif %}
+					{% if request.session.locale == 'th-TH' %}
+					เริ่มต้นง่ายนิดเดียว!
+					{% else %}
+					simple to get started!
+					{% endif %}
+				</span>
 			</p>
 			<form action="{% url 'friendship:place_order' %}">
 				<div class="input-group">
@@ -150,6 +153,13 @@
 						{% endif %}
 					</p>
 				</div>
+				<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
+					{% if request.session.locale == 'th-TH' %}
+					เริ่มกันเลย!
+					{% else %}
+					More Details
+					{% endif %}
+				</a>
 			</div><!-- .row -->
 		</div><!-- .container -->
 	</div><!-- .section -->
@@ -290,7 +300,7 @@
 				<!-- Wrapper for slides -->
 				<div class="slide-container col-12">
 					<div class="slide shadow-md">
-						<a href="https://www.glossier.com/products/boy-brow">
+						<a target="_blank" href="https://www.glossier.com/products/boy-brow">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/mockups/glossier-mockup.jpg' %}" alt="Glossier Boy Brow"/>
 							</div>
@@ -301,7 +311,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
+						<a target="_blank" href="https://www.boutiquemarron.com/aape-by-a-bathing-ape/men-long-sleeve-t/">
 							<div class="fill nailthumb-container" >
 								<img class="trending-image" src="{% static 'friendship/img/mockups/aape-mockup.jpg' %}" alt="AAPE Shirt"/>
 							</div>
@@ -312,7 +322,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.chanel.com">
+						<a target="_blank" href="https://www.chanel.com">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/trending-images/chanel-thumbnail.jpg' %}" alt="Chanel Purse"/>
 							</div>
@@ -323,7 +333,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.nike.com">
+						<a target="_blank" href="https://www.nike.com">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/trending-images/nike-thumbnail.jpg' %}" alt="Nike Shoes"/>
 							</div>
@@ -334,7 +344,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.starbucks.com">
+						<a target="_blank" href="https://www.starbucks.com">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/mockups/starbuck-mockup.png' %}" alt="Starbucks Mug"/>
 							</div>
@@ -345,7 +355,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.timberland.com">
+						<a target="_blank" href="https://www.timberland.com">
 							<div class="fill" nailthumb-container>
 								<img class="trending-image" src="{% static 'friendship/img/trending-images/timberland-thumbnail.jpg' %}" alt="Timberland Boots"/>
 							</div>
@@ -356,7 +366,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.hydroflask.com">
+						<a target="_blank" href="https://www.hydroflask.com">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/trending-images/hydroflask-thumbnail.jpg' %}" alt="Hydro Flask Bottles"/>
 							</div>
@@ -367,7 +377,7 @@
 						</div>
 					</div>
 					<div class="slide shadow-md">
-						<a href="https://www.victoriassecret.com">
+						<a target="_blank" href="https://www.victoriassecret.com">
 							<div class="fill nailthumb-container">
 								<img class="trending-image" src="{% static 'friendship/img/mockups/victoriasecret-mockup.jpg' %}" alt="Victoria's Secret Bras"/>
 							</div>

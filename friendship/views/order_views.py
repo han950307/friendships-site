@@ -67,19 +67,6 @@ def match_with_shipper(order):
             "! Please visit {url} for details and pay " + \
             "within 24 hours to receive your item.\n\n" + \
             "Your final price is {total_price_usd} ({total_price_thb}).\n"
-    html_message = "Dear {first_name},<br><br>We have found a match for you" + \
-            "! Please confirm or decline the following price " + \
-            "within 24 hours to receive your item.<br><br>" + \
-            "Your final price is {total_price_usd} ({total_price_thb})." + \
-            "To confirm or decline this price, please click one of the buttons below, " + \
-            "or visit the above link to review the details.<br><br>" + \
-            "<a href=\"{order_confirm}/True\"><button>CONFIRM</button></a><br><br>" + \
-            "<a href=\"{order_confirm}/False\"><button>DECLINE</button></a><br><br>"
-
-    if order.shipper.shipper_info.name:
-        shipper_name = order.shipper.shipper_info.name
-    else:
-        shipper_name = order.shipper.first_name
 
     body_str = body.format(
         first_name=order.receiver.first_name,
@@ -88,21 +75,12 @@ def match_with_shipper(order):
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
 
-    html_message_str = html_message.format(
-        first_name=order.receiver.first_name,
-        url="https://www.friendships.us/order_details/{}".format(order.id),
-        total_price_usd=order.final_bid.get_total_str(),
-        total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
-        order_confirm="https://www.friendships.us/{}".format(order.id)
-    )
-
     if not settings.LOCAL:
         mail.send_mail(
             "Your Order #{} Match Found!".format(order.id),
             body_str,
             "FriendShips <no-reply@friendships.us>",
             [order.receiver.email],
-            html_message=html_message_str
         )
 
 

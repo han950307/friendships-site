@@ -17,21 +17,15 @@ from friendship.forms import (
     ShippingCompanyRegistrationForm,
     BidForm,
     FlightAttendantRegistrationForm,
-
+)
+from backend.views import (
+    create_money_object,
+    make_bid,
 )
 from friendsite import settings
 
 import os
 import decimal
-
-
-
-def create_money_object(data_dict, key, currency):
-    if key in data_dict:
-        val = decimal.Decimal(data_dict[key])
-        return Money.objects.create(value=val, currency=currency)
-    else:
-        return None
 
 
 @login_required
@@ -48,15 +42,9 @@ def make_bid(request, order_id):
         form = BidForm(request.POST)
         if form.is_valid():
             data_dict = {x: v for x, v in form.cleaned_data.items()}
-            currency = int(data_dict["currency"])
+            data_dict["currency"] = int(data_dict["currency"])
             data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
-            bid = Bid.objects.create(
-                order=order,
-                shipper=request.user,
-                wages=create_money_object(data_dict, "wages", currency),
-                retail_price=create_money_object(data_dict, "retail_price", currency),
-                service_fee=create_money_object(data_dict, "service_fee", currency),
-            )
+            make_bid(**data_dict)
             return redirect('friendship:open_orders', "all")
     else:
         form = BidForm()

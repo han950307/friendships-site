@@ -47,7 +47,7 @@
             </h3>
             {% if order.item_image %}
             <div class="item-image">
-                <a href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
+                <a target="_blank" href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
             </div>
             {% endif %}
             <span class="bold"><h6>
@@ -56,7 +56,7 @@
                 {% else %}
                 URL:
                 {% endif %}
-            </h6></span> <p><a href="{{ order.url }}">{{ order_url }}</a></p>
+            </h6></span> <p><a target="_blank" href="{{ order.url }}">{{ order_url }}</a></p>
             <p><span class="black"><h6>
                 {% if request.session.locale == 'th-TH' %}
                 จำนวน

@@ -20,6 +20,7 @@ from friendship.forms import (
     UploadPictureForm,
 )
 from django import forms
+from django.core import mail
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 from django.contrib import messages

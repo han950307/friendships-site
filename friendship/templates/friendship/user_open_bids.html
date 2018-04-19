@@ -16,7 +16,7 @@
 		<div class="col-sm-13">Your Bid</div>
 	</div>
 </div>
-{% for item in orders%}
+{% for item in orders %}
 	<div id="matched-order-table">
 		{% if item.order.latest_action.action >= MATCH_FOUND %}
 		<div class="row">
