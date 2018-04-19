@@ -30,15 +30,13 @@ form p {
   src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Light.ttf) format("truetype");
 }
 
-.section {
-  overflow-x: scroll;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-}
-
 ::-webkit-scrollbar {
   display: none;
+}
+
+div.scrollable {
+  overflow-x: scroll;
+  box-sizing: border-box;
 }
 
 .btn-group .btn {
