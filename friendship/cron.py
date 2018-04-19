@@ -23,6 +23,8 @@ def order_bid_update():
         bid_end_datetime__lte=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     ).filter(
         shipper=None
+    ).filter(
+        latest_action__action__gt=OrderAction.Action.MATCH_NOT_FOUND
     )
 
     # then just match.
@@ -39,6 +41,8 @@ def order_bid_clean():
         bid_end_datetime__lte=end_time
     ).filter(
         latest_action__action__lt=OrderAction.Action.BANKNOTE_UPLOADED
+    ).filter(
+        latest_action__action__gt=OrderAction.Action.MATCH_NOT_FOUND
     )
 
     for order in orders:
