@@ -91,7 +91,7 @@ def send_bid_email(order):
         )
 
 
-def create_money_object(key, currency, **kwargs):
+def create_money_object(key, **kwargs):
     if key in kwargs:
         val = decimal.Decimal(**kwargs[key])
         return Money.objects.create(value=val, currency=kwargs["currency"])
@@ -108,9 +108,9 @@ def make_bid_backend(request, order, **kwargs):
     bid = Bid.objects.create(
         order=order,
         shipper=request.user,
-        wages=create_money_object(kwargs, "wages", kwargs),
-        retail_price=create_money_object(kwargs, "retail_price", kwargs),
-        service_fee=create_money_object(kwargs, "service_fee", kwargs),
+        wages=create_money_object("wages", kwargs),
+        retail_price=create_money_object("retail_price", kwargs),
+        service_fee=create_money_object("service_fee", kwargs),
     )
 
     if not Bid.objects.filter(order=order):
