@@ -60,6 +60,10 @@ nav > .container {
   left:10px;
 }
 
+.ui-hero.hero-bg::before {
+  background-size: cover;
+}
+
 .footer-copyright .container {
   max-width: 100%;
 }
@@ -75,6 +79,33 @@ h2 {
 #registration-form{
   max-width:100%;
 }
+
+div.main {
+  overflow-x: scroll;
+}
+
+div.orders div.row, div#orders-row {
+  min-width: 638px;
+}
+
+@media (max-width: 325px) {
+  .navbar img {
+    margin-left: -15px;
+  }
+}
+
+@media (min-width: 200px) {
+  div.main-content {
+    min-width: 200px;
+  }
+}
+
+@media (min-width: 576px) {
+  div.main-content {
+    min-width: 576px;
+  }
+}
+
 @media (min-width: 576px){
   #registration-form{
     max-width:90%;
@@ -176,10 +207,15 @@ MESSAGES
   color: #FFF;
 }
 
-.ui-gradient-purp,
-.ui-gradient-purp:hover {
+.ui-gradient-purp {
   background: -moz-linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
   background: linear-gradient(45deg, #7C7CFB 0%, #7C7CFB 100%);
+  color: #FFF;
+}
+
+.ui-gradient-purp:hover {
+  background: -moz-linear-gradient(45deg, #6f6fe1 0%, #6f6fe1 100%);
+  background: linear-gradient(45deg, #6f6fe1 0%, #6f6fe1 100%);
   color: #FFF;
 }
 
@@ -201,6 +237,16 @@ MESSAGES
   color: #FFF;
 }
 
+.btn.ui-gradient-peach{
+  background: -moz-linear-gradient(45deg, #feb66e 0%, #feb66e 100%);
+  background: linear-gradient(45deg, #feb66e 0%, #feb66e 100%);
+  color: #FFF;
+}
+.btn.ui-gradient-peach:hover{
+  background: -moz-linear-gradient(45deg, #e4a363 0%, #e4a363 100%);
+  background: linear-gradient(45deg, #e4a363 0%, #e4a363 100%);
+  color: #FFF;
+}
 div#right-pane{
   height: 400px;
 }

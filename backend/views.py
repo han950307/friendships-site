@@ -5,6 +5,7 @@ from django.contrib.auth import (
     login,
     logout,
 )
+from django.core import mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.throttling import AnonRateThrottle
@@ -21,12 +22,16 @@ from friendsite.settings import (
     LINE_CLIENT_ID,
 )
 
+from friendsite import settings
+
 from friendsite_social_auth.models import LineUser, FacebookUser
+import friendship
 from friendship.models import (
     ShipperInfo,
     ShippingAddress,
     Order,
     OrderAction,
+    Money,
     Bid,
     Message,
 )
@@ -39,6 +44,7 @@ import requests
 import json
 import datetime
 import pytz
+import decimal
 import re
 import random
 
@@ -48,6 +54,70 @@ BAD_DATA_MSG = "Data passed in was bad."
 
 
 # BACKEND DOESNT RENDER ANYTHING!
+def send_order_created_email(order):
+    """
+    Temporary function to notify army and hansung when each order is created.
+    """
+    body = "yo an order got created"
+
+    # Only send for prod bc we dont care about testing in local.
+    if not settings.DEBUG:
+        mail.send_mail(
+            "Order #{} Created by {} {}".format(order.id, order.receiver.first_name, order.receiver.last_name),
+            body,
+            "FriendShips <no-reply@friendships.us>",
+            ["nt62@duke.edu", "h.k@duke.edu"],
+            fail_silently=False,
+        )
+
+
+def send_bid_email(order):
+    """
+    Send an email for this order.
+    """
+    body = "Dear {first_name},\n\nYou have your first bid on your item" + \
+            "! Please visit {url} for the details"
+
+    body_str = body.format(
+        first_name=order.receiver.first_name,
+        url="https://www.friendships.us/order_details/{}".format(order.id),
+    )
+
+    if not settings.LOCAL:
+        mail.send_mail(
+            "First Bid on Order #{}".format(order.id),
+            body_str,
+            "FriendShips <no-reply@friendships.us>",
+            [order.receiver.email],
+            fail_silently=False,
+        )
+
+
+def create_money_object(key, **kwargs):
+    if key in kwargs:
+        val = decimal.Decimal(kwargs[key])
+        return Money.objects.create(value=val, currency=kwargs["currency"])
+    else:
+        return None
+
+
+def make_bid_backend(request, order, **kwargs):
+    """
+    Creates a bid objects. requires "retail_price", "currency" (int),
+    "wages"
+    """
+    kwargs["service_fee"] = decimal.Decimal(kwargs["retail_price"]) * settings.SERVICE_FEE_RATE
+    bid = Bid.objects.create(
+        order=order,
+        shipper=request.user,
+        wages=create_money_object("wages", **kwargs),
+        retail_price=create_money_object("retail_price", **kwargs),
+        service_fee=create_money_object("service_fee", **kwargs),
+    )
+
+    if not Bid.objects.filter(order=order):
+        send_bid_email(order)
+
 
 ### ACCOUNT FUNCTIONS ###
 def create_line_user(user, **kwargs):
@@ -157,13 +227,10 @@ def create_order(**kwargs):
         estimated_weight = kwargs["estimated_weight"]
 
     order = Order.objects.create(**kwargs["data"])
+    friendship.views.create_action_for_order(order, OrderAction.Action.ORDER_PLACED)
 
-    action = OrderAction.objects.create(
-        order=order,
-        action=OrderAction.Action.ORDER_PLACED,
-    )
-    order.latest_action = action
-    order.save()
+    if not settings.LOCAL:
+        send_order_created_email(order)
 
     return order
 

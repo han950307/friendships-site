@@ -43,14 +43,14 @@ function twoDigit(num) {
     document.getElementById('online-wire-transfer').style.display = "block";
   }
 
-function on() {
-    document.getElementById("overlay").style.display = "block";
-}
+// function on() {
+//     document.getElementById("overlay").style.display = "block";
+// }
 
-function off() {
-    document.getElementById("overlay").style.display = "none";
-}
+// function off() {
+//     document.getElementById("overlay").style.display = "none";
+// }
 
-$( document ).ready(function() {
-    on();
-});
+// $( document ).ready(function() {
+//     on();
+// });

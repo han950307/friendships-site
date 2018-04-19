@@ -227,6 +227,11 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
+    item_receipt_image = models.ImageField(
+        upload_to=RandomFileName('item-receipt-image'),
+        null=True,
+        blank=True,
+    )
     estimated_weight = models.IntegerField(
         default=0,
     )
@@ -313,8 +318,6 @@ class PaymentAction(models.Model):
     payment_type = models.IntegerField(
         choices = ((x.value, str(x)) for x in PaymentType)
     )
-
-    account_number = models.CharField(max_length=100, null=True, blank=True)
 
 
 class OrderAction(models.Model):

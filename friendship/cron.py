@@ -7,7 +7,7 @@ from friendship.models import (
     Bid,
     OrderAction
 )
-from friendship.views import match_with_shipper
+from friendship.views import match_with_shipper, create_action_for_order
 
 import datetime
 import pytz
@@ -23,6 +23,8 @@ def order_bid_update():
         bid_end_datetime__lte=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     ).filter(
         shipper=None
+    ).filter(
+        latest_action__action__gt=OrderAction.Action.MATCH_NOT_FOUND
     )
 
     # then just match.
@@ -38,13 +40,10 @@ def order_bid_clean():
     orders = Order.objects.filter(
         bid_end_datetime__lte=end_time
     ).filter(
-        latest_action__action__lt=OrderAction.Action.PAYMENT_RECEIVED
+        latest_action__action__lt=OrderAction.Action.BANKNOTE_UPLOADED
+    ).filter(
+        latest_action__action__gt=OrderAction.Action.MATCH_NOT_FOUND
     )
 
     for order in orders:
-        action = OrderAction.objects.create(
-            order=order,
-            action=OrderAction.Action.ORDER_DECLINED,
-        )
-        order.latest_action = action
-        order.save()
+        create_action_for_order(order, OrderAction.Action.ORDER_DECLINED)
