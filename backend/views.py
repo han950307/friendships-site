@@ -93,7 +93,7 @@ def send_bid_email(order):
 
 def create_money_object(key, **kwargs):
     if key in kwargs:
-        val = decimal.Decimal(**kwargs[key])
+        val = decimal.Decimal(kwargs[key])
         return Money.objects.create(value=val, currency=kwargs["currency"])
     else:
         return None
