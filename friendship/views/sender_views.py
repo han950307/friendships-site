@@ -20,7 +20,7 @@ from friendship.forms import (
 )
 from backend.views import (
     create_money_object,
-    make_bid,
+    make_bid_backend,
 )
 from friendsite import settings
 
@@ -44,7 +44,7 @@ def make_bid(request, order_id):
             data_dict = {x: v for x, v in form.cleaned_data.items()}
             data_dict["currency"] = int(data_dict["currency"])
             data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
-            make_bid(request, **data_dict)
+            make_bid_backend(request, **data_dict)
             return redirect('friendship:open_orders', "all")
     else:
         form = BidForm()
