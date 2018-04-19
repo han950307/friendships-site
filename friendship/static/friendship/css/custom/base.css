@@ -15,6 +15,11 @@ form p {
   src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Bold.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "ThaiLight";
+  src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Light.ttf) format("truetype");
+}
+
 body {
   font-family: Thai !important;
 }
@@ -244,7 +249,7 @@ div#right-pane{
     padding: 2rem 2rem;
     /*margin: 2rem 8rem;*/
     min-width:600px;
-  }  
+  }
 }
 
 @media (min-width: 1200px) {
@@ -510,7 +515,7 @@ div.orders {
     display: none; /* Hidden by default */
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
-    top: 0; 
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -682,6 +687,14 @@ span#time_countdown {
 
 #wire-payment button:hover {
   background-color: #111111;
+}
+
+.hidden {
+  display: none;
+}
+
+#payment-timer {
+  color: red;
 }
 
 /* for my order view */
