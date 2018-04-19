@@ -99,7 +99,7 @@ def create_money_object(key, currency, **kwargs):
         return None
 
 
-def make_bid_backend(request, **kwargs):
+def make_bid_backend(request, order, **kwargs):
     """
     Creates a bid objects. requires "service_fee", "retail_price", "currency" (int),
     "wages"
