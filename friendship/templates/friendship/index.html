@@ -28,7 +28,7 @@
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
 				{% if request.user.is_authenticated %}
 				{% if request.session.locale == 'th-TH' %}
-				ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
+				ยินดีต้อนรับคุณ {{ request.user.first_name}} -
 				{% else %}
 				Welcome {{ request.user.first_name }},
 				{% endif %}
@@ -376,6 +376,28 @@
 							<p>Victoria's Secret Bras</p>
 						</div>
 					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.amazon.com/All-New-Amazon-Fire-7-Tablet/dp/B01GEW27DA/ref=ice_ac_b_dpb?s=amazon-devices&ie=UTF8&qid=1524025119&sr=1-1&keywords=kindle+fire">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/fire7tablet-thumbnail.jpg' %}" alt="Fire 7 Tablet"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Fire 7 Tablet</p>
+						</div>
+					</div>
+					<div class="slide shadow-md">
+						<a href="https://www.amazon.com/gp/product/B01DFKC2SO?ref=ODS_HA_B_surl&tag=googhydr-20&hvadid=256277261670&hvpos=1t1&hvnetw=g&hvrand=14607129574375491392&hvpone=&hvptwo=&hvqmt=b&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9060147&hvtargid=kwd-330765436234&ref=pd_sl_5dhcl9gqwz_e">
+							<div class="fill nailthumb-container">
+								<img class="trending-image" src="{% static 'friendship/img/trending-images/echodot-thumbnail.jpg' %}" alt="Echo Dot"/>
+							</div>
+						</a>
+						<div class="img-container">
+							<br>
+							<p>Echo Dot</p>
+						</div>
+					</div>
 				</div><!--.slide-container -->
 				<div class="col-1"> </div>
 			</div><!--.row -->
@@ -394,11 +416,11 @@
 			</h2>
 			<div class="row text-center">
 				<div class="col-md-6 pb-5">
-					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/IOS_logo.svg' %}" 
+					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/IOS_logo.svg' %}"
 					alt="Android"/>
 				</div>
 				<div class="col-md-6 pb-5">
-					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/Android_robot.svg' %}" 
+					<img class="img-responsive" src="{% static 'friendship/img/3rd-party-logos/Android_robot.svg' %}"
 					alt="iOS"/>
 				</div>
 			</div>
