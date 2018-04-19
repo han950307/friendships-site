@@ -42,6 +42,7 @@ import requests
 import json
 import datetime
 import pytz
+import decimal
 import re
 import random
 
