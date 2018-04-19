@@ -30,6 +30,7 @@ from friendship.models import (
     ShippingAddress,
     Order,
     OrderAction,
+    Money,
     Bid,
     Message,
 )
