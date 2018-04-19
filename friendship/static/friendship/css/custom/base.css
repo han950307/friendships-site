@@ -20,6 +20,12 @@ form p {
   src: url(/static/friendship/webfonts/thai-fonts/SukhumvitSet-Light.ttf) format("truetype");
 }
 
+.section {
+  overflow-x: scroll;
+  padding-right: 17px;
+  box-sizing: content-box;
+}
+
 body {
   font-family: Thai !important;
 }
@@ -83,10 +89,6 @@ h2 {
 
 #registration-form{
   max-width:100%;
-}
-
-div.main {
-  overflow-x: scroll;
 }
 
 div.orders div.row, div#orders-row {
