@@ -724,7 +724,7 @@ div.orders {
   margin-bottom: .8rem;
 }
 
-@media (min-width:768px){
+@media (max-width: 768px){
   #order-headings .col-xl-8{
     padding-left: 1rem;
   }
