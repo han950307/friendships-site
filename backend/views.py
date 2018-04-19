@@ -98,7 +98,7 @@ def create_money_object(key, currency, **kwargs):
         return None
 
 
-def make_bid(**kwargs):
+def make_bid(request, **kwargs):
     """
     Creates a bid objects. requires "service_fee", "retail_price", "currency" (int),
     "wages"
