@@ -108,9 +108,9 @@ def make_bid_backend(request, order, **kwargs):
     bid = Bid.objects.create(
         order=order,
         shipper=request.user,
-        wages=create_money_object("wages", kwargs),
-        retail_price=create_money_object("retail_price", kwargs),
-        service_fee=create_money_object("service_fee", kwargs),
+        wages=create_money_object("wages", **kwargs),
+        retail_price=create_money_object("retail_price", **kwargs),
+        service_fee=create_money_object("service_fee", **kwargs),
     )
 
     if not Bid.objects.filter(order=order):
