@@ -227,6 +227,11 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
+    item_receipt_image = models.ImageField(
+        upload_to=RandomFileName('item-receipt-image'),
+        null=True,
+        blank=True,
+    )
     estimated_weight = models.IntegerField(
         default=0,
     )

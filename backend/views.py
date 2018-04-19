@@ -25,6 +25,7 @@ from friendsite.settings import (
 from friendsite import settings
 
 from friendsite_social_auth.models import LineUser, FacebookUser
+import friendship
 from friendship.models import (
     ShipperInfo,
     ShippingAddress,
@@ -102,7 +103,7 @@ def create_money_object(key, **kwargs):
 
 def make_bid_backend(request, order, **kwargs):
     """
-    Creates a bid objects. requires "service_fee", "retail_price", "currency" (int),
+    Creates a bid objects. requires "retail_price", "currency" (int),
     "wages"
     """
     kwargs["service_fee"] = decimal.Decimal(kwargs["retail_price"]) * settings.SERVICE_FEE_RATE
@@ -226,13 +227,7 @@ def create_order(**kwargs):
         estimated_weight = kwargs["estimated_weight"]
 
     order = Order.objects.create(**kwargs["data"])
-
-    action = OrderAction.objects.create(
-        order=order,
-        action=OrderAction.Action.ORDER_PLACED,
-    )
-    order.latest_action = action
-    order.save()
+    friendship.views.create_action_for_order(order, OrderAction.Action.ORDER_PLACED)
 
     if not settings.LOCAL:
         send_order_created_email(order)

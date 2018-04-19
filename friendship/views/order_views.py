@@ -11,6 +11,7 @@ from ..models import (
     ShippingAddress,
     PaymentAction,
     Message,
+    TrackingNumber,
     Money,
 )
 
@@ -117,6 +118,22 @@ def order_details(request, order_id, **kwargs):
         order_url = order.url[0:47] + "..."
     else:
         order_url = order.url
+
+    us_tracking = TrackingNumber.objects.filter(
+        order=order
+    ).filter(
+        shipping_stage=TrackingNumber.ShippingStage.MERCHANT_TO_SHIPPER
+    )
+    thai_tracking = TrackingNumber.objects.filter(
+        order=order
+    ).filter(
+        shipping_stage=TrackingNumber.ShippingStage.DOMESTIC_TO_RECEIVER
+    )
+
+    data_dict.update({
+        'us_tracking': us_tracking[0] if us_tracking else None,
+        'thai_tracking': thai_tracking[0] if thai_tracking else None
+    })
 
     data_dict.update({
         'order': order,
@@ -227,6 +244,8 @@ def open_orders(request, filter):
             '-bid_end_datetime'
         ).filter(
             shipper=None
+        ).filter(
+            latest_action__action__lte=OrderAction.Action.MATCH_FOUND
         )
 
         # Get minimum bid.

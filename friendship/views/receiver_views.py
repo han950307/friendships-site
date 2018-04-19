@@ -29,6 +29,7 @@ from friendship.views import(
     order_details,
     get_min_bid,
     match_with_shipper,
+    create_action_for_order,
 )
 import datetime
 import requests
@@ -62,12 +63,7 @@ def upload_picture_process(request, order_id):
 
         if form.is_valid():
             imagef = form.cleaned_data["picture"]
-            action = OrderAction.objects.create(
-                order=order,
-                action=OrderAction.Action.BANKNOTE_UPLOADED
-            )
-            order.latest_action = action
-            order.save()
+            create_action_for_order(order, OrderAction.Action.BANKNOTE_UPLOADED)
             return redirect('friendship:order_details', pk=order_id)
         else:
             messages.error(request, 'Bad image')

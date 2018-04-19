@@ -554,7 +554,62 @@
                         {% endif %}
                     </h4>
                 </div>
-                {% elif latest_action.action >= ITEM_ORDERED_BY_FRIENDSHIPS %}
+                {% elif latest_action.action <= ITEM_SHIPPED_BY_MERCHANT %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        สั่งซื้อโดย FriendShips สำเร็จแล้ว
+                        {% else %}
+                        Item Ordered By FriendShips
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="col-auto">
+                    <table class="bid-info-table">
+                        {% if us_tracking %}
+                        <tr class="bid-info-row">
+                            <td>
+                                {% if request.session.locale == 'th-TH' %}
+                                ธนาคาร
+                                {% else %}
+                                Carrier
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ us_tracking.provider }}
+                            </td>
+                        </tr>
+                        <tr class="bid-info-row">
+                            <td>
+                                {% if request.session.locale == 'th-TH' %}
+                                ธนาคาร
+                                {% else %}
+                                Tracking Number
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ us_tracking.tracking_number }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if order.item_receipt_image %}
+                        <tr class="bid-info-row">
+                            <td>
+                                {% if request.session.locale == 'th-TH' %}
+                                ธนาคาร
+                                {% else %}
+                                Purchase Receipt Image
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a target="_blank" href="{{ order.item_receipt_image.url }}"><img style="width:50px" src="{{ order.item_receipt_image.url }}"></a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>                
+                {% elif latest_action.action > ITEM_SHIPPED_BY_MERCHANT %}
                 <span class="step-number ui-gradient-blue"><i class="fas fa-check"></i></span>
                 <div class="col-auto">
                     <h4>
@@ -574,28 +629,11 @@
             <div class="row">
                 {% if latest_action.action < ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey">5</span>
-                <div class="col-auto">
-                    <h4>
-                        {% if request.session.locale == 'th-TH' %}
-                        ถึงผู้ส่งแล้ว
-                        {% else %}
-                        Sender Received Item
-                        {% endif %}
-                    </h4>
-                </div>
                 {% elif latest_action.action == ITEM_ORDERED_BY_FRIENDSHIPS or latest_action.action == ITEM_SHIPPED_BY_MERCHANT %}
-                <span class="step-number ui-gradient-green">5</span> 
-                <div class="col-auto">
-                    <h4>
-                        {% if request.session.locale == 'th-TH' %}
-                        ถึงผู้ส่งแล้ว
-                        {% else %}
-                        Sender Received Item
-                        {% endif %}
-                    </h4>
-                </div>
+                <span class="step-number ui-gradient-green">5</span>
                 {% elif latest_action.action >= ITEM_RECEIVED_BY_SHIPPER %}
                 <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
+                {% endif %}
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
@@ -605,7 +643,6 @@
                         {% endif %}
                     </h4>
                 </div>
-                {% endif %}
             </div>
         </div>
 
@@ -614,6 +651,58 @@
             <div class="row">
                 {% if latest_action.action < ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey">6</span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        ถึงไทยแล้ว
+                        {% else %}
+                        Arrived in Thailand
+                        {% endif %}
+                    </h4>
+                </div>
+                {% elif latest_action.action >= ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER %}
+                <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
+                <div class="col-auto">
+                    <h4>
+                        {% if request.session.locale == 'th-TH' %}
+                        ถึงไทยแล้ว
+                        {% else %}
+                        Arrived in Thailand
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="col-auto">
+                    <table class="bid-info-table">
+                        {% if thai_tracking %}
+                        <tr class="bid-info-row">
+                            <td>
+                                {% if request.session.locale == 'th-TH' %}
+                                ธนาคาร
+                                {% else %}
+                                Carrier
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ thai_tracking.provider }}
+                            </td>
+                        </tr>
+                        <tr class="bid-info-row">
+                            <td>
+                                {% if request.session.locale == 'th-TH' %}
+                                ธนาคาร
+                                {% else %}
+                                Tracking Number
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ thai_tracking.tracking_number }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+                {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
+                <span class="step-number ui-gradient-green">6</span>
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
@@ -634,17 +723,6 @@
                         {% endif %}
                     </h4>
                 </div>
-                {% elif latest_action.action == ITEM_RECEIVED_BY_SHIPPER or latest_action.action == ITEM_IN_TRANSIT_BY_SHIPPER %}
-                <span class="step-number ui-gradient-green">6</span>
-                <div class="col-auto">
-                    <h4>
-                        {% if request.session.locale == 'th-TH' %}
-                        ถึงไทยแล้ว
-                        {% else %}
-                        Arrived in Thailand
-                        {% endif %}
-                    </h4>
-                </div>
                 {% endif %}
             </div>
         </div>
@@ -654,28 +732,11 @@
             <div class="row">
                 {% if latest_action.action < ITEM_ARRIVED_IN_THAILAND or latest_action.action == ORDER_DECLINED %}
                 <span class="step-number ui-gradient-grey">7</span>
-                <div class="col-auto">
-                    <h4>
-                        {% if request.session.locale == 'th-TH' %}
-                        ถึงคุณแล้ว
-                        {% else %}
-                        Item Delivered
-                        {% endif %}
-                    </h4>
-                </div>
                 {% elif latest_action.action >= ORDER_FULFILLED %}
                 <span class="step-number ui-gradient-blue"><i class="fas fa-check" ></i></span>
-                <div class="col-auto">
-                    <h4>
-                        {% if request.session.locale == 'th-TH' %}
-                        ถึงคุณแล้ว
-                        {% else %}
-                        Item Delivered
-                        {% endif %}
-                    </h4>
-                </div>
                 {% else %}
                 <span class="step-number ui-gradient-green">7</span>
+                {% endif %}
                 <div class="col-auto">
                     <h4>
                         {% if request.session.locale == 'th-TH' %}
@@ -685,7 +746,6 @@
                         {% endif %}
                     </h4>
                 </div>
-                {% endif %}
             </div>
         </div>
     </div>

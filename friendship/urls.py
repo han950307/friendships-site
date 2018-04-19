@@ -53,7 +53,13 @@ urlpatterns = [
         views.SenderRegistrationWizard.as_view(),
         name='sender_registration',
     ),
-    path('user_open_bids', views.user_open_bids, name='user_open_bids'),
+    path('user_open_bids/', views.user_open_bids, name='user_open_bids'),
+    path('confirm_banknote/<int:order_id>', views.confirm_banknote, name='confirm_banknote'),
+    path('confirm_item_purchased_receipt/<int:order_id>', views.confirm_item_purchased_receipt, name='confirm_item_purchased_receipt'),
+    path('confirm_item_shipped_by_merchant/<int:order_id>', views.confirm_item_shipped_by_merchant, name='confirm_item_shipped_by_merchant'),
+    path('confirm_item_received/<int:order_id>', views.confirm_item_received, name='confirm_item_received'),
+    path('confirm_item_shipped_in_thailand/<int:order_id>', views.confirm_item_shipped_in_thailand, name='confirm_item_shipped_in_thailand'),
+    path('confirm_item_arrived_in_thailand/<int:order_id>', views.confirm_item_arrived_in_thailand, name='confirm_item_arrived_in_thailand'),
 
     # Other views
     path('testing/', views.testing, name='testing'),
