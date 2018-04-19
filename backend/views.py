@@ -63,6 +63,7 @@ def send_order_created_email(order):
             body,
             "FriendShips <no-reply@friendships.us>",
             ["nt62@duke.edu", "h.k@duke.edu"],
+            fail_silently=False,
         )
 
 
@@ -84,6 +85,7 @@ def send_bid_email(order):
             body_str,
             "FriendShips <no-reply@friendships.us>",
             [order.receiver.email],
+            fail_silently=False,
         )
 
 
@@ -226,8 +228,9 @@ def create_order(**kwargs):
     order.latest_action = action
     order.save()
 
-    send_order_created_email(order)
-    send_bid_email(order)
+    if not settings.LOCAL:
+        send_order_created_email(order)
+        send_bid_email(order)
 
     return order
 
