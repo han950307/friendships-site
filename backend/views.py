@@ -57,6 +57,7 @@ def send_order_created_email(order):
     """
     body = "yo an order got created"
 
+    # Only send for prod bc we dont care about testing in local.
     if not settings.DEBUG:
         mail.send_mail(
             "Order #{} Created by {} {}".format(order.id, order.receiver.first_name, order.receiver.last_name),
@@ -110,6 +111,9 @@ def make_bid(**kwargs):
         retail_price=create_money_object(kwargs, "retail_price", kwargs["currency"]),
         service_fee=create_money_object(kwargs, "service_fee", kwargs["currency"]),
     )
+
+    if not Bid.objects.filter(order=order):
+        send_bid_email(order)
 
 
 ### ACCOUNT FUNCTIONS ###
@@ -230,7 +234,6 @@ def create_order(**kwargs):
 
     if not settings.LOCAL:
         send_order_created_email(order)
-        send_bid_email(order)
 
     return order
 
