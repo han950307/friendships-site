@@ -65,101 +65,101 @@ Your Orders
 			</a></div>
 
 			<!-- DATE -->
-{% if request.session.locale == 'th-TH' %}
+			{% if request.session.locale == 'th-TH' %}
 			<div class="col-sm-13 .font-weight-light">{% get_date_str order.date_placed 'date' 'th_TH' 'Asia/Bangkok' %}</div>
-{% else %}
+			{% else %}
 			<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
-{% endif %}
+			{% endif %}
 
 			<!-- Payment Status -->
 			<div class="col-sm-13">
 				{% if order.latest_action.action < MATCH_FOUND %}
 				<span>--</span>
 				{% elif order.latest_action.action == BANKNOTE_UPLOADED %}
-				<span class="btn btn-sm ui-gradient-inprogress">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-peach">
 					{% if request.session.locale == 'th-TH' %}
 					ระหว่างการตวรจสอบ
 					{% else %}
 					Verifying
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action < PAYMENT_RECEIVED or order.latest_action.action == ORDER_DECLINED %}
-				<span class="btn btn-sm ui-gradient-negative">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
 					{% if request.session.locale == 'th-TH' %}
 					รอการชำระ
 					{% else %}
 					Unfulfilled
 					{% endif %}
-				</span>
+				</a>
 				{% else %}
-				<span class="btn btn-sm ui-gradient-positive">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-green">
 					{% if request.session.locale == 'th-TH' %}
 					ชำระเรียบร้อย
 					{% else %}
 					Fulfilled
 					{% endif %}
-				</span>
+				</a>
 				{% endif %}
 			</div>
 
 			<!-- Order Status -->
 			<div class="col-sm-13">
 				{% if order.latest_action.action == MATCH_NOT_FOUND %}
-				<span class="btn btn-sm ui-gradient-negative">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
 					{% if request.session.locale == 'th-TH' %}
 					จับคู่ไม่สำเร็จ
 					{% else %}
 					No Match
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action < MATCH_FOUND %}
-				<span class="btn btn-sm ui-gradient-inprogress">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-peach">
 					{% if request.session.locale == 'th-TH' %}
 					กำลังหาคู่
 					{% else %}
-					Matching
+					matching
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
-				<span class="btn btn-sm ui-gradient-found">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-blue">
 					{% if request.session.locale == 'th-TH' %}
 					จับคู่สำเร็จ
 					{% else %}
 					Matched
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action == ORDER_FULFILLED %}
-				<span class="btn btn-sm ui-gradient-positive">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-green">
 					{% if request.session.locale == 'th-TH' %}
 					ส่งถึงแล้ว
 					{% else %}
 					Delivered
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action == ORDER_DECLINED %}
-				<span class="btn btn-sm ui-gradient-negative">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
 					{% if request.session.locale == 'th-TH' %}
 					ถูกยกเลิก
 					{% else %}
 					Declined
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action < ORDER_CLOSED and order.latest_action.action > PAYMENT_RECEIVED %}
-				<span class="btn btn-sm ui-gradient-purp">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-purp">
 					{% if request.session.locale == 'th-TH' %}
 					กำลังเดินทาง
 					{% else %}
 					On the way
 					{% endif %}
-				</span>
+				</a>
 				{% elif order.latest_action.action >= ORDER_CLOSED %}
-				<span class="btn btn-sm ui-gradient-negative">
+				<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
 					{% if request.session.locale == 'th-TH' %}
 					ถูกระงับ
 					{% else %}
 					Order Closed
 					{% endif %}
-				</span>
+				</a>
 				{% endif %}
 			</div>
 

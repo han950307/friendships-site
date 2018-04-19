@@ -250,6 +250,30 @@ class UploadPictureForm(forms.Form):
     picture = forms.ImageField()
 
 
+class ConfirmBanknoteForm(forms.Form):
+    is_ok = forms.ChoiceField(
+        widget=forms.RadioSelect(
+            attrs={
+                'required': 'required',
+                'checked': 'false',
+            }
+        ),
+        choices=[
+            (True, "Confirm"),
+            (False, "Reject"),
+        ]
+    )
+
+
+class UploadTrackingNumberForm(forms.Form):
+    tracking_number = forms.CharField(max_length=140)
+    provider = forms.CharField(max_length=450)
+
+
+class UploadItemPurchasedReceiptForm(forms.Form):
+    picture = forms.ImageField()
+
+
 class ShippingAddressForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress
