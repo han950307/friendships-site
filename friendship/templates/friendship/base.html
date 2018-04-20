@@ -2,7 +2,6 @@
 {% load static %}
 <html lang="zxx">
 <head>
-
 	<meta charset="utf-8">
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,9 +130,9 @@
 								<!-- locale change -->
 								<li>
 									{% if request.session.locale == 'th-TH' %}
-									<a href="{% url 'friendship:change_locale' 'en-US' %}">English</a>
+									<a href="{% url 'friendship:change_locale' 'en-US' request.path|urlencode:'' %}">English</a>
 									{% else %}
-									<a href="{% url 'friendship:change_locale' 'th-TH' %}">ภาษาไทย</a>
+									<a href="{% url 'friendship:change_locale' 'th-TH' request.path|urlencode:'' %}">ภาษาไทย</a>
 									{% endif %}
 								</li>
 

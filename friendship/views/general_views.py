@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-
+import urllib
 
 def index(request, **kwargs):
     """
@@ -18,16 +18,16 @@ def how_it_works(request):
 
 
 def about_us(request):
-	return render(request, 'friendship/about_us.html', {})
+    return render(request, 'friendship/about_us.html', {})
 
 
-def change_locale(request, locale):
-	request.session['locale'] = locale
-	return redirect('friendship:index')
+def change_locale(request, locale, next_url, **kwargs):
+    request.session['locale'] = locale
+    return redirect(urllib.parse.unquote(next_url), **kwargs)
 
 
 def become_a_sender(request):
-	return render(request, 'friendship/become_a_sender.html', {})
+    return render(request, 'friendship/become_a_sender.html', {})
 
 
 def contact_us(request):
