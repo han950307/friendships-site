@@ -65,7 +65,7 @@ urlpatterns = [
     path('testing/', views.testing, name='testing'),
     path('how_it_works/', views.how_it_works, name='how_it_works'),
     path('about_us/', views.about_us, name='about_us'),
-    path('change_locale/<str:locale>', views.change_locale, name='change_locale'),
+    path('change_locale/<str:locale>/<str:next_url>', views.change_locale, name='change_locale'),
     path('contact_us/', views.contact_us, name='contact_us'),
     path('become_a_sender/', views.become_a_sender, name='become_a_sender'),
 ]

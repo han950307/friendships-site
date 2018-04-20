@@ -141,13 +141,13 @@ div.orders div.row, div#orders-row, div#orders-header {
 
 @media (min-width: 320px) {
   div.main-content {
-    min-width: 320px;
+    min-width: calc(320px - 4rem);
   }
 }
 
 @media (min-width: 576px) {
   div.main-content {
-    min-width: 576px;
+    min-width: calc(576px - 4rem);
   }
 }
 
@@ -461,6 +461,40 @@ div#right-pane{
 @media (min-width: 1200px){
   #login-container {
     max-width: 50%;
+  }
+}
+
+/* 3. HOW IT WORKS */
+#how-it-works p {
+  max-width: 100%
+}
+
+#how-it-works img {
+  width: 100% !important;
+  height: auto;
+}
+
+@media (min-width: 320px) {
+  #features2 .ui-icon-block img {
+    max-width: 240px !important; /*dorothy settings */
+  }
+}
+
+@media (min-width: 576px) {
+  #features2 .ui-icon-block img {
+    max-width: 320px !important; /*dorothy settings */
+  }
+}
+
+@media (min-width: 768px) {
+  #features2 .ui-icon-block img {
+    max-width: 320px !important; /*dorothy settings */
+  }
+}
+
+@media (min-width: 1200px) {
+  #features2 .ui-icon-block img {
+    max-width: 85% !important; /*dorothy settings */
   }
 }
 
