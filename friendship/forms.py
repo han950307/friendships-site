@@ -229,7 +229,10 @@ class OrderForm(forms.ModelForm):
                and int(self.cleaned_data['quantity']) > 0
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, initial=kwargs['initial'])
+        if 'initial' in kwargs:
+            super().__init__(*args, initial=kwargs['initial'])
+        else:
+            super().__init__(*args)
         self.locale = kwargs['locale']
         if self.locale == "th-TH":
             self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
