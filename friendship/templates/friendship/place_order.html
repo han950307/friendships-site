@@ -25,17 +25,17 @@ It's easy as ship
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="form-group">
-            {# {{ form.url.errors }} #}
+            {{ form.url.errors }}
             {{ form.url }}
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6 left">
-                    {# {{ form.quantity.errors }} #}
+                    {{ form.quantity.errors }}
                     {{ form.quantity }}
                 </div>
                 <div class="col-sm-6 right">
-                    {# {{ form.merchandise_type.errors }} #}
+                    {{ form.merchandise_type.errors }}
                     {{ form.merchandise_type }}
                 </div>
             </div>
@@ -43,17 +43,17 @@ It's easy as ship
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6 left">
-                    {# {{ form.size.errors }} #}
+                    {{ form.size.errors }}
                     {{ form.size }}
                 </div>
                 <div class="col-sm-6 right">
-                    {# {{ form.color.errors }} #}
+                    {{ form.color.errors }}
                     {{ form.color }}
                 </div>
             </div>
         </div>
         <div class="form-group">
-            {# {{ form.description.errors }} #}
+            {{ form.description.errors }}
             {{ form.description }}
         </div>
         <div class="form-group" style="margin-top:2rem;">
@@ -127,25 +127,25 @@ It's easy as ship
         </div>
         <div id="edit-address-form" style="display: none">
             <div class="form-group">
-                {# {{ shipping_address_form.name.errors }} #}
+                {{ shipping_address_form.name.errors }}
                 {{ shipping_address_form.name }}
             </div>
             <div class="form-group">
-                {# {{ shipping_address_form.address_line_1.errors }} #}
+                {{ shipping_address_form.address_line_1.errors }}
                 {{ shipping_address_form.address_line_1 }}
             </div>
             <div class="form-group">
-                {# {{ shipping_address_form.address_line_1.errors }} #}
+                {{ shipping_address_form.address_line_1.errors }}
                 {{ shipping_address_form.address_line_2 }}
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        {# {{ shipping_address_form.city.errors }} #}
+                        {{ shipping_address_form.city.errors }}
                         {{ shipping_address_form.city }}
                     </div>
                     <div class="col-sm-6">
-                        {# {{ shipping_address_form.region.errors }} #}
+                        {{ shipping_address_form.region.errors }}
                         {{ shipping_address_form.region }}
                     </div>
                 </div>
@@ -153,42 +153,42 @@ It's easy as ship
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-6">
-                        {# {{ shipping_address_form.postal_code.errors }} #}
+                        {{ shipping_address_form.postal_code.errors }}
                         {{ shipping_address_form.postal_code }}
                     </div>
                     <div class="col-sm-6">
-                        {# {{ shipping_address_form.country.errors }} #}
+                        {{ shipping_address_form.country.errors }}
                         {{ shipping_address_form.country }}
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                {# {{ shipping_address_form.phone.errors }} #}
+                {{ shipping_address_form.phone.errors }}
                 {{ shipping_address_form.phone }}
             </div>
         </div>
         {% empty %}
         </h4>
         <div class="form-group">
-            {# {{ shipping_address_form.name.errors }} #}
+            {{ shipping_address_form.name.errors }}
             {{ shipping_address_form.name }}
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.address_line_1.errors }} #}
+            {{ shipping_address_form.address_line_1.errors }}
             {{ shipping_address_form.address_line_1 }}
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.address_line_2.errors }} #}
+            {{ shipping_address_form.address_line_2.errors }}
             {{ shipping_address_form.address_line_2 }}
         </div>
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6">
-                    {# {{ shipping_address_form.city.errors }} #}
+                    {{ shipping_address_form.city.errors }}
                     {{ shipping_address_form.city }}
                 </div>
                 <div class="col-sm-6">
-                    {# {{ shipping_address_form.region.errors }} #}
+                    {{ shipping_address_form.region.errors }}
                     {{ shipping_address_form.region }}
                 </div>
             </div>
@@ -196,17 +196,17 @@ It's easy as ship
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-6">
-                    {# {{ shipping_address_form.postal_code.errors }} #}
+                    {{ shipping_address_form.postal_code.errors }}
                     {{ shipping_address_form.postal_code }}
                 </div>
                 <div class="col-sm-6">
-                    {# {{ shipping_address_form.country.errors }} #}
+                    {{ shipping_address_form.country.errors }}
                     {{ shipping_address_form.country }}
                 </div>
             </div>
         </div>
         <div class="form-group">
-            {# {{ shipping_address_form.phone.errors }} #}
+            {{ shipping_address_form.phone.errors }}
             {{ shipping_address_form.phone }}
         </div>
         {% endfor %}

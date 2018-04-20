@@ -14,6 +14,15 @@ setInterval(function() {
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    document.getElementById(id).innerHTML = hours+":"+minutes+":"+seconds;
+    document.getElementById(id).innerHTML = twoDigit(hours)+":"+twoDigit(minutes)+":"+twoDigit(seconds);
   }
 }, 1000);
+
+//convert the time to 2 digits (ex. 5 -> 05)
+function twoDigit(num) {
+  var n = num.toString();
+  if(n.length == 1){
+    return "0"+n;
+  }
+  return n;
+}

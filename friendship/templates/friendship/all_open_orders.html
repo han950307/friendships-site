@@ -1,23 +1,121 @@
 {% extends "friendship/base_generic_content.html" %}
 {% load static %}
+{% load friendship_extras %}
 
 {% block title %} Open Orders {{ order.id }} {% endblock title %}
 
 {% block main_content %}
-{% for order in orders %}
-	<h1> Order # {{ order.id }}</h1>
-	<p>Order Placed: {{ order.date_placed }}</p>
-	<p>URL: <a href="{{ order.url }}">{{ order.url }}</a></p>
-	<p>Quantity: {{ order.quantity }}</p>
-	<p>Description: {{ order.description }}</p>
-	<p>Shipping Address: {{ order.reciever.shipping_address }}</p>
-<!-- ^^^ this is dangerous, don't let shippers see all addresses.-->
-	<p>Order Status: {{ order.status }}</p>
-	<p>Current Lowest Bid for Shipping: {{ order.min_bid.wages }}</p>
-	<div id="make_bid_form">
-		<a href="{% url 'friendship:make_bid' order.id %}">
-			<button class="btn btn-block ui-gradient-blue">Make Bid</button>
-		</a>
+<div class="scrollable">
+	<div id="orders-header">
+		<div class="row" id="orders-row">
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				สินค้า
+				{% else %}
+				Order / URL
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				สถานะการชำระเงิน
+				{% else %}
+				Quantity | Size | Color
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				สถานะสินค้า
+				{% else %}
+				Shipping Address
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				วันที่
+				{% else %}
+				Bid Ending In
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				สถานะสินค้า
+				{% else %}
+				Current Min Bid
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th-TH' %}
+				ราคา
+				{% else %}
+				Make Bid
+				{% endif %}
+			</div>
+		</div>
 	</div>
-{% endfor %}
+	<div class="container" id="bids-table">
+		<div class="orders">
+			{% for order in orders %}
+			<div class="row">
+				<!-- ORDER IMAGE -->
+				<div class="col-sm-2">
+					{% if order.item_image %}
+					<a href="{{ order.url }}"><img src="{{ order.item_image.url }}" title="Order #{{ order.id }}"></a>
+					{% else %}
+					<a href="{{ order.url }}">{{ order.id }}</a>
+					{% endif %}
+				</div>
+
+				<!-- DATE -->
+				<div class="col-sm-2 .font-weight-light">
+					{{ order.quantity }} | {{ order.size }} | {{ order.color }}
+				</div>
+
+				<!-- SHIPPING ADDRESS -->
+				<div class="col-sm-2">
+					{{ order.receiver_address.name }}<br>
+					{{ order.receiver_address.address_line_1 }}, 
+					{% if order.receiver_address.address_line_2 %}
+					{{ order.receiver_address.address_line_2 }}, 
+					{% endif %}
+					{{ order.receiver_address.city }}, {{ order.receiver_address.region }} {{ order.receiver_address.postal_code }}, 
+					{{ order.receiver_address.country }}
+				</div>
+
+				<!-- TIME LEFT -->
+				<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{ order.id }}"></div>
+				<div class="col-sm-2" id="{{ order.id }}">
+					<span><a href="{% url 'friendship:user_open_bids' %}">{{ order.id }}</a></span>
+				</div>
+
+				<!-- Current Minimum Bid -->
+				<div class="col-sm-2">
+					{% if order.final_bid != None %}
+					<span>{% get_lowest_bid_str order 50 %}</span>
+					<!-- does not show if matching is in progre ss -->
+					{% else %}
+					<span>--</span>
+					{% endif %}
+				</div>
+
+				<!-- Make Bid -->
+				<div class="col-sm-2">
+					<div id="make_bid_form">
+						<a href="{% url 'friendship:make_bid' order.id %}">
+							<button class="btn btn-block ui-gradient-green">Make Bid</button>
+						</a>
+					</div>
+				</div>
+			</div>
+			{% empty %}
+			<p>
+				{% if request.session.locale == 'th-TH' %}
+				{% else %}
+				No orders yet
+				{% endif %}
+			</p>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<script src="{% static 'friendship/js/libs/custom/user-bids.js' %}"></script>
 {% endblock main_content %}
