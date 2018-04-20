@@ -5,27 +5,40 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-	<form action="{% url 'friendship:make_bid' order.id %}" method="post" name="order_form">
-		{% csrf_token %}
-		<div class="row">
-			<div class="col-sm-4">
-				{{ form.retail_price.label }}
-				{{ form.retail_price }}
-			</div>
+<form action="{% url 'friendship:make_bid' order.id %}" method="post" name="order_form">
+	{% csrf_token %}
+	{% if order.item_image %}
+	<div class="item-image" style="max-width: 450px;">
+		<a target="_blank" href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
+	</div>
+	{% endif %}
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.retail_price.label }}
+			{{ form.retail_price }}
 		</div>
-		<div class="row">
-			<div class="col-sm-4">
-				{{ form.wages.label }}
-				{{ form.wages }}
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.wages.label }}
+			{{ form.wages }}
 		</div>
-		<div class="row">
-			<div class="col-sm-4">
-				{{ form.currency.label }}
-				{{ form.currency }}
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.currency.label }}
+			{{ form.currency }}
 		</div>
-		<br />
-		<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="BID" />
-	</form>
+	</div>
+	{% if not order.item_image and request.user.shipper_info.shipper_type == 3 %}
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.item_image_url.label }}
+			{{ form.item_image_url }}
+		</div>
+	</div>
+	{% endif %}
+	<br />
+	<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="BID" />
+</form>
 {% endblock form %}

@@ -5,6 +5,10 @@ from django.contrib.auth import (
     login,
     logout,
 )
+from django.shortcuts import (
+    render,
+)
+from django.core.files.base import ContentFile
 from django.core import mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -16,7 +20,8 @@ from rest_framework import (
     authentication,
     generics,
 )
-
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 from friendsite.settings import (
     FACEBOOK_ACCESS_TOKEN,
     LINE_CLIENT_ID,
@@ -39,6 +44,7 @@ from friendship.serializers import (
     UserSerializer,
     TokenSerializer,
 )
+from friendship.backends import (RandomFileName)
 
 import requests
 import json
@@ -114,6 +120,15 @@ def make_bid_backend(request, order, **kwargs):
         retail_price=create_money_object("retail_price", **kwargs),
         service_fee=create_money_object("service_fee", **kwargs),
     )
+
+    # Uploading file directly from a url.
+    if "item_image_url" in kwargs:
+        item_image_url = kwargs["item_image_url"]
+        response = requests.get(item_image_url)
+        filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)
+        order.item_image = ContentFile(response.content)
+        order.item_image.name = "blah.{}".format(filetype)
+        order.save()
 
     if not Bid.objects.filter(order=order):
         send_bid_email(order)

@@ -89,13 +89,13 @@ It's easy as ship
         {% for field in form %}
         {% for error in field.errors %}
         <div class="alert alert-danger">
-            <strong hidden="true">{{ error|escape }}</strong>
+            <strong>{{ error|escape }}</strong>
         </div>
         {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
         <div class="alert alert-danger">
-            <strong hidden="true">{{ error|escape }}</strong>
+            <strong>{{ error|escape }}</strong>
         </div>
         {% endfor %}
         {% endif %}
@@ -108,7 +108,7 @@ It's easy as ship
             {% else %}
             Shipping Details
             {% endif %}
-        {% for user_address in user_addresses %}
+            {% for user_address in user_addresses %}
             <a href="#" id="edit-address">
                 {% if request.session.locale == 'th-TH' %}
                 แก้ไข
@@ -168,54 +168,54 @@ It's easy as ship
             </div>
         </div>
         {% empty %}
-        </h4>
-        <div class="form-group">
-            {{ shipping_address_form.name.errors }}
-            {{ shipping_address_form.name }}
-        </div>
-        <div class="form-group">
-            {{ shipping_address_form.address_line_1.errors }}
-            {{ shipping_address_form.address_line_1 }}
-        </div>
-        <div class="form-group">
-            {{ shipping_address_form.address_line_2.errors }}
-            {{ shipping_address_form.address_line_2 }}
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ shipping_address_form.city.errors }}
-                    {{ shipping_address_form.city }}
-                </div>
-                <div class="col-sm-6">
-                    {{ shipping_address_form.region.errors }}
-                    {{ shipping_address_form.region }}
-                </div>
+    </h4>
+    <div class="form-group">
+        {{ shipping_address_form.name.errors }}
+        {{ shipping_address_form.name }}
+    </div>
+    <div class="form-group">
+        {{ shipping_address_form.address_line_1.errors }}
+        {{ shipping_address_form.address_line_1 }}
+    </div>
+    <div class="form-group">
+        {{ shipping_address_form.address_line_2.errors }}
+        {{ shipping_address_form.address_line_2 }}
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                {{ shipping_address_form.city.errors }}
+                {{ shipping_address_form.city }}
+            </div>
+            <div class="col-sm-6">
+                {{ shipping_address_form.region.errors }}
+                {{ shipping_address_form.region }}
             </div>
         </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ shipping_address_form.postal_code.errors }}
-                    {{ shipping_address_form.postal_code }}
-                </div>
-                <div class="col-sm-6">
-                    {{ shipping_address_form.country.errors }}
-                    {{ shipping_address_form.country }}
-                </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-6">
+                {{ shipping_address_form.postal_code.errors }}
+                {{ shipping_address_form.postal_code }}
+            </div>
+            <div class="col-sm-6">
+                {{ shipping_address_form.country.errors }}
+                {{ shipping_address_form.country }}
             </div>
         </div>
-        <div class="form-group">
-            {{ shipping_address_form.phone.errors }}
-            {{ shipping_address_form.phone }}
-        </div>
-        {% endfor %}
-        {% if request.session.locale == 'th-TH' %}
-        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="วางคำสังนี้" />
-        {% else %}
-        <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
-        {% endif %}
-    </form>
+    </div>
+    <div class="form-group">
+        {{ shipping_address_form.phone.errors }}
+        {{ shipping_address_form.phone }}
+    </div>
+    {% endfor %}
+    {% if request.session.locale == 'th-TH' %}
+    <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="วางคำสังนี้" />
+    {% else %}
+    <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
+    {% endif %}
+</form>
 </div>
 
 <script src="{% static 'friendship/js/libs/custom/place-order.js' %}"></script>

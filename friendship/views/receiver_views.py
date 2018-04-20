@@ -200,11 +200,15 @@ def place_order(request):
         else:
             print(form.cleaned_data)
     else:
-        form = OrderForm(request.GET, locale=locale)
+        if 'url' in request.GET:
+            form = OrderForm(initial={'url': request.GET['url']}, locale=locale)
+        else:
+            form = OrderForm(initial={}, locale=locale)
         if not user_addresses:
             shipping_address_form = ShippingAddressForm(locale=locale)
         else:
             shipping_address_form = ShippingAddressForm(instance=user_addresses[0], locale=locale)
+
     return render(
         request,
         'friendship/place_order.html',
