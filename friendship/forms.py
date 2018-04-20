@@ -128,6 +128,10 @@ class BidForm(forms.Form):
         )
     )
 
+    item_image_url = forms.CharField(max_length=3000, widget=forms.URLInput(attrs={
+        'class': 'input input-group form-control',
+    }))
+
 
 """ORDER RELATED FORMS"""
 class OrderForm(forms.ModelForm):  
@@ -142,6 +146,7 @@ class OrderForm(forms.ModelForm):
                 'placeholder': 'Category*',
                 'required': 'required',
                 'class': 'input input-group form-control',
+                'data-validation': 'required',
             }
         ),
     )
@@ -151,6 +156,7 @@ class OrderForm(forms.ModelForm):
                 'required': 'required',
                 'class': 'num-hours',
                 'checked': 'false',
+                'data-validation': 'required',
             }
         ),
         choices=[
@@ -182,6 +188,7 @@ class OrderForm(forms.ModelForm):
             'item_image': forms.FileInput(
                 attrs={
                     'type': 'file',
+                    'data-validation': 'required',
                 }
             ),
             'quantity': forms.NumberInput(
@@ -196,12 +203,14 @@ class OrderForm(forms.ModelForm):
                 attrs={
                     'placeholder': 'Size',
                     'class': 'input form-control',
+                    'data-validation': 'required',
                 }
             ),
             'color': forms.TextInput(
                 attrs={
                     'placeholder': 'Color',
                     'class': 'input form-control',
+                    'data-validation': 'required',
                 }
             ),
             'description': forms.Textarea(
@@ -209,6 +218,7 @@ class OrderForm(forms.ModelForm):
                     'placeholder': 'Any other details about the item',
                     'class': 'input form-control',
                     'rows': 3,
+                    'data-validation': 'required',
                 }
             ),
         }
@@ -218,10 +228,10 @@ class OrderForm(forms.ModelForm):
                and int(self.cleaned_data['merchandise_type']) != -1\
                and int(self.cleaned_data['quantity']) > 0
 
-    def __init__(self, *args, locale):
-        super().__init__(*args)
-        self.locale = locale
-        if locale == "th-TH":
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, initial=kwargs['initial'])
+        self.locale = kwargs['locale']
+        if self.locale == "th-TH":
             self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
             self.fields["quantity"].widget.attrs['placeholder'] = "จำนวน*"
             self.fields["merchandise_type"].widget.attrs['placeholder'] = "เลือก*"
