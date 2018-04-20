@@ -33,7 +33,7 @@
 				{% if request.session.locale == 'th-TH' %}
 				วันที่
 				{% else %}
-				Bid Ending In
+				Bid Ends In
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
@@ -89,12 +89,7 @@
 
 				<!-- Current Minimum Bid -->
 				<div class="col-sm-2">
-					{% if order.final_bid != None %}
 					<span>{% get_lowest_bid_str order 50 %}</span>
-					<!-- does not show if matching is in progre ss -->
-					{% else %}
-					<span>--</span>
-					{% endif %}
 				</div>
 
 				<!-- Make Bid -->
