@@ -25,7 +25,7 @@ How It Works
       <hr>
     </div><!-- .section-heading -->
     <div class="row" id="how-it-works">
-      <div class="col-sm-3 ui-icon-block">
+      <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step1.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step1.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
           {% if request.session.locale == 'th-TH' %}
@@ -42,7 +42,7 @@ How It Works
           {% endif %}
         </p>
       </div>
-      <div class="col-sm-3 ui-icon-block">
+      <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step2.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step2.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
           {% if request.session.locale == 'th-TH' %}
@@ -51,7 +51,7 @@ How It Works
           Step 2
           {% endif %}
         </h4>
-        <p style="text-align: left">
+        <p style="text-align: left; float: left;">
           {% if request.session.locale == 'th-TH' %}
           รอการประมูลราคาจัดส่งจาก shippers แล้วจึงยืนยันการสั่งซื้อ เมื่อคุณพอใจ
           {% else %}
@@ -59,7 +59,7 @@ How It Works
           {% endif %}
         </p>
       </div>
-      <div class="col-sm-3 ui-icon-block">
+      <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step3.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step3.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
           {% if request.session.locale == 'th-TH' %}
@@ -68,7 +68,7 @@ How It Works
           Step 3
           {% endif %}
         </h4>
-        <p style="text-align: left">
+        <p style="text-align: left; float: left;">
           {% if request.session.locale == 'th-TH' %}
           เมื่อหมดเวลาหรือเมื่อคุณพอใจกับราคาจัดส่งนั้นแล้ว สามารถดำเนินการชำระสินค้าได้ทันที โดยการชำระผ่านบัตรเครดิต หรือ การโอนผ่านธนาคาร ยอดชำระสุทธิที่แสดง ก่อนการชำระเงิน คือยอดชำระทั้งหมดของคุณ ซึ่งครอบคลุมถึงค่าสินค้า ค่าจัดส่ง ค่าภาษี และค่าธรรมเนียม ครบหมดแล้ว
           {% else %}
@@ -76,7 +76,7 @@ How It Works
           {% endif %}
         </p>
       </div>
-      <div class="col-sm-3 ui-icon-block">
+      <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step4.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step4.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
           {% if request.session.locale == 'th-TH' %}
