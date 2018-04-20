@@ -590,6 +590,29 @@ input[type=file] {
 input[type=submit] {
   margin-top: 1.5rem;
 }
+
+/*
+USER BIDS LIST
+*/
+#bids-table .row, #matched-bid-table .row, #bids-table .row {
+  background-color: rgb(246,247,248);
+  border-radius:0.5rem;
+  padding: 5px 0px;
+  margin-bottom: 20px;
+}
+
+#bids-table a{
+  margin-bottom: -.4rem;
+  margin-top: -.4rem;
+}
+
+#bids-table a img {
+  height: 60px;
+  width: 60px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
 /**
 * 3. Order List
 * ----------------------------------------------------------------------- *
@@ -623,6 +646,18 @@ div.orders {
   border-radius:0.5rem;
   padding:20px 0px;
   margin-bottom: 20px;
+}
+
+#orders-table a{
+  margin-bottom: -2.4rem;
+  margin-top: -2.4rem;
+}
+
+#orders-table a img {
+  height: 60px;
+  width: 60px;
+  border-radius: 0.5rem;
+  object-fit: cover;
 }
 
 .ui-gradient-negative,
@@ -762,39 +797,35 @@ div.orders {
   }
 }
 
-/*hr {
-  margin: 1.3rem 0;
-  height: 2rem;
-  }*/
 
-  #hr2{
-    margin:0px;
-    height:0px;
-  }
+#hr2{
+  margin:0px;
+  height:0px;
+}
 
-  .step-wrapper h4 {
-    margin-bottom: 0;
-  }
+.step-wrapper h4 {
+  margin-bottom: 0;
+}
 
-  span#time_countdown {
-    margin-top: .7rem;
-    display: inline-block;
-  }
+span#time_countdown {
+  margin-top: .7rem;
+  display: inline-block;
+}
 
-  #order-details div.row {
-    display: block;
-    width: 70%;
-    padding: 2rem 0.2rem;
-    margin-left: -1rem;
-    font-size: 1rem;
-    line-height: 1.4;
-    color: #708198;
-    background-color: #F2F4F6;
-    background-clip: padding-box;
-    border: 0 solid #ced4da;
-    border-radius: 0.5rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
+#order-details div.row {
+  display: block;
+  width: 70%;
+  padding: 2rem 0.2rem;
+  margin-left: -1rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #708198;
+  background-color: #F2F4F6;
+  background-clip: padding-box;
+  border: 0 solid #ced4da;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
 /* FONTS FOR ORDER DETAILS PAGE */
 @media (max-width: 576px){
@@ -839,100 +870,88 @@ div.orders {
   }
 }
 
-  #payment-form .input {
-    margin-top: .5rem;
-  }
+#payment-form .input {
+  margin-top: .5rem;
+}
 
-  #credit-card-payment .form-control {
-    background-color: white;
-    margin-bottom:10px;
-  }
+#credit-card-payment .form-control {
+  background-color: white;
+  margin-bottom:10px;
+}
 
-  #credit-card-payment {
-    width:80%;
-  }
+#credit-card-payment {
+  width:80%;
+}
 
-  #wire-payment .form-control {
-    background-color: white;
-  }
+#wire-payment .form-control {
+  background-color: white;
+}
 
-  #credit-card-payment .date {
-    width: 49%;
-    display: inline-block;
-  }
+#credit-card-payment .date {
+  width: 49%;
+  display: inline-block;
+}
 
-  #credit-card-payment div.form-group,
-  #wire-payment div.form-group {
-    margin-top: .4rem;
-    margin-bottom: .4rem;
-  }
+#credit-card-payment div.form-group,
+#wire-payment div.form-group {
+  margin-top: .4rem;
+  margin-bottom: .4rem;
+}
 
-  #wire-payment button {
-    margin-top: .3rem;
-    background-color: #F2F4F6;
-    border-style: solid;
-    border-width: .1rem;
-    border-color: #88B5E1;
-    }f
+#wire-payment button {
+  margin-top: .3rem;
+  background-color: #F2F4F6;
+  border-style: solid;
+  border-width: .1rem;
+  border-color: #88B5E1;
+}
 
-    #wire-payment button:hover {
-      background-color: #111111;
-    }
+#wire-payment button:hover {
+  background-color: #111111;
+}
 
-    .hidden {
-      display: none;
-    }
+.hidden {
+  display: none;
+}
 
-    #payment-timer {
-      color: red;
-    }
+#payment-timer {
+  color: red;
+}
 
-    /* for my order view */
-    .col-sm-13 {
-      flex: 0 0 21%;
-      max-width: 21%;
-      margin-left:-1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+/* for my order view */
+.col-sm-13 {
+  flex: 0 0 21%;
+  max-width: 21%;
+  margin-left:-1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .col-sm-2 {
-      margin-left:-1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.col-sm-2 {
+  margin-left:-1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    #orders-table a{
-      margin-bottom: -2.4rem;
-      margin-top: -2.4rem;
-    }
+.col-sm-14 {
+  flex: auto
+  max-width: 50%;
+  margin-left:-1rem;
+  position: relative;
+  text-align: center;
+}
 
-    #orders-table a img {
-      height: 60px;
-      width: 60px;
-      border-radius: 0.5rem;
-      object-fit: cover;
-    }
+.step-number.ui-gradient-grey,
+.step-number.ui-gradient-grey::before {
+  background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+  background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
+}
 
-    .col-sm-14 {
-      flex: auto
-      max-width: 50%;
-      margin-left:-1rem;
-      position: relative;
-      text-align: center;
-    }
-
-    .step-number.ui-gradient-grey,
-    .step-number.ui-gradient-grey::before {
-      background: -moz-linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
-      background: linear-gradient(45deg, #e0e0e0 0%, #f0f0f0 100%);
-    }
-
-    #bid-info-shipping {
-      border-bottom:1px solid rgba(0, 0, 0, 0.1);
-    }
+#bid-info-shipping {
+  border-bottom:1px solid rgba(0, 0, 0, 0.1);
+}
 
 /**
 * 29. Steps
@@ -1239,10 +1258,17 @@ div.orders {
   padding-right: 1rem;
 }
 
-#matched-order-table .row, #bids-table .row{
+#matched-order-table .row, #bids-table .row, #matched-bids-table .row{
   background-color: rgb(246,247,248);
   border-radius:0.5rem;
-  padding:20px 0px;
+  padding: 20px 0px;
+  margin-bottom:10px;
+}
+
+#bids-table .row{
+  background-color: rgb(246,247,248);
+  border-radius:0.5rem;
+  padding: 5px 0px;
   margin-bottom:10px;
 }
 

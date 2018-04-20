@@ -91,6 +91,7 @@
 		<div class="col-sm-13">Time Left</div>
 		<div class="col-sm-13">Lowest Bid</div>
 		<div class="col-sm-13">Your Bid</div>
+		<div class="col-sm-13">Make Another Bid</div>
 	</div>
 </div>
 
@@ -106,6 +107,14 @@
 		<div class="col-sm-13">{% get_lowest_bid_str bid.order 50 %}</div>
 		<!-- YOUR BID -->
 		<div class="col-sm-13">{% get_bid_total_str bid 50 %}</div>
+		<!-- Make another bid -->
+		<div class="col-sm-13">
+			<div id="make_bid_form">
+				<a href="{% url 'friendship:make_bid' bid.order.id %}">
+					<button class="btn btn-block ui-gradient-green">Make Another Bid</button>
+				</a>
+			</div>
+		</div>
 	</div>
 	{% endfor %}
 </div>
