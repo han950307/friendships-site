@@ -121,14 +121,25 @@ def make_bid_backend(request, order, **kwargs):
         service_fee=create_money_object("service_fee", **kwargs),
     )
 
+    IMAGE_FILETYPES = [
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "tiff",
+        "bmp",
+        "svg",
+    ]
+
     # Uploading file directly from a url.
     if "item_image_url" in kwargs:
         item_image_url = kwargs["item_image_url"]
         response = requests.get(item_image_url)
         filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)
-        order.item_image = ContentFile(response.content)
-        order.item_image.name = "blah.{}".format(filetype)
-        order.save()
+        if filetype.lower() in IMAGE_FILETYPES:
+            order.item_image = ContentFile(response.content)
+            order.item_image.name = "blah.{}".format(filetype)
+            order.save()
 
     if not Bid.objects.filter(order=order):
         send_bid_email(order)
