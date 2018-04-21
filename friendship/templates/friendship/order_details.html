@@ -113,7 +113,7 @@
             </h3>
 
             <!--24 hr timer between buy now and payment-->
-            <div class="{% if latest_action.action < MATCH_FOUND or latest_action.action >= BANKNOTE_UPLOADED %} {% endif %}" id="payment-timer-div">
+            <div class="{% if latest_action.action < MATCH_FOUND or latest_action.action >= BANKNOTE_UPLOADED %} hidden{% endif %}" id="payment-timer-div">
                 {% if request.session.locale == 'th-TH' %}
                 <div id="payment-timer"></div>
                 {% else %}
