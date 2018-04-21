@@ -8,6 +8,7 @@ from django.http import (
 	HttpResponseRedirect
 )
 from django.contrib.messages import error
+from django.contrib import messages
 from django.shortcuts import (
 	render,
 	redirect,
@@ -81,7 +82,19 @@ def logout_view(request):
 	"""
 	Logs a user out :P
 	"""
+	# keep locale info
+	if 'locale' not in request.session:
+		request.session["locale"] = "en-US"
+	locale = request.session["locale"]
+
+	# logout
 	logout(request)
+
+	# restore locale info
+	request.session["locale"] = locale
+
+	# send a message with locale info.
+	messages.success(request, "You have been logged out.")
 	return redirect('friendship:login')
 
 
