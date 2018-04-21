@@ -116,10 +116,19 @@ nav > .container {
 .navbar .ui-navigation.navbar-center {
   justify-content: right;
 }
+
 .navbar .navbar-brand img{
   height:30px;
   margin-top:-15px;
   left:10px;
+}
+
+@media (max-width: 400px){
+  .navbar .navbar-brand img{
+    height:30px;
+    margin-top:-15px;
+    left:10px;
+  }
 }
 
 .ui-hero.hero-bg::before {
@@ -146,9 +155,10 @@ div.orders div.row, div#orders-row, div#orders-header {
   min-width: 638px;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 360px) {
   .navbar img {
-    margin-left: -15px;
+    margin-left: -12px;
+    max-width: 140px;
   }
 }
 
