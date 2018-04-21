@@ -807,6 +807,7 @@ div.orders {
 @media (max-width: 768px){
   #order-headings .col-xl-8{
     padding-left: 1rem;
+    padding-right: 0rem;
   }
 }
 
@@ -880,6 +881,13 @@ span#time_countdown {
     border: 0 solid #ced4da;
     border-radius: 0.5rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+}
+
+@media(max-width: 768px) {
+  #order-details {
+    margin-left: -1.45rem;
+    margin-right: -.7rem;
   }
 }
 
