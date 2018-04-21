@@ -8,10 +8,10 @@
 
 	<div class="ui-hero hero-lg hero-center ui-curve hero-bg bg-dark-gray" style="background-size: cover;">
 		<div class="container pb-4">
-			<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
+			<h3 class="heading animate underline" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
 				<!--<span style="">FriendShips</span><br>-->
 				<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
-				<span>
+				<span class="homepage">
 					{% if request.session.locale == 'th-TH' %}
 					ทลายพรหมแดน ลบกำแพง e-commerce
 					{% else %}
@@ -19,6 +19,11 @@
 					{% endif %}
 				</span>
 			</h3>
+			<div id="heading-subtitle">
+				<h4 id="heading-subtitle" style="color: #fff; font-size: 1.8rem; font-weight: 100; margin-bottom: 9%; margin-top: -4%">
+					An innovative way to pre-order online oversea products
+				</h4>
+			</div>
 		</div><!-- .container -->
 	</div><!-- .ui-hero -->
 
@@ -35,7 +40,10 @@
 					Welcome {{ request.user.first_name }}, it's
 					{% endif %}
 					{% else %}
+					{% if request.session.locale == 'th-TH' %}
+					{% else %}
 					It's
+					{% endif %}
 					{% endif %}
 
 					{% if request.session.locale == 'th-TH' %}
@@ -153,14 +161,16 @@
 						Your item is <span class="bold">delivered</span> directly to you in 5-17 business days (average 8 days)
 						{% endif %}
 					</p>
+					<br>
+					<br>
+					<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
+						{% if request.session.locale == 'th-TH' %}
+						เริ่มกันเลย!
+						{% else %}
+						More Details
+						{% endif %}
+					</a>
 				</div>
-				<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
-					{% if request.session.locale == 'th-TH' %}
-					เริ่มกันเลย!
-					{% else %}
-					More Details
-					{% endif %}
-				</a>
 			</div><!-- .row -->
 		</div><!-- .container -->
 	</div><!-- .section -->

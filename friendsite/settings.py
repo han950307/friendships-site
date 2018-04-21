@@ -23,6 +23,7 @@ FRIENDSHIP_VERSION = "0.2.12"
 
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = [
+    "172.31.95.146",  # Load Balancer
     "18.188.123.79",
     "127.0.0.1",
     "dev.friendships.us",
