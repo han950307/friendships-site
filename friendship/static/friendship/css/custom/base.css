@@ -701,7 +701,7 @@ div.orders {
 /* order details step view. */
 #payment-timer {
   padding-bottom: 1.4rem;
-  margin-right: 2rem;
+  margin-right: 1rem;
   font-size: .9rem;
 }
 
@@ -887,7 +887,7 @@ span#time_countdown {
 @media(max-width: 768px) {
   #order-details {
     margin-left: -1.45rem;
-    margin-right: -.7rem;
+    margin-right: -1rem;
   }
 }
 
