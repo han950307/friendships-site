@@ -155,7 +155,9 @@ def user_open_bids(request):
     ).filter(
         order__latest_action__action__lt=OrderAction.Action.ORDER_FULFILLED
     ).order_by(
-        '-order__date_placed'
+         '-order_id', '-order__date_placed', '-date_placed'
+    ).distinct(
+        'order'
     )
     data_dict['matched_orders'] = qset
     return render(request, 'friendship/user_open_bids.html', data_dict)
@@ -303,6 +305,7 @@ def sender_landing(request):
     if request.session["is_shipper"] != True:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
+    return redirect('friendship:user_open_bids')
     return render(request, 'friendship/sender_landing.html', {
         'data': [request, ],
     })

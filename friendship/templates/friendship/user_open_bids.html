@@ -6,6 +6,43 @@
 <!-- This page displays all the orders for the receiver. -->
 
 {% block main_content %}
+<!-- Active Bids Section -->
+<h1>Active Bids</h1>
+<hr>
+<div id="bids-header">
+	<div class="row">
+		<div class="col-sm-13">Order #</div>
+		<div class="col-sm-13">Time Left</div>
+		<div class="col-sm-13">Lowest Bid</div>
+		<div class="col-sm-13">Your Bid</div>
+		<div class="col-sm-13">Make Another Bid</div>
+	</div>
+</div>
+
+<div class="container" id="bids-table">
+	{% for bid in active_orders %}
+	<div style="display: none;" datetime="{{ bid.order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{bid.order.id}}"></div>
+	<div class="row">
+		<!-- ORDER ID -->
+		<div class="col-sm-13"><span><a href="{% url 'friendship:user_open_bids' %}">{{ bid.order.id }}</a></span></div>
+		<!-- TIME LEFT -->
+		<div class="col-sm-13" id="{{ bid.order.id }}"></div>
+		<!-- LOWEST BID -->
+		<div class="col-sm-13">{% get_lowest_bid_str bid.order 50 %}</div>
+		<!-- YOUR BID -->
+		<div class="col-sm-13">{% get_bid_total_str bid 50 %}</div>
+		<!-- Make another bid -->
+		<div class="col-sm-13">
+			<div id="make_bid_form">
+				<a href="{% url 'friendship:make_bid' bid.order.id %}">
+					<button class="btn btn-block ui-gradient-green">Make Another Bid</button>
+				</a>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+<br><br>
 <!-- Matched Order Section -->
 <h1>Matched Orders</h1>
 <hr>
@@ -82,41 +119,6 @@
 </div>
 {% endfor %}
 
-<!-- Active Bids Section -->
-<h1>Active Bids</h1>
-<hr>
-<div id="bids-header">
-	<div class="row">
-		<div class="col-sm-13">Order #</div>
-		<div class="col-sm-13">Time Left</div>
-		<div class="col-sm-13">Lowest Bid</div>
-		<div class="col-sm-13">Your Bid</div>
-		<div class="col-sm-13">Make Another Bid</div>
-	</div>
-</div>
 
-<div class="container" id="bids-table">
-	{% for bid in active_orders %}
-	<div style="display: none;" datetime="{{ bid.order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{bid.order.id}}"></div>
-	<div class="row">
-		<!-- ORDER ID -->
-		<div class="col-sm-13"><span><a href="{% url 'friendship:user_open_bids' %}">{{ bid.order.id }}</a></span></div>
-		<!-- TIME LEFT -->
-		<div class="col-sm-13" id="{{ bid.order.id }}"></div>
-		<!-- LOWEST BID -->
-		<div class="col-sm-13">{% get_lowest_bid_str bid.order 50 %}</div>
-		<!-- YOUR BID -->
-		<div class="col-sm-13">{% get_bid_total_str bid 50 %}</div>
-		<!-- Make another bid -->
-		<div class="col-sm-13">
-			<div id="make_bid_form">
-				<a href="{% url 'friendship:make_bid' bid.order.id %}">
-					<button class="btn btn-block ui-gradient-green">Make Another Bid</button>
-				</a>
-			</div>
-		</div>
-	</div>
-	{% endfor %}
-</div>
 <script src="{% static 'friendship/js/libs/custom/user-bids.js' %}"></script>
 {% endblock main_content %}
