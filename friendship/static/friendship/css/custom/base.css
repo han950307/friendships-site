@@ -103,10 +103,19 @@ nav > .container {
 .navbar .ui-navigation.navbar-center {
   justify-content: right;
 }
+
 .navbar .navbar-brand img{
   height:30px;
   margin-top:-15px;
   left:10px;
+}
+
+@media (max-width: 400px){
+  .navbar .navbar-brand img{
+    height:30px;
+    margin-top:-15px;
+    left:10px;
+  }
 }
 
 .ui-hero.hero-bg::before {
@@ -133,9 +142,10 @@ div.orders div.row, div#orders-row, div#orders-header {
   min-width: 638px;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 360px) {
   .navbar img {
-    margin-left: -15px;
+    margin-left: -12px;
+    max-width: 140px;
   }
 }
 
@@ -688,7 +698,7 @@ div.orders {
 /* order details step view. */
 #payment-timer {
   padding-bottom: 1.4rem;
-  margin-right: 2rem;
+  margin-right: 0.2rem;
   font-size: .9rem;
 }
 
@@ -794,6 +804,7 @@ div.orders {
 @media (max-width: 768px){
   #order-headings .col-xl-8{
     padding-left: 1rem;
+    padding-right: 0rem;
   }
 }
 
@@ -867,6 +878,13 @@ span#time_countdown {
     border: 0 solid #ced4da;
     border-radius: 0.5rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+}
+
+@media(max-width: 768px) {
+  #order-details {
+    margin-left: -1.45rem;
+    margin-right: -1.8rem;
   }
 }
 

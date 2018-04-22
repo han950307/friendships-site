@@ -16,13 +16,14 @@ import friendsite
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRIENDSHIP_VERSION = "0.2.12"
+FRIENDSHIP_VERSION = "0.3.0"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # WSGI_APPLICATION = "friendsite.wsgi.application"
 ALLOWED_HOSTS = [
+    "172.31.95.146",  # Load Balancer
     "18.188.123.79",
     "127.0.0.1",
     "dev.friendships.us",
@@ -110,7 +111,7 @@ CRONJOBS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en_US'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True

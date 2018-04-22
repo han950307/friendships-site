@@ -140,7 +140,7 @@ class Order(models.Model):
         GAMES = 11
         OTHER = 12
 
-        def __str__(self, locale="en-US"):
+        def __str__(self, locale="en_US"):
             if self == self.SHOES:
                 return "shoes"
             elif self == self.OTHER:
@@ -168,7 +168,7 @@ class Order(models.Model):
             elif self == self.GAMES:
                 return "games"
             elif self == self.PLEASE_CHOOSE:
-                if locale == "th-TH":
+                if locale == "th_TH":
                     return "เลือก *"
                 return "choose one*"
             else:
@@ -294,6 +294,7 @@ class PaymentAction(models.Model):
         CREDIT_CARD = 0
         ONLINE_WIRE_TRANSFER = 1
         MANUAL_WIRE_TRANSFER = 2
+        PAYPAL = 3
 
         def __str__(self):
             if self == self.CREDIT_CARD:
@@ -318,6 +319,8 @@ class PaymentAction(models.Model):
     payment_type = models.IntegerField(
         choices = ((x.value, str(x)) for x in PaymentType)
     )
+
+    other_info = models.TextField(null=True, blank=True)
 
 
 class OrderAction(models.Model):

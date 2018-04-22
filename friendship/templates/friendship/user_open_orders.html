@@ -3,7 +3,7 @@
 {% load friendship_extras %}
 
 {% block title %} 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 การสั่งซื้อของคุณ
 {% else %}
 Your Orders
@@ -16,35 +16,35 @@ Your Orders
 	<div id="orders-header">
 		<div class="row" id="orders-row">
 			<div class="col-sm-13">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สินค้า
 				{% else %}
 				Order
 				{% endif %}
 			</div>
 			<div class="col-sm-13">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				วันที่
 				{% else %}
 				Date
 				{% endif %}
 			</div>
 			<div class="col-sm-13">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สถานะการชำระเงิน
 				{% else %}
 				Payment Status
 				{% endif %}
 			</div>
 			<div class="col-sm-13">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สถานะสินค้า
 				{% else %}
 				Order Status
 				{% endif %}
 			</div>
 			<div class="col-sm-13">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				ราคา
 				{% else %}
 				Amount
@@ -66,7 +66,7 @@ Your Orders
 				</a></div>
 
 				<!-- DATE -->
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				<div class="col-sm-13 .font-weight-light">{% get_date_str order.date_placed 'date' 'th_TH' 'Asia/Bangkok' %}</div>
 				{% else %}
 				<div class="col-sm-13 .font-weight-light">{{ order.date_placed|date }}</div>
@@ -78,7 +78,7 @@ Your Orders
 					<span>--</span>
 					{% elif order.latest_action.action == BANKNOTE_UPLOADED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-peach">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ระหว่างการตวรจสอบ
 						{% else %}
 						Verifying
@@ -86,7 +86,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action < PAYMENT_RECEIVED or order.latest_action.action == ORDER_DECLINED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						รอการชำระ
 						{% else %}
 						Unfulfilled
@@ -94,7 +94,7 @@ Your Orders
 					</a>
 					{% else %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-green">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ชำระเรียบร้อย
 						{% else %}
 						Fulfilled
@@ -107,7 +107,7 @@ Your Orders
 				<div class="col-sm-13">
 					{% if order.latest_action.action == MATCH_NOT_FOUND %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						จับคู่ไม่สำเร็จ
 						{% else %}
 						No Match
@@ -115,7 +115,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action < MATCH_FOUND %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-peach">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						กำลังหาคู่
 						{% else %}
 						matching
@@ -123,7 +123,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action >= MATCH_FOUND and order.latest_action.action < ORDER_FULFILLED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-blue">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						จับคู่สำเร็จ
 						{% else %}
 						Matched
@@ -131,7 +131,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action == ORDER_FULFILLED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-green">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ส่งถึงแล้ว
 						{% else %}
 						Delivered
@@ -139,7 +139,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action == ORDER_DECLINED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ถูกยกเลิก
 						{% else %}
 						Declined
@@ -147,7 +147,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action < ORDER_CLOSED and order.latest_action.action > PAYMENT_RECEIVED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-purp">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						กำลังเดินทาง
 						{% else %}
 						On the way
@@ -155,7 +155,7 @@ Your Orders
 					</a>
 					{% elif order.latest_action.action >= ORDER_CLOSED %}
 					<a href="{% url 'friendship:order_details' order.id %}" class="btn btn-sm ui-gradient-red">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ถูกระงับ
 						{% else %}
 						Order Closed
@@ -176,7 +176,7 @@ Your Orders
 			</div>
 			{% empty %}
 			<p>
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				{% else %}
 				No orders yet
 				{% endif %}

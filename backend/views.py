@@ -82,7 +82,7 @@ def send_bid_email(order):
     Send an email for this order.
     """
     body = "Dear {first_name},\n\nYou have your first bid on your item" + \
-            "! Please visit {url} for the details"
+            "! Please visit {url} to view."
 
     body_str = body.format(
         first_name=order.receiver.first_name,
@@ -132,7 +132,7 @@ def make_bid_backend(request, order, **kwargs):
     ]
 
     # Uploading file directly from a url.
-    if "item_image_url" in kwargs:
+    if "item_image_url" in kwargs and kwargs["item_image_url"]:
         item_image_url = kwargs["item_image_url"]
         response = requests.get(item_image_url)
         filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)

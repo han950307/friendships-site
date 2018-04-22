@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 การใช้งาน/วิธีใช้
 {% else %}
 How It Works
@@ -16,7 +16,7 @@ How It Works
   <div class="container ui-icon-blocks ui-blocks-h icons-lg">
     <div class="section-heading center">
       <p class="paragraph">
-        {% if request.session.locale == 'th-TH' %}
+        {% if request.session.locale == 'th_TH' %}
         คุณสามารถเลือกช็อปสินค้าจากเว็บใดก็ได้ เราจะส่งสินค้าของคุณด้วยราคาจัดส่งที่ดีที่สุด
         {% else %}
         Shop on any website, and we'll deliver your items at the lowest prices, right to your door
@@ -28,15 +28,15 @@ How It Works
       <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step1.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step1.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           ขั้นตอนที่ 1
           {% else %}
           Step 1
           {% endif %}
         </h4>
         <p style="text-align: left; float: left;">
-          {% if request.session.locale == 'th-TH' %}
-          เพียงแค่ วางลิ้งค์ ของสินค้าที่คุณต้องการเท่านั้น ที่เหลือเราจะช่วยจัดการให้คุณเอง
+          {% if request.session.locale == 'th_TH' %}
+          วางลิ้งค์สินค้าที่คุณต้องการ แล้วเลือกระยะเวลารอการจับคู่ค่าจัดส่ง (ระยะเวลาที่นานขึ้น อาจจะทำให้คุณได้ค่าส่งในราคาที่ถูกลง) Shipper ของเราอาจมาจาก กลุ่มนักท่องเที่ยว พนักงานต้อนรับบนเครื่องบิน หรือบริษัทขนส่ง ซึ่งได้รับการรับรองแล้วว่ามีความน่าเชื่อถือ คุณสามารถวางใจได้ว่าจะได้รับสินค้า ภายในเวลาที่กำหนดอย่างแน่นอน
           {% else %}
           Paste a link to your desired item, from any authorized retailer. Then, set a time limit for shippers to compete to offer the lowest fees. Our shippers are certified travelers, flight attendants, and shipping companies. They are carefully screened to ensure rapid and reliable delivery, and we demand perfection, every time.
           {% endif %}
@@ -45,14 +45,14 @@ How It Works
       <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step2.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step2.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           ขั้นตอนที่ 2
           {% else %}
           Step 2
           {% endif %}
         </h4>
         <p style="text-align: left; float: left;">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           รอการประมูลราคาจัดส่งจาก shippers แล้วจึงยืนยันการสั่งซื้อ เมื่อคุณพอใจ
           {% else %}
           Wait while shippers compete to deliver your item. We’ll send you an email when the time’s elapsed, and match you with the lowest price we find. Each shipper quotes a price including shipping costs and all associated taxes and fees, and we match you with the lowest one.
@@ -62,14 +62,14 @@ How It Works
       <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step3.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step3.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           ขั้นตอนที่ 3
           {% else %}
           Step 3
           {% endif %}
         </h4>
         <p style="text-align: left; float: left;">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           เมื่อหมดเวลาหรือเมื่อคุณพอใจกับราคาจัดส่งนั้นแล้ว สามารถดำเนินการชำระสินค้าได้ทันที โดยการชำระผ่านบัตรเครดิต หรือ การโอนผ่านธนาคาร ยอดชำระสุทธิที่แสดง ก่อนการชำระเงิน คือยอดชำระทั้งหมดของคุณ ซึ่งครอบคลุมถึงค่าสินค้า ค่าจัดส่ง ค่าภาษี และค่าธรรมเนียม ครบหมดแล้ว
           {% else %}
           Once the time runs out or you’re happy with the price, pay for your item through credit card or bank transfer. The price you see before deciding to buy is the final quote, including the cost of the item, lowest shipping cost, and all taxes and fees.
@@ -79,14 +79,14 @@ How It Works
       <div class="col-lg-3 ui-icon-block">
         <a target="_blank" href="{% static 'friendship/img/graphics/step4.jpg' %}"><img style="border-radius: 0%" src="{% static 'friendship/img/graphics/step4.jpg' %}"></a>
         <h4 class="text-dark-gray" style="text-align: left">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           ขั้นตอนที่ 4
           {% else %}
           Step 4
           {% endif %}
         </h4>
         <p style="float: left; text-align:left">
-          {% if request.session.locale == 'th-TH' %}
+          {% if request.session.locale == 'th_TH' %}
           สินค้าจะถูกจัดส่งถึงคุณโดยตรง เพราะเราเปรียบเสมือน ผู้จัดส่งเท่านั้น คุณจึงเหมือนได้ซื้อสินค้าจากร้านค้านั้นๆโดยตรง ไม่ต้องผ่านคนกลาง และไม่ต้องเสียค่าใช้จ่ายเพิ่มเติมอีก
           {% else %}
           We order your item, from authorized retailers only, to ensure the authenticity of the product you receive. Your item is delivered directly to you in 5-17 business days (average 8 days). We offer door-to-door delivery on all items, with no extra charge.

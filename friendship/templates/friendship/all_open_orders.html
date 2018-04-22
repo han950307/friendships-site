@@ -9,42 +9,42 @@
 	<div id="orders-header">
 		<div class="row" id="orders-row">
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สินค้า
 				{% else %}
 				Order / URL
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สถานะการชำระเงิน
 				{% else %}
 				Quantity | Size | Color
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สถานะสินค้า
 				{% else %}
 				Shipping Address
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				วันที่
 				{% else %}
 				Bid Ends In
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				สถานะสินค้า
 				{% else %}
 				Current Min Bid
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				ราคา
 				{% else %}
 				Make Bid
@@ -103,7 +103,7 @@
 			</div>
 			{% empty %}
 			<p>
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				{% else %}
 				No orders yet
 				{% endif %}
