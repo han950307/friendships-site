@@ -32,3 +32,7 @@ def become_a_sender(request):
 
 def contact_us(request):
     return render(request, 'friendship/contact_us.html', {})
+
+
+def terms_of_use(request):
+    return render(request, 'friendship/terms_of_use.html', {})

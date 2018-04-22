@@ -329,12 +329,12 @@
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="{% url 'friendship:terms_of_use' %}">
 
 											{% if request.session.locale == 'th_TH' %}
 											เงื่อนไขและข้อกำหนด
 											{% else %}
-											Terms &amp; Conditions
+											Terms of Use
 											{% endif %}
 										</a>
 									</li>
