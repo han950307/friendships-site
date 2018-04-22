@@ -39,6 +39,8 @@ from friendship.serializers import (
     MessageSerializer,
 )
 
+from friendsite import settings
+
 from backend.views import (
     get_user_auth_token,
     verify_social_auth_token,
@@ -52,6 +54,7 @@ import base64
 import hashlib
 import hmac
 import time
+import braintree
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):

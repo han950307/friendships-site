@@ -17,6 +17,8 @@ from ..models import (
 
 import datetime
 import pytz
+import braintree
+import math
 from django.core import mail
 from friendsite import settings
 
@@ -144,6 +146,9 @@ def order_details(request, order_id, **kwargs):
         'subtotal': Money.format_value(subtotal, currency),
         'usd': Money.Currency.USD,
         'thb': Money.Currency.THB,
+        'usd_str': str(Money.Currency.USD).upper(),
+        'thb_str': str(Money.Currency.THB).upper(),
+        'thb_total': math.ceil(min_bid.get_total(currency=Money.Currency.THB)),
         'currency': currency,
         'manual_wire_transfer_form': ManualWireTransferForm(),
     })
@@ -154,12 +159,24 @@ def order_details(request, order_id, **kwargs):
                         in OrderAction.Action._member_map_.items()
     })
 
+    # Braintree Setup
+    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    client_token = gateway.client_token.generate()
+
+    data_dict["braintree_client_token"] = client_token
+
     if settings.DEBUG:
         data_dict["payment_env"] = "sandbox"
     else:
         data_dict["payment_env"] = "production"
 
     return render(request, 'friendship/order_details.html', data_dict)
+
+
+def process_braintree_payment(request):
+    order_id = request.POST["order_id"]
+    braintree_nonce = request.POST["braintree_nonce"]
+    print(order_id, braintree_nonce)
 
 
 @login_required
