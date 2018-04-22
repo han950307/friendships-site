@@ -111,7 +111,7 @@ CRONJOBS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en_US'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True

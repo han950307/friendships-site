@@ -53,7 +53,7 @@ def login_view(request):
 	load login view.
 	"""
 	if 'locale' not in request.session:
-		request.session["locale"] = "en-US"
+		request.session["locale"] = "en_US"
 	if "next" in request.GET:
 		request.session["next"] = request.GET["next"]
 	return render(request, 'friendship/login.html', {})
@@ -84,7 +84,7 @@ def logout_view(request):
 	"""
 	# keep locale info
 	if 'locale' not in request.session:
-		request.session["locale"] = "en-US"
+		request.session["locale"] = "en_US"
 	locale = request.session["locale"]
 
 	# logout

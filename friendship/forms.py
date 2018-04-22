@@ -234,7 +234,7 @@ class OrderForm(forms.ModelForm):
         else:
             super().__init__(*args)
         self.locale = kwargs['locale']
-        if self.locale == "th-TH":
+        if self.locale == "th_TH":
             self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
             self.fields["quantity"].widget.attrs['placeholder'] = "จำนวน*"
             self.fields["merchandise_type"].widget.attrs['placeholder'] = "เลือก*"
@@ -358,7 +358,7 @@ class ShippingAddressForm(forms.ModelForm):
             instance = None
         super().__init__(*args, instance=instance)
         self.locale = kwargs["locale"]
-        if self.locale == "th-TH":
+        if self.locale == "th_TH":
             self.fields["name"].widget.attrs['placeholder'] = "ชื่อ นามสกุล*"
             self.fields["address_line_1"].widget.attrs['placeholder'] = "บ้านเลขที่ หมู่*"
             self.fields["address_line_2"].widget.attrs['placeholder'] = "แขวง / ตำบล*"

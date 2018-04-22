@@ -154,6 +154,11 @@ def order_details(request, order_id, **kwargs):
                         in OrderAction.Action._member_map_.items()
     })
 
+    if settings.DEBUG:
+        data_dict["payment_env"] = "sandbox"
+    else:
+        data_dict["payment_env"] = "production"
+
     return render(request, 'friendship/order_details.html', data_dict)
 
 
