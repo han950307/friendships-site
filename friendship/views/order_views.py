@@ -201,7 +201,7 @@ def process_braintree_payment(request):
         "amount": str(value),
         "merchant_account_id": str(currency).upper(),
         "payment_method_nonce" : braintree_nonce,
-        "order_id" : "Mapped to PayPal Invoice Number",
+        "order_id" : "friendshipsorder{}".format(order.id),
         "descriptor": {
           "name": "FriendShips *ecommerce"
         },
