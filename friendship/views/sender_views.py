@@ -305,6 +305,7 @@ def sender_landing(request):
     if request.session["is_shipper"] != True:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
+    return redirect('friendship:user_open_bids')
     return render(request, 'friendship/sender_landing.html', {
         'data': [request, ],
     })
