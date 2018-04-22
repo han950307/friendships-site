@@ -140,7 +140,7 @@ def place_order(request):
     """
     # CURRENTLY ONLY GET PRIMARY ADDRESS.
     if 'locale' not in request.session:
-        request.session['locale'] = 'en-US'
+        request.session['locale'] = 'en_US'
     locale = request.session["locale"]
     user_addresses = request.user.shipping_addresses.filter(primary=True)
 

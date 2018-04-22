@@ -6,14 +6,14 @@
 {% block breadcrumb %}
 <ul class="breadcrumb container">
   <li><a href="{% url 'friendship:user_open_bids' %}">
-    {% if request.session.locale == 'th-TH' %}
+    {% if request.session.locale == 'th_TH' %}
     การสั่งซื้อของคุณ
     {% else %}
     Your Matches
     {% endif %}
 </a></li>
 <li>
-    {% if request.session.locale == 'th-TH' %}
+    {% if request.session.locale == 'th_TH' %}
     สินค้าเลขที่ {{ order.id }}
     {% else %}
     Order # {{ order.id }}
@@ -24,7 +24,7 @@
 
 {% block title %}
 <div class="order-number-heading">
-    {% if request.session.locale == 'th-TH' %}
+    {% if request.session.locale == 'th_TH' %}
     สินค้าเลขที่ {{ order.id }}
     {% else %}
     Order # {{ order.id }}
@@ -39,7 +39,7 @@
     <div class="row">
         <div class="col-xl-3">
             <h3>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 รายละเอียดสินค้า
                 {% else %}
                 Order Details
@@ -51,14 +51,14 @@
             </div>
             {% endif %}
             <span class="bold"><h6>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 ลิ้งค์ URL
                 {% else %}
                 URL:
                 {% endif %}
             </h6></span> <p><a target="_blank" href="{{ order.url }}">{{ order_url }}</a></p>
             <p><span class="black"><h6>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 จำนวน
                 {% else %}
                 Quantity:
@@ -66,7 +66,7 @@
             </h6></span> {{ order.quantity }}</p>
             {% if order.color %}
             <p><span class="black"><h6>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 สี
                 {% else %}
                 Color:
@@ -75,7 +75,7 @@
             {% endif %}
             {% if order.description %}
             <p><span class="black"><h6>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 รายละเอียดเพิ่มเติม
                 {% else %}
                 Description:
@@ -85,7 +85,7 @@
             <p>
                 <span class="black">
                     <h6>
-                        {% if request.session.locale == 'th-TH' %}
+                        {% if request.session.locale == 'th_TH' %}
                         ที่อยู่จัดส่ง
                         {% else %}
                         Shipping Address:
@@ -105,7 +105,7 @@
         </div>
         <div class="col-xl-8">
             <h3>
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 สถานะสินค้า
                 {% else %}
                 Confirm Banknote
@@ -114,7 +114,7 @@
             <form action="{% url 'friendship:confirm_item_shipped_by_merchant' order.id %}" method="post" enctype=multipart/form-data>
                 {% csrf_token %}
                 {{ form.as_table }}
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
                 {% else %}
                 <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">

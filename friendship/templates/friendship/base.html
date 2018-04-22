@@ -6,7 +6,7 @@
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		FriendShips
 		{% else %}
 		FriendShips
@@ -31,7 +31,7 @@
 {% block altnav %}
 {% endblock altnav %}
 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 <body id="thai" data-fade_in="on-load">
 	{% else %}
 	<body class="" data-fade_in="on-load">
@@ -67,7 +67,7 @@
 								<!-- Nav Item -->
 								<li>
 									<a href="{% url 'friendship:how_it_works' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										วิธีการใช้งาน
 										{% else %}
 										How It Works
@@ -76,7 +76,7 @@
 								</li>
 								<li>
 									<a href="{% url 'friendship:place_order' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										สั่งสินค้า
 										{% else %}
 										Place Order
@@ -88,7 +88,7 @@
 								{% if request.session.is_shipper %}
 								<li>
 									<a href="{% url 'friendship:open_orders' 'all' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										ลงประมูล
 										{% else %}
 										Make a Bid
@@ -97,7 +97,7 @@
 								</li>
 								<li>
 									<a href="{% url 'friendship:user_open_bids' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										ลงประมูล
 										{% else %}
 										Your Bids
@@ -108,7 +108,7 @@
 
 								<li>
 									<a href="{% url 'friendship:user_open_orders' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										การสั่งซื้อของคุณ
 										{% else %}
 										Your Orders
@@ -118,7 +118,7 @@
 								{% endif %}
 								<li>
 									<a href="{% url 'friendship:messages' %}">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										ข้อความ
 										{% else %}
 										Messages
@@ -129,10 +129,10 @@
 
 								<!-- locale change -->
 								<li>
-									{% if request.session.locale == 'th-TH' %}
-									<a href="{% url 'friendship:change_locale' 'en-US' request.path|urlencode:'' %}">English</a>
+									{% if request.session.locale == 'th_TH' %}
+									<a href="{% url 'friendship:change_locale' 'en_US' request.path|urlencode:'' %}">English</a>
 									{% else %}
-									<a href="{% url 'friendship:change_locale' 'th-TH' request.path|urlencode:'' %}">ภาษาไทย</a>
+									<a href="{% url 'friendship:change_locale' 'th_TH' request.path|urlencode:'' %}">ภาษาไทย</a>
 									{% endif %}
 								</li>
 
@@ -143,7 +143,7 @@
 						<!-- Navbar Button -->
 						{% if request.user.is_authenticated %}
 						<a href="{% url 'friendship:logout' %}" class="btn btn-sm ui-gradient-red pull-right">
-							{% if request.session.locale == 'th-TH' %}
+							{% if request.session.locale == 'th_TH' %}
 							ออกจากระบบ
 							{% else %}
 							Logout
@@ -151,7 +151,7 @@
 						</a>
 						{% else %}
 						<a href="{% url 'friendship:login' %}" class="btn btn-sm ui-gradient-blue pull-right">
-							{% if request.session.locale == 'th-TH' %}
+							{% if request.session.locale == 'th_TH' %}
 							เข้าสู่ระบบ
 							{% else %}
 							Login
@@ -183,7 +183,7 @@
 									<img src="{% static 'friendship/img/logo/friendships.svg' %}" data-uhd
 									alt="FriendShips"/>
 									<p class="mt-1">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										พบกับเราได้ในช่องทางอื่นๆ
 										{% else %}
 										Find us everywhere else!
@@ -192,7 +192,7 @@
 								</div>
 								<div class="col-md-2 col-6 footer-col">
 									<h6 class="heading footer-heading">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										ไปที่
 										{% else %}
 										Quick Nav
@@ -201,7 +201,7 @@
 									<ul class="footer-nav">
 										<li>
 											<a href="{% url 'friendship:index' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												{% else %}
 												Home
 												{% endif %}
@@ -209,7 +209,7 @@
 										</li>
 										<li>
 											<a href="{% url 'friendship:place_order' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												สั่งสินค้า
 												{% else %}
 												Place Order
@@ -218,7 +218,7 @@
 										</li>
 										<li>
 											<a href="{% url 'friendship:user_open_orders' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												การสั่งซื้อของคุณ
 												{% else %}
 												Your Orders
@@ -229,7 +229,7 @@
 								</div>
 								<div class="col-md-2 col-6 footer-col">
 									<h6 class="heading footer-heading">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										หน้าอื่นๆ
 										{% else %}
 										Other Pages
@@ -238,7 +238,7 @@
 									<ul class="footer-nav">
 										<li>
 											<a href="{% url 'friendship:about_us' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												เกี่ยวกับเรา
 												{% else %}
 												About Us
@@ -247,7 +247,7 @@
 										</li>
 										<li>
 											<a href="{% url 'friendship:contact_us' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												ติดต่อเรา
 												{% else %}
 												Contact Us
@@ -256,7 +256,7 @@
 										</li>
 										<li>
 											<a href="{% url 'friendship:become_a_sender' %}">
-												{% if request.session.locale == 'th-TH' %}
+												{% if request.session.locale == 'th_TH' %}
 												มาเป็น sender กับเรา
 												{% else %}
 												Become a Sender
@@ -267,7 +267,7 @@
 								</div>
 								<div class="col-md-4 col-sm-6 footer-col center-on-sm">
 									<h6 class="heading footer-heading">
-										{% if request.session.locale == 'th-TH' %}
+										{% if request.session.locale == 'th_TH' %}
 										Social Media
 										{% else %}
 										Social Media
@@ -308,7 +308,7 @@
 								<ul class="footer-nav">
 									<li>
 										<a href="#">
-											{% if request.session.locale == 'th-TH' %}
+											{% if request.session.locale == 'th_TH' %}
 											นโยบายความเป็นส่วนตัว
 											{% else %}
 											Privacy Policy
@@ -319,7 +319,7 @@
 									<li>
 										<a href="#">
 
-											{% if request.session.locale == 'th-TH' %}
+											{% if request.session.locale == 'th_TH' %}
 											เงื่อนไขและข้อกำหนด
 											{% else %}
 											Terms &amp; Conditions
@@ -329,7 +329,7 @@
 									<li>
 										<a href="#">
 
-											{% if request.session.locale == 'th-TH' %}
+											{% if request.session.locale == 'th_TH' %}
 											คำถามที่พบบ่อย
 											{% else %}
 											FAQ

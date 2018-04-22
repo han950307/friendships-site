@@ -5,7 +5,7 @@
 {% endblock head %}
 
 {% block title %} 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 สั่งสินค้า
 {% else %}
 Place a New Order
@@ -13,7 +13,7 @@ Place a New Order
 {% endblock title %}
 
 {% block title_desc %}
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 {% else %}
 It's easy as ship
 {% endif %}
@@ -60,7 +60,7 @@ It's easy as ship
             <!-- <div class="upload-btn-wrapper">
                 <button class='btn btn-primary btn-block'><span class='icon icon-picture' style="padding-right:10px; vertical-align:middle;"></span>Upload Image</button>
             </div> -->
-            {% if request.session.locale == 'th-TH' %}
+            {% if request.session.locale == 'th_TH' %}
             อัพโหลดรูปภาพสินค้า (ถ้ามี)
             {% else %}
             Upload an image for the item. (optional)
@@ -70,7 +70,7 @@ It's easy as ship
         </div>
         <div class="form-group" style="margin-top:2rem;">
             <span class="desc">
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 เราจะจับคู่คุณกับ sender ที่ให้ราคาดีที่สุดในระยะเวลาของคุณ*
                 {% else %}
                 We will match you with the lowest price found within: *
@@ -103,14 +103,14 @@ It's easy as ship
         <hr />
         <!-- display shipping information -->
         <h4 style="margin-bottom:1.5rem;">
-            {% if request.session.locale == 'th-TH' %}
+            {% if request.session.locale == 'th_TH' %}
             ที่อยู่จัดส่ง
             {% else %}
             Shipping Details
             {% endif %}
             {% for user_address in user_addresses %}
             <a href="#" id="edit-address">
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 แก้ไข
                 {% else %}
                 EDIT
@@ -210,7 +210,7 @@ It's easy as ship
         {{ shipping_address_form.phone }}
     </div>
     {% endfor %}
-    {% if request.session.locale == 'th-TH' %}
+    {% if request.session.locale == 'th_TH' %}
     <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="วางคำสังนี้" />
     {% else %}
     <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />

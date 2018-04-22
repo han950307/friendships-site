@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 ข้อความ
 {% else %}
 Messages
@@ -20,7 +20,7 @@ Messages
                 {% for order in orders %}
                 <button class="btn shadow-md sidebar-btn ui-gradient-messages" id="{{ order.id }}">
                     <p> 
-                        {% if request.session.locale == 'th-TH' %}
+                        {% if request.session.locale == 'th_TH' %}
                         สินค้าเลขที่ {{ order.id }}
                         {% else %}
                         Order # {{ order.id }}
@@ -35,7 +35,7 @@ Messages
         <div class="col col-" id="right-pane">
             {% for order in orders %}
             <div id="messages-{{ order.id }}" class="message_dummy" data-sync="{% url 'friendship:sync_message' order.id %}" data-method="post" data-first="0" data-send="{% url 'friendship:send_message' order.id %}">
-                {% if request.session.locale == 'th-TH' %}
+                {% if request.session.locale == 'th_TH' %}
                 Team Senders เป็นกลุ่มผู้ส่งที่ทำงานโดยตรงให้กับ FriendShips เราจะไม่ตอบข้อความทางนี้ ติดต่อพวกเราได้ที่ Line:  @teamsenders
                 {% else %}
                 Team Senders is a group of shippers working directly for FriendShips. We won't be replying here, so please add us on line: @teamsenders

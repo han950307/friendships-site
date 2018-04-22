@@ -38,6 +38,7 @@ urlpatterns = [
     path('upload_picture_process/<int:order_id>', views.upload_picture_process, name='upload_picture_process'),
     path('make_payment/<int:order_id>', views.make_payment, name='make_payment'),
     path('process_payment/<int:order_id>/<int:currency>', views.process_payment, name='process_payment'),
+    path('process_braintree_payment/', views.process_braintree_payment, name='process_braintree_payment'),
     path('end_bid/<int:order_id>', views.end_bid, name='end_bid'),
     path('user_open_orders', views.user_open_orders, name='user_open_orders'),
     path('submit_wire_transfer/<int:order_id>', views.submit_wire_transfer, name='submit_wire_transfer'),

@@ -4,7 +4,7 @@
 
 {% block title %} 
 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 เข้าสู่ระบบ (ผู้ซื้อ)
 {% else %}
 Receiver Login
@@ -12,7 +12,7 @@ Receiver Login
 {% endblock title %}
 {% block title_desc %} 
 
-{% if request.session.locale == 'th-TH' %}
+{% if request.session.locale == 'th_TH' %}
 {% else %}
 Authenticate yourself
 {% endif %}
@@ -21,14 +21,14 @@ Authenticate yourself
 {% block form %}
 <div class="container" id="login-container">
 	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-blue shadow-md" id="Facebook-login">
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		เข้าสู่ระบบผ่าน Facebook
 		{% else %}
 		Log in with Facebook
 		{% endif %}
 	</a><br>
 	<a href="{% url 'friendsite_social_auth:line_login' %}" class="btn btn-block ui-gradient-green shadow-md" id="Line-login">
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		เข้าสู่ระบบผ่าน Line
 		{% else %}
 		Log in with LINE
@@ -36,7 +36,7 @@ Authenticate yourself
 	</a>
 	<hr>
 	<h1 style="text-align: center">
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		เข้าสู่ระบบ (ผู้ส่ง)
 		{% else %}
 		Sender Login
@@ -46,7 +46,7 @@ Authenticate yourself
 		{% csrf_token %}
 		<div class="form-group">
 			<label for="form_email">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				อีเมลล์
 				{% else %}
 				Email
@@ -56,7 +56,7 @@ Authenticate yourself
 		</div>
 		<div class="form-group">
 			<label for="form_password">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				รหัสผ่าน
 				{% else %}
 				Password
@@ -64,7 +64,7 @@ Authenticate yourself
 			</label>
 			<input type="password" name="password" class="input form-control" id="form_password">
 		</div>
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="เข้าสู่ระบบ" />
 		{% else %}
 		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="Login" />
@@ -73,13 +73,13 @@ Authenticate yourself
 
 	<!-- {# <br />
 	<p>
-		{% if request.session.locale == 'th-TH' %}
+		{% if request.session.locale == 'th_TH' %}
 		ยังไม่มีบัญชีผู้ใช้?
 		{% else %}
 		Don't have an account?
 		{% endif %}
 		<a href="{% url 'friendship:register' %}">
-			{% if request.session.locale == 'th-TH' %}
+			{% if request.session.locale == 'th_TH' %}
 			สมัครที่นี่!
 			{% else %}
 			Register here!

@@ -1,6 +1,7 @@
 {% extends "friendship/base.html" %}
 {% load static %}
 {% block altnav %}
+
 <body class="ui-transparent-nav" data-fade_in="on-load">
 	{% endblock altnav %}
 	{% block content %}
@@ -8,17 +9,26 @@
 
 	<div class="ui-hero hero-lg hero-center ui-curve hero-bg bg-dark-gray" style="background-size: cover;">
 		<div class="container pb-4">
-			<h3 class="heading animate" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
+			<h3 class="heading animate underline" data-show="fade-in-up-big" data-delay="100" style="text-shadow: 0 2px 5px rgba(0, 9, 128, 0.1)">
 				<!--<span style="">FriendShips</span><br>-->
 				<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
-				<span>
-					{% if request.session.locale == 'th-TH' %}
-					ทลายพรหมแดน ลบกำแพง e-commerce
+				<span class="homepage">
+					{% if request.session.locale == 'th_TH' %}
+					ช๊อปง่ายๆไร้พรหมแดน
 					{% else %}
 					E-commerce without borders
 					{% endif %}
 				</span>
 			</h3>
+			<div id="heading-subtitle">
+				<h4 id="heading-subtitle" style="color: #fff; font-size: 1.5rem; font-weight: 100; margin-bottom: 9%; margin-top: -4%">
+					{% if request.session.locale == 'th_TH' %}
+					นวัตกรรมใหม่ของการ พรีออเดอร์ สินค้าออนไลน์จากทั่วโลก
+					{% else %}
+					An innovative way to pre-order online oversea products
+					{% endif %}
+				</h4>
+			</div>
 		</div><!-- .container -->
 	</div><!-- .ui-hero -->
 
@@ -26,19 +36,21 @@
 	<div class="container homepage-container">
 		<div id="homepage-start" class="shadow-xl section intro-image">
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-
 				<span>
 					{% if request.user.is_authenticated %}
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					ยินดีต้อนรับคุณ {{ request.user.first_name}} - 
 					{% else %}
 					Welcome {{ request.user.first_name }}, it's
 					{% endif %}
 					{% else %}
+					{% if request.session.locale == 'th_TH' %}
+					{% else %}
 					It's
 					{% endif %}
+					{% endif %}
 
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					เริ่มต้นง่ายนิดเดียว!
 					{% else %}
 					simple to get started!
@@ -48,11 +60,15 @@
 			<form action="{% url 'friendship:place_order' %}">
 				<div class="input-group">
 					<!-- Email Input -->
-					<input autocomplete="email" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
+					{% if request.session.locale == 'th_TH' %}
+					<input type="url" data-validation="required" name="url" class="input form-control" id="paste-url" placeholder="วางลิงค์ URL ของสินค้า">
+					{% else %}
+					<input type="url" data-validation="required" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
+					{% endif %}
 					<div class="input-group-append">
 						<!-- Submit Button -->
 						<button class="btn btn-sm ui-gradient-blue">
-							{% if request.session.locale == 'th-TH' %}
+							{% if request.session.locale == 'th_TH' %}
 							สั่งสินค้า
 							{% else %}
 							Place Order
@@ -71,14 +87,14 @@
 		<div class="container ui-icon-blocks ui-blocks-h icons-lg">
 			<div class="section-heading center">
 				<h2 class="heading text-dark-gray">
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					การใช้งาน/วิธีใช้
 					{% else %}
 					How it Works
 					{% endif %}
 				</h2>
 				<p class="paragraph">
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					คุณสามารถเลือกช็อปสินค้าจากเว็บใดก็ได้ เราจะส่งสินค้าของคุณด้วยราคาจัดส่งที่ดีที่สุด
 					{% else %}
 					Shop on any website, and we'll deliver your items at the lowest prices, right to your door
@@ -89,14 +105,14 @@
 				<div class="col-sm-3 ui-icon-block">
 					<img src="{% static 'friendship/img/graphics/step1.svg' %}">
 					<h4 class="text-dark-gray">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ขั้นตอนที่ 1
 						{% else %}
 						Step 1
 						{% endif %}
 					</h4>
 					<p>
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						<span class="bold">วาง</span>ลิ้งค์สินค้าที่คุณต้องการ
 						{% else %}
 						<span class="bold">Paste</span> a link to your desired item, from any online store
@@ -106,14 +122,14 @@
 				<div class="col-sm-3 ui-icon-block">
 					<img src="{% static 'friendship/img/graphics/step2.svg' %}">
 					<h4 class="text-dark-gray">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ขั้นตอนที่ 2
 						{% else %}
 						Step 2
 						{% endif %}
 					</h4>
 					<p>
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						รอการประมูลราคาจัดส่งจาก shippers แล้วจึง<span class="bold">ยืนยัน</span>การสั่งซื้อ เมื่อคุณพอใจ
 						{% else %}
 						<span class="bold">Wait</span> while shippers compete to deliver your item, then <span class="bold">confirm</span> the lowest price we find.
@@ -123,15 +139,15 @@
 				<div class="col-sm-3 ui-icon-block">
 					<img src="{% static 'friendship/img/graphics/step3.svg' %}">
 					<h4 class="text-dark-gray">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ขั้นตอนที่ 3
 						{% else %}
 						Step 3
 						{% endif %}
 					</h4>
 					<p>
-						{% if request.session.locale == 'th-TH' %}
-						<span class="bold">ชำจะเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
+						{% if request.session.locale == 'th_TH' %}
+						<span class="bold">ชำระเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
 						{% else %}
 						<span class="bold">Pay</span> for your item through credit card or bank transfer
 						{% endif %}
@@ -140,27 +156,29 @@
 				<div class="col-sm-3 ui-icon-block">
 					<img src="{% static 'friendship/img/graphics/step4.svg' %}">
 					<h4 class="text-dark-gray">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						ขั้นตอนที่ 4
 						{% else %}
 						Step 4
 						{% endif %}
 					</h4>
 					<p>
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						<span class="bold">รอรับของ</span>ได้ภายใน 5 - 17 วัน (เฉลี่ย 8 วัน)!
 						{% else %}
 						Your item is <span class="bold">delivered</span> directly to you in 5-17 business days (average 8 days)
 						{% endif %}
 					</p>
+					<br>
+					<br>
+					<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
+						{% if request.session.locale == 'th_TH' %}
+						รายละเอียดเพิ่มเติม
+						{% else %}
+						More Details
+						{% endif %}
+					</a>
 				</div>
-				<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
-					{% if request.session.locale == 'th-TH' %}
-					เริ่มกันเลย!
-					{% else %}
-					More Details
-					{% endif %}
-				</a>
 			</div><!-- .row -->
 		</div><!-- .container -->
 	</div><!-- .section -->
@@ -176,7 +194,7 @@
 					<!-- Section Heading -->
 					<div class="section-heading mb-2">
 						<h2 class="heading">
-							{% if request.session.locale == 'th-TH' %}
+							{% if request.session.locale == 'th_TH' %}
 							ทำไมต้อง friendships
 							{% else %}
 							Why FriendShips?
@@ -190,16 +208,16 @@
 							<span class="icon icon-calendar"></span>
 							<p class="">
 								<span class="text-black">
-									{% if request.session.locale == 'th-TH' %}
+									{% if request.session.locale == 'th_TH' %}
 									ตอบโจทย์:
 									{% else %}
 									Availability:
 									{% endif %}
 								</span>
-								{% if request.session.locale == 'th-TH' %}
-								เลือกซื้อสินค้าได้ทันที ไม่ต้องรอพรีออเดอร์
+								{% if request.session.locale == 'th_TH' %}
+								เลือกซื้อสินค้าจากเว็บใดก็ได้ เมื่อไรก็ได้ เปรียบเสมือนการ พรีออเดอร์สินค้าใดก็ได้ โดยไม่ต้องรอรอบ
 								{% else %}
-								No more Preorders! Buy any item you want, any time you want it
+								Pre-order any item you want, any time you want it!
 								{% endif %}
 							</p>
 						</li>
@@ -207,14 +225,14 @@
 							<span class="icon icon-wallet"></span>
 							<p class="">
 								<span class="text-black">
-									{% if request.session.locale == 'th-TH' %}
+									{% if request.session.locale == 'th_TH' %}
 									สบายกระเป๋า/ราคา:
 									{% else %}
 									Cost:
 									{% endif %}
 								</span>
-								{% if request.session.locale == 'th-TH' %}
-								ด้วยระบบการประมูลค่าจัดส่งของเรา จะทำให้คุณได้รับ ราคา ที่ดีที่สุด
+								{% if request.session.locale == 'th_TH' %}
+								ระบบการประมูลค่าจัดส่งของเรา จะทำให้คุณได้รับ ราคาที่ดีที่สุด
 								{% else %}
 								Our innovative bidding system means shippers compete to give you the lowest price
 								{% endif %}
@@ -224,13 +242,13 @@
 							<span class="icon icon-globe"></span>
 							<p class="">
 								<span class="text-black">
-									{% if request.session.locale == 'th-TH' %}
+									{% if request.session.locale == 'th_TH' %}
 									สะดวก/ง่ายดาย:
 									{% else %}
 									Convenience:
 									{% endif %}
 								</span>
-								{% if request.session.locale == 'th-TH' %}
+								{% if request.session.locale == 'th_TH' %}
 								แค่ 3 ขั้นตอนง่ายๆ สินค้าของคุณก็จะส่งตรงถึงคุณทันที
 								{% else %}
 								Just three simple steps and your item is delivered to your door
@@ -241,14 +259,14 @@
 							<span class="icon icon-shield"></span>
 							<p class="">
 								<span class="text-black">
-									{% if request.session.locale == 'th-TH' %}
+									{% if request.session.locale == 'th_TH' %}
 									ไว้ใจได้/วางใจได้:
 									{% else %}
 									Peace of Mind:
 									{% endif %}
 								</span>
-								{% if request.session.locale == 'th-TH' %}
-								เราคัดเลือกผู้ส่งทึ่ได้มาตรฐาน ให้คุณสามารถ วางใจได้ ถึงบริการและการดูแลสินค้าของเรา
+								{% if request.session.locale == 'th_TH' %}
+								เราคัดเลือกผู้ส่งที่ได้มาตรฐาน และทีมงานของเราจะสั่งซื้อสินค้าจากลิงค์ที่คุณวางเท่านั้น ให้คุณสามารถ วางใจได้ ถึงบริการและการดูแลสินค้าของเรา
 								{% else %}
 								We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
 								{% endif %}
@@ -257,7 +275,7 @@
 						</li>
 					</ul>
 					<a href="{% url 'friendship:login' %}" class="btn-link btn-arrow">
-						{% if request.session.locale == 'th-TH' %}
+						{% if request.session.locale == 'th_TH' %}
 						เริ่มกันเลย!
 						{% else %}
 						Get Started
@@ -280,14 +298,14 @@
 			<div class="section-heading cente">
 				<h2 class="heading text-dark-gray">
 
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					สินค้ายอดนิยม
 					{% else %}
 					Trending Items
 					{% endif %}
 				</h2>
 				<p>
-					{% if request.session.locale == 'th-TH' %}
+					{% if request.session.locale == 'th_TH' %}
 					ไม่อยากตกเทรนด์ มาทางนี้! สินค้าที่ได้รับความสนใจจากเหล่านักช็อปบน FriendShips ของเรา
 					{% else %}
 					See popular items that people are buying now
@@ -420,7 +438,7 @@
 	<div class="section bg-light pb-6">
 		<div class="container">
 			<h2 class="text-dark-gray" style="text-align: center">
-				{% if request.session.locale == 'th-TH' %}
+				{% if request.session.locale == 'th_TH' %}
 				พบกันทางแอปพลิเคชั่นบนมือถือได้ เร็วๆนี้
 				{% else %}
 				Coming Soon to Mobile

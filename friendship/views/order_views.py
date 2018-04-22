@@ -17,6 +17,8 @@ from ..models import (
 
 import datetime
 import pytz
+import braintree
+import math
 from django.core import mail
 from friendsite import settings
 
@@ -135,6 +137,11 @@ def order_details(request, order_id, **kwargs):
         'thai_tracking': thai_tracking[0] if thai_tracking else None
     })
 
+    if min_bid:
+        thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
+    else:
+        thb_total = "0"
+
     data_dict.update({
         'order': order,
         'order_url': order_url,
@@ -144,6 +151,9 @@ def order_details(request, order_id, **kwargs):
         'subtotal': Money.format_value(subtotal, currency),
         'usd': Money.Currency.USD,
         'thb': Money.Currency.THB,
+        'usd_str': str(Money.Currency.USD).upper(),
+        'thb_str': str(Money.Currency.THB).upper(),
+        'thb_total': str(thb_total),
         'currency': currency,
         'manual_wire_transfer_form': ManualWireTransferForm(),
     })
@@ -154,7 +164,60 @@ def order_details(request, order_id, **kwargs):
                         in OrderAction.Action._member_map_.items()
     })
 
+    # Braintree Setup
+    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    client_token = gateway.client_token.generate()
+
+    data_dict["braintree_client_token"] = client_token
+
+    if settings.DEBUG:
+        data_dict["payment_env"] = "sandbox"
+    else:
+        data_dict["payment_env"] = "production"
+
     return render(request, 'friendship/order_details.html', data_dict)
+
+
+@login_required
+def process_braintree_payment(request):
+    # get data
+    order_id = request.POST["order_id"]
+    braintree_nonce = request.POST.get("braintree_nonce", False)
+
+    # get order
+    order = Order.objects.filter(pk=order_id).filter(receiver=request.user)
+    if not order:
+        messages.error(request, 'You do not have permission to view this page.')
+        return redirect('friendship:index')
+    else:
+        order = order[0]
+
+    # initialize gateway
+    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    currency = Money.Currency.THB
+    value = math.ceil(order.final_bid.get_total(currency))
+
+    result = gateway.transaction.sale({
+        "amount": str(value),
+        "merchant_account_id": str(currency).upper(),
+        "payment_method_nonce" : braintree_nonce,
+        "order_id" : "Mapped to PayPal Invoice Number",
+        "descriptor": {
+          "name": "FriendShips *ecommerce"
+        },
+    })
+    if result.is_success:
+        create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
+        PaymentAction.objects.create(
+            order=order,
+            payment_type=PaymentAction.PaymentType.PAYPAL,
+            other_info="Success ID: {}".format(result.transaction.id),
+        )
+        messages.success(request, "Payment processed.")
+    else:
+        messages.error(request, result.message)
+
+    return redirect('friendship:order_details', order_id=order_id)
 
 
 @login_required
