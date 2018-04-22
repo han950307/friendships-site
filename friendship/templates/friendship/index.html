@@ -36,7 +36,6 @@
 	<div class="container homepage-container">
 		<div id="homepage-start" class="shadow-xl section intro-image">
 			<p class="paragraph sp-layer text-dark-gray" data-show-transition="up" data-show-delay="400" data-show-duration="500" data-layer-init="true" style="visibility: visible; left: 0px; top: 0px; transform-origin: left top 0px; transform: scale(1) translate3d(0px, 0px, 0px); opacity: 1;">
-
 				<span>
 					{% if request.user.is_authenticated %}
 					{% if request.session.locale == 'th_TH' %}
@@ -61,7 +60,11 @@
 			<form action="{% url 'friendship:place_order' %}">
 				<div class="input-group">
 					<!-- Email Input -->
-					<input autocomplete="email" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
+					{% if request.session.locale == 'th_TH' %}
+					<input type="url" data-validation="required" name="url" class="input form-control" id="paste-url" placeholder="วางลิงค์ URL ของสินค้า">
+					{% else %}
+					<input type="url" data-validation="required" name="url" class="input form-control" id="paste-url" placeholder="Paste Item's URL">
+					{% endif %}
 					<div class="input-group-append">
 						<!-- Submit Button -->
 						<button class="btn btn-sm ui-gradient-blue">
@@ -214,7 +217,7 @@
 								{% if request.session.locale == 'th_TH' %}
 								เลือกซื้อสินค้าจากเว็บใดก็ได้ เมื่อไรก็ได้ เปรียบเสมือนการ พรีออเดอร์สินค้าใดก็ได้ โดยไม่ต้องรอรอบ
 								{% else %}
-								No more Preorders! Buy any item you want, any time you want it
+								Pre-order any item you want, any time you want it!
 								{% endif %}
 							</p>
 						</li>
@@ -229,7 +232,7 @@
 									{% endif %}
 								</span>
 								{% if request.session.locale == 'th_TH' %}
-								ด้วยระบบการประมูลค่าจัดส่งของเรา จะทำให้คุณได้รับ ราคา ที่ดีที่สุด
+								ระบบการประมูลค่าจัดส่งของเรา จะทำให้คุณได้รับ ราคาที่ดีที่สุด
 								{% else %}
 								Our innovative bidding system means shippers compete to give you the lowest price
 								{% endif %}
@@ -263,7 +266,7 @@
 									{% endif %}
 								</span>
 								{% if request.session.locale == 'th_TH' %}
-								เราคัดเลือกผู้ส่งทึ่ได้มาตรฐาน ให้คุณสามารถ วางใจได้ ถึงบริการและการดูแลสินค้าของเรา
+								เราคัดเลือกผู้ส่งที่ได้มาตรฐาน และทีมงานของเราจะสั่งซื้อสินค้าจากลิงค์ที่คุณวางเท่านั้น ให้คุณสามารถ วางใจได้ ถึงบริการและการดูแลสินค้าของเรา
 								{% else %}
 								We use only authorized retailers and proven senders, to ensure your item reaches you in perfect condition.
 								{% endif %}

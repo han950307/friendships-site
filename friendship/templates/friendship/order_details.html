@@ -119,6 +119,9 @@
                 Order Progress
                 {% endif %}
             </h3>
+            {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+            {% endfor %}
 
             <!--24 hr timer between buy now and payment-->
             <div class="{% if latest_action.action < MATCH_FOUND or latest_action.action >= BANKNOTE_UPLOADED %} hidden{% endif %}" id="payment-timer-div">
@@ -402,9 +405,9 @@
                     <form id="payment-form">
                         <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">
                         {% if request.session.locale == 'th_TH' %}
-                        บัตรเครดิต
+                        PayPal / บัตรเครดิต
                         {% else %}
-                        PayPal
+                        PayPal / Credit Card
                         {% endif %}
                         <br>
                         <input type="radio" class="input" name="payment-method" value="bank-transfer-online" id="bank-transfer-online-radio" checked="false">
@@ -797,9 +800,9 @@ paypal.Button.render({
   });
 },
 
-    onAuthorize: function (payload) {
-        document.getElementById('braintree-nonce').value = payload.nonce;
-        document.getElementById('braintree-form').submit();
+onAuthorize: function (payload) {
+    document.getElementById('braintree-nonce').value = payload.nonce;
+    document.getElementById('braintree-form').submit();
         // Submit `payload.nonce` to your server.
     },
 }, '#paypal-button');

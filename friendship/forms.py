@@ -128,8 +128,8 @@ class BidForm(forms.Form):
         )
     )
 
-    item_image_url = forms.CharField(max_length=3000, widget=forms.URLInput(attrs={
-        'class': 'input input-group form-control',
+    item_image_url = forms.CharField(required=False, max_length=3000, widget=forms.TextInput(attrs={
+        'class': 'input form-control',
     }))
 
 

@@ -137,6 +137,11 @@ def order_details(request, order_id, **kwargs):
         'thai_tracking': thai_tracking[0] if thai_tracking else None
     })
 
+    if min_bid:
+        thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
+    else:
+        thb_total = "0"
+
     data_dict.update({
         'order': order,
         'order_url': order_url,
@@ -148,7 +153,7 @@ def order_details(request, order_id, **kwargs):
         'thb': Money.Currency.THB,
         'usd_str': str(Money.Currency.USD).upper(),
         'thb_str': str(Money.Currency.THB).upper(),
-        'thb_total': math.ceil(min_bid.get_total(currency=Money.Currency.THB)),
+        'thb_total': str(thb_total),
         'currency': currency,
         'manual_wire_transfer_form': ManualWireTransferForm(),
     })
@@ -188,17 +193,17 @@ def process_braintree_payment(request):
         order = order[0]
 
     # initialize gateway
-    gateway = braintree.BraintreeGateway(access_token=use_your_access_token)
+    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
     currency = Money.Currency.THB
     value = math.ceil(order.final_bid.get_total(currency))
 
     result = gateway.transaction.sale({
-        "amount" : str(value),
+        "amount": str(value),
         "merchant_account_id": str(currency).upper(),
         "payment_method_nonce" : braintree_nonce,
         "order_id" : "Mapped to PayPal Invoice Number",
         "descriptor": {
-          "name": "Descriptor displayed in customer CC statements. 22 char max"
+          "name": "FriendShips *ecommerce"
         },
     })
     if result.is_success:

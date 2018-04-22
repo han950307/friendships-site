@@ -14,18 +14,30 @@
 	{% endif %}
 	<div class="row">
 		<div class="col-sm-4">
+			{% if order.item_image %}
+			<a href="{{ order.url }}"><img src="{{ order.item_image }}" style="height: 300px"></a>
+			{% else %}
+			Order #{{ order.id }} URL: <a href="{{ order.url }}">{{ order.url }}</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.retail_price.errors }}
 			{{ form.retail_price.label }}
 			{{ form.retail_price }}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-4">
+			{{ form.wages.errors }}
 			{{ form.wages.label }}
 			{{ form.wages }}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-4">
+			{{ form.currency.errors }}
 			{{ form.currency.label }}
 			{{ form.currency }}
 		</div>
@@ -33,6 +45,7 @@
 	{% if not order.item_image and request.user.shipper_info.shipper_type == 3 %}
 	<div class="row">
 		<div class="col-sm-4">
+			{{ form.item_image_url.errors }}
 			{{ form.item_image_url.label }}
 			{{ form.item_image_url }}
 		</div>
