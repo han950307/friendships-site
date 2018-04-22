@@ -14,7 +14,7 @@
 				<!--<span class="" style="font-weight:100; font-size:2.5rem;">E-commerce without borders</span>-->
 				<span class="homepage">
 					{% if request.session.locale == 'th_TH' %}
-					ทลายพรหมแดน ลบกำแพง e-commerce
+					ช๊อปง่ายๆไร้พรหมแดน
 					{% else %}
 					E-commerce without borders
 					{% endif %}
@@ -22,7 +22,11 @@
 			</h3>
 			<div id="heading-subtitle">
 				<h4 id="heading-subtitle" style="color: #fff; font-size: 1.5rem; font-weight: 100; margin-bottom: 9%; margin-top: -4%">
+					{% if request.session.locale == 'th_TH' %}
+					นวัตกรรมใหม่ของการ พรีออเดอร์ สินค้าออนไลน์จากทั่วโลก
+					{% else %}
 					An innovative way to pre-order online oversea products
+					{% endif %}
 				</h4>
 			</div>
 		</div><!-- .container -->
@@ -140,7 +144,7 @@
 					</h4>
 					<p>
 						{% if request.session.locale == 'th_TH' %}
-						<span class="bold">ชำจะเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
+						<span class="bold">ชำระเงิน</span>ผ่านบัตรหรือโอนเงินเข้าบัญชี
 						{% else %}
 						<span class="bold">Pay</span> for your item through credit card or bank transfer
 						{% endif %}
@@ -166,7 +170,7 @@
 					<br>
 					<a href="{% url 'friendship:how_it_works' %}" style="float: right;" class="btn-link btn-arrow">
 						{% if request.session.locale == 'th_TH' %}
-						เริ่มกันเลย!
+						รายละเอียดเพิ่มเติม
 						{% else %}
 						More Details
 						{% endif %}
@@ -208,7 +212,7 @@
 									{% endif %}
 								</span>
 								{% if request.session.locale == 'th_TH' %}
-								เลือกซื้อสินค้าได้ทันที ไม่ต้องรอพรีออเดอร์
+								เลือกซื้อสินค้าจากเว็บใดก็ได้ เมื่อไรก็ได้ เปรียบเสมือนการ พรีออเดอร์สินค้าใดก็ได้ โดยไม่ต้องรอรอบ
 								{% else %}
 								No more Preorders! Buy any item you want, any time you want it
 								{% endif %}

@@ -774,7 +774,7 @@
 <form style="display: none" action="{% url 'friendship:process_braintree_payment' %}" method="post" id="braintree-form">
     {% csrf_token %}
     <input style="display: none" name="order_id" value="{{ order.id }}" />
-    <input style="display: none" name="brantree_nonce" id="braintree-nonce" value="" />
+    <input style="display: none" name="braintree_nonce" id="braintree-nonce" value="" />
     <input style="display: none" type="submit" id="braintreeSubmit" />
 </form>
 <script src="{% static 'friendship/js/libs/custom/order-details.js' %}"></script>

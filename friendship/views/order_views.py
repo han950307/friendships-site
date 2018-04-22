@@ -173,10 +173,46 @@ def order_details(request, order_id, **kwargs):
     return render(request, 'friendship/order_details.html', data_dict)
 
 
+@login_required
 def process_braintree_payment(request):
+    # get data
     order_id = request.POST["order_id"]
-    braintree_nonce = request.POST["braintree_nonce"]
-    print(order_id, braintree_nonce)
+    braintree_nonce = request.POST.get("braintree_nonce", False)
+
+    # get order
+    order = Order.objects.filter(pk=order_id).filter(receiver=request.user)
+    if not order:
+        messages.error(request, 'You do not have permission to view this page.')
+        return redirect('friendship:index')
+    else:
+        order = order[0]
+
+    # initialize gateway
+    gateway = braintree.BraintreeGateway(access_token=use_your_access_token)
+    currency = Money.Currency.THB
+    value = math.ceil(order.final_bid.get_total(currency))
+
+    result = gateway.transaction.sale({
+        "amount" : str(value),
+        "merchant_account_id": str(currency).upper(),
+        "payment_method_nonce" : braintree_nonce,
+        "order_id" : "Mapped to PayPal Invoice Number",
+        "descriptor": {
+          "name": "Descriptor displayed in customer CC statements. 22 char max"
+        },
+    })
+    if result.is_success:
+        create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
+        PaymentAction.objects.create(
+            order=order,
+            payment_type=PaymentAction.PaymentType.PAYPAL,
+            other_info="Success ID: {}".format(result.transaction.id),
+        )
+        messages.success(request, "Payment processed.")
+    else:
+        messages.error(request, result.message)
+
+    return redirect('friendship:order_details', order_id=order_id)
 
 
 @login_required
