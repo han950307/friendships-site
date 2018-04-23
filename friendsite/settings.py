@@ -119,7 +119,7 @@ USE_L10N = True
 USE_TZ = True
 
 # HTTPS Stuff.
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 if not DEBUG:
 #    SECURE_SSL_REDIRECT = True  # This setting doesn't really matter because it's handled at server level.

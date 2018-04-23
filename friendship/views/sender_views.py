@@ -126,11 +126,32 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
         return super(SenderRegistrationWizard, self).process_step(form)
 
 
+def get_lowest_user_bid(order, user):
+    bids = Bid.objects.filter(order=order).filter(shipper=user)
+    lowest_val = None
+    lowest_bid = None
+    for bid in bids:
+        val = bid.get_total()
+        if not lowest_val or val < lowest_val:
+            lowest_bid = bid
+            lowest_val = val
+
+    return lowest_bid
+
+
 @login_required
 def user_open_bids(request):
     """
     This displays all the orders for the receiver.
     """
+    # Initialize data dict with all the order actions
+    data_dict = {}
+    data_dict.update({ k : v.value
+                        for (k,v)
+                        in OrderAction.Action._member_map_.items()
+    })
+
+    # populate with current active orders
     if request.session["is_shipper"] != True:
         error(request, 'You do not have permissions to access this page.')
         return redirect('friendship:index')
@@ -139,27 +160,35 @@ def user_open_bids(request):
     ).filter(
         order__latest_action__action__lt=OrderAction.Action.MATCH_FOUND
     ).order_by(
-        '-order__date_placed'
-    )
-    data_dict = {}
-    data_dict.update({ k : v.value
-                        for (k,v)
-                        in OrderAction.Action._member_map_.items()
-    })
-    data_dict['active_orders'] = qset
-
-    qset = Bid.objects.filter(
-        shipper=request.user
-    ).filter(
-        order__latest_action__action__gte=OrderAction.Action.MATCH_FOUND
-    ).filter(
-        order__latest_action__action__lt=OrderAction.Action.ORDER_FULFILLED
-    ).order_by(
-         '-order_id', '-order__date_placed', '-date_placed'
+        'order', '-order__bid_end_datetime'
     ).distinct(
         'order'
     )
-    data_dict['matched_orders'] = qset
+
+    data_dict['active_orders'] = [
+        get_lowest_user_bid(x.order, request.user)
+        for x
+        in qset
+    ]
+
+    # populate it with matched orders.
+    qset = Order.objects.filter(
+        shipper=request.user
+    ).filter(
+        latest_action__action__gte=OrderAction.Action.MATCH_FOUND
+    ).filter(
+        latest_action__action__lt=OrderAction.Action.ORDER_FULFILLED
+    ).filter(
+        final_bid__shipper=request.user
+    ).order_by(
+        '-bid_end_datetime'
+    )
+
+    data_dict['matched_orders'] = [
+        x.final_bid
+        for x
+        in qset
+    ]
     return render(request, 'friendship/user_open_bids.html', data_dict)
 
 
