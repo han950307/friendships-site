@@ -3,21 +3,21 @@
 
 {% block content %}
 <div class="ui-hero hero-lg ui-tilt ui-gradient-blue">
-      <div class="container info-heading">
-        <div class="row">
-          <div class="col-sm-6" data-vertical_center="true" data-vertical_offset="16">
-            <h1 class="heading animate" data-show="fade-in-up-big" data-delay="100">
-              FAQ
-            </h1>
-            <p class="paragraph animate" data-show="fade-in-up-big" data-delay="400">
-              Frequently Asked Questions
-            </p>
-          </div>
-          <div class="col-sm-6 animate" data-show="fade-in-left" data-delay="400">
-          </div>
-        </div><!-- .row -->
-      </div><!-- .container -->
-    </div><!-- .ui-hero .slider-pro -->
+  <div class="container info-heading">
+    <div class="row">
+      <div class="col-sm-6" data-vertical_center="true" data-vertical_offset="16">
+        <h1 class="heading animate" data-show="fade-in-up-big" data-delay="100">
+          FAQ
+        </h1>
+        <p class="paragraph animate" data-show="fade-in-up-big" data-delay="400">
+          Frequently Asked Questions
+        </p>
+      </div>
+      <div class="col-sm-6 animate" data-show="fade-in-left" data-delay="400">
+      </div>
+    </div><!-- .row -->
+  </div><!-- .container -->
+</div><!-- .ui-hero .slider-pro -->
 
 <!-- App Features Section -->
 <div id="features2" class="container section pt-0">
@@ -25,7 +25,11 @@
     {% if request.user.is_authenticated and request.user.is_staff %}
     <a href="{% url 'marketing_manager:edit_faq' %}">EDIT FAQ</a>
     {% endif %}
+    {% if request.session.locale == 'th_TH' %}
+    {{ content_thai|safe}}
+    {% else %}
     {{ content|safe }}
+    {% endif %}
     
   </div><!-- .container -->
 </div><!-- .section -->
