@@ -338,7 +338,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="{% url 'marketing_manager:faq' %}">
 											{% if request.session.locale == 'th_TH' %}
 											คำถามที่พบบ่อย
 											{% else %}
@@ -351,9 +351,7 @@
 						</div>
 					</div><!-- .container -->
 				</div><!-- .footer-copyright -->
-
 			</footer><!-- .ui-footer -->
-
 		</div><!-- .main -->
 
 		<script src="{% static 'friendship/js/applify/ui-map.js' %}"></script>

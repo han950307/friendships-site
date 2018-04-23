@@ -10,7 +10,7 @@
               FAQ
             </h1>
             <p class="paragraph animate" data-show="fade-in-up-big" data-delay="400">
-              Frequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked QuestionsFrequently Asked Questionsv
+              Frequently Asked Questions
             </p>
           </div>
           <div class="col-sm-6 animate" data-show="fade-in-left" data-delay="400">
@@ -21,7 +21,12 @@
 
 <!-- App Features Section -->
 <div id="features2" class="container section pt-0">
-  <div class="container ui-icon-blocks ui-blocks-h icons-lg">
+  <div class="container ui-icon-blocks ui-blocks-h icons-lg" id="faq">
+    {% if request.user.is_authenticated and request.user.is_staff %}
+    <a href="{% url 'marketing_manager:edit_faq' %}">EDIT FAQ</a>
+    {% endif %}
+    {{ content|safe }}
+    
   </div><!-- .container -->
 </div><!-- .section -->
 

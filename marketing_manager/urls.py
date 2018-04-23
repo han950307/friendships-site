@@ -22,4 +22,5 @@ from . import views
 app_name = 'marketing_manager'
 urlpatterns = [
     path('faq/', views.faq, name='faq'),
+    path('edit_faq/', views.edit_faq, name='edit_faq'),
 ]

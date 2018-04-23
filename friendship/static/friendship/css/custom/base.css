@@ -39,6 +39,10 @@ div.scrollable {
   box-sizing: border-box;
 }
 
+#faq {
+  text-align: left;
+}
+
 .btn-group .btn {
   padding: .6rem 0rem;
 }
