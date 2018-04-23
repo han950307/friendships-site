@@ -55,6 +55,12 @@ body .navbar, .btn, .ui-footer, a {
   font-family: Thai !important;
 }
 
+@media (max-width: 1200px){
+  .info-heading {
+    padding-bottom: 8rem;
+  }
+}
+
 @media (max-width: 768px){
   .ui-footer .col-md-2 {
     text-align: center;

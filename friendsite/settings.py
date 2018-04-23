@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'formtools',
     'backend.apps.BackendConfig',
+    'marketing_manager.apps.MarketingManagerConfig',
     'friendship.apps.FriendshipConfig',
     'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
     'django.contrib.admin',

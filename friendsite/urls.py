@@ -47,5 +47,6 @@ urlpatterns = [
     path('', include('friendship.urls', namespace="friendship")),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('marketing/', include('marketing_manager.urls', namespace='marketing_manager')),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ]
