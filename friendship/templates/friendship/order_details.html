@@ -784,32 +784,31 @@
 
 <script>
 paypal.Button.render({
-  braintree: braintree,
-  client: {
-    production: '{{ braintree_client_token }}',
-    sandbox: '{{ braintree_client_token }}'
-},
-  env: '{{ payment_env }}', // Or 'sandbox'
-  commit: true, // This will add the transaction amount to the PayPal button
+    braintree: braintree,
+    client: {
+        {% if '{{ payment_env }}' == 'production ' %}
+        production: '{{ braintree_client_token }}',
+        {% else %}
+        sandbox: '{{ braintree_client_token }}'
+        {% endif %}
+    },
+    env: '{{ payment_env }}', // Or 'sandbox'
+    commit: true, // This will add the transaction amount to the PayPal button
 
-  payment: function (data, actions) {
-    return actions.braintree.create({
-      flow: 'checkout', // Required
-      amount: '{{ thb_total }}', // Required
-      currency: '{{ thb_str }}', // Required
-  });
-},
+    payment: function (data, actions) {
+        return actions.braintree.create({
+            flow: 'checkout', // Required
+            amount: '{{ thb_total }}', // Required
+            currency: '{{ thb_str }}', // Required
+        });
+    },
 
-onAuthorize: function (payload) {
-    document.getElementById('braintree-nonce').value = payload.nonce;
-    document.getElementById('braintree-form').submit();
+    onAuthorize: function (payload) {
+        document.getElementById('braintree-nonce').value = payload.nonce;
+        document.getElementById('braintree-form').submit();
         // Submit `payload.nonce` to your server.
     },
 }, '#paypal-button');
 
-function blah() {
-    document.getElementById('braintree-nonce').value = "teswgerawergt";
-    window.alert("test");
-}
 </script>
 {% endblock main_content %}

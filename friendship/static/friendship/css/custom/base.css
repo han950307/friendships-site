@@ -39,6 +39,10 @@ div.scrollable {
   box-sizing: border-box;
 }
 
+#faq {
+  text-align: left;
+}
+
 .btn-group .btn {
   padding: .6rem 0rem;
 }
@@ -53,6 +57,12 @@ body h1, h2, h3, h4, h5, h6 {
 
 body .navbar, .btn, .ui-footer, a {
   font-family: Thai !important;
+}
+
+@media (max-width: 1200px){
+  .info-heading {
+    padding-bottom: 8rem;
+  }
 }
 
 @media (max-width: 768px){

@@ -1,0 +1,13 @@
+{% extends "friendship/base_forms.html" %}
+{% load static %}
+
+{% block title %} Edit FAQ {% endblock title %}
+{% block title_desc %} Edit Questions {% endblock title_desc %}
+
+{% block form %}
+<form action="{% url 'marketing_manager:edit_faq' %}" method="post">
+	{% csrf_token %}
+	{{ form }}
+	<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Submit" />
+</form>
+{% endblock form %}
