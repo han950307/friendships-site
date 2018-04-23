@@ -70,5 +70,6 @@ urlpatterns = [
     path('contact_us/', views.contact_us, name='contact_us'),
     path('become_a_sender/', views.become_a_sender, name='become_a_sender'),
     path('terms_of_use/', views.terms_of_use, name='terms_of_use'),
+    path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

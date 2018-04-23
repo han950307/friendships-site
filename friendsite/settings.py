@@ -121,7 +121,7 @@ USE_TZ = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+#    SECURE_SSL_REDIRECT = True  # This setting doesn't really matter because it's handled at server level.
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
