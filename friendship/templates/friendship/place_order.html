@@ -212,10 +212,11 @@ It's easy as ship
     {% endfor %}
     {% if request.session.locale == 'th_TH' %}
     <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="วางคำสังนี้" />
+    <span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">คุณได้ยอมรับเงื่อนไขและข้อตกลงของ FriendShips แล้ว ในการยืนยันคำสั่งซื้อของคุณ</span>
     {% else %}
     <input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="Request Order" />
+    <span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By placing this order, you agree to the <a target="_blank" href="{% url 'friendship:terms_of_use' %}">FriendShips Terms of Use</a></span>
     {% endif %}
-    <span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">(By placing this order, you agree to the <a target="_blank" href="{% url 'friendship:terms_of_use' %}">FriendShips Terms of Use</a>)</span>
 </form>
 </div>
 
