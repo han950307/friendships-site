@@ -36,3 +36,7 @@ def contact_us(request):
 
 def terms_of_use(request):
     return render(request, 'friendship/terms_of_use.html', {})
+
+
+def privacy_policy(request):
+    return render(request, 'friendship/privacy_policy.html', {})

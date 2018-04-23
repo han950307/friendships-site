@@ -53,9 +53,9 @@ How It Works
         </h4>
         <p style="text-align: left; float: left;">
           {% if request.session.locale == 'th_TH' %}
-          รอการประมูลราคาจัดส่งจาก shippers แล้วจึงยืนยันการสั่งซื้อ เมื่อคุณพอใจ
+          ดำเนินการจับคู่ เราจะส่งอีเมลล์แจ้งเตือนไปหาคุณเมื่อเวลาการประมูลที่คุณเลือกสิ้นสุดลง เพื่อรอการยืนยันและชำระเงิน (ทั้งนี้คุณสามารถเข้ามาในระบบก่อนเวลาประมูลจะสิ้นสุดลงเพื่อยืนยันและชำระเงินเมื่อใดก็ได้ที่คุณพอใจกับราคา)
           {% else %}
-          Wait while shippers compete to deliver your item. We’ll send you an email when the time’s elapsed, and match you with the lowest price we find. Each shipper quotes a price including shipping costs and all associated taxes and fees, and we match you with the lowest one.
+          Wait while shippers compete to deliver your item. Each shipper quotes a price including shipping costs and all associated taxes and fees, and we match you with the lowest one. We’ll send you an email when the time’s elapsed, and match you with the lowest price we find. Or, if you see a price you're happy with before the time is up, you can confirm and pay as early as you want.
           {% endif %}
         </p>
       </div>
@@ -70,9 +70,9 @@ How It Works
         </h4>
         <p style="text-align: left; float: left;">
           {% if request.session.locale == 'th_TH' %}
-          เมื่อหมดเวลาหรือเมื่อคุณพอใจกับราคาจัดส่งนั้นแล้ว สามารถดำเนินการชำระสินค้าได้ทันที โดยการชำระผ่านบัตรเครดิต หรือ การโอนผ่านธนาคาร ยอดชำระสุทธิที่แสดง ก่อนการชำระเงิน คือยอดชำระทั้งหมดของคุณ ซึ่งครอบคลุมถึงค่าสินค้า ค่าจัดส่ง ค่าภาษี และค่าธรรมเนียม ครบหมดแล้ว
+          เมื่อหมดเวลาหรือเมื่อคุณพอใจกับราคาจัดส่งนั้นแล้ว คุณจะมีเวลายืนยันราคาและชำระเงิน 24 ชั่วโมง โดยคุณสามารถชำระผ่านบัตรเครดิต หรือ การโอนผ่านธนาคาร ยอดชำระสุทธิที่แสดง ก่อนการชำระเงิน คือยอดชำระทั้งหมดของคุณ ซึ่งครอบคลุมถึงค่าสินค้า ค่าจัดส่ง ค่าภาษี และค่าธรรมเนียม ครบหมดแล้ว
           {% else %}
-          Once the time runs out or you’re happy with the price, pay for your item through credit card or bank transfer. The price you see before deciding to buy is the final quote, including the cost of the item, lowest shipping cost, and all taxes and fees.
+          Once the time runs out or you’re happy with the price, confirm price and pay for your item within 24 hours through credit card or bank transfer. The price you see before deciding to buy is the final quote, including the cost of the item, lowest shipping cost, and all taxes and fees.
           {% endif %}
         </p>
       </div>
