@@ -40,6 +40,8 @@
 			</div>
 		</div>
 	</div>
+	{% empty %}
+	No active bids
 	{% endfor %}
 </div>
 <br><br>
@@ -49,6 +51,7 @@
 <div id="matched-order-header">
 	<div class="row">
 		<div class="col-sm-13">Order #</div>
+		<div class="col-sm-13">Date Placed</div>
 		<div class="col-sm-13">Item Status</div>
 		<div class="col-sm-13">Your Bid</div>
 		<div class="col-sm-13">Make Action</div>
@@ -60,6 +63,9 @@
 	<div class="row">
 		<!-- ORDER ID -->
 		<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a></span></div>
+
+		<!-- ORDER ID -->
+		<div class="col-sm-13">{{ bid.order.date_placed|date }}</div>
 
 		<!-- ITEM STATUS -->
 		<div class="col-sm-13">
@@ -80,7 +86,7 @@
 			{% elif bid.order.latest_action.action < ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER %}
 			<span class="btn btn-sm ui-gradient-orange">Item Arrived in Thailand</span>
 			{% elif bid.order.latest_action.action < ORDER_FULFILLED %}
-			<span class="btn btn-sm ui-gradient-lime">Item Shipped Domestically by Shipper</span>
+			<span class="btn btn-sm ui-gradient-purple">On the way</span>
 			{% elif bid.order.latest_action.action < ORDER_DECLINED %}
 			<span class="btn btn-sm ui-gradient-green">Order Fulfilled</span>
 			{% endif %}
@@ -108,15 +114,16 @@
 			{% elif bid.order.latest_action.action < ITEM_SHIPPED_DOMESTICALLY_BY_SHIPPER %}
 			<a href="{% url 'friendship:confirm_item_shipped_in_thailand' bid.order.id %}">Upload Thai Tracking Number</a>
 			{% elif bid.order.latest_action.action < ORDER_FULFILLED %}
-			<span class="btn btn-sm ui-gradient-lime">Item Shipped Domestically by Shipper</span>
+			<span class="btn btn-sm ui-gradient-purple">On the way</span>
 			{% elif bid.order.latest_action.action < ORDER_DECLINED %}
 			<span class="btn btn-sm ui-gradient-green">Order Fulfilled</span>
 			{% endif %}
-
 		</div>
 	</div>
-	{%endif%}
+	{% endif %}
 </div>
+{% empty %}
+no matched orders
 {% endfor %}
 
 

@@ -113,11 +113,12 @@
             </h3>
             <form action="{% url 'friendship:confirm_item_purchased_receipt' order.id %}" method="post" enctype=multipart/form-data>
                 {% csrf_token %}
+                Please upload the receipt of the item, so that the receiver can verify that you have purchased the item.
                 {{ form.as_table }}
                 {% if request.session.locale == 'th_TH' %}
                 <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
                 {% else %}
-                <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
+                <input type="submit" class="btn btn-block ui-gradient-green" value="Confirm Receipt" style="margin:10px 0px;">
                 {% endif %}
             </form>
         </div>

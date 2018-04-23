@@ -16,7 +16,7 @@ import friendsite
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FRIENDSHIP_VERSION = "0.3.3"
+FRIENDSHIP_VERSION = "0.4.0"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'formtools',
     'backend.apps.BackendConfig',
+    'marketing_manager.apps.MarketingManagerConfig',
     'friendship.apps.FriendshipConfig',
     'friendsite_social_auth.apps.FriendsiteSocialAuthConfig',
     'django.contrib.admin',
@@ -118,7 +119,7 @@ USE_L10N = True
 USE_TZ = True
 
 # HTTPS Stuff.
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 if not DEBUG:
 #    SECURE_SSL_REDIRECT = True  # This setting doesn't really matter because it's handled at server level.
