@@ -13,13 +13,17 @@ import re
 def faq(request):
     # Singletone faq
     if not FAQ.objects.all():
-        FAQ.objects.create(inner_HTML="<h4>Question title</h4>\n<p>Question answer</p>")
+        FAQ.objects.create(
+            inner_HTML="<h6>Question title</h6>\n<p>Question answer</p>",
+            inner_HTML_thai="<h6>SOME THAI QUESTION</h6>\n<p>SOME THAI ANSWER</p>",
+        )
 
     faq_html = re.sub(r"\n", "", FAQ.objects.all()[0].inner_HTML)
+    faq_html_thai = re.sub(r"\n", "", str(FAQ.objects.all()[0].inner_HTML_thai))
 
     # if multiple orders or no order found with that id.
     return render (
-        request, 'marketing_manager/faq.html', {'content': faq_html}
+        request, 'marketing_manager/faq.html', {'content': faq_html, 'content_thai': faq_html_thai}
     )
 
 
