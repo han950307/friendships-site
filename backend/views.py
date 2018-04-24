@@ -107,19 +107,44 @@ def create_money_object(key, **kwargs):
         return None
 
 
+def get_cur_wage(order):
+    """
+    Algorithm to get the current wage for the time.
+    Requires "order, "retail_price", "curerncy", "wages" (in float)
+    """
+    trickle_down_to_bid = Bid.objects.filter(order=order).filter(bid_trickle=True)
+    min_value = trickle_down_to_bid[0].wages.get_value()
+
+    date_placed = order.date_placed
+    bid_end_time = order.bid_end_datetime
+    bid_length = bid_end_time - date_placed
+
+    cur_time = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    time_left = bid_end_time - cur_time
+    frac_left = time_left / bid_length
+
+    return min_value + settings.BID_TRICKLE_MAX_BID_RATIO * decimal.Decimal(frac_left) * min_value
+
+
 def make_bid_backend(request, order, **kwargs):
     """
     Creates a bid objects. requires "retail_price", "currency" (int),
-    "wages"
+    "wages", "bid_trickle"
     """
     kwargs["service_fee"] = decimal.Decimal(kwargs["retail_price"]) * settings.SERVICE_FEE_RATE
     bid = Bid.objects.create(
         order=order,
         shipper=request.user,
+        bid_trickle=kwargs["bid_trickle"],
         wages=create_money_object("wages", **kwargs),
         retail_price=create_money_object("retail_price", **kwargs),
         service_fee=create_money_object("service_fee", **kwargs),
     )
+
+    if kwargs["bid_trickle"]:
+        kwargs["wages"] = get_cur_wage(order)
+        kwargs["bid_trickle"] = False
+        make_bid_backend(request, order, **kwargs)
 
     IMAGE_FILETYPES = [
         "png",
@@ -131,8 +156,8 @@ def make_bid_backend(request, order, **kwargs):
         "svg",
     ]
 
-    # Uploading file directly from a url.
-    if "item_image_url" in kwargs and kwargs["item_image_url"]:
+    # Uploading file directly from a url, if it exists.
+    if "item_image_url" in kwargs and kwargs["item_image_url"] and not order.item_image:
         item_image_url = kwargs["item_image_url"]
         response = requests.get(item_image_url)
         filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)
@@ -141,7 +166,7 @@ def make_bid_backend(request, order, **kwargs):
             order.item_image.name = "blah.{}".format(filetype)
             order.save()
 
-    if not Bid.objects.filter(order=order):
+    if len(Bid.objects.filter(order=order).filter(bid_trickle=False)) == 1:
         send_bid_email(order)
 
 

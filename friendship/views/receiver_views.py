@@ -76,7 +76,7 @@ def upload_picture_process(request, order_id):
 @login_required
 def buy_now(request, order_id):
     order = Order.objects.get(pk=order_id)
-    bids = Bid.objects.filter(order=order)
+    bids = Bid.objects.filter(order=order).filter(bid_trickle=False)
     if not bids:
         messages.error(request, 'There are no bids yet.')
         return redirect('friendship:order_details', order_id=order_id)
