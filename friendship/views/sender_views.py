@@ -49,13 +49,9 @@ def make_bid(request, order_id):
         form = BidForm(request.POST)
         if form.is_valid():
             data_dict = {x: v for x, v in form.cleaned_data.items()}
-            if data_dict["bid_trickle"] == True:
-                print(True)
-            else:
-                print(False)
             data_dict["currency"] = int(data_dict["currency"])
             data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
-            make_bid_backend(request, order, **data_dict)
+            make_bid_backend(request.user, order, **data_dict)
             return redirect('friendship:open_orders', "all")
     else:
         form = BidForm()
@@ -101,7 +97,7 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
             elif shipper_type == ShipperInfo.ShipperType.SHIPPING_COMPANY:
                 self.form_list.update({'1': ShippingCompanyRegistrationForm})
             else:
-                print("NOT FOUND")
+                pass
         return super(SenderRegistrationWizard, self).process_step(form)
 
 
@@ -111,7 +107,6 @@ def get_lowest_user_bid(order, user):
     lowest_bid = None
     for bid in bids:
         val = bid.get_total()
-        print(val)
         if not lowest_val or val < lowest_val:
             lowest_bid = bid
             lowest_val = val
