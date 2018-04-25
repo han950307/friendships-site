@@ -20,6 +20,9 @@ Authenticate yourself
 
 {% block main_content %}
 <div class="container" id="login-container">
+	{% for message in messages %}
+	<p><strong>{{ message }}</strong></p>
+	{% endfor %}
 	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-blue shadow-md" id="Facebook-login">
 		{% if request.session.locale == 'th_TH' %}
 		เข้าสู่ระบบผ่าน Facebook
