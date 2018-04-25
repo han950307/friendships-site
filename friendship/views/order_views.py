@@ -165,15 +165,18 @@ def order_details(request, order_id, **kwargs):
     })
 
     # Braintree Setup
+    if settings.DEBUG:
+        env = "sandbox"
+    else:
+        env = "production"
+
     gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
     client_token = gateway.client_token.generate()
-
-    data_dict["braintree_client_token"] = client_token
-
-    if settings.DEBUG:
-        data_dict["payment_env"] = "sandbox"
-    else:
-        data_dict["payment_env"] = "production"
+    client = "client: {" + \
+        f"{env}: '{client_token}'," + \
+    "}"
+    data_dict["braintree_client"] = client
+    data_dict["payment_env"] = env
 
     return render(request, 'friendship/order_details.html', data_dict)
 
