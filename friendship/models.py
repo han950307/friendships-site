@@ -440,6 +440,9 @@ class Money(models.Model):
             return "\u0024{0:.2f}".format(val)
 
     def get_value(self, currency=Currency.USD):
+        """
+        Returns the decimal of this string.
+        """
         orig = self.currency
         dest = currency
 
@@ -526,6 +529,8 @@ class Bid(models.Model):
         on_delete=models.CASCADE,
         related_name="service_fee",
     )
+
+    bid_trickle = models.BooleanField()
 
     # when you add a new field that should be added to the sum, add here with +"_id"
     money_values = [

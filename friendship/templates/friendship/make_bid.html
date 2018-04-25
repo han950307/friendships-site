@@ -50,6 +50,13 @@
 			{{ form.item_image_url }}
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.bid_trickle.errors }}
+			{{ form.bid_trickle.label }}
+			{{ form.bid_trickle }}
+		</div>
+	</div>
 	{% endif %}
 	<br />
 	<input type="submit" class="btn btn-block ui-gradient-green shadow-md" value="BID" />

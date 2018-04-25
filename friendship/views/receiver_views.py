@@ -76,7 +76,7 @@ def upload_picture_process(request, order_id):
 @login_required
 def buy_now(request, order_id):
     order = Order.objects.get(pk=order_id)
-    bids = Bid.objects.filter(order=order)
+    bids = Bid.objects.filter(order=order).filter(bid_trickle=False)
     if not bids:
         messages.error(request, 'There are no bids yet.')
         return redirect('friendship:order_details', order_id=order_id)
@@ -100,7 +100,6 @@ def process_payment(request, order_id, currency):
     else:
         return_uri = "https://www.friendships.us/"
     if order.receiver != request.user:
-        print(order.receiver, request.user)
         return redirect('friendship:receiver_landing')
     omise_token = request.POST['omise_token']
 
@@ -163,7 +162,6 @@ def place_order(request):
                 for user_address in user_addresses:
                     user_address.primary = False
                     user_address.save()
-                print("CREATING SHIPPING ADDRESS")
             else:
                 shipping_address = ShippingAddress.objects.get(pk=request.POST['shipping_address'])
 
@@ -198,7 +196,7 @@ def place_order(request):
 
             return redirect('friendship:order_details', order_id=order.id)
         else:
-            print(form.cleaned_data)
+            pass
     else:
         if 'url' in request.GET:
             form = OrderForm(initial={'url': request.GET['url']}, locale=locale)

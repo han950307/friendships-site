@@ -32,7 +32,7 @@ def get_min_bid(order):
     """
     Given an order, returns the min bid object.
     """
-    bids = Bid.objects.filter(order=order)
+    bids = Bid.objects.filter(order=order).filter(bid_trickle=False)
     if bids:
         return min(bids)
     else:

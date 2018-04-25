@@ -48,6 +48,7 @@ from friendship.backends import (RandomFileName)
 
 import requests
 import json
+import math
 import datetime
 import pytz
 import decimal
@@ -107,19 +108,59 @@ def create_money_object(key, **kwargs):
         return None
 
 
-def make_bid_backend(request, order, **kwargs):
+def get_cur_wage(order):
+    """
+    Algorithm to get the current wage for the time.
+    Requires "order, "retail_price", "curerncy", "wages" (in float)
+    """
+    trickle_down_to_bid = Bid.objects.filter(order=order).filter(bid_trickle=True)
+    min_value = trickle_down_to_bid[0].wages.get_value()
+    max_add = trickle_down_to_bid[0].retail_price.get_value() * settings.BID_TRICKLE_RATIO
+
+    date_placed = order.date_placed
+    bid_end_time = order.bid_end_datetime
+    bid_length = bid_end_time - date_placed
+
+    cur_time = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    time_left = bid_end_time - cur_time
+
+    # frac_left goes from 1 to 0 as time goes on.
+    frac_left = decimal.Decimal(time_left / bid_length)
+
+    # transformation to make bid go down quicker in the beginning.
+    alpha = decimal.Decimal(math.pow(frac_left, 4))
+
+    # Adding a random normally distributed number.
+    additional = max_add * alpha
+    mean = additional + min_value
+    std_dev = additional / 20
+
+    return decimal.Decimal(random.gauss(float(mean), float(std_dev)))
+
+
+def make_bid_backend(shipper, order, **kwargs):
     """
     Creates a bid objects. requires "retail_price", "currency" (int),
-    "wages"
+    "wages", "bid_trickle"
     """
     kwargs["service_fee"] = decimal.Decimal(kwargs["retail_price"]) * settings.SERVICE_FEE_RATE
+
     bid = Bid.objects.create(
         order=order,
-        shipper=request.user,
+        shipper=shipper,
+        bid_trickle=kwargs["bid_trickle"],
         wages=create_money_object("wages", **kwargs),
         retail_price=create_money_object("retail_price", **kwargs),
         service_fee=create_money_object("service_fee", **kwargs),
     )
+
+    # "bid_trickle" signifies that this is the first bid created with min_bid as parameter.
+    # So create an actual bid here. Any Bids with "bid_trickle = True" does not count as
+    # an actual bid.
+    if kwargs["bid_trickle"]:
+        kwargs["wages"] = get_cur_wage(order)
+        kwargs["bid_trickle"] = False
+        make_bid_backend(shipper, order, **kwargs)
 
     IMAGE_FILETYPES = [
         "png",
@@ -131,8 +172,8 @@ def make_bid_backend(request, order, **kwargs):
         "svg",
     ]
 
-    # Uploading file directly from a url.
-    if "item_image_url" in kwargs and kwargs["item_image_url"]:
+    # Uploading file directly from a url, if it exists.
+    if "item_image_url" in kwargs and kwargs["item_image_url"] and not order.item_image:
         item_image_url = kwargs["item_image_url"]
         response = requests.get(item_image_url)
         filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)
@@ -141,7 +182,7 @@ def make_bid_backend(request, order, **kwargs):
             order.item_image.name = "blah.{}".format(filetype)
             order.save()
 
-    if not Bid.objects.filter(order=order):
+    if len(Bid.objects.filter(order=order).filter(bid_trickle=False)) == 1:
         send_bid_email(order)
 
 
@@ -232,7 +273,6 @@ def login_user_web(request, **kwargs):
     try:
         email = kwargs['email']
         password = kwargs['password']
-        print(kwargs)
     except KeyError:
         error(request, INCOMPLETE_DATA_MSG)
         raise KeyError(INCOMPLETE_DATA_MSG)     

@@ -24,7 +24,7 @@ def get_money_str(money, currency):
 
 @register.simple_tag
 def get_lowest_bid_str(order, currency):
-	bids = Bid.objects.filter(order=order)
+	bids = Bid.objects.filter(order=order).filter(bid_trickle=False)
 	lowest_bid = None
 	lowest_val = None
 	for bid in bids:
