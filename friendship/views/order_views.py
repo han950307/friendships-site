@@ -167,7 +167,7 @@ def order_details(request, order_id, **kwargs):
     # Braintree Setup
     prod_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_PROD_ACCESS_TOKEN)
     dev_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_DEV_ACCESS_TOKEN)
-    prod_client_token = gateway.client_token.generate()
+    prod_client_token = prod_gateway.client_token.generate()
     dev_client_token = dev_gateway.client_token.generate()
 
     data_dict["braintree_dev_client_token"] = dev_client_token

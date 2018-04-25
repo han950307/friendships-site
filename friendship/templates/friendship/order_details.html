@@ -789,7 +789,7 @@ paypal.Button.render({
         production: '{{ braintree_prod_client_token }}',
         sandbox: '{{ braintree_dev_client_token }}'
     },
-    env: 'production', // Or 'sandbox'
+    env: '{{ payment_env }}', // Or 'sandbox'
     commit: true, // This will add the transaction amount to the PayPal button
 
     payment: function (data, actions) {
