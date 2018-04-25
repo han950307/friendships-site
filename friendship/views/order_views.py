@@ -165,10 +165,13 @@ def order_details(request, order_id, **kwargs):
     })
 
     # Braintree Setup
-    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
-    client_token = gateway.client_token.generate()
+    prod_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_PROD_ACCESS_TOKEN)
+    dev_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_DEV_ACCESS_TOKEN)
+    prod_client_token = gateway.client_token.generate()
+    dev_client_token = dev_gateway.client_token.generate()
 
-    data_dict["braintree_client_token"] = client_token
+    data_dict["braintree_dev_client_token"] = dev_client_token
+    data_dict["braintree_prod_client_token"] = prod_client_token
 
     if settings.DEBUG:
         data_dict["payment_env"] = "sandbox"
@@ -193,11 +196,12 @@ def process_braintree_payment(request):
         order = order[0]
 
     # initialize gateway
-    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    dev_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_DEV_ACCESS_TOKEN)
+    prod_gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_PROD_ACCESS_TOKEN)
     currency = Money.Currency.THB
     value = math.ceil(order.final_bid.get_total(currency))
 
-    result = gateway.transaction.sale({
+    data_dict = {
         "amount": str(value),
         "merchant_account_id": str(currency).upper(),
         "payment_method_nonce" : braintree_nonce,
@@ -205,7 +209,13 @@ def process_braintree_payment(request):
         "descriptor": {
           "name": "FriendShips *ecommerce"
         },
-    })
+    }
+
+    if settings.DEBUG:
+        result = dev_gateway.transaction.sale(data_dict)
+    else:
+        result = prod_gateway.transaction.sale(data_dict)
+
     if result.is_success:
         create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
         PaymentAction.objects.create(
