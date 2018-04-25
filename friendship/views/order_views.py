@@ -223,7 +223,6 @@ def process_braintree_payment(request):
     PaymentAction.objects.create(
         order=order,
         payment_type=PaymentAction.PaymentType.PAYPAL,
-        other_info="Success ID: {}".format(result.transaction.id),
     )
     messages.success(request, "Payment processed.")
 
