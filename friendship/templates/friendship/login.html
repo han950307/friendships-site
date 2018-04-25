@@ -65,7 +65,7 @@ Authenticate yourself
 			<input type="password" name="password" class="input form-control" id="form_password">
 		</div>
 		{% if request.session.locale == 'th_TH' %}
-		<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By logging in, you agree to the <a target="_blank" href="{% url 'friendship:privacy_policy' %}">FriendShips privacy policy</a></span>
+		การเข้าสู่ระบบนี้ แสดงถึงว่าคุณได้ตกลงและยอมรับนโยบายความเป็นส่วนตัวแล้ว
 		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="เข้าสู่ระบบ" />
 		{% else %}
 		<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By logging in, you agree to the <a target="_blank" href="{% url 'friendship:privacy_policy' %}">FriendShips privacy policy</a></span>

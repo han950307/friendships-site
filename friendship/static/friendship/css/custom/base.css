@@ -39,6 +39,10 @@ div.scrollable {
   box-sizing: border-box;
 }
 
+select.form-control:not([size]):not([multiple]) {
+  height: 2.15rem;
+}
+
 #faq {
   text-align: left;
 }
