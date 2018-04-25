@@ -172,8 +172,8 @@ def order_details(request, order_id, **kwargs):
 
     gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
     client_token = gateway.client_token.generate()
-    client = "client: {" + \
-        f"{env}: '{client_token}'," + \
+    client = "{" + \
+        f"{env}: '{client_token}'" + \
     "}"
     data_dict["braintree_client"] = client
     data_dict["payment_env"] = env
@@ -195,30 +195,37 @@ def process_braintree_payment(request):
     else:
         order = order[0]
 
-    # initialize gateway
-    gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
-    currency = Money.Currency.THB
-    value = math.ceil(order.final_bid.get_total(currency))
+    # Check if the paid amount is same as the order's total amount.
+    paid_amount = int(braintree_nonce)
+    order_amount = int(math.ceil(order.min_bid.get_total(currency=Money.Currency.THB)))
 
-    result = gateway.transaction.sale({
-        "amount": str(value),
-        "merchant_account_id": str(currency).upper(),
-        "payment_method_nonce" : braintree_nonce,
-        "order_id" : "friendshipsorder{}".format(order.id),
-        "descriptor": {
-          "name": "FriendShips *ecommerce"
-        },
-    })
-    if result.is_success:
-        create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
-        PaymentAction.objects.create(
-            order=order,
-            payment_type=PaymentAction.PaymentType.PAYPAL,
-            other_info="Success ID: {}".format(result.transaction.id),
-        )
-        messages.success(request, "Payment processed.")
-    else:
-        messages.error(request, result.message)
+    if paid_amount != order_amount:
+        messages.error(request, 'The amount paid does not match the total amount of the order.')
+        return redirect('friendship:order_details', order_id=order_id)
+
+
+    # initialize gateway
+    # gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    # currency = Money.Currency.THB
+    # value = math.ceil(order.final_bid.get_total(currency))
+
+    # result = gateway.transaction.sale({
+    #     "amount": str(value),
+    #     "merchant_account_id": str(currency).upper(),
+    #     "payment_method_nonce" : braintree_nonce,
+    #     "order_id" : "friendshipsorder{}".format(order.id),
+    #     "descriptor": {
+    #       "name": "FriendShips *ecommerce"
+    #     },
+    # })
+    # if result.is_success:
+    create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
+    PaymentAction.objects.create(
+        order=order,
+        payment_type=PaymentAction.PaymentType.PAYPAL,
+        other_info="Success ID: {}".format(result.transaction.id),
+    )
+    messages.success(request, "Payment processed.")
 
     return redirect('friendship:order_details', order_id=order_id)
 

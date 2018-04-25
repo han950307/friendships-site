@@ -7,8 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script src="https://js.braintreegateway.com/web/3.25.0/js/client.min.js"></script>
-<script src="https://js.braintreegateway.com/web/3.25.0/js/paypal-checkout.min.js"></script>
 {% endblock head %}
 
 {% block breadcrumb %}
@@ -427,22 +425,12 @@
 
                         <br>
                         <div id="online-wire-transfer" style="display: none">
-
                             {% if request.session.locale == 'th_TH' %}
                             Coming soon
                             {% else %}
                             Coming soon
                             {% endif %}
                         </div>
-
-                        <!-- <div id="credit-card-payment" style="display: none">
-
-                            {% if request.session.locale == 'th_TH' %}
-                            Coming soon
-                            {% else %}
-                            Coming soon
-                            {% endif %}
-                        </div> -->
 
                         <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
                         <!-- when omise approves, change this to above -->
@@ -784,25 +772,34 @@
 
 <script>
 paypal.Button.render({
-    braintree: braintree,
-    {{ braintree_client|safe }},
-    env: '{{ payment_env }}', // Or 'sandbox'
-    commit: true, // This will add the transaction amount to the PayPal button
 
-    payment: function (data, actions) {
-        return actions.braintree.create({
-            flow: 'checkout', // Required
-            amount: '{{ thb_total }}', // Required
-            currency: '{{ thb_str }}' // Required
+    env: '{{ payment_env }}', // Or 'sandbox'
+
+    client: {
+        sandbox:    'AQ55vA8iM7cvNz656zlBmNCCv5QBu41Ps0H7itZ8lVSiFmBPX2ebaVrW9MUIgDz97jV92_j_cEFQm1qn',
+        production: 'AaALdiffOahjW9uimEeqXR7b9O4wIBSk0dj9m08EGzu7pZ5Ok6-GZ0oPW7TFTUHmEtr2xjtxyuTosmI5'
+    },
+
+    commit: true, // Show a 'Pay Now' button
+
+    payment: function(data, actions) {
+        return actions.payment.create({
+            payment: {
+                transactions: [
+                    {
+                        amount: { total: '{{ thb_total }}', currency: '{{ thb_str }}' }
+                    }
+                ]
+            }
         });
     },
 
-    onAuthorize: function (payload) {
-        document.getElementById('braintree-nonce').value = payload.nonce;
-        document.getElementById('braintree-form').submit();
-        // Submit `payload.nonce` to your server.
-    },
+    onAuthorize: function(data, actions) {
+        return actions.payment.execute().then(function() {
+            document.getElementById('braintree-nonce').value = '{{ thb_total }}';
+            document.getElementById('braintree-form').submit();
+        });
+    }
 }, '#paypal-button');
-
 </script>
 {% endblock main_content %}
