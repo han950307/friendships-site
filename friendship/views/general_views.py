@@ -1,11 +1,13 @@
 
 from django.shortcuts import render, redirect
+from friendsite import settings
 import urllib
 
 def index(request, **kwargs):
     """
     Our homepage!
     """
+    request.session["dev"] = settings.DEBUG
     return render(request, 'friendship/index.html', **kwargs)
 
 

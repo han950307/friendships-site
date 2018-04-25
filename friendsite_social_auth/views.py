@@ -162,7 +162,6 @@ def facebook_callback(request):
         error(request, "Failed logging into facebook. Please try again.")
         return redirect("friendship:index")
 
-    print(state)
     if state.startswith("nextpageaddress"):
         next_page = re.sub("nextpageaddress", "", state)
         return redirect(next_page)
@@ -226,7 +225,6 @@ def line_callback(request):
     user = User.objects.get(pk=int(serialized.data["user_id"]))
     login_user(request, user)
 
-    print(state)
     if state.startswith("nextpageaddress"):
         next_page = re.sub("nextpageaddress", "", state)
         return redirect(next_page)
@@ -273,7 +271,6 @@ def line_register_process(request):
             del request.session[key]
         login_user(request, user)
     except (KeyError, ValueError) as e:
-        print(e)
         return render(request, 'friendship/register.html', {})
 
     return redirect('friendship:receiver_landing')
