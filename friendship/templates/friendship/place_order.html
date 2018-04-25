@@ -56,7 +56,7 @@ It's easy as ship
             {{ form.description.errors }}
             {{ form.description }}
             {% if request.session.locale == 'th_TH' %}
-            เพิ่มเติม: หากคุณต้องการสั่งสินค้ามากกว่า 1 ลิงค์ในคำสั่งซื้อนี้ กรุณาวางลิ้งค์ของสินค้าอื่นๆ ในช่องข้อมูลเพิ่มเติม พร้อมบอกรายละเอียดของสินค้าแต่ละชิ้น
+            <div style="padding-top: 0.2rem">เพิ่มเติม: หากคุณต้องการสั่งสินค้ามากกว่า 1 ลิงค์ในคำสั่งซื้อนี้ กรุณาวางลิ้งค์ของสินค้าอื่นๆ ในช่องข้อมูลเพิ่มเติม พร้อมบอกรายละเอียดของสินค้าแต่ละชิ้น</div>
             {% else %}
             NOTE: If you would like to order more than one item now, paste the links and details of each additional item into the Additional Information box above.
             {% endif %}
