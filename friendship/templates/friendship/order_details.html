@@ -447,8 +447,7 @@
                         <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
                         <!-- when omise approves, change this to above -->
                         <div id="credit-card-payment" style="display: none">
-                            coming soon
-                            <!-- <div id="paypal-button"></div> -->
+                            <div id="paypal-button"></div>
                             <!-- <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
                                 {% csrf_token %}
                                 <script src="https://cdn.omise.co/omise.js"></script>
@@ -797,7 +796,7 @@ paypal.Button.render({
         return actions.braintree.create({
             flow: 'checkout', // Required
             amount: '{{ thb_total }}', // Required
-            currency: '{{ thb_str }}', // Required
+            currency: '{{ thb_str }}' // Required
         });
     },
 
