@@ -215,9 +215,9 @@ class OrderForm(forms.ModelForm):
             ),
             'description': forms.Textarea(
                 attrs={
-                    'placeholder': 'Any other details about the item',
+                    'placeholder': 'If you would like to include additional items in this order, please paste the additional URLs in here and describe the items in detail.',
                     'class': 'input form-control',
-                    'rows': 3,
+                    'rows': 5,
                     'data-validation': 'required',
                 }
             ),
@@ -245,7 +245,7 @@ class OrderForm(forms.ModelForm):
                 (24, "24 ชั่วโมง"),
                 (72, "72 ชั่วโมง"),
             ]
-            self.fields["description"].widget.attrs['placeholder'] = "รายละเอียดเพิ่มเติม"
+            self.fields["description"].widget.attrs['placeholder'] = "If you would like to include additional items in this order, please paste the additional URLs in here and describe the items in detail."
 
 
 class ManualWireTransferForm(forms.Form):
