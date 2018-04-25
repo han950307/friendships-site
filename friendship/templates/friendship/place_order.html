@@ -55,6 +55,11 @@ It's easy as ship
         <div class="form-group">
             {{ form.description.errors }}
             {{ form.description }}
+            {% if request.session.locale == 'th_TH' %}
+            เพิ่มเติม: หากคุณต้องการสั่งสินค้ามากกว่า 1 ลิงค์ในคำสั่งซื้อนี้ กรุณาวางลิ้งค์ของสินค้าอื่นๆ ในช่องข้อมูลเพิ่มเติม พร้อมบอกรายละเอียดของสินค้าแต่ละชิ้น
+            {% else %}
+            NOTE: If you would like to order more than one item now, paste the links and details of each additional item into the Additional Information box above.
+            {% endif %}
         </div>
         <div class="form-group" style="margin-top:2rem;">
             <!-- <div class="upload-btn-wrapper">
@@ -73,7 +78,7 @@ It's easy as ship
                 {% if request.session.locale == 'th_TH' %}
                 เราจะจับคู่คุณกับ sender ที่ให้ราคาดีที่สุดในระยะเวลาของคุณ*
                 {% else %}
-                We will match you with the lowest price found within: *
+                We will match you with the lowest price found within (or once you're happy with the price): *
                 {% endif %}
             </span>
             <div class="btn-group" data-toggle="buttons">
@@ -140,11 +145,11 @@ It's easy as ship
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 left">
                         {{ shipping_address_form.city.errors }}
                         {{ shipping_address_form.city }}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 right">
                         {{ shipping_address_form.region.errors }}
                         {{ shipping_address_form.region }}
                     </div>
@@ -152,11 +157,11 @@ It's easy as ship
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 left">
                         {{ shipping_address_form.postal_code.errors }}
                         {{ shipping_address_form.postal_code }}
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 right">
                         {{ shipping_address_form.country.errors }}
                         {{ shipping_address_form.country }}
                     </div>
