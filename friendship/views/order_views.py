@@ -197,7 +197,7 @@ def process_braintree_payment(request):
 
     # Check if the paid amount is same as the order's total amount.
     paid_amount = int(braintree_nonce)
-    order_amount = int(math.ceil(order.min_bid.get_total(currency=Money.Currency.THB)))
+    order_amount = int(math.ceil(order.final_bid.get_total(currency=Money.Currency.THB)))
 
     if paid_amount != order_amount:
         messages.error(request, 'The amount paid does not match the total amount of the order.')
