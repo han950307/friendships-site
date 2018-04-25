@@ -1,4 +1,4 @@
-{% extends "friendship/base_forms.html" %}
+{% extends "friendship/base_generic_content.html" %}
 {% load static %}
 
 
@@ -18,7 +18,7 @@ Authenticate yourself
 {% endif %}
 {% endblock title_desc %}
 
-{% block form %}
+{% block main_content %}
 <div class="container" id="login-container">
 	<a href="{% url 'friendsite_social_auth:facebook_login' %}" class="btn btn-block ui-gradient-blue shadow-md" id="Facebook-login">
 		{% if request.session.locale == 'th_TH' %}
@@ -34,6 +34,11 @@ Authenticate yourself
 		Log in with LINE
 		{% endif %}
 	</a>
+	{% if request.session.locale == 'th_TH' %}
+	การเข้าสู่ระบบนี้ แสดงถึงว่าคุณได้ตกลงและยอมรับนโยบายความเป็นส่วนตัวแล้ว
+	{% else %}
+	<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By logging in, you agree to the <a target="_blank" href="{% url 'friendship:privacy_policy' %}">FriendShips privacy policy</a></span>
+	{% endif %}
 	<hr>
 	<h1 style="text-align: center">
 		{% if request.session.locale == 'th_TH' %}
@@ -65,11 +70,12 @@ Authenticate yourself
 			<input type="password" name="password" class="input form-control" id="form_password">
 		</div>
 		{% if request.session.locale == 'th_TH' %}
-		การเข้าสู่ระบบนี้ แสดงถึงว่าคุณได้ตกลงและยอมรับนโยบายความเป็นส่วนตัวแล้ว
 		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="เข้าสู่ระบบ" />
+		<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">
+		การเข้าสู่ระบบนี้ แสดงถึงว่าคุณได้ตกลงและยอมรับนโยบายความเป็นส่วนตัวแล้ว</span>
 		{% else %}
-		<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By logging in, you agree to the <a target="_blank" href="{% url 'friendship:privacy_policy' %}">FriendShips privacy policy</a></span>
 		<input type="submit" class="btn btn-block ui-gradient-red shadow-md" value="Login" />
+		<span style="font-size:.8rem; font-weight:100; display:table; margin:.3rem auto;">By logging in, you agree to the <a target="_blank" href="{% url 'friendship:privacy_policy' %}">FriendShips privacy policy</a></span>
 		{% endif %}
 	</form>
 
@@ -89,4 +95,4 @@ Authenticate yourself
 		</a>
 	</p> #} -->
 </div>
-{% endblock form %}
+{% endblock main_content %}
