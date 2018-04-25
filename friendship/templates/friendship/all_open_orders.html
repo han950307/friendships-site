@@ -26,6 +26,13 @@
 				{% if request.session.locale == 'th_TH' %}
 				สถานะสินค้า
 				{% else %}
+				Description
+				{% endif %}
+			</div>
+			<div class="col-sm-2">
+				{% if request.session.locale == 'th_TH' %}
+				สถานะสินค้า
+				{% else %}
 				Shipping Address
 				{% endif %}
 			</div>
@@ -34,13 +41,6 @@
 				วันที่
 				{% else %}
 				Bid Ends In
-				{% endif %}
-			</div>
-			<div class="col-sm-2">
-				{% if request.session.locale == 'th_TH' %}
-				สถานะสินค้า
-				{% else %}
-				Current Min Bid
 				{% endif %}
 			</div>
 			<div class="col-sm-2">
@@ -65,9 +65,14 @@
 					{% endif %}
 				</div>
 
-				<!-- DATE -->
+				<!-- Quantity size color -->
 				<div class="col-sm-2 .font-weight-light">
 					{{ order.quantity }} | {{ order.size }} | {{ order.color }}
+				</div>
+
+				<!-- Description -->
+				<div class="col-sm-2">
+					<span>{{ order.description }}</span>
 				</div>
 
 				<!-- SHIPPING ADDRESS -->
@@ -85,11 +90,6 @@
 				<div style="display: none;" datetime="{{ order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{ order.id }}"></div>
 				<div class="col-sm-2" id="{{ order.id }}">
 					<span><a href="{% url 'friendship:user_open_bids' %}">{{ order.id }}</a></span>
-				</div>
-
-				<!-- Current Minimum Bid -->
-				<div class="col-sm-2">
-					<span>{% get_lowest_bid_str order 50 %}</span>
 				</div>
 
 				<!-- Make Bid -->
