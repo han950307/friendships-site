@@ -132,6 +132,10 @@ class BidForm(forms.Form):
         'class': 'input form-control',
     }))
 
+    bid_trickle = forms.BooleanField(
+        required=False,
+    )
+
 
 """ORDER RELATED FORMS"""
 class OrderForm(forms.ModelForm):  

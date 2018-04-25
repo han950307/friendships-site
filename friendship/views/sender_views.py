@@ -51,37 +51,12 @@ def make_bid(request, order_id):
             data_dict = {x: v for x, v in form.cleaned_data.items()}
             data_dict["currency"] = int(data_dict["currency"])
             data_dict["service_fee"] = decimal.Decimal(data_dict["retail_price"]) * settings.SERVICE_FEE_RATE
-            make_bid_backend(request, order, **data_dict)
+            make_bid_backend(request.user, order, **data_dict)
             return redirect('friendship:open_orders', "all")
     else:
         form = BidForm()
 
     return render(request, 'friendship/make_bid.html', {'order' : order, 'form': form})
-
-
-@login_required
-def make_bid_process(request, order_id):
-    """
-    Processes make bid
-    """
-    if request.session["is_shipper"] != True:
-        error(request, 'You do not have permissions to access this page.')
-        return redirect('friendship:index')
-    else:
-        data_dict = {x: v for x, v in request.POST.items()}
-        currency = Money.Currency.get_currency(data_dict["currency"])
-
-        order = Order.objects.get(pk=order_id)
-        bid = Bid.objects.create(
-            order=order,
-            shipper=request.user,
-            wages=create_money_object(data_dict, "wages", currency),
-            retail_price=create_money_object(data_dict, "retail_price", currency),
-            service_fee=create_money_object(data_dict, "service_fee", currency),
-        )
-
-        # Just return another view after processing it.
-        return open_orders(request, "recent")
 
 
 class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
@@ -122,12 +97,12 @@ class SenderRegistrationWizard(LoginRequiredMixin, SessionWizardView):
             elif shipper_type == ShipperInfo.ShipperType.SHIPPING_COMPANY:
                 self.form_list.update({'1': ShippingCompanyRegistrationForm})
             else:
-                print("NOT FOUND")
+                pass
         return super(SenderRegistrationWizard, self).process_step(form)
 
 
 def get_lowest_user_bid(order, user):
-    bids = Bid.objects.filter(order=order).filter(shipper=user)
+    bids = Bid.objects.filter(order=order).filter(shipper=user).filter(bid_trickle=False)
     lowest_val = None
     lowest_bid = None
     for bid in bids:
@@ -157,6 +132,8 @@ def user_open_bids(request):
         return redirect('friendship:index')
     qset = Bid.objects.filter(
         shipper=request.user
+    ).filter(
+        bid_trickle=False
     ).filter(
         order__latest_action__action__lt=OrderAction.Action.MATCH_FOUND
     ).order_by(

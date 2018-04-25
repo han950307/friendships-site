@@ -107,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 CRONJOBS = [
     ('* * * * *', 'friendship.cron.order_bid_update'),
     ('* * * * *', 'friendship.cron.order_bid_clean'),
+    ('*/7 * * * *', 'friendship.cron.order_bid_trickle'),
 ]
 
 # Internationalization
