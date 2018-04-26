@@ -172,8 +172,11 @@ def make_bid_backend(shipper, order, **kwargs):
         "svg",
     ]
 
-    # Uploading file directly from a url, if it exists.
-    if "item_image_url" in kwargs and kwargs["item_image_url"] and not order.item_image:
+    # Uploading file directly from a url, if it exists
+    if "item_image" in kwargs and kwargs["item_image"]:
+        order.item_image = kwargs["item_image"]
+        order.save()
+    elif "item_image_url" in kwargs and kwargs["item_image_url"] and not order.item_image:
         item_image_url = kwargs["item_image_url"]
         response = requests.get(item_image_url)
         filetype = re.sub(r"image\/", "", response.headers["Content-Type"], flags=re.I)

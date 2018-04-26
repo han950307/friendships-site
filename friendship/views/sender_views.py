@@ -47,7 +47,7 @@ def make_bid(request, order_id):
 
     order = Order.objects.get(pk=order_id)
     if request.method == 'POST':
-        form = BidForm(request.POST)
+        form = BidForm(request.POST, request.FILES)
         if form.is_valid():
             data_dict = {x: v for x, v in form.cleaned_data.items()}
             data_dict["currency"] = int(data_dict["currency"])
