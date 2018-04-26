@@ -132,6 +132,10 @@ class BidForm(forms.Form):
         'class': 'input form-control',
     }))
 
+    item_image = forms.ImageField(
+        required=False,
+    )
+
     bid_trickle = forms.BooleanField(
         required=False,
     )
