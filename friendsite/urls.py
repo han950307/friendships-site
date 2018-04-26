@@ -44,6 +44,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('social_auth/', include('friendsite_social_auth.urls', namespace='friendsite_social_auths')),
     path('api/', include('api.urls', namespace="api")),
+    path('csr/', include('csr.urls', namespace="csr")),
     path('', include('friendship.urls', namespace="friendship")),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
