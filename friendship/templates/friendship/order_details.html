@@ -106,6 +106,10 @@
             {% endif %}
             <p>{{ order.receiver_address.city }} {{ order.receiver_address.region }} {{ order.receiver_address.postal_code }}</p>
             <p>{{ order.receiver_address.country }}</p>
+            {% if request.user.shipper_info.shipper_type == 3 %}
+            <p>{{ order.receiver_address.phone }}</p>
+            <p>{{ order.receiver.email }}</p>
+            {% endif %}
             <br>
             <br>
         </div>
@@ -379,18 +383,48 @@
                         {% endif %}
                     </h4>
                     <div class="col-auto">
-                        <table id="bid-info-table">
-                            <tr class="bid-info-row">
-                                <th class="bid-info-header">
-                                    {% if request.session.locale == 'th_TH' %}
-                                    ยอดชำระเงินสุทธิ
-                                    {% else %}
-                                    Total:
-                                    {% endif %}
-                                </th>
-                                <th class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid thb %}</h5></th>
-                            </tr>
-                        </table>
+                        <div id="bid-info-wrapper">
+                            <table id="bid-info-table">
+                                <tr class="bid-info-row">
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th_TH' %}
+                                        ยอดชำระเงินสุทธิ
+                                        {% else %}
+                                        Total:
+                                        {% endif %}
+                                    </th>
+                                    <th class="bid-info-content font-weight-bold"><h5>{% get_bid_total_str min_bid thb %}</h5></th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="discount-wrapper" style="display: none;">
+                            <table id="discount-table">
+                                <tr class="bid-info-row">
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th_TH' %}
+                                        ส่วนลด 4%
+                                        {% else %}
+                                        Discount (4%):
+                                        {% endif %}
+                                    </th>
+                                    <th>
+                                        <h5>{{ discount_str }}</h5>
+                                    </th>
+                                </tr>
+                                <tr class="bid-info-row">
+                                    <th class="bid-info-header">
+                                        {% if request.session.locale == 'th_TH' %}
+                                        ยอดชำระสุทธิ
+                                        {% else %}
+                                        New Total:
+                                        {% endif %}
+                                    </th>
+                                    <th>
+                                        <h5>{{ manual_bank_transfer_total_str }}</h5>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <hr id="hr2">
                     <h6>
@@ -400,7 +434,7 @@
                         Choose your Payment Method
                         {% endif %}
                     </h6>
-                    <form id="payment-form">
+                    <div id="payment-choice-group">
                         <input type="radio" class="input" name="payment-method" value="credit-card" id="credit-card-radio" checked="false">
                         {% if request.session.locale == 'th_TH' %}
                         PayPal / บัตรเครดิต
@@ -417,124 +451,95 @@
                         <br>
                         <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">
                         {% if request.session.locale == 'th_TH' %}
-                        ผ่านเคาน์เตอร์ธนาคาร
+                        ชำระเงินผ่านเคาน์เตอร์ธนาคาร (รับส่วนลดเพิ่ม 4%)
                         {% else %}
-                        Manual Bank Transfer
+                        Manual Bank Transfer (4% discount)
                         {% endif %}
-                        <br>
+                    </div>
+                    <br>
 
-                        <br>
-                        <div id="online-wire-transfer" style="display: none">
-                            {% if request.session.locale == 'th_TH' %}
-                            Coming soon
-                            {% else %}
-                            Coming soon
-                            {% endif %}
+                    <br>
+                    <div id="online-wire-transfer" style="display: none">
+                        {% if request.session.locale == 'th_TH' %}
+                        Coming soon
+                        {% else %}
+                        Coming soon
+                        {% endif %}
+                    </div>
+
+                    <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
+                    <!-- when omise approves, change this to above -->
+                    <div id="credit-card-payment" style="display: none">
+                        <div id="paypal-button"></div>
+                    </div>
+                    <!-- END OF WHAT SHOULD BE DISPLAYED -->
+                    <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
+                    <div id="wire-payment" style="display: none">
+                        {% if request.session.locale == 'th_TH' %}
+                        กรุณาโอนเงินเข้าบัญชีที่แสดงด้านล่างนี้ พร้อมแนบหลักฐานการชำระเงิน เพื่อยืนยันการทำรายการ
+                        {% else %}
+                        Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.
+                        {% endif %}
+                        <div class="col-auto">
+                            <table class="bid-info-table">
+                                <tr class="bid-info-row">
+                                    <td>
+                                        {% if request.session.locale == 'th_TH' %}
+                                        ธนาคาร
+                                        {% else %}
+                                        Bank:
+                                        {% endif %}
+                                    </td>
+                                    <td><h5>
+                                        {% if request.session.locale == 'th_TH' %}
+                                        K bank
+                                        {% else %}
+                                        K bank
+                                        {% endif %}
+                                    </h5></td>
+                                </tr>
+                                <tr class="bid-info-row">
+                                    <td>
+                                        {% if request.session.locale == 'th_TH' %}
+                                        ชื่อบัญชี
+                                        {% else %}
+                                        Name:
+                                        {% endif %}
+                                    </td>
+                                    <td><h5>
+                                        {% if request.session.locale == 'th_TH' %}
+                                        Patcharin Desit
+                                        {% else %}
+                                        Patcharin Desit
+                                        {% endif %}
+                                    </h5></td>
+                                </tr>
+                                <tr class="bid-info-row">
+                                    <td>
+                                        {% if request.session.locale == 'th_TH' %}
+                                        เลขที่บัญชี
+                                        {% else %}
+                                        Account Number:
+                                        {% endif %}
+                                    </td>
+                                    <td><h5>0388832908</h5></td>
+                                </tr>
+                            </table>
                         </div>
-
-                        <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
-                        <!-- when omise approves, change this to above -->
-                        <div id="credit-card-payment" style="display: none">
-                            
-                            <div id="paypal-button"></div>
-                            <!-- <form action="{% url 'friendship:process_payment' order.id thb.value %}" method="post" id="checkout">
-                                {% csrf_token %}
-                                <script src="https://cdn.omise.co/omise.js"></script>
-                                <script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
-                                <script src="{% static 'friendship/js/libs/custom/omise-integration.js' %}"></script>
-                                <div id="token_errors"></div>
-                                <input type="hidden" name="omise_token">
-                                <table style="width:100%;">
-                                    <div class="form-group">
-                                        <tr><td><input class="input form-control" type="text" data-omise="holder_name" placeholder="Cardholder's name"></td></tr>
-                                    </div>
-                                    <div class="form-group">
-                                        <tr><td><input class="input form-control" type="text" data-omise="number" placeholder="Card number"></td></tr>
-                                    </div>
-                                    <div class="form-group">
-                                        <tr><td>
-                                            <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_month" size="8" placeholder="MM">
-                                            <input class="input col-sm-6 form-control date" type="text" data-omise="expiration_year" size="8" placeholder="YYYY">
-                                        </td></tr>
-                                    </div>
-                                    <div class="form-group">
-                                        <tr><td><input class="input form-control" type="text" data-omise="security_code" size="8" placeholder="CSC/CVV"></td></tr>
-                                    </div>
-                                </table>
-                                <input type="submit" class="btn btn-block ui-gradient-green" id="create_token" value="Submit Payment" style="margin:10px 0px">
-                            </form> -->
-                        </div>
-                        <!-- END OF WHAT SHOULD BE DISPLAYED -->
-
-                        <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                        <div id="wire-payment" style="display: none">
-                            {% if request.session.locale == 'th_TH' %}
-                            กรุณาโอนเงินเข้าบัญชีที่แสดงด้านล่างนี้ พร้อมแนบหลักฐานการชำระเงิน เพื่อยืนยันการทำรายการ
-                            {% else %}
-                            Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.
-                            {% endif %}
-                            <div class="col-auto">
-                                <table class="bid-info-table">
-                                    <tr class="bid-info-row">
-                                        <td>
-                                            {% if request.session.locale == 'th_TH' %}
-                                            ธนาคาร
-                                            {% else %}
-                                            Bank:
-                                            {% endif %}
-                                        </td>
-                                        <td><h5>
-                                            {% if request.session.locale == 'th_TH' %}
-                                            K bank
-                                            {% else %}
-                                            K bank
-                                            {% endif %}
-                                        </h5></td>
-                                    </tr>
-                                    <tr class="bid-info-row">
-                                        <td>
-                                            {% if request.session.locale == 'th_TH' %}
-                                            ชื่อบัญชี
-                                            {% else %}
-                                            Name:
-                                            {% endif %}
-                                        </td>
-                                        <td><h5>
-                                            {% if request.session.locale == 'th_TH' %}
-                                            Patcharin Desit
-                                            {% else %}
-                                            Patcharin Desit
-                                            {% endif %}
-                                        </h5></td>
-                                    </tr>
-                                    <tr class="bid-info-row">
-                                        <td>
-                                            {% if request.session.locale == 'th_TH' %}
-                                            เลขที่บัญชี
-                                            {% else %}
-                                            Account Number:
-                                            {% endif %}
-                                        </td>
-                                        <td><h5>0388832908</h5></td>
-                                    </tr>
-                                </table>
+                        <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ manual_wire_transfer_form.banknote_image.errors }}
+                                {{ manual_wire_transfer_form.banknote_image }}
                             </div>
-                            <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    {{ manual_wire_transfer_form.banknote_image.errors }}
-                                    {{ manual_wire_transfer_form.banknote_image }}
-                                </div>
-                                {% if request.session.locale == 'th_TH' %}
-                                <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
-                                {% else %}
-                                <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
-                                {% endif %}
-
-                            </form>
-                        </div>
-                        <!-- END OF WHAT SHOULD BE DISPLAYED -->
-                    </form>
+                            {% if request.session.locale == 'th_TH' %}
+                            <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
+                            {% else %}
+                            <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
+                            {% endif %}
+                        </form>
+                    </div>
+                    <!-- END OF WHAT SHOULD BE DISPLAYED -->
                 </div>
                 {% endif %}
             </div>
@@ -787,9 +792,9 @@ paypal.Button.render({
         return actions.payment.create({
             payment: {
                 transactions: [
-                    {
-                        amount: { total: '{{ thb_total }}', currency: '{{ thb_str }}' }
-                    }
+                {
+                    amount: { total: '{{ thb_total }}', currency: '{{ thb_str }}' }
+                }
                 ]
             }
         });

@@ -33,6 +33,7 @@ from friendsite import settings
 
 import os
 import decimal
+import math
 
 
 @login_required
@@ -190,9 +191,11 @@ def confirm_banknote(request, order_id):
                 create_action_for_order(order, OrderAction.Action.ORDER_DECLINED)
             return redirect('friendship:user_open_bids')
     else:
+        thb_total = math.ceil(order.final_bid.get_total(currency=Money.Currency.THB))
+        new_val = "\u0E3F{}".format(math.ceil(thb_total - thb_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT))
         form = ConfirmBanknoteForm()
 
-    return render(request, 'friendship/confirm_banknote.html', {'order' : order, 'form': form})
+    return render(request, 'friendship/confirm_banknote.html', {'order' : order, 'form': form, 'val': new_val})
 
 
 @login_required

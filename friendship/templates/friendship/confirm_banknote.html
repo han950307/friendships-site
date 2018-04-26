@@ -112,6 +112,8 @@
                 {% endif %}
             </h3>
             <a href="{{ order.banknote_image.url }}"><img src="{{ order.banknote_image.url }}" style="width: 500px;"></a>
+            <br>
+            total transferred should be: <strong>{{ val }}</strong>
             <form action="{% url 'friendship:confirm_banknote' order.id %}" method="post" enctype=multipart/form-data>
                 {% csrf_token %}
                 {{ form.as_table }}
