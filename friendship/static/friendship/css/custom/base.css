@@ -756,12 +756,12 @@ div.orders {
   vertical-align: middle;
 }
 
-#bid-info-table {
+#bid-info-table, #discount-table {
   width: 100%;
   margin-top: 1rem;
 }
 
-#bid-info-table h5 {
+#bid-info-table h5, #discount-table h5 {
   margin-bottom: 0;
 }
 
@@ -898,8 +898,13 @@ span#time_countdown {
   }
 }
 
-#payment-form .input {
+#payment-choice-group .input {
   margin-top: .5rem;
+}
+
+#payment-choice-group {
+  margin-bottom: -1rem;
+  padding: 0;
 }
 
 #credit-card-payment .form-control {

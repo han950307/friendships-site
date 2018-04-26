@@ -11,6 +11,7 @@ from ..models import (
     ShippingAddress,
     PaymentAction,
     Message,
+    ShipperInfo,
     TrackingNumber,
     Money,
 )
@@ -93,7 +94,7 @@ def order_details(request, order_id, **kwargs):
     Given the order_id (pk), displays its info.
     """
     order = Order.objects.get(pk=order_id)
-    if order.receiver != request.user and order.shipper != request.user:
+    if order.receiver != request.user and request.user.shipper_info.shipper_type != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER:
         messages.error(request, 'You do not have permission to view this page.')
         return redirect('friendship:index')
 
@@ -140,7 +141,7 @@ def order_details(request, order_id, **kwargs):
     if min_bid:
         thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
     else:
-        thb_total = "0"
+        thb_total = 0
 
     data_dict.update({
         'order': order,
@@ -163,6 +164,14 @@ def order_details(request, order_id, **kwargs):
                         for (k,v)
                         in OrderAction.Action._member_map_.items()
     })
+
+    new_val = math.ceil(thb_total - thb_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
+
+    # Manual bank transfer discount
+    data_dict["manual_bank_transfer_total_str"] = "\u0E3F{}".format(
+        new_val
+    )
+    data_dict["discount_str"] = "-\u0E3F{}".format(thb_total - new_val)
 
     # Braintree Setup
     if settings.DEBUG:
@@ -302,7 +311,7 @@ def submit_wire_transfer(request, order_id):
 @login_required
 def open_orders(request, filter):
     """
-    View currently open orders.
+    View currently open orders for the senders.
     """
     if not request.session["is_shipper"]:
         messages.error(request, 'You do not have permissions to access this page.')
@@ -340,10 +349,6 @@ def user_open_orders(request):
     """
     qset = Order.objects.filter(
         receiver=request.user
-    ).union(
-        Order.objects.filter(
-            shipper=request.user
-        )
     ).order_by(
         '-date_placed'
     )
