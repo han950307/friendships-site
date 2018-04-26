@@ -50,6 +50,8 @@
 			{{ form.item_image_url }}
 		</div>
 	</div>
+	{% endif %}
+	{% if request.user.shipper_info.shipper_type == 3 %}
 	<div class="row">
 		<div class="col-sm-4">
 			{{ form.bid_trickle.errors }}
