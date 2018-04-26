@@ -6,6 +6,9 @@
 <!-- This page displays all the orders for the receiver. -->
 
 {% block main_content %}
+{% for message in messages %}
+<p><strong>{{ message }}</strong></p>
+{% endfor %}
 <!-- Active Bids Section -->
 <h1>Active Bids</h1>
 <hr>
@@ -24,7 +27,15 @@
 	<div style="display: none;" datetime="{{ bid.order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{bid.order.id}}"></div>
 	<div class="row">
 		<!-- ORDER ID -->
-		<div class="col-sm-13"><span><a href="{% url 'friendship:user_open_bids' %}">{{ bid.order.id }}</a></span></div>
+		<div class="col-sm-13">
+			<a href="{% url 'friendship:order_details' bid.order.id %}">
+				{% if bid.order.item_image %}
+				<img src="{{ bid.order.item_image.url }}" title="Order #{{ bid.order.id }}">
+				{% else %}
+				<a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a>
+				{% endif %}
+			</a>
+		</div>
 		<!-- TIME LEFT -->
 		<div class="col-sm-13" id="{{ bid.order.id }}"></div>
 		<!-- LOWEST BID -->

@@ -106,6 +106,10 @@
             {% endif %}
             <p>{{ order.receiver_address.city }} {{ order.receiver_address.region }} {{ order.receiver_address.postal_code }}</p>
             <p>{{ order.receiver_address.country }}</p>
+            {% if request.user.shipper_info.shipper_type == 3 %}
+            <p>{{ order.receiver_address.phone }}</p>
+            <p>{{ order.receiver.email }}</p>
+            {% endif %}
             <br>
             <br>
         </div>
@@ -787,9 +791,9 @@ paypal.Button.render({
         return actions.payment.create({
             payment: {
                 transactions: [
-                    {
-                        amount: { total: '{{ thb_total }}', currency: '{{ thb_str }}' }
-                    }
+                {
+                    amount: { total: '{{ thb_total }}', currency: '{{ thb_str }}' }
+                }
                 ]
             }
         });
