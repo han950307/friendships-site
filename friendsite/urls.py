@@ -18,8 +18,10 @@ from django.contrib.auth.models import (
 	User
 )
 from django.urls import include, path, re_path
-from django.views.generic import TemplateView
+from django.http.response import HttpResponseRedirect
+from django.views.generic import TemplateView, RedirectView
 from rest_framework import routers, serializers, viewsets
+from friendsite import settings
 
 
 # Serializers for API

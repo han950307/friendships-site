@@ -5,7 +5,7 @@
 {% block title_desc %} It's easy as ship {% endblock title_desc %}
 
 {% block form %}
-<form action="{% url 'friendship:make_bid' order.id %}" method="post" name="order_form">
+<form action="{% url 'friendship:make_bid' order.id %}" method="post" name="order_form" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% if order.item_image %}
 	<div class="item-image" style="max-width: 450px;">
@@ -48,6 +48,13 @@
 			{{ form.item_image_url.errors }}
 			{{ form.item_image_url.label }}
 			{{ form.item_image_url }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			{{ form.item_image.errors }}
+			{{ form.item_image.label }}
+			{{ form.item_image }}
 		</div>
 	</div>
 	{% endif %}
