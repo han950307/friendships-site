@@ -7,15 +7,10 @@
 {% block form %}
 <form action="{% url 'friendship:make_bid' order.id %}" method="post" name="order_form" enctype="multipart/form-data">
 	{% csrf_token %}
-	{% if order.item_image %}
-	<div class="item-image" style="max-width: 450px;">
-		<a target="_blank" href="{{ order.url }}"><img src="{{ order.item_image.url }}"></a>
-	</div>
-	{% endif %}
 	<div class="row">
 		<div class="col-sm-4">
 			{% if order.item_image %}
-			<a href="{{ order.url }}"><img src="{{ order.item_image }}" style="height: 300px"></a>
+			<a href="{{ order.url }}"><img src="{{ order.item_image.url }}" style="height: 300px"></a>
 			{% else %}
 			Order #{{ order.id }} URL: <a href="{{ order.url }}">{{ order.url }}</a>
 			{% endif %}
