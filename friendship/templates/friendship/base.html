@@ -1,5 +1,6 @@
 <!doctype html>
 {% load static %}
+{% load favtags %}
 <html lang="zxx">
 <head>
 	{% if not request.session.dev %}
@@ -30,8 +31,9 @@
 	<link rel="stylesheet" href="{% static 'friendship/css/applify.min.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'friendship/css/slick/slick.css' %}"/>
 	<link rel="stylesheet" href="{% static 'friendship/css/custom/base.css' %}"/>
+	<link rel="icon" href="{% static 'friendship/img/logo/friendships-favicon.svg' %}" type="image/x-icon" />
 	<link rel="shortcut icon" type="image/svg" href="{% static 'friendship/img/logo/friendships-favicon.svg' %}"/>
-
+	{% placeFavicon %}
 	<!-- Scripts -->
 	<script src="{% static 'friendship/js/libs/jquery/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'friendship/js/libs/slider-pro/jquery.sliderPro.min.js' %}"></script>

@@ -18,8 +18,10 @@ from django.contrib.auth.models import (
 	User
 )
 from django.urls import include, path, re_path
-from django.views.generic import TemplateView
+from django.http.response import HttpResponseRedirect
+from django.views.generic import TemplateView, RedirectView
 from rest_framework import routers, serializers, viewsets
+from friendsite import settings
 
 
 # Serializers for API
@@ -49,4 +51,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('marketing/', include('marketing_manager.urls', namespace='marketing_manager')),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('favicon.ico/', lambda x: HttpResponseRedirect('/static/favicon/favicon.ico')),
 ]
