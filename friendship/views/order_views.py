@@ -141,7 +141,7 @@ def order_details(request, order_id, **kwargs):
     if min_bid:
         thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
     else:
-        thb_total = "0"
+        thb_total = 0
 
     data_dict.update({
         'order': order,
@@ -164,6 +164,14 @@ def order_details(request, order_id, **kwargs):
                         for (k,v)
                         in OrderAction.Action._member_map_.items()
     })
+
+    new_val = math.ceil(thb_total - thb_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
+
+    # Manual bank transfer discount
+    data_dict["manual_bank_transfer_total_str"] = "\u0E3F{}".format(
+        new_val
+    )
+    data_dict["discount_str"] = "-\u0E3F{}".format(thb_total - new_val)
 
     # Braintree Setup
     if settings.DEBUG:

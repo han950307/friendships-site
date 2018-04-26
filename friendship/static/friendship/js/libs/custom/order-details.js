@@ -43,18 +43,27 @@ function twoDigit(num) {
     document.getElementById('credit-card-payment').style.display = "block";
     document.getElementById('wire-payment').style.display = "none";
     document.getElementById('online-wire-transfer').style.display = "none";
-  }
-  wireRadio.onclick= function(){
-    document.getElementById('credit-card-payment').style.display = "none";
-    document.getElementById('wire-payment').style.display = "block";
-    document.getElementById('online-wire-transfer').style.display = "none";
+
+    document.getElementById('bid-info-wrapper').style.display = "block";
+    document.getElementById('discount-wrapper').style.display = "none";
   }
   onlineWireRadio.onclick= function(){
     document.getElementById('credit-card-payment').style.display = "none";
     document.getElementById('wire-payment').style.display = "none";
     document.getElementById('online-wire-transfer').style.display = "block";
+
+    document.getElementById('bid-info-wrapper').style.display = "block";
+    document.getElementById('discount-wrapper').style.display = "none";
   }
 
+  wireRadio.onclick= function(){
+    document.getElementById('credit-card-payment').style.display = "none";
+    document.getElementById('wire-payment').style.display = "block";
+    document.getElementById('online-wire-transfer').style.display = "none";
+
+    document.getElementById('bid-info-wrapper').style.display = "none";
+    document.getElementById('discount-wrapper').style.display = "block";
+  }
 // function on() {
 //     document.getElementById("overlay").style.display = "block";
 // }
