@@ -109,6 +109,8 @@
 			<span class="btn btn-sm ui-gradient-purple">On the way</span>
 			{% elif bid.order.latest_action.action < ORDER_DECLINED %}
 			<span class="btn btn-sm ui-gradient-green">Order Fulfilled</span>
+			{% elif bid.order.latest_action.action < ORDER_CLOSED %}
+			<span class="btn btn-sm ui-gradient-red">Order Declined</span>
 			{% endif %}
 		</div>
 
