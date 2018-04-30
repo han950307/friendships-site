@@ -155,9 +155,9 @@ def user_open_bids(request):
     ).filter(
         latest_action__action__gte=OrderAction.Action.MATCH_FOUND
     ).filter(
-        latest_action__action__lt=OrderAction.Action.ORDER_FULFILLED
-    ).filter(
         final_bid__shipper=request.user
+    ).filter(
+        cleared=False
     ).order_by(
         '-bid_end_datetime'
     )
@@ -221,6 +221,21 @@ def confirm_item_purchased_receipt(request, order_id):
         form = UploadItemPurchasedReceiptForm()
 
     return render(request, 'friendship/confirm_item_purchased_receipt.html', {'order' : order, 'form': form})
+
+
+@login_required
+def clear_order(request, order_id):
+    if request.session["is_shipper"] != True:
+        error(request, 'You do not have permissions to access this page.')
+        return redirect('friendship:index')
+    order = Order.objects.filter(id=order_id).filter(shipper=request.user)
+    if not order:
+        error(request, 'no orders found')
+        return redirect('friendship:index')
+    order = order[0]
+    order.cleared = True
+    order.save()
+    return redirect('friendship:user_open_bids')
 
 
 @login_required

@@ -54,6 +54,7 @@ urlpatterns = [
         name='sender_registration',
     ),
     path('user_open_bids/', views.user_open_bids, name='user_open_bids'),
+    path('clear_order/<int:order_id>/', views.clear_order, name='clear_order'),
     path('confirm_banknote/<int:order_id>/', views.confirm_banknote, name='confirm_banknote'),
     path('confirm_item_purchased_receipt/<int:order_id>/', views.confirm_item_purchased_receipt, name='confirm_item_purchased_receipt'),
     path('confirm_item_shipped_by_merchant/<int:order_id>/', views.confirm_item_shipped_by_merchant, name='confirm_item_shipped_by_merchant'),

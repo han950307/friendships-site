@@ -12,7 +12,7 @@
 <!-- Active Bids Section -->
 <h1>Active Bids</h1>
 <hr>
-<div id="bids-header">
+<div id="bids-header" class="orders">
 	<div class="row">
 		<div class="col-sm-13">Order #</div>
 		<div class="col-sm-13">Time Left</div>
@@ -22,7 +22,7 @@
 	</div>
 </div>
 
-<div class="container" id="bids-table">
+<div class="container" id="bids-table" class="orders">
 	{% for bid in active_orders %}
 	<div style="display: none;" datetime="{{ bid.order.bid_end_datetime.isoformat }}" class="order-bid-end-time" title="{{bid.order.id}}"></div>
 	<div class="row">
@@ -59,24 +59,33 @@
 <!-- Matched Order Section -->
 <h1>Matched Orders</h1>
 <hr>
-<div id="matched-order-header">
+<div id="matched-order-header" class="orders">
 	<div class="row">
 		<div class="col-sm-13">Order #</div>
+		{% if request.user.shipper_info.shipper_type == 3 %}
+		<div class="col-sm-13">Clear Order</div>
+		{% else %}
 		<div class="col-sm-13">Date Placed</div>
+		{% endif %}
 		<div class="col-sm-13">Item Status</div>
 		<div class="col-sm-13">Your Bid</div>
 		<div class="col-sm-13">Make Action</div>
 	</div>
 </div>
 {% for bid in matched_orders %}
-<div id="matched-order-table">
+<div id="matched-order-table" class="orders">
 	{% if bid.order.latest_action.action >= MATCH_FOUND %}
 	<div class="row">
 		<!-- ORDER ID -->
-		<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a></span></div>
+		<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a></span>
+		</div>
 
-		<!-- ORDER ID -->
+		<!-- ORDER DATE -->
+		{% if request.user.shipper_info.shipper_type == 3 %}
+		<div class="col-sm-13"><a class="btn btn-sm ui-gradient-red" href="{% url 'friendship:clear_order' bid.order.id %}">Clear</a></div>
+		{% else %}
 		<div class="col-sm-13">{{ bid.order.date_placed|date }}</div>
+		{% endif %}
 
 		<!-- ITEM STATUS -->
 		<div class="col-sm-13">
