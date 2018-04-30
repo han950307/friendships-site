@@ -249,6 +249,7 @@ class Order(models.Model):
         null=True,
         blank=True,
     )
+    cleared = models.BooleanField()
 
 
 class TrackingNumber(models.Model):
