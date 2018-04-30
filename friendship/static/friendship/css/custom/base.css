@@ -621,12 +621,12 @@ USER BIDS LIST
   margin-bottom: 20px;
 }
 
-#bids-table a{
-  margin-bottom: -.4rem;
-  margin-top: -.4rem;
+.orders a {
+  margin-bottom: -1rem;
+  margin-top: -1rem;
 }
 
-#bids-table a img {
+.orders a img {
   height: 60px;
   width: 60px;
   border-radius: 0.5rem;

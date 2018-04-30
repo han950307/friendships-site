@@ -32,7 +32,7 @@
 				{% if bid.order.item_image %}
 				<img src="{{ bid.order.item_image.url }}" title="Order #{{ bid.order.id }}">
 				{% else %}
-				<a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a>
+				{{ bid.order.id }}
 				{% endif %}
 			</a>
 		</div>
@@ -77,7 +77,14 @@
 	{% if bid.order.latest_action.action >= MATCH_FOUND %}
 	<div class="row">
 		<!-- ORDER ID -->
-		<div class="col-sm-13"><span><a href="{% url 'friendship:order_details' bid.order.id %}">{{ bid.order.id }}</a></span>
+		<div class="col-sm-13">
+			<a href="{% url 'friendship:order_details' bid.order.id %}">
+				{% if bid.order.item_image %}
+				<img src="{{ bid.order.item_image.url }}" title="Order #{{ bid.order.id }}">
+				{% else %}
+				{{ bid.order.id }}
+				{% endif %}
+			</a>
 		</div>
 
 		<!-- ORDER DATE -->
