@@ -252,25 +252,6 @@ class Order(models.Model):
     cleared = models.BooleanField(default=False)
 
 
-class Referral(models.Model):
-    referred = models.ForeignKey(
-        User,
-        related_name="referred_user",
-        on_delete=models.CASCADE,
-    )
-    referrer = models.ForeignKey(
-        User,
-        related_name="referrering_user",
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-    first_order = models.ForeignKey(
-        Order,
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-
-
 class TrackingNumber(models.Model):
     @enum.unique
     class ShippingStage(enum.IntEnum):
@@ -484,17 +465,7 @@ class Money(models.Model):
 
     value = models.DecimalField(max_digits=60, decimal_places=6, default=0)
     currency = models.IntegerField(
-        choices=((x.value, str(x)) for x in Currency),
-        default=100,
-    )
-
-
-class InAppCredit(Money):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        related_name="in_app_credit",
+        choices = ((x.value, str(x)) for x in Currency)
     )
 
 
@@ -559,11 +530,6 @@ class Bid(models.Model):
         on_delete=models.CASCADE,
         related_name="service_fee",
     )
-    adjustment = models.ForeignKey(
-        Money,
-        on_delete=models.CASCADE,
-        related_name="adjustment",
-    )
 
     bid_trickle = models.BooleanField()
 
@@ -572,7 +538,6 @@ class Bid(models.Model):
         "wages_id",
         "retail_price_id",
         "service_fee_id",
-        "adjustment_id",
     ]
 
 

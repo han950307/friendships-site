@@ -142,7 +142,7 @@ class BidForm(forms.Form):
 
 
 """ORDER RELATED FORMS"""
-class OrderForm(forms.ModelForm):
+class OrderForm(forms.ModelForm):  
     merchandise_type = forms.ChoiceField(
         choices=[
             (x.value, str(x).title())
@@ -172,16 +172,6 @@ class OrderForm(forms.ModelForm):
             (24, "24 hours"),
             (72, "72 hours"),
         ]
-    )
-    referrer = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Referrer',
-                'class': 'input form-control',
-                'data-validation': 'required',
-            }
-        ),
-        required=False,
     )
     class Meta:
         model = Order

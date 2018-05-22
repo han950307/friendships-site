@@ -39,8 +39,6 @@ from friendship.models import (
     Money,
     Bid,
     Message,
-    InAppCredit,
-    Referral,
 )
 from friendship.serializers import (
     UserSerializer,
@@ -106,8 +104,6 @@ def create_money_object(key, **kwargs):
     if key in kwargs:
         val = decimal.Decimal(kwargs[key])
         return Money.objects.create(value=val, currency=kwargs["currency"])
-    elif key == "adjustment":
-        return Money.objects.create(value=decimal.Decimal(0), currency=kwargs["currency"])
     else:
         return None
 
@@ -156,7 +152,6 @@ def make_bid_backend(shipper, order, **kwargs):
         wages=create_money_object("wages", **kwargs),
         retail_price=create_money_object("retail_price", **kwargs),
         service_fee=create_money_object("service_fee", **kwargs),
-        adjustment=create_money_object("adjustment", **kwargs),
     )
 
     # "bid_trickle" signifies that this is the first bid created with min_bid as parameter.
@@ -276,11 +271,6 @@ def login_user(request, user):
     else:
         request.session["is_shipper"] = False
 
-    # Initialize InAppCredit if it doesn't exist
-    in_app_credit = InAppCredit.objects.filter(user=user)
-    if not in_app_credit:
-        InAppCredit.objects.create(user=user)
-
 
 def login_user_web(request, **kwargs):
     try:
@@ -299,14 +289,6 @@ def login_user_web(request, **kwargs):
 
 
 ### ORDER RELATED FUNCTIONS ###
-def give_credit(user, amount):
-    credit = InAppCredit.objects.filter(user=user)
-    if credit:
-        credit = credit[0]
-    credit.value += decimal.Decimal(amount)
-    credit.save()
-
-
 def create_order(**kwargs):
     if "estimated_weight" not in kwargs:
         estimated_weight = 0
@@ -316,75 +298,10 @@ def create_order(**kwargs):
     order = Order.objects.create(**kwargs["data"])
     friendship.views.create_action_for_order(order, OrderAction.Action.ORDER_PLACED)
 
-    # Referral Credit Stuff
-    ref = Referral.objects.filter(referred=receiver)
-
-    # Create a referral to begin with.
-    # This only works for first order.
-    if not ref:
-        if "referrer" in kwargs:
-            user_id = kwargs["user_id"]
-            user = User.objects.filter(pk=user_id)
-            if user:
-                user = user[0]
-                referrer = user
-            else:
-                referrer = None
-
-        else:
-            referrer = None
-
-        Referral.objects.create(
-            referred=receiver,
-            referrer=referrer,
-            first_order=order,
-        )
-
-        # Endow credit only if a referrer exists.
-        if referrer:
-            give_credit(receiver, 125)
-
     if not settings.LOCAL:
         send_order_created_email(order)
 
     return order
-
-
-def get_order_total_with_credit(bid, credit):
-    """
-    Calculates how much in app credit is applied and new total
-    """
-    credit_val = credit.value
-    order_total = bid.get_total(Money.Currency.THB)
-
-    if credit_val <= order_total:
-        return (credit_val, order_total - credit_val)
-    else:
-        return (order_total, 0)
-
-
-def apply_in_app_credit(order):
-    """
-    Applying in-app credit.
-    """
-    bid = order.final_bid
-    user = order.receiver
-    # guaranteed to have one, so [0] is ok
-    my_credit = InAppCredit.filter(user=user)[0]
-    credit_applied, new_order_total = get_order_total_with_credit(bid, my_credit)
-
-    bid.adjustment.value -= credit_applied
-    my_credit.value -= credit_applied
-
-    bid.adjustment.save()
-    my_credit.save()
-
-    # Endow in app credit for referrer if exists.
-    referral = Referral.filter(first_order=order)
-    if referral:
-        referral = referral[0]
-        referrer = referral.referrer
-        give_credit(referrer, 125)
 
 
 ### API SPECIFIC FUNCTIONS ###

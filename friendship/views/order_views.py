@@ -14,7 +14,6 @@ from ..models import (
     ShipperInfo,
     TrackingNumber,
     Money,
-    InAppCredit,
 )
 
 import datetime
@@ -23,11 +22,6 @@ import braintree
 import math
 from django.core import mail
 from friendsite import settings
-
-from backend.views import (
-    apply_in_app_credit,
-    get_order_total_with_credit,
-)
 
 from ..forms import (
     ManualWireTransferForm,
@@ -149,11 +143,6 @@ def order_details(request, order_id, **kwargs):
     else:
         thb_total = 0
 
-    credit = InAppCredit.objects.get(user=request.user)[0]
-
-    # Update InAppCredi
-    credit_applied, new_total = get_order_total_with_credit(min_bid, credit)
-
     data_dict.update({
         'order': order,
         'order_url': order_url,
@@ -165,8 +154,6 @@ def order_details(request, order_id, **kwargs):
         'thb': Money.Currency.THB,
         'usd_str': str(Money.Currency.USD).upper(),
         'thb_str': str(Money.Currency.THB).upper(),
-        'credit_applied': Money.format_value(credit_applied, currency),
-        'new_total': Money.format_value(new_total, currency),
         'thb_total': str(thb_total),
         'currency': currency,
         'manual_wire_transfer_form': ManualWireTransferForm(),
@@ -217,9 +204,6 @@ def process_braintree_payment(request):
     else:
         order = order[0]
 
-    # process in app credit.
-    apply_in_app_credit(order)
-
     # Check if the paid amount is same as the order's total amount.
     paid_amount = int(braintree_nonce)
     order_amount = int(math.ceil(order.final_bid.get_total(currency=Money.Currency.THB)))
@@ -228,6 +212,22 @@ def process_braintree_payment(request):
         messages.error(request, 'The amount paid does not match the total amount of the order.')
         return redirect('friendship:order_details', order_id=order_id)
 
+
+    # initialize gateway
+    # gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
+    # currency = Money.Currency.THB
+    # value = math.ceil(order.final_bid.get_total(currency))
+
+    # result = gateway.transaction.sale({
+    #     "amount": str(value),
+    #     "merchant_account_id": str(currency).upper(),
+    #     "payment_method_nonce" : braintree_nonce,
+    #     "order_id" : "friendshipsorder{}".format(order.id),
+    #     "descriptor": {
+    #       "name": "FriendShips *ecommerce"
+    #     },
+    # })
+    # if result.is_success:
     create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
     PaymentAction.objects.create(
         order=order,
