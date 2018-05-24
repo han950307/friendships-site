@@ -100,7 +100,7 @@ def send_payment_email(order):
 
         mail.send_mail(
             title,
-            "ITEM URL: {}".format(order.url),
+            "ORDER URL: {}".format("https://www.friendships.us/order_details/{}".format(order.id)),
             "FriendShips <no-reply@friendships.us>",
             ["nt62@duke.edu", "h.k@duke.edu"],
             fail_silently=False,
