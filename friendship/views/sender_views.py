@@ -162,7 +162,7 @@ def user_open_bids(request):
         '-bid_end_datetime'
     )
 
-    if request.user.shipper_info.shipper_type == ShipperType.FRIENDSHIP_BIDDER:
+    if request.user.shipper_info.shipper_type == ShipperInfo.ShipperType.FRIENDSHIP_BIDDER:
         qset2 = Order.objects.filter(
             cleared=False
         ).filter(
