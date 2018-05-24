@@ -171,7 +171,7 @@ def user_open_bids(request):
             '-bid_end_datetime'
         )
 
-        qset = qset2 + qset
+        qset.union(qset2)
 
     data_dict['matched_orders'] = [
         x.final_bid
