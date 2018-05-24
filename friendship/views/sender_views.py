@@ -118,7 +118,7 @@ def get_lowest_user_bid(order, user):
 @login_required
 def user_open_bids(request):
     """
-    This displays all the orders for the receiver.
+    This displays all the open orders up for bidding for bidder.
     """
     # Initialize data dict with all the order actions
     data_dict = {}
@@ -161,6 +161,17 @@ def user_open_bids(request):
     ).order_by(
         '-bid_end_datetime'
     )
+
+    if request.user.shipper_info.shipper_type == ShipperInfo.ShipperType.FRIENDSHIP_BIDDER:
+        qset2 = Order.objects.filter(
+            cleared=False
+        ).filter(
+            latest_action__action=OrderAction.Action.MATCH_NOT_FOUND
+        ).order_by(
+            '-bid_end_datetime'
+        )
+
+        qset.union(qset2).order_by('-bid_end_datetime')
 
     data_dict['matched_orders'] = [
         x.final_bid

@@ -88,6 +88,25 @@ def match_with_shipper(order):
         )
 
 
+def send_payment_email(order):
+    """
+    Send an email for this order.
+    """
+    if not settings.LOCAL:
+        if order.latest_action == OrderAction.Action.BANKNOTE_UPLOADED:
+            title = "Order #{} Banknote Received".format(order.id)
+        else:
+            title = "Order #{} Payment Received".format(order.id)
+
+        mail.send_mail(
+            title,
+            "ORDER URL: {}".format("https://www.friendships.us/order_details/{}".format(order.id)),
+            "FriendShips <no-reply@friendships.us>",
+            ["nt62@duke.edu", "h.k@duke.edu"],
+            fail_silently=False,
+        )
+
+
 @login_required
 def order_details(request, order_id, **kwargs):
     """
@@ -212,7 +231,6 @@ def process_braintree_payment(request):
         messages.error(request, 'The amount paid does not match the total amount of the order.')
         return redirect('friendship:order_details', order_id=order_id)
 
-
     # initialize gateway
     # gateway = braintree.BraintreeGateway(access_token=settings.BRAINTREE_ACCESS_TOKEN)
     # currency = Money.Currency.THB
@@ -233,6 +251,7 @@ def process_braintree_payment(request):
         order=order,
         payment_type=PaymentAction.PaymentType.PAYPAL,
     )
+    send_payment_email(order)
     messages.success(request, "Payment processed.")
 
     return redirect('friendship:order_details', order_id=order_id)
@@ -301,6 +320,7 @@ def submit_wire_transfer(request, order_id):
             )
             create_action_for_order(order, OrderAction.Action.BANKNOTE_UPLOADED)
             order.save()
+            send_payment_email(order)
             return redirect('friendship:order_details', order_id=order_id)
     else:
         form = ManualWireTransferForm()
