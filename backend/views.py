@@ -264,6 +264,9 @@ def create_user(**kwargs):
 def login_user(request, user):
     login(request, user)
 
+    if 'locale' not in request.session:
+        request.session['locale'] = 'th_TH'
+
     # check if the user is a shipper.
     user_list = ShipperInfo.objects.filter(user=user)
     if user_list and user_list[0].verified == True:
