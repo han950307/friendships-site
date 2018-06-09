@@ -21,6 +21,7 @@ import datetime
 import pytz
 import braintree
 import math
+import backend
 from django.core import mail
 from friendsite import settings
 
@@ -144,15 +145,16 @@ def order_details(request, order_id, **kwargs):
         'thai_tracking': thai_tracking[0] if thai_tracking else None
     })
 
+    credit = backend.views.get_credit(request.user)
+
     if min_bid:
         thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
+        credit_applied, new_total = get_order_total_with_credit(min_bid, credit)
     else:
         thb_total = 0
-
-    credit = InAppCredit.objects.get(user=request.user)[0]
+        credit_applied = new_total = 0
 
     # Update InAppCredi
-    credit_applied, new_total = get_order_total_with_credit(min_bid, credit)
 
     data_dict.update({
         'order': order,

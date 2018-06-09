@@ -176,7 +176,7 @@ class OrderForm(forms.ModelForm):
     referrer = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Referrer',
+                'placeholder': 'Referrer Code',
                 'class': 'input form-control',
                 'data-validation': 'required',
             }

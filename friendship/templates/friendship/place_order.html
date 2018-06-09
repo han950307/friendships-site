@@ -89,6 +89,10 @@ It's easy as ship
                 {% endfor %}
             </div>
         </div>
+        <div class="form-group" style="margin-top:2rem;">
+            {{ form.referrer.errors }}
+            {{ form.referrer }}
+        </div>
 
         {% if form.errors %}
         {% for field in form %}

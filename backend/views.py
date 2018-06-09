@@ -307,6 +307,10 @@ def give_credit(user, amount):
     credit.save()
 
 
+def get_credit(user):
+    return InAppCredit.objects.filter(user=user)[0]
+
+
 def create_order(**kwargs):
     if "estimated_weight" not in kwargs:
         estimated_weight = 0
@@ -317,13 +321,13 @@ def create_order(**kwargs):
     friendship.views.create_action_for_order(order, OrderAction.Action.ORDER_PLACED)
 
     # Referral Credit Stuff
-    ref = Referral.objects.filter(referred=receiver)
+    ref = Referral.objects.filter(referred=kwargs["data"]["receiver"])
 
     # Create a referral to begin with.
     # This only works for first order.
     if not ref:
         if "referrer" in kwargs:
-            user_id = kwargs["user_id"]
+            user_id = int(kwargs["referrer"])
             user = User.objects.filter(pk=user_id)
             if user:
                 user = user[0]
@@ -335,7 +339,7 @@ def create_order(**kwargs):
             referrer = None
 
         Referral.objects.create(
-            referred=receiver,
+            referred=kwargs["data"]["receiver"],
             referrer=referrer,
             first_order=order,
         )

@@ -43,6 +43,7 @@ urlpatterns = [
     path('user_open_orders/', views.user_open_orders, name='user_open_orders'),
     path('submit_wire_transfer/<int:order_id>', views.submit_wire_transfer, name='submit_wire_transfer'),
     path('confirm_order_price/<int:order_id>/<str:choice>/', views.confirm_order_price, name='confirm_order_price'),
+    path('make_order_payment/<int:order_id>/', views.make_order_payment, name="make_order_payment"),
 
     # Sender views
     path('sender_landing/', views.sender_landing, name='sender_landing'),
