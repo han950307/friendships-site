@@ -41,6 +41,7 @@ from friendship.models import (
     Message,
     InAppCredit,
     Referral,
+    PaymentAction,
 )
 from friendship.serializers import (
     UserSerializer,
@@ -303,6 +304,8 @@ def give_credit(user, amount):
     credit = InAppCredit.objects.filter(user=user)
     if credit:
         credit = credit[0]
+    else:
+        return
     credit.value += decimal.Decimal(amount)
     credit.save()
 
@@ -317,6 +320,8 @@ def create_order(**kwargs):
     else:
         estimated_weight = kwargs["estimated_weight"]
 
+    referrer = kwargs["data"].pop('referrer', None)
+
     order = Order.objects.create(**kwargs["data"])
     friendship.views.create_action_for_order(order, OrderAction.Action.ORDER_PLACED)
 
@@ -326,8 +331,8 @@ def create_order(**kwargs):
     # Create a referral to begin with.
     # This only works for first order.
     if not ref:
-        if "referrer" in kwargs:
-            user_id = int(kwargs["referrer"])
+        if referrer:
+            user_id = int(referrer)
             user = User.objects.filter(pk=user_id)
             if user:
                 user = user[0]
@@ -346,7 +351,7 @@ def create_order(**kwargs):
 
         # Endow credit only if a referrer exists.
         if referrer:
-            give_credit(receiver, 125)
+            give_credit(kwargs["data"]["receiver"], settings.REFERRAL_CREDIT_AMOUNT)
 
     if not settings.LOCAL:
         send_order_created_email(order)
@@ -354,12 +359,15 @@ def create_order(**kwargs):
     return order
 
 
-def get_order_total_with_credit(bid, credit):
+def get_order_total_with_credit(bid, credit, manual_transfer_discount=False):
     """
     Calculates how much in app credit is applied and new total
     """
     credit_val = credit.value
-    order_total = bid.get_total(Money.Currency.THB)
+    order_total = math.ceil(bid.get_total(Money.Currency.THB))
+
+    if manual_transfer_discount:
+        order_total = math.ceil(order_total - order_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
 
     if credit_val <= order_total:
         return (credit_val, order_total - credit_val)
@@ -374,21 +382,25 @@ def apply_in_app_credit(order):
     bid = order.final_bid
     user = order.receiver
     # guaranteed to have one, so [0] is ok
-    my_credit = InAppCredit.filter(user=user)[0]
+    # make sure currency is correct here.
+    my_credit = InAppCredit.objects.filter(user=user)[0]
     credit_applied, new_order_total = get_order_total_with_credit(bid, my_credit)
 
-    bid.adjustment.value -= credit_applied
     my_credit.value -= credit_applied
-
-    bid.adjustment.save()
     my_credit.save()
 
     # Endow in app credit for referrer if exists.
-    referral = Referral.filter(first_order=order)
+    referral = Referral.objects.filter(first_order=order)
     if referral:
         referral = referral[0]
         referrer = referral.referrer
-        give_credit(referrer, 125)
+        give_credit(referrer, settings.REFERRAL_CREDIT_AMOUNT)
+
+    PaymentAction.objects.create(
+        order=order,
+        payment_type=PaymentAction.PaymentType.INAPPCREDIT,
+        other_info="paid " + Money.format_value(credit_applied, Money.Currency.THB)
+    )
 
 
 ### API SPECIFIC FUNCTIONS ###

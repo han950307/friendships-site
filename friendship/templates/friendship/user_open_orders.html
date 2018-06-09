@@ -11,6 +11,10 @@ Your Orders
 <!-- This page displays all the orders for the receiver. -->
 
 {% block main_content %}
+<div style="text-align:right">
+	My current in-app credit: {{ credit_str }}<br>
+	My referral code to receive credit: {{ request.user.id }}
+</div>
 <hr>
 <div class="scrollable">
 	<div id="orders-header">

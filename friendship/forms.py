@@ -176,7 +176,7 @@ class OrderForm(forms.ModelForm):
     referrer = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Referrer Code',
+                'placeholder': 'Promo Code',
                 'class': 'input form-control',
                 'data-validation': 'required',
             }
@@ -253,6 +253,7 @@ class OrderForm(forms.ModelForm):
             super().__init__(*args)
         self.locale = kwargs['locale']
         if self.locale == "th_TH":
+            self.fields["referrer"].widget.attrs['placeholder'] = "Code"
             self.fields["url"].widget.attrs['placeholder'] = "ลิ้งค์ URL*"
             self.fields["quantity"].widget.attrs['placeholder'] = "จำนวน*"
             self.fields["merchandise_type"].widget.attrs['placeholder'] = "เลือก*"

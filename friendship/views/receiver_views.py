@@ -86,56 +86,6 @@ def buy_now(request, order_id):
 
 
 @login_required
-def make_order_payment(request, order_id):
-    """
-    Final price check here before making payment
-    """
-    order = Order.objects.get(pk=order_id)
-    if order.receiver != request.user and request.user.shipper_info.shipper_type != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER:
-        messages.error(request, 'You do not have permission to view this page.')
-        return redirect('friendship:index')
-
-    data_dict = {
-        'order_id': order_id,
-        'credit': request.POST['credit'],
-        'currency': request.session['currency'],
-        'payment-method': request.POST['payment-method'],
-    }
-
-    # Reduce order_url
-    if len(order.url) > 50:
-        order_url = order.url[0:47] + "..."
-    else:
-        order_url = order.url
-
-    # Calculate subtotal
-    currency = request.session["currency"]
-    subtotal = 0
-    min_bid = get_min_bid(order)
-    
-    if min_bid:
-        if min_bid.retail_price:
-            subtotal += min_bid.retail_price.get_value(currency)
-        if min_bid.service_fee:
-            subtotal += min_bid.service_fee.get_value(currency)
-
-    data_dict['subtotal'] = subtotal
-
-    # Get credit
-    print(request.POST["credit"])
-    if request.POST["credit"] == "True":
-        credit = backend.views.get_credit(request.user)
-        thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
-        credit_applied, new_total = get_order_total_with_credit(min_bid, credit)
-
-        data_dict["credit_applied"] = Money.format_value(credit_applied, currency)
-        data_dict["new_total"] = Money.format_value(new_total, currency)
-
-
-    return render(request, 'friendship/make_order_payment.html', data_dict)
-
-
-@login_required
 def make_payment(request, order_id):
     return render(request, 'friendship/make_payment.html', {'order_id': order_id})
 
@@ -225,6 +175,15 @@ def place_order(request):
             bid_end_datetime = datetime.datetime.utcnow().replace(tzinfo=pytz.utc) + \
                                 datetime.timedelta(hours=int(form.cleaned_data['num_hours']))
 
+            referrer_str = form.cleaned_data['referrer']
+            if referrer_str in settings.REFERRAL_CODES:
+                referrer = settings.REFERRAL_CODES[referrer_str.upper()]
+            else:
+                try:
+                    referrer = int(referrer_str)
+                except:
+                    referrer = None
+
             data_dict = {
                 'url': form.cleaned_data['url'],
                 'item_image': form.cleaned_data['item_image'],
@@ -235,6 +194,7 @@ def place_order(request):
                 'description': form.cleaned_data['description'],
                 'receiver': request.user,
                 'receiver_address': shipping_address,
+                'referrer': referrer,
                 'bid_end_datetime': bid_end_datetime,
                 'estimated_weight': 0,
             }

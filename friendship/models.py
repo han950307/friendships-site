@@ -315,6 +315,7 @@ class PaymentAction(models.Model):
         ONLINE_WIRE_TRANSFER = 1
         MANUAL_WIRE_TRANSFER = 2
         PAYPAL = 3
+        INAPPCREDIT = 4
 
         def __str__(self):
             if self == self.CREDIT_CARD:
@@ -325,6 +326,8 @@ class PaymentAction(models.Model):
                 return "manual wire transfer"
             elif self == self.OTHER:
                 return "other"
+            elif self == self.INAPPCREDIT:
+                return "in app credit"
             else:
                 return "other"
 
@@ -417,7 +420,7 @@ class Money(models.Model):
     class ExchangeRates(object):
         # XXX to YYY exchange rate.
         USD_THB = decimal.Decimal(32.49)
-        THB_USD = decimal.Decimal(1 / 32)
+        THB_USD = decimal.Decimal(1 / 32.49)
 
     @forDjango
     @enum.unique
@@ -458,6 +461,24 @@ class Money(models.Model):
         else:
             val = math.ceil(value * 100) / 100
             return "\u0024{0:.2f}".format(val)
+
+    def add_value(self, value, currency=Currency.USD):
+        dest = self.currency
+        orig = currency
+
+        if orig == self.Currency.THB:
+            if dest == self.Currency.USD:
+                self.value += value * self.ExchangeRates.THB_USD
+
+        elif orig == self.Currency.USD:
+            if dest == self.Currency.THB:
+                self.value += value * self.ExchangeRates.USD_THB
+
+        else:
+            self.value += value
+
+        self.save()
+
 
     def get_value(self, currency=Currency.USD):
         """

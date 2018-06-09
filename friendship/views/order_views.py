@@ -96,6 +96,99 @@ def match_with_shipper(order):
 
 
 @login_required
+def make_order_payment(request, order_id):
+    """
+    Final price check here before making payment
+    """
+    order = Order.objects.get(pk=order_id)
+    if order.receiver != request.user and request.user.shipper_info.shipper_type != ShipperInfo.ShipperType.FRIENDSHIP_BIDDER:
+        messages.error(request, 'You do not have permission to view this page.')
+        return redirect('friendship:index')
+
+    data_dict = {
+        'order_id': order_id,
+        'currency': request.session['currency'],
+        'payment_method': request.POST['payment-method'],
+    }
+
+    # Reduce order_url
+    if len(order.url) > 50:
+        order_url = order.url[0:47] + "..."
+    else:
+        order_url = order.url
+
+    # Calculate subtotal
+    currency = request.session["currency"]
+    subtotal = 0
+    min_bid = get_min_bid(order)
+    
+    if min_bid:
+        thb_total = math.ceil(min_bid.get_total(currency=Money.Currency.THB))
+        if min_bid.retail_price:
+            subtotal += min_bid.retail_price.get_value(currency)
+        if min_bid.service_fee:
+            subtotal += min_bid.service_fee.get_value(currency)
+    else:
+        thb_total = 0
+
+    data_dict['subtotal'] = subtotal
+    data_dict["new_total"] = thb_total
+
+    # Apply discount for manual transfer
+    if data_dict['payment_method'] == 'wire-transfer':
+        new_val = math.ceil(thb_total - thb_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
+
+        # Manual bank transfer discount
+        data_dict["manual_bank_transfer_total_str"] = "\u0E3F{}".format(
+            new_val
+        )
+        data_dict["discount_str"] = "-\u0E3F{}".format(thb_total - new_val)
+        data_dict["new_total"] = new_val
+        data_dict["new_total_str"] = Money.format_value(new_val, Money.Currency.THB)
+
+    # Use Credit if checked
+    if "credit" in request.POST and request.POST["credit"] == "on":
+        data_dict["credit"] = request.POST["credit"]
+        credit = backend.views.get_credit(request.user)
+        credit_applied, new_total = get_order_total_with_credit(
+            min_bid,
+            credit,
+            data_dict['payment_method'] == 'wire-transfer'
+        )
+
+        data_dict["credit_applied"] = "-" + Money.format_value(credit_applied, Money.Currency.THB)
+        data_dict["new_total"] = new_total
+        data_dict["new_total_str"] = Money.format_value(new_total, Money.Currency.THB)
+
+    data_dict["new_total"] = math.ceil(data_dict["new_total"])
+
+    # Setup Paypal
+    if settings.DEBUG:
+        env = "sandbox"
+    else:
+        env = "production"
+
+    data_dict["payment_env"] = env
+
+    data_dict.update({
+        'order': order,
+        'order_url': order_url,
+        'min_bid': min_bid,
+        'subtotal': Money.format_value(subtotal, currency),
+        'usd': Money.Currency.USD,
+        'thb': Money.Currency.THB,
+        'usd_str': str(Money.Currency.USD).upper(),
+        'thb_str': str(Money.Currency.THB).upper(),
+        'thb_total': str(thb_total),
+        'currency': currency,
+        'currency_str': str(currency).upper(),
+        'manual_wire_transfer_form': ManualWireTransferForm(),
+    })
+
+    return render(request, 'friendship/make_order_payment.html', data_dict)
+
+
+@login_required
 def order_details(request, order_id, **kwargs):
     """
     Given the order_id (pk), displays its info.
@@ -124,6 +217,9 @@ def order_details(request, order_id, **kwargs):
             subtotal += min_bid.service_fee.get_value(currency)
 
     data_dict = {}
+
+    credit = InAppCredit.objects.filter(user=request.user)[0]
+    data_dict['credit_str'] = Money.format_value(credit.value, Money.Currency.THB)
     if len(order.url) > 50:
         order_url = order.url[0:47] + "..."
     else:
@@ -170,8 +266,7 @@ def order_details(request, order_id, **kwargs):
         'credit_applied': Money.format_value(credit_applied, currency),
         'new_total': Money.format_value(new_total, currency),
         'thb_total': str(thb_total),
-        'currency': currency,
-        'manual_wire_transfer_form': ManualWireTransferForm(),
+        'currency': currency
     })
     data_dict.update(kwargs)
 
@@ -206,6 +301,23 @@ def order_details(request, order_id, **kwargs):
 
 
 @login_required
+def pay_using_inappcredit(request):
+    order_id = request.POST["order_id"]
+    order = Order.objects.filter(pk=order_id).filter(receiver=request.user)
+    if not order:
+        messages.error(request, 'You do not have permission to view this page.')
+        return redirect('friendship:index')
+    else:
+        order = order[0]
+
+    apply_in_app_credit(order)
+
+    create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
+
+    return redirect('friendship:order_details', order_id=order_id)
+
+
+@login_required
 def process_braintree_payment(request):
     # get data
     order_id = request.POST["order_id"]
@@ -220,15 +332,8 @@ def process_braintree_payment(request):
         order = order[0]
 
     # process in app credit.
-    apply_in_app_credit(order)
-
-    # Check if the paid amount is same as the order's total amount.
-    paid_amount = int(braintree_nonce)
-    order_amount = int(math.ceil(order.final_bid.get_total(currency=Money.Currency.THB)))
-
-    if paid_amount != order_amount:
-        messages.error(request, 'The amount paid does not match the total amount of the order.')
-        return redirect('friendship:order_details', order_id=order_id)
+    if request.POST["credit"] == "True":
+        apply_in_app_credit(order)
 
     create_action_for_order(order, OrderAction.Action.PAYMENT_RECEIVED)
     PaymentAction.objects.create(
@@ -277,7 +382,7 @@ def confirm_order_price(request, order_id, choice):
     if choice == "True":
         create_action_for_order(order, OrderAction.Action.PRICE_ACCEPTED)
         form = ManualWireTransferForm()
-        return order_details(request, order_id, **{'manual_wire_transfer_form': form})
+        return redirect('friendship:order_details', order_id=order_id)
     # When order is declined
     else:
         create_action_for_order(order, OrderAction.Action.ORDER_DECLINED)
@@ -361,11 +466,15 @@ def user_open_orders(request):
         else:
             order.min_bid = min_bid
 
+    # get current credit value
+    credit = InAppCredit.objects.filter(user=request.user)[0]
+
     data_dict = {}
     data_dict.update({ k : v.value
                         for (k,v)
                         in OrderAction.Action._member_map_.items()
     })
+    data_dict['credit_str'] = Money.format_value(credit.value, Money.Currency.THB)
     data_dict['orders'] = qset
 
     return render(request, 'friendship/user_open_orders.html', data_dict)

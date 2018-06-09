@@ -373,6 +373,7 @@
                 </div>
                 {% elif latest_action.action == PRICE_ACCEPTED %}
                 <span class="step-number ui-gradient-green">3</span>
+                <div id="paypal-button" style="display: none;"></div>
                 <div class="col-auto">
                     <!-- 2 radio buttons, credit card and wire transfer (Manual) -->
                     <h4>
@@ -453,96 +454,20 @@
                             <br>
                             <input type="radio" class="input" name="payment-method" value="wire-transfer" id="wire-radio" checked="false">
                             {% if request.session.locale == 'th_TH' %}
-                            ชำระเงินผ่านเคาน์เตอร์ธนาคาร (รับส่วนลดเพิ่ม 4%)
+                            ชำระเงินผ่านเคาน์เตอร์ธนาคาร (รับส่วนลดเพิ่ม 2.5%)
                             {% else %}
-                            Manual Bank Transfer (4% discount)
+                            Manual Bank Transfer (2.5% discount)
                             {% endif %}
-                        </div>
-                        <input type="submit" class="btn btn-block ui-gradient-green" value="Submit">
-                    </form>
-                    <br>
-
-                    <br>
-                    <div id="online-wire-transfer" style="display: none">
-                        {% if request.session.locale == 'th_TH' %}
-                        Coming soon
-                        {% else %}
-                        Coming soon
-                        {% endif %}
-                    </div>
-
-                    <!-- IF CHOSEN CREDIT CARD, THIS MUST BE DISPLAYED -->
-                    <!-- when omise approves, change this to above -->
-                    <div id="credit-card-payment" style="display: none">
-                        <div id="paypal-button"></div>
-                    </div>
-                    <!-- END OF WHAT SHOULD BE DISPLAYED -->
-                    <!-- IF CHOSEN Wire Transfer (Manual) This must be displayed -->
-                    <div id="wire-payment" style="display: none">
-                        {% if request.session.locale == 'th_TH' %}
-                        กรุณาโอนเงินเข้าบัญชีที่แสดงด้านล่างนี้ พร้อมแนบหลักฐานการชำระเงิน เพื่อยืนยันการทำรายการ
-                        {% else %}
-                        Please send the the payment to this account, then upload the receipt here. Once the receipt is verified, the order will be approved.
-                        {% endif %}
-                        <div class="col-auto">
-                            <table class="bid-info-table">
-                                <tr class="bid-info-row">
-                                    <td>
-                                        {% if request.session.locale == 'th_TH' %}
-                                        ธนาคาร
-                                        {% else %}
-                                        Bank:
-                                        {% endif %}
-                                    </td>
-                                    <td><h5>
-                                        {% if request.session.locale == 'th_TH' %}
-                                        K bank
-                                        {% else %}
-                                        K bank
-                                        {% endif %}
-                                    </h5></td>
-                                </tr>
-                                <tr class="bid-info-row">
-                                    <td>
-                                        {% if request.session.locale == 'th_TH' %}
-                                        ชื่อบัญชี
-                                        {% else %}
-                                        Name:
-                                        {% endif %}
-                                    </td>
-                                    <td><h5>
-                                        {% if request.session.locale == 'th_TH' %}
-                                        Patcharin Desit
-                                        {% else %}
-                                        Patcharin Desit
-                                        {% endif %}
-                                    </h5></td>
-                                </tr>
-                                <tr class="bid-info-row">
-                                    <td>
-                                        {% if request.session.locale == 'th_TH' %}
-                                        เลขที่บัญชี
-                                        {% else %}
-                                        Account Number:
-                                        {% endif %}
-                                    </td>
-                                    <td><h5>0388832908</h5></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <form action="{% url 'friendship:submit_wire_transfer' order.id %}" method="post" enctype=multipart/form-data>
-                            {% csrf_token %}
-                            <div class="form-group">
-                                {{ manual_wire_transfer_form.banknote_image.errors }}
-                                {{ manual_wire_transfer_form.banknote_image }}
-                            </div>
+                            <br>
+                            <input type="checkbox" class="input" name="credit">
                             {% if request.session.locale == 'th_TH' %}
-                            <input type="submit" class="btn btn-block ui-gradient-green" value="ดำเนินการต่อ" style="margin:10px 0px;">
+                            Check to use your in-app credit to pay ({{ credit_str }} available)
                             {% else %}
-                            <input type="submit" class="btn btn-block ui-gradient-green" value="Submit Payment" style="margin:10px 0px;">
+                            Check to use your in-app credit to pay ({{ credit_str }} available)
                             {% endif %}
-                        </form>
-                    </div>
+                        </div>
+                        <input type="submit" class="btn btn-block ui-gradient-green" value="Continue">
+                    </form>
                     <!-- END OF WHAT SHOULD BE DISPLAYED -->
                 </div>
                 {% endif %}
