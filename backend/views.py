@@ -366,8 +366,8 @@ def get_order_total_with_credit(bid, credit, manual_transfer_discount=False):
     credit_val = credit.value
     order_total = math.ceil(bid.get_total(Money.Currency.THB))
 
-    if manual_transfer_discount:
-        order_total = math.ceil(order_total - order_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
+    # if manual_transfer_discount:
+    #     order_total = math.ceil(order_total - order_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
 
     if credit_val <= order_total:
         return (credit_val, order_total - credit_val)

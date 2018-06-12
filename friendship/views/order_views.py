@@ -134,18 +134,6 @@ def make_order_payment(request, order_id):
     data_dict['subtotal'] = subtotal
     data_dict["new_total"] = thb_total
 
-    # Apply discount for manual transfer
-    if data_dict['payment_method'] == 'wire-transfer':
-        new_val = math.ceil(thb_total - thb_total * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
-
-        # Manual bank transfer discount
-        data_dict["manual_bank_transfer_total_str"] = "\u0E3F{}".format(
-            new_val
-        )
-        data_dict["discount_str"] = "-\u0E3F{}".format(thb_total - new_val)
-        data_dict["new_total"] = new_val
-        data_dict["new_total_str"] = Money.format_value(new_val, Money.Currency.THB)
-
     # Use Credit if checked
     if "credit" in request.POST and request.POST["credit"] == "on":
         data_dict["credit"] = request.POST["credit"]
@@ -159,6 +147,20 @@ def make_order_payment(request, order_id):
         data_dict["credit_applied"] = "-" + Money.format_value(credit_applied, Money.Currency.THB)
         data_dict["new_total"] = new_total
         data_dict["new_total_str"] = Money.format_value(new_total, Money.Currency.THB)
+
+    # Apply discount for manual transfer
+    if data_dict['payment_method'] == 'wire-transfer' and data_dict['new_total'] > 0:
+        new_val = math.floor(data_dict["new_total"] - data_dict["new_total"] * settings.MANUAL_BANK_TRANSFER_DISCOUNT)
+
+        # Manual bank transfer discount
+        data_dict["manual_bank_transfer_total_str"] = Money.format_value(
+            new_val,
+            Money.Currency.THB
+        )
+        data_dict["discount_str"] = "-" + Money.format_value(data_dict["new_total"] - new_val, Money.Currency.THB)       
+        data_dict["new_total"] = new_val
+        data_dict["new_total_str"] = Money.format_value(new_val, Money.Currency.THB)
+
 
     data_dict["new_total"] = math.ceil(data_dict["new_total"])
 

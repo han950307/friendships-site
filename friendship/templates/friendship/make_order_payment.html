@@ -160,20 +160,6 @@
                                         </td>
                                         <td class="bid-info-content font-weight-bold">{% get_bid_total_str min_bid thb %}</td>
                                     </tr>
-                                    {% if payment_method == 'wire-transfer' %}
-                                    <tr class="bid-info-row">
-                                        <td class="bid-info-header">
-                                            {% if request.session.locale == 'th_TH' %}
-                                            ส่วนลด 2.5%
-                                            {% else %}
-                                            Manual Bank Transfer Discount (2.5%):
-                                            {% endif %}
-                                        </td>
-                                        <td class="bid-info-content font-weight-bold">
-                                            {{ discount_str }}
-                                        </td>
-                                    </tr>
-                                    {% endif %}
                                     {% if credit and credit == 'on' %}
                                     <tr class="bid-info-row">
                                         <td class="bid-info-header">
@@ -185,6 +171,20 @@
                                         </td>
                                         <td class="bid-info-content font-weight-bold">
                                             {{ credit_applied }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if payment_method == 'wire-transfer' %}
+                                    <tr class="bid-info-row">
+                                        <td class="bid-info-header">
+                                            {% if request.session.locale == 'th_TH' %}
+                                            ส่วนลด 2.5%
+                                            {% else %}
+                                            Manual Bank Transfer Discount (2.5%):
+                                            {% endif %}
+                                        </td>
+                                        <td class="bid-info-cont ent font-weight-bold">
+                                            {{ discount_str }}
                                         </td>
                                     </tr>
                                     {% endif %}
@@ -201,7 +201,7 @@
                                             {{ new_total_str }}
                                         </td>
                                     </tr>
-                                    {% endif%}
+                                    {% endif %}
                                 </table>
                             </div>
                             <hr id="hr2">
