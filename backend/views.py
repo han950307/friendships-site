@@ -72,7 +72,7 @@ def send_order_created_email(order):
         mail.send_mail(
             "Order #{} Created by {} {}".format(order.id, order.receiver.first_name, order.receiver.last_name),
             body,
-            "FriendShips <no-reply@friendships.us>",
+            "FriendShips <no-reply@friendships.link>",
             ["nt62@duke.edu", "h.k@duke.edu"],
             fail_silently=False,
         )
@@ -87,14 +87,14 @@ def send_bid_email(order):
 
     body_str = body.format(
         first_name=order.receiver.first_name,
-        url="https://www.friendships.us/order_details/{}".format(order.id),
+        url="https://www.friendships.link/order_details/{}".format(order.id),
     )
 
     if not settings.LOCAL:
         mail.send_mail(
             "First Bid on Order #{}".format(order.id),
             body_str,
-            "FriendShips <no-reply@friendships.us>",
+            "FriendShips <no-reply@friendships.link>",
             [order.receiver.email],
             fail_silently=False,
         )

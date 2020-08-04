@@ -74,7 +74,7 @@ def match_with_shipper(order):
 
     body_str = body.format(
         first_name=order.receiver.first_name,
-        url="https://www.friendships.us/order_details/{}".format(order.id),
+        url="https://www.friendships.link/order_details/{}".format(order.id),
         total_price_usd=order.final_bid.get_total_str(),
         total_price_thb=order.final_bid.get_total_str(Money.Currency.THB),
     )
@@ -83,7 +83,7 @@ def match_with_shipper(order):
         mail.send_mail(
             "Your Order #{} Match Found!".format(order.id),
             body_str,
-            "FriendShips <no-reply@friendships.us>",
+            "FriendShips <no-reply@friendships.link>",
             [order.receiver.email],
         )
 
@@ -100,8 +100,8 @@ def send_payment_email(order):
 
         mail.send_mail(
             title,
-            "ORDER URL: {}".format("https://www.friendships.us/order_details/{}".format(order.id)),
-            "FriendShips <no-reply@friendships.us>",
+            "ORDER URL: {}".format("https://www.friendships.link/order_details/{}".format(order.id)),
+            "FriendShips <no-reply@friendships.link>",
             ["nt62@duke.edu", "h.k@duke.edu"],
             fail_silently=False,
         )

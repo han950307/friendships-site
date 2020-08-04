@@ -96,9 +96,9 @@ def process_payment(request, order_id, currency):
     if settings.DEBUG and settings.LOCAL:
         return_uri = "http://127.0.0.1:8000/"
     elif settings.DEBUG:
-        return_uri = "https://dev.friendships.us/"
+        return_uri = "https://dev.friendships.link/"
     else:
-        return_uri = "https://www.friendships.us/"
+        return_uri = "https://www.friendships.link/"
     if order.receiver != request.user:
         return redirect('friendship:receiver_landing')
     omise_token = request.POST['omise_token']
