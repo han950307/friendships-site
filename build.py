@@ -19,9 +19,9 @@ def run_command(command):
     return rc
 
 
-with open("friendsite/production_secrets.py") as f:
+with open("friendsite/settings.py") as f:
     for line in f:
-        if line.startswith("VERSION"):
+        if line.startswith("FRIENDSHIP_VERSION"):
             version = re.search(r"\"(.*)\"", line).group(1)
             break
 
@@ -31,9 +31,9 @@ try:
             version
         )
     )
-    run_command(
-        "docker push friendships/friendships-prod:{}".format(version)
-    )
+    # run_command(
+    #     "docker push friendships/friendships-prod:{}".format(version)
+    # )
 except Exception as e:
     print(e)
     traceback.print_exc()
