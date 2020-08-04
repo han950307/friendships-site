@@ -10,6 +10,7 @@ RUN pip install -r /requirements.txt
 RUN python manage.py migrate --noinput
 RUN python manage.py test
 RUN sed -i "s|DEBUG = True|DEBUG = False |g" /friendsite/production_secrets.py
+RUN sed -i "s|LOCAL = True|LOCAL = False |g" /friendsite/production_secrets.py
 RUN python manage.py migrate --noinput
 RUN python manage.py collectstatic --noinput
 RUN groupadd -r django && useradd --no-log-init -r -g django django
