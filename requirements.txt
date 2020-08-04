@@ -1,0 +1,15 @@
+pre-commit
+flake8
+black
+django
+requests
+ipython
+psycopg2
+django-allauth
+django-extensions
+botocore
+boto3
+mod_wsgi
+stripe
+django-polymorphic
+django-formtools
