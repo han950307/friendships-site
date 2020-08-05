@@ -8,7 +8,7 @@ def index(request, **kwargs):
     Our homepage!
     """
     if 'locale' not in request.session:
-        request.session['locale'] = 'th_TH'
+        request.session['locale'] = 'en_US'
     request.session["dev"] = settings.DEBUG
     return render(request, 'friendship/index.html', **kwargs)
 
